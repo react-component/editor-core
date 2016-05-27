@@ -17,11 +17,13 @@
   "bugs": {
     "url": "https://github.com/react-component/editor-core/issues"
   },
-  "files":["lib", "assets/*.css"],
+  "files": [
+    "lib",
+    "assets/*.css"
+  ],
   "licenses": "MIT",
-  
-  "main":"./lib/index",
-  "config":{
+  "main": "./lib/index",
+  "config": {
     "port": 8003
   },
   "scripts": {
@@ -37,6 +39,8 @@
     "coverage": "rc-tools run coverage"
   },
   "peerDependencies": {
+     "draft-js": "^0.7.0",
+    "immutable": "^3.8.1",
     "expect.js": "0.3.x",
     "pre-commit": "1.x",
     "rc-tools": "5.x",

@@ -1,11 +1,15 @@
 import React from 'react';
-import {Editor, EditorState, CompositeDecorator} from 'draft-js';
-import { List } from 'immutable';
+import { Editor, EditorState, CompositeDecorator } from 'draft-js';
 
 class EditorCore extends React.Component {
+  static propTypes = {
+    plugins: React.PropTypes.array,
+    onChange: React.PropTypes.func,
+    prefixCls: React.PropTypes.string,
+  }
   constructor(props) {
     super(props);
-    this.state = {editorState: EditorState.createEmpty()};
+    this.state = { editorState: EditorState.createEmpty() };
     this.focus = () => this.refs.editor.focus();
   }
   componentWillMount() {
@@ -21,24 +25,9 @@ class EditorCore extends React.Component {
         .reduce((prev, curr) => prev.concat(curr))
     );
 
-    this.onChange(EditorState.set(this.state.editorState, { decorator: compositeDecorator}));
+    this.onChange(EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
   }
-  getEditorState() {
-    return this.state.editorState;
-  }
-  setEditorState(editorState) {
-    this.props.onChange && this.props.onChange(editorState);
-    this.setState({ editorState });
-  }
-  handleKeyBinding = (command) => {
-    if (command === 'split-block') {
-      return true;
-    }
-    return false;
-  }
-  getPlugins() {
-    return this.props.plugins.slice();
-  }
+
   onUpArrow = () => {
     const plugins = this.getPlugins();
     for (let i = 0; i < plugins.length; i++) {
@@ -55,10 +44,36 @@ class EditorCore extends React.Component {
     let newEditorState = editorState;
     this.getPlugins().forEach(plugin => {
       if (plugin.onChange) {
-        newEditorState = plugin.onChange(editorState);
+        newEditorState = plugin.onChange(newEditorState);
       }
     });
     this.setEditorState(editorState);
+  }
+  getEditorState() {
+    return this.state.editorState;
+  }
+  setEditorState(editorState) {
+    if (this.props.onChange) {
+      this.props.onChange(editorState);
+    }
+    this.setState({ editorState });
+  }
+  getPlugins() {
+    return this.props.plugins.slice();
+  }
+  getEventHandler() {
+    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn'];
+    const eventHandler = {};
+    enabledEvents.forEach(event => {
+      eventHandler[event] = this.generatorEventHandler(event);
+    });
+    return eventHandler;
+  }
+  handleKeyBinding = (command) => {
+    if (command === 'split-block') {
+      return true;
+    }
+    return false;
   }
   generatorEventHandler(eventName) {
     const plugins = this.getPlugins();
@@ -73,15 +88,7 @@ class EditorCore extends React.Component {
         }
       }
       return false;
-    }
-  }
-  getEventHandler() {
-    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn'];
-    const eventHandler = {};
-    enabledEvents.forEach( event => {
-      eventHandler[event] = this.generatorEventHandler(event);
-    });
-    return eventHandler;
+    };
   }
   render() {
     const { prefixCls } = this.props;
