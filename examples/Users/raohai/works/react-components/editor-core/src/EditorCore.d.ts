@@ -1,5 +1,3 @@
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="interfaces.d.ts" />
 import * as React from 'react';
 import { EditorState } from 'draft-js';
 import { EditorProps, EditorCoreState, Plugin } from './interfaces';
