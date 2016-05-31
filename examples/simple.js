@@ -95,6 +95,8 @@ webpackJsonp([0,1],[
 	
 	var _draftJs = __webpack_require__(163);
 	
+	__webpack_require__(302);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
@@ -119,6 +121,23 @@ webpackJsonp([0,1],[
 	        return _this;
 	    }
 	
+	    EditorCore.prototype.componentWillMount = function componentWillMount() {
+	        var _this2 = this;
+	
+	        var compositeDecorator = new _draftJs.CompositeDecorator(this.getPlugins().map(function (plugin) {
+	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
+	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
+	            return plugin;
+	        }).filter(function (plugin) {
+	            return plugin.decorators !== undefined;
+	        }).map(function (plugin) {
+	            return plugin.decorators;
+	        }).reduce(function (prev, curr) {
+	            return prev.concat(curr);
+	        }, []));
+	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
+	    };
+	
 	    EditorCore.prototype.focus = function focus() {
 	        this.refs.editor.focus();
 	    };
@@ -128,12 +147,12 @@ webpackJsonp([0,1],[
 	    };
 	
 	    EditorCore.prototype.getEventHandler = function getEventHandler() {
-	        var _this2 = this;
+	        var _this3 = this;
 	
 	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn'];
 	        var eventHandler = {};
 	        enabledEvents.forEach(function (event) {
-	            eventHandler[event] = _this2.generatorEventHandler(event);
+	            eventHandler[event] = _this3.generatorEventHandler(event);
 	        });
 	        return eventHandler;
 	    };
@@ -37715,6 +37734,12 @@ webpackJsonp([0,1],[
 	}
 	
 	module.exports = getRangeBoundingClientRect;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports) {
+
+	"use strict";
 
 /***/ }
 ]);

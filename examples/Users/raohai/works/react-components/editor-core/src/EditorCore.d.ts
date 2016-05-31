@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { EditorState } from 'draft-js';
 import { EditorProps, EditorCoreState, Plugin } from "./interfaces";
+import "./draftExt";
 declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     state: EditorCoreState;
     constructor(props: EditorProps);
@@ -10,6 +11,7 @@ declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         [string: string]: any;
         editor?: any;
     };
+    componentWillMount(): void;
     focus(): void;
     getPlugins(): Array<Plugin>;
     getEventHandler(): Object;
