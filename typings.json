@@ -1,0 +1,6 @@
+{
+  "globalDependencies": {
+    "draft-js": "registry:dt/draft-js#0.2.2+20160316171810",
+    "react": "registry:dt/react#0.14.0+20160526134601"
+  }
+}

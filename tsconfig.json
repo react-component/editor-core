@@ -1,0 +1,6 @@
+{
+  "files": [
+    "typings/index.d.ts",
+    "src/interfaces.d.ts"
+  ]
+}

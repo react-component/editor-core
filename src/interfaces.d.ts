@@ -1,4 +1,3 @@
-/// <reference path="../typings/tsd.d.ts" />
 import {EditorState, ContentBlock} from "draft-js";
 
 interface Plugin {

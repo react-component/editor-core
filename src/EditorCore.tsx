@@ -1,9 +1,6 @@
-/*global React */
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="./interfaces.d.ts" />
 import * as React from 'react';
 import { Editor, EditorState, CompositeDecorator } from 'draft-js';
-import {EditorProps, EditorCoreState, Plugin} from './interfaces';
+import { EditorProps, EditorCoreState, Plugin } from './interfaces';
 import './draftExt';
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
@@ -41,9 +38,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public focus() : void {
     this.refs.editor.focus();
   }
+
   public getPlugins(): Array<Plugin> {
     return this.props.plugins.slice();
   }
+
   public getEventHandler(): Object {
     const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn'];
     const eventHandler = {};
@@ -52,6 +51,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     });
     return eventHandler;
   }
+
   public onChange(editorState) : void {
     let newEditorState = editorState;
     this.getPlugins().forEach(plugin => {
@@ -61,18 +61,22 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     });
     this.setEditorState(editorState);
   }
+
   getEditorState() : EditorState {
     return this.state.editorState;
   }
+
   setEditorState(editorState) : void {
     if (this.props.onChange) {
       this.props.onChange(editorState);
     }
     this.setState({ editorState });
   }
+
   public handleKeyBinding(command: String): boolean {
     return command === 'split-block';
   }
+
   generatorEventHandler(eventName) : Function {
     const plugins = this.getPlugins();
     return (...args) => {
@@ -89,6 +93,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return false;
     };
   }
+
   render() {
     const { prefixCls } = this.props;
     const { editorState } = this.state;
