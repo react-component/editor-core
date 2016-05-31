@@ -2,8 +2,8 @@
 /// <reference path="interfaces.d.ts" />
 import * as React from 'react';
 import { EditorState } from 'draft-js';
-import { EditorProps, EditorCoreState, Plugin } from "./interfaces";
-import "./draftExt";
+import { EditorProps, EditorCoreState, Plugin } from './interfaces';
+import './draftExt';
 declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     state: EditorCoreState;
     constructor(props: EditorProps);
