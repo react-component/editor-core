@@ -3,8 +3,8 @@
 /// <reference path="./interfaces.d.ts" />
 import * as React from 'react';
 import { Editor, EditorState, CompositeDecorator } from 'draft-js';
-import {EditorProps, EditorCoreState, Plugin} from "./interfaces";
-import "./draftExt";
+import {EditorProps, EditorCoreState, Plugin} from './interfaces';
+import './draftExt';
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public state : EditorCoreState;
@@ -18,7 +18,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   refs: {
     [string: string]: any;
     editor?: any;
-  }
+  };
 
   public componentWillMount() : void {
     const compositeDecorator = new CompositeDecorator(
@@ -33,10 +33,12 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         .reduce((prev, curr) => prev.concat(curr), [])
     );
 
-    this.onChange(EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
+    this.onChange(EditorState.set(this.state.editorState,
+      { decorator: compositeDecorator }
+    ));
   }
 
-  public focus():void {
+  public focus() : void {
     this.refs.editor.focus();
   }
   public getPlugins(): Array<Plugin> {
@@ -50,7 +52,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     });
     return eventHandler;
   }
-  public onChange(editorState) : void{
+  public onChange(editorState) : void {
     let newEditorState = editorState;
     this.getPlugins().forEach(plugin => {
       if (plugin.onChange) {
@@ -62,7 +64,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   getEditorState() : EditorState {
     return this.state.editorState;
   }
-  setEditorState(editorState) : void{
+  setEditorState(editorState) : void {
     if (this.props.onChange) {
       this.props.onChange(editorState);
     }
@@ -76,7 +78,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return (...args) => {
       for (let i = 0; i < plugins.length; i++) {
         const plugin = plugins[i];
-        if (plugin.callbacks[eventName] && typeof plugin.callbacks[eventName] === 'function') {
+        if (plugin.callbacks[eventName]
+          && typeof plugin.callbacks[eventName] === 'function') {
           const result = plugin.callbacks[eventName](...args);
           if (result === true) {
             return true;
@@ -90,7 +93,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const { prefixCls } = this.props;
     const { editorState } = this.state;
     const eventHandler = this.getEventHandler();
-    return (<div className={`${prefixCls}-editor`} onClick={this.focus.bind(this)}>
+    return (<div
+      className={`${prefixCls}-editor`}
+      onClick={this.focus.bind(this)}
+    >
       <Editor
         {...eventHandler}
         ref="editor"
