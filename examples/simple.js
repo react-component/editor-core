@@ -121,14 +121,6 @@ webpackJsonp([0,1],[
 	        return _this;
 	    }
 	
-	    EditorCore.prototype.getDefaultProps = function getDefaultProps() {
-	        return {
-	            multiLines: true,
-	            plugins: [],
-	            prefixCls: 'rc-editor-core'
-	        };
-	    };
-	
 	    EditorCore.prototype.componentWillMount = function componentWillMount() {
 	        var _this2 = this;
 	
@@ -226,6 +218,11 @@ webpackJsonp([0,1],[
 	    return EditorCore;
 	}(React.Component);
 	
+	EditorCore.defaultProps = {
+	    multiLines: true,
+	    plugins: [],
+	    prefixCls: 'rc-editor-core'
+	};
 	exports.default = EditorCore;
 	module.exports = exports['default'];
 
