@@ -1,10 +1,10 @@
-import {EditorState, ContentBlock} from "draft-js";
+
+declare namespace __EditorCore {
+  interface EditorProps {
+    prefixCls: string;
+  }
+}
 
 declare module "rc-editor-core" {
-  interface EditorCore {
-    multiLines: boolean;
-    plugins: Array<Plugin>;
-    prefixCls: string;
-    onChange?: (editorState: EditorState) => void;
-  }
+  export = __EditorCore;
 }
