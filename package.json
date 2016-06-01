@@ -1,6 +1,6 @@
 {
   "name": "rc-editor-core",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "editor-core ui component for react",
   "keywords": [
     "react",
@@ -19,7 +19,8 @@
   },
   "files": [
     "lib",
-    "assets/*.css"
+    "assets/*.css",
+    "type-definitions"
   ],
   "licenses": "MIT",
   "main": "./lib/index",
