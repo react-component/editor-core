@@ -73,8 +73,7 @@ webpackJsonp([0,1],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = _EditorCore2.default; // export this package's api
-
+	exports.default = _EditorCore2.default;
 	module.exports = exports['default'];
 
 /***/ },
