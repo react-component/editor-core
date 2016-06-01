@@ -9,6 +9,7 @@ declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         [string: string]: any;
         editor?: any;
     };
+    getDefaultProps(): EditorProps;
     componentWillMount(): void;
     focus(): void;
     getPlugins(): Array<Plugin>;

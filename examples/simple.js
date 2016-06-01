@@ -121,6 +121,14 @@ webpackJsonp([0,1],[
 	        return _this;
 	    }
 	
+	    EditorCore.prototype.getDefaultProps = function getDefaultProps() {
+	        return {
+	            multiLines: true,
+	            plugins: [],
+	            prefixCls: 'rc-editor-core'
+	        };
+	    };
+	
 	    EditorCore.prototype.componentWillMount = function componentWillMount() {
 	        var _this2 = this;
 	
@@ -179,6 +187,9 @@ webpackJsonp([0,1],[
 	    };
 	
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(command) {
+	        if (this.props.multiLines) {
+	            return false;
+	        }
 	        return command === 'split-block';
 	    };
 	
