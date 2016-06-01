@@ -7,6 +7,7 @@ interface Plugin {
     onUpArrow: Function;
     onDownArrow: Function;
     handleReturn: Function;
+    handleKeyBinding: Function;
     setEditorState: (editorState: EditorState) => void;
     getEditorState: () => EditorState;
   };

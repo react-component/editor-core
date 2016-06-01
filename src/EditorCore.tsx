@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Editor, EditorState, CompositeDecorator } from 'draft-js';
+import { Editor, EditorState, CompositeDecorator} from 'draft-js';
 import { EditorProps, EditorCoreState, Plugin } from './interfaces';
 import './draftExt';
 
@@ -16,13 +16,13 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     [string: string]: any;
     editor?: any;
   };
-  public getDefaultProps() : EditorProps {
-    return {
-      multiLines: true,
-      plugins: [],
-      prefixCls: 'rc-editor-core',
-    };
-  }
+
+  public static defaultProps = {
+    multiLines: true,
+    plugins: [],
+    prefixCls: 'rc-editor-core',
+  };
+
   public componentWillMount() : void {
     const compositeDecorator = new CompositeDecorator(
       this.getPlugins()
@@ -81,25 +81,28 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   public handleKeyBinding(command: String): boolean {
     if (this.props.multiLines) {
-      return false;
+      return this.eventHandle('handleKeyBinding', command);
     }
+
     return command === 'split-block';
   }
-
-  generatorEventHandler(eventName) : Function {
+  eventHandle(eventName, ...args) : boolean {
     const plugins = this.getPlugins();
-    return (...args) => {
-      for (let i = 0; i < plugins.length; i++) {
-        const plugin = plugins[i];
-        if (plugin.callbacks[eventName]
-          && typeof plugin.callbacks[eventName] === 'function') {
-          const result = plugin.callbacks[eventName](...args);
-          if (result === true) {
-            return true;
-          }
+    for (let i = 0; i < plugins.length; i++) {
+      const plugin = plugins[i];
+      if (plugin.callbacks[eventName]
+        && typeof plugin.callbacks[eventName] === 'function') {
+        const result = plugin.callbacks[eventName](...args);
+        if (result === true) {
+          return true;
         }
       }
-      return false;
+    }
+    return false;
+  }
+  generatorEventHandler(eventName) : Function {
+    return (...args) => {
+      return this.eventHandle(eventName, ...args);
     };
   }
 
