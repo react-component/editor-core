@@ -64,16 +64,19 @@ webpackJsonp([0,1],[
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _EditorCore = __webpack_require__(5);
 	
 	var _EditorCore2 = _interopRequireDefault(_EditorCore);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _EditorCore2.default;
+	
+	var EditorCorePublic = {
+	    EditorCore: _EditorCore2.default
+	};
+	exports.default = EditorCorePublic;
 	module.exports = exports['default'];
 
 /***/ },

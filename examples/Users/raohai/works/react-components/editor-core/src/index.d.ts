@@ -1,2 +1,5 @@
 import EditorCore from './EditorCore';
-export default EditorCore;
+declare const EditorCorePublic: {
+    EditorCore: typeof EditorCore;
+};
+export default EditorCorePublic;
