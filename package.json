@@ -28,6 +28,7 @@
     "port": 8003
   },
   "scripts": {
+    "install": "typings install",
     "build": "rc-tools run build",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
