@@ -16,7 +16,13 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     [string: string]: any;
     editor?: any;
   };
-
+  public getDefaultProps() : EditorProps {
+    return {
+      multiLines: true,
+      plugins: [],
+      prefixCls: 'rc-editor-core',
+    };
+  }
   public componentWillMount() : void {
     const compositeDecorator = new CompositeDecorator(
       this.getPlugins()
@@ -74,6 +80,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public handleKeyBinding(command: String): boolean {
+    if (this.props.multiLines) {
+      return false;
+    }
     return command === 'split-block';
   }
 

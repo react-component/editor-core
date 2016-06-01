@@ -13,9 +13,10 @@ interface Plugin {
 }
 
 interface EditorProps {
+  multiLines: boolean;
   plugins: Array<Plugin>;
   prefixCls: string;
-  onChange: (editorState: EditorState) => void;
+  onChange?: (editorState: EditorState) => void;
 }
 
 interface EditorCoreState {
