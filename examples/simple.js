@@ -61,45 +61,23 @@ webpackJsonp([0,1],[
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
+	// export this package's api
 	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _EditorCore = __webpack_require__(5);
-	
-	var _EditorCore2 = _interopRequireDefault(_EditorCore);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+	var EditorCore_1 = __webpack_require__(5);
 	var EditorCorePublic = {
-	    EditorCore: _EditorCore2.default
+	    EditorCore: EditorCore_1.default
 	};
+	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = EditorCorePublic;
-	module.exports = exports['default'];
 
 /***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
+	"use strict";
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _react = __webpack_require__(6);
-	
-	var React = _interopRequireWildcard(_react);
-	
-	var _draftJs = __webpack_require__(163);
-	
-	__webpack_require__(303);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 	
@@ -108,6 +86,10 @@ webpackJsonp([0,1],[
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+	
+	var React = __webpack_require__(6);
+	var draft_js_1 = __webpack_require__(163);
+	__webpack_require__(303);
 	
 	var EditorCore = function (_React$Component) {
 	    _inherits(EditorCore, _React$Component);
@@ -118,7 +100,7 @@ webpackJsonp([0,1],[
 	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 	
 	        _this.state = {
-	            editorState: _draftJs.EditorState.createEmpty()
+	            editorState: draft_js_1.EditorState.createEmpty()
 	        };
 	        return _this;
 	    }
@@ -126,7 +108,7 @@ webpackJsonp([0,1],[
 	    EditorCore.prototype.componentWillMount = function componentWillMount() {
 	        var _this2 = this;
 	
-	        var compositeDecorator = new _draftJs.CompositeDecorator(this.getPlugins().map(function (plugin) {
+	        var compositeDecorator = new draft_js_1.CompositeDecorator(this.getPlugins().map(function (plugin) {
 	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
 	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
 	            return plugin;
@@ -137,7 +119,7 @@ webpackJsonp([0,1],[
 	        }).reduce(function (prev, curr) {
 	            return prev.concat(curr);
 	        }, []));
-	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
+	        this.onChange(draft_js_1.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
 	    };
 	
 	    EditorCore.prototype.focus = function focus() {
@@ -228,7 +210,7 @@ webpackJsonp([0,1],[
 	        return React.createElement(
 	            'div',
 	            { className: prefixCls + '-editor', onClick: this.focus.bind(this) },
-	            React.createElement(_draftJs.Editor, _extends({}, eventHandler, { ref: 'editor', editorState: editorState, handleKeyCommand: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
+	            React.createElement(draft_js_1.Editor, _extends({}, eventHandler, { ref: 'editor', editorState: editorState, handleKeyCommand: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
 	        );
 	    };
 	
@@ -240,8 +222,8 @@ webpackJsonp([0,1],[
 	    plugins: [],
 	    prefixCls: 'rc-editor-core'
 	};
+	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = EditorCore;
-	module.exports = exports['default'];
 
 /***/ },
 /* 6 */
