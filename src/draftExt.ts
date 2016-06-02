@@ -8,3 +8,4 @@ declare module 'draft-js' {
     new(decorators : Array<any>): CompositeDecorator;
   }
 }
+

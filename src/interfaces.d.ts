@@ -1,13 +1,13 @@
 import {EditorState, ContentBlock} from "draft-js";
 
 interface Plugin {
-  decorators: Array<any>;
+  decorators?: Array<any>;
   onChange: (editorState: EditorState)=> boolean;
   callbacks: {
-    onUpArrow: Function;
-    onDownArrow: Function;
-    handleReturn: Function;
-    handleKeyBinding: Function;
+    onUpArrow?: Function;
+    onDownArrow?: Function;
+    handleReturn?: Function;
+    handleKeyBinding?: Function;
     setEditorState: (editorState: EditorState) => void;
     getEditorState: () => EditorState;
   };

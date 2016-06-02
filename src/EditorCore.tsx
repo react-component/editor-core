@@ -1,7 +1,30 @@
 import * as React from 'react';
 import { Editor, EditorState, CompositeDecorator} from 'draft-js';
-import { EditorProps, EditorCoreState, Plugin } from './interfaces';
 import './draftExt';
+
+export interface Plugin {
+  decorators?: Array<any>;
+  onChange: (editorState: EditorState)=> boolean;
+  callbacks: {
+    onUpArrow?: Function;
+    onDownArrow?: Function;
+    handleReturn?: Function;
+    handleKeyBinding?: Function;
+    setEditorState: (editorState: EditorState) => void;
+    getEditorState: () => EditorState;
+  };
+}
+
+export interface EditorProps {
+  multiLines: boolean;
+  plugins: Array<Plugin>;
+  prefixCls: string;
+  onChange?: (editorState: EditorState) => void;
+}
+
+export interface EditorCoreState {
+  editorState: EditorState;
+}
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public state : EditorCoreState;
