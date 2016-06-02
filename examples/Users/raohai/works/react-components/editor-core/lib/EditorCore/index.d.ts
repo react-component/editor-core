@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { EditorState } from 'draft-js';
-import './draftExt';
+import '../draftExt';
 export interface Plugin {
+    name: string;
     decorators?: Array<any>;
+    component?: Function;
     onChange: (editorState: EditorState) => boolean;
     callbacks: {
         onUpArrow?: Function;
@@ -18,9 +20,11 @@ export interface EditorProps {
     plugins: Array<Plugin>;
     prefixCls: string;
     onChange?: (editorState: EditorState) => void;
+    toolbars: Array<any>;
 }
 export interface EditorCoreState {
-    editorState: EditorState;
+    editorState?: EditorState;
+    toolbarPlugins?: Array<any>;
 }
 declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     state: EditorCoreState;
@@ -33,8 +37,10 @@ declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         multiLines: boolean;
         plugins: any[];
         prefixCls: string;
+        toolbars: any[];
     };
     componentWillMount(): void;
+    initPlugins(): Array<any>;
     focus(): void;
     getPlugins(): Array<Plugin>;
     getEventHandler(): Object;

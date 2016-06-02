@@ -15,8 +15,6 @@ webpackJsonp([0,1],[
 	
 	var _rcEditorCore = __webpack_require__(3);
 	
-	var _rcEditorCore2 = _interopRequireDefault(_rcEditorCore);
-	
 	var _react = __webpack_require__(6);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -29,7 +27,7 @@ webpackJsonp([0,1],[
 	
 	// use jsx to render html, do not modify simple.html
 	
-	_reactDom2.default.render(_react2.default.createElement(_rcEditorCore2.default, null), document.getElementById('__react-content'));
+	_reactDom2.default.render(_react2.default.createElement(_rcEditorCore.EditorCore, null), document.getElementById('__react-content'));
 
 /***/ },
 /* 2 */
@@ -89,7 +87,9 @@ webpackJsonp([0,1],[
 	
 	var React = __webpack_require__(6);
 	var draft_js_1 = __webpack_require__(163);
-	__webpack_require__(303);
+	var Toolbar_1 = __webpack_require__(303);
+	__webpack_require__(306);
+	var toolbar = Toolbar_1.createToolbar();
 	
 	var EditorCore = function (_React$Component) {
 	    _inherits(EditorCore, _React$Component);
@@ -106,20 +106,34 @@ webpackJsonp([0,1],[
 	    }
 	
 	    EditorCore.prototype.componentWillMount = function componentWillMount() {
-	        var _this2 = this;
-	
-	        var compositeDecorator = new draft_js_1.CompositeDecorator(this.getPlugins().map(function (plugin) {
-	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
-	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
-	            return plugin;
-	        }).filter(function (plugin) {
+	        var plugins = this.initPlugins().concat([toolbar]);
+	        // initialize compositeDecorator
+	        var compositeDecorator = new draft_js_1.CompositeDecorator(plugins.filter(function (plugin) {
 	            return plugin.decorators !== undefined;
 	        }).map(function (plugin) {
 	            return plugin.decorators;
 	        }).reduce(function (prev, curr) {
 	            return prev.concat(curr);
 	        }, []));
+	        // initialize Toolbar
+	        var toolbarPlugins = plugins.filter(function (plugin) {
+	            return !!plugin.component && plugin.name !== 'toolbar';
+	        });
+	        this.setState({
+	            toolbarPlugins: toolbarPlugins
+	        });
 	        this.onChange(draft_js_1.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
+	    };
+	
+	    EditorCore.prototype.initPlugins = function initPlugins() {
+	        var _this2 = this;
+	
+	        return this.getPlugins().map(function (plugin) {
+	            console.log('>> plugin', plugin);
+	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
+	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
+	            return plugin;
+	        });
 	    };
 	
 	    EditorCore.prototype.focus = function focus() {
@@ -203,13 +217,19 @@ webpackJsonp([0,1],[
 	    };
 	
 	    EditorCore.prototype.render = function render() {
-	        var prefixCls = this.props.prefixCls;
-	        var editorState = this.state.editorState;
+	        var _props = this.props;
+	        var prefixCls = _props.prefixCls;
+	        var toolbars = _props.toolbars;
+	        var _state = this.state;
+	        var editorState = _state.editorState;
+	        var toolbarPlugins = _state.toolbarPlugins;
 	
 	        var eventHandler = this.getEventHandler();
+	        var Toolbar = toolbar.component;
 	        return React.createElement(
 	            'div',
 	            { className: prefixCls + '-editor', onClick: this.focus.bind(this) },
+	            React.createElement(Toolbar, { prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
 	            React.createElement(draft_js_1.Editor, _extends({}, eventHandler, { ref: 'editor', editorState: editorState, handleKeyCommand: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
 	        );
 	    };
@@ -220,7 +240,8 @@ webpackJsonp([0,1],[
 	EditorCore.defaultProps = {
 	    multiLines: true,
 	    plugins: [],
-	    prefixCls: 'rc-editor-core'
+	    prefixCls: 'rc-editor-core',
+	    toolbars: []
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = EditorCore;
@@ -37732,6 +37753,169 @@ webpackJsonp([0,1],[
 
 /***/ },
 /* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var Toolbar_1 = __webpack_require__(304);
+	function noop(args) {}
+	;
+	function createToolbar() {
+	    var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	    function editorStateChange(editorState) {
+	        console.log('>> editorStateChange', editorState);
+	    }
+	    var callbacks = {
+	        onChange: editorStateChange,
+	        onUpArrow: noop,
+	        onDownArrow: noop,
+	        getEditorState: noop,
+	        setEditorState: noop,
+	        handleReturn: noop
+	    };
+	    return {
+	        name: 'toolbar',
+	        decorators: [],
+	        callbacks: callbacks,
+	        onChange: function onChange(editorState) {
+	            return callbacks.onChange ? callbacks.onChange(editorState) : editorState;
+	        },
+	
+	        component: Toolbar_1.default
+	    };
+	}
+	exports.createToolbar = createToolbar;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+	
+	var React = __webpack_require__(6);
+	var immutable_1 = __webpack_require__(166);
+	var ToolbarLine_1 = __webpack_require__(305);
+	function noop() {}
+	
+	var Toolbar = function (_React$Component) {
+	    _inherits(Toolbar, _React$Component);
+	
+	    function Toolbar(props) {
+	        _classCallCheck(this, Toolbar);
+	
+	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+	
+	        var map = {};
+	        props.plugins.forEach(function (plugin) {
+	            map[plugin.name] = plugin;
+	        });
+	        _this.pluginsMap = immutable_1.Map(map);
+	        _this.state = {
+	            toolbars: []
+	        };
+	        return _this;
+	    }
+	
+	    Toolbar.prototype.componentWillMount = function componentWillMount() {
+	        var _this2 = this;
+	
+	        var toolbars = this.props.toolbars.map(function (toolbar, idx) {
+	            var children = React.Children.map(toolbar, _this2.renderToolbarItem.bind(_this2));
+	            return React.createElement(
+	                ToolbarLine_1.default,
+	                { key: 'toolbar-' + idx },
+	                children
+	            );
+	        });
+	        this.setState({
+	            toolbars: toolbars
+	        });
+	    };
+	
+	    Toolbar.prototype.renderToolbarItem = function renderToolbarItem(pluginName, idx) {
+	        var element = this.pluginsMap.get(pluginName);
+	        if (element && element.component) {
+	            var component = element.component;
+	
+	            var props = {
+	                key: 'toolbar-item-' + idx,
+	                onClick: component.props ? component.props.onClick : noop
+	            };
+	            if (React.isValidElement(component)) {
+	                return React.cloneElement(component, props);
+	            }
+	            return React.createElement(component, props);
+	        }
+	        return null;
+	    };
+	
+	    Toolbar.prototype.render = function render() {
+	        var toolbars = this.state.toolbars;
+	        var prefixCls = this.props.prefixCls;
+	
+	        return React.createElement(
+	            'div',
+	            { className: prefixCls + '-toolbar' },
+	            toolbars
+	        );
+	    };
+	
+	    return Toolbar;
+	}(React.Component);
+	
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Toolbar;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+	
+	var React = __webpack_require__(6);
+	
+	var ToolbarLine = function (_React$Component) {
+	    _inherits(ToolbarLine, _React$Component);
+	
+	    function ToolbarLine() {
+	        _classCallCheck(this, ToolbarLine);
+	
+	        return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+	    }
+	
+	    ToolbarLine.prototype.render = function render() {
+	        return React.createElement(
+	            "div",
+	            null,
+	            this.props.children
+	        );
+	    };
+	
+	    return ToolbarLine;
+	}(React.Component);
+	
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = ToolbarLine;
+
+/***/ },
+/* 306 */
 /***/ function(module, exports) {
 
 	"use strict";
