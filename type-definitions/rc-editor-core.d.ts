@@ -1,4 +1,4 @@
-namespace RcEditorCore {
+declare namespace RcEditorCore {
   interface EditorCore {
     props:any;
     state:any;
