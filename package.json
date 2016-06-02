@@ -1,6 +1,6 @@
 {
   "name": "rc-editor-core",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "editor-core ui component for react",
   "keywords": [
     "react",
@@ -24,7 +24,7 @@
   ],
   "licenses": "MIT",
   "main": "./lib/index",
-  "typings": "./lib/typings.d.ts",
+  "typings": "type-definitions/rc-editor-core.d.ts",
   "config": {
     "port": 8003
   },
