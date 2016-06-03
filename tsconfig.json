@@ -1,9 +1,4 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "outDir": "lib/"
-  },
   "files": [
     "typings/index.d.ts",
     "src/interfaces.d.ts"

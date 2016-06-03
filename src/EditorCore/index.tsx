@@ -163,6 +163,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     >
       <Toolbar
         prefixCls={prefixCls}
+        editorState={editorState}
         className={`${prefixCls}-toolbar`}
         plugins={toolbarPlugins}
         toolbars={toolbars}

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Map } from 'immutable';
 import { Plugin } from '../EditorCore';
-
+import { EditorState } from 'draft-js';
 import ToolbarLine from './ToolbarLine';
 
 export interface ToolbarProps {
+  editorState: EditorState;
   plugins: Array<Plugin>;
   toolbars: Array<any>;
   prefixCls: string;
@@ -26,16 +27,6 @@ export default class Toolbar extends React.Component<ToolbarProps, any> {
       toolbars: [],
     };
   }
-  public componentWillMount() {
-    const toolbars = this.props.toolbars.map((toolbar, idx) => {
-      const children = React.Children.map(toolbar, this.renderToolbarItem.bind(this));
-      return (<ToolbarLine key={`toolbar-${idx}`}>{children}</ToolbarLine>);
-    });
-    this.setState({
-      toolbars,
-    });
-  }
-
   public renderToolbarItem(pluginName, idx) {
     const element = this.pluginsMap.get(pluginName);
     if (element && element.component) {
@@ -51,10 +42,17 @@ export default class Toolbar extends React.Component<ToolbarProps, any> {
     }
     return null;
   }
-
+  public conpomentWillReceiveProps(nextProps) {
+    console.log('conpomentWillReceiveProps', nextProps);
+    this.render();
+  }
   render() {
-    const { toolbars } = this.state;
-    const { prefixCls } = this.props;
-    return <div className={`${prefixCls}-toolbar`}>{toolbars}</div>
+    const { toolbars, prefixCls } = this.props;
+    return <div className={`${prefixCls}-toolbar`}>
+      {toolbars.map((toolbar, idx) => {
+        const children = React.Children.map(toolbar, this.renderToolbarItem.bind(this));
+        return (<ToolbarLine key={`toolbar-${idx}`}>{children}</ToolbarLine>);
+      })}
+    </div>
   }
 }
