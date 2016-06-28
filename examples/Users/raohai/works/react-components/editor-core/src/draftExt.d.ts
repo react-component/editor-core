@@ -8,5 +8,9 @@ declare module 'draft-js' {
     interface BlockMap {
         map(args: any): any;
     }
+    interface EditorProps {
+        keyBindingFn(args?: any): any;
+    }
+    function getDefaultKeyBinding(args: any): boolean;
 }
 export {};

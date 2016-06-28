@@ -23,6 +23,8 @@ export interface EditorProps {
     prefixCls: string;
     onChange?: (editorState: EditorState) => void;
     toolbars: Array<any>;
+    splitLine: String;
+    onKeyDown?: (ev: any) => boolean;
 }
 export interface EditorCoreState {
     editorState?: EditorState;
@@ -44,6 +46,7 @@ declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         plugins: any[];
         prefixCls: string;
         toolbars: any[];
+        spilitLine: string;
     };
     reloadPlugins(): any;
     componentWillMount(): void;
@@ -54,7 +57,8 @@ declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     onChange(editorState: any): void;
     getEditorState(): EditorState;
     setEditorState(editorState: any): void;
-    handleKeyBinding(command: String): boolean;
+    handleKeyBinding(ev: any): boolean;
+    handleKeyCommand(command: String): boolean;
     eventHandle(eventName: any, ...args: any[]): boolean;
     generatorEventHandler(eventName: any): Function;
     render(): JSX.Element;
