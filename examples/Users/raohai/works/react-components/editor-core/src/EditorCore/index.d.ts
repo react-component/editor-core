@@ -25,6 +25,7 @@ export interface EditorProps {
     toolbars: Array<any>;
     splitLine: String;
     onKeyDown?: (ev: any) => boolean;
+    defaultValue?: string;
 }
 export interface EditorCoreState {
     editorState?: EditorState;
@@ -34,6 +35,7 @@ export interface EditorCoreState {
 }
 declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     static ExportFunction(editorState: any): String;
+    Reset(): void;
     state: EditorCoreState;
     private plugins;
     constructor(props: EditorProps);
@@ -50,13 +52,14 @@ declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     };
     reloadPlugins(): any;
     componentWillMount(): void;
+    componentDidMount(): void;
     initPlugins(): Array<any>;
     focus(): void;
     getPlugins(): Array<Plugin>;
     getEventHandler(): Object;
     onChange(editorState: any): void;
     getEditorState(): EditorState;
-    setEditorState(editorState: any): void;
+    setEditorState(editorState: EditorState): void;
     handleKeyBinding(ev: any): boolean;
     handleKeyCommand(command: String): boolean;
     eventHandle(eventName: any, ...args: any[]): boolean;

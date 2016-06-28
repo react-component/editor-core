@@ -1,12 +1,14 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([1],{
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(776);
 
 
 /***/ },
-/* 1 */
+
+/***/ 776:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44,23 +46,48 @@ webpackJsonp([0],[
 	}
 	
 	function keyDown(ev) {
-	  console.log('>> keydown', ev.keyCode, ev.ctrlKey);
 	  if (ev.keyCode === 13 && ev.ctrlKey) {
 	    return 'split-block';
 	  }
 	}
 	
-	_reactDom2.default.render(_react2.default.createElement(_rcEditorCore.EditorCore, {
-	  plugins: plugins,
-	  toolbars: toolbars,
-	  onKeyDown: function onKeyDown(ev) {
-	    return keyDown(ev);
+	var Editor = _react2.default.createClass({
+	  displayName: 'Editor',
+	  getInitialState: function getInitialState() {
+	    return {
+	      defaultValue: "hello world"
+	    };
 	  },
-	  onChange: function onChange(editorState) {
-	    return editorChange(editorState);
+	  reset: function reset() {
+	    this.refs.editor.Reset();
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: this.reset },
+	        ' reset '
+	      ),
+	      _react2.default.createElement(_rcEditorCore.EditorCore, {
+	        ref: 'editor',
+	        plugins: plugins,
+	        toolbars: toolbars,
+	        defaultValue: this.state.defaultValue,
+	        onKeyDown: function onKeyDown(ev) {
+	          return keyDown(ev);
+	        },
+	        onChange: function onChange(editorState) {
+	          return editorChange(editorState);
+	        }
+	      })
+	    );
 	  }
-	}), document.getElementById('__react-content'));
+	});
+	_reactDom2.default.render(_react2.default.createElement(Editor, null), document.getElementById('__react-content'));
 
 /***/ }
-]);
-//# sourceMappingURL=simple.js.map
+
+});
+//# sourceMappingURL=value.js.map
