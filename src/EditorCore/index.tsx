@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { Editor, EditorState, CompositeDecorator, Entity} from 'draft-js';
+import { Editor, EditorState, CompositeDecorator, Entity, getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
 import { List } from 'immutable';
 import { createToolbar } from '../Toolbar';
 import '../draftExt';
+
+const { hasCommandModifier } = KeyBindingUtil;
 
 export interface Plugin {
   name: string;
@@ -26,6 +28,8 @@ export interface EditorProps {
   prefixCls: string;
   onChange?: (editorState: EditorState) => void;
   toolbars: Array<any>;
+  splitLine: String;
+  onKeyDown?: (ev:any) => boolean;
 }
 
 export interface EditorCoreState {
@@ -81,6 +85,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     plugins: [],
     prefixCls: 'rc-editor-core',
     toolbars: [],
+    spilitLine: 'enter',
   };
   public reloadPlugins(): any {
     return this.plugins && this.plugins.size ? this.plugins.map((plugin : Plugin) => {
@@ -170,8 +175,14 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
     this.setState({ editorState });
   }
-
-  public handleKeyBinding(command: String): boolean {
+  public handleKeyBinding(ev): boolean {
+    if (this.props.onKeyDown) {
+      ev.ctrlKey = hasCommandModifier(ev);
+      return this.props.onKeyDown(ev);
+    }
+    return getDefaultKeyBinding(ev);
+  }
+  public handleKeyCommand(command: String): boolean {
     if (this.props.multiLines) {
       return this.eventHandle('handleKeyBinding', command);
     }
@@ -220,7 +231,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         ref="editor"
         customStyleMap={customStyleMap}
         editorState={editorState}
-        handleKeyCommand={this.handleKeyBinding.bind(this)}
+        handleKeyCommand={this.handleKeyCommand.bind(this)}
+        keyBindingFn={this.handleKeyBinding.bind(this)}
         onChange={this.onChange.bind(this)}
       />
     </div>);
