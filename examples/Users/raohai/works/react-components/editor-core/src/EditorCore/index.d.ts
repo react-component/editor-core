@@ -14,6 +14,7 @@ export interface Plugin {
         setEditorState: (editorState: EditorState) => void;
         getEditorState: () => EditorState;
     };
+    config?: Object;
 }
 export interface EditorProps {
     multiLines: boolean;
@@ -24,10 +25,14 @@ export interface EditorProps {
 }
 export interface EditorCoreState {
     editorState?: EditorState;
+    customStyleMap?: Object;
     toolbarPlugins?: Array<any>;
+    plugins?: Array<Plugin>;
 }
 declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
+    static ExportFunction(editorState: any): String;
     state: EditorCoreState;
+    private plugins;
     constructor(props: EditorProps);
     refs: {
         [string: string]: any;
@@ -39,6 +44,7 @@ declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         prefixCls: string;
         toolbars: any[];
     };
+    reloadPlugins(): any;
     componentWillMount(): void;
     initPlugins(): Array<any>;
     focus(): void;

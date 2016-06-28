@@ -5,5 +5,8 @@ declare module 'draft-js' {
     interface CompositeDecorator {
         new (decorators: Array<any>): CompositeDecorator;
     }
+    interface BlockMap {
+        map(args: any): any;
+    }
 }
 export {};
