@@ -5,11 +5,11 @@ import { EditorState } from 'draft-js';
 import ToolbarLine from './ToolbarLine';
 
 export interface ToolbarProps {
-  editorState: EditorState;
   plugins: Array<Plugin>;
   toolbars: Array<any>;
   prefixCls: string;
   className: string;
+  editorState: EditorState,
 }
 
 function noop() {}
@@ -24,6 +24,7 @@ export default class Toolbar extends React.Component<ToolbarProps, any> {
     });
     this.pluginsMap = Map(map);
     this.state = {
+      editorState: props.editorState,
       toolbars: [],
     };
   }

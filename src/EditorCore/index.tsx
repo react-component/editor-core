@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Editor, EditorState, CompositeDecorator} from 'draft-js';
+import { Editor, EditorState, CompositeDecorator, Entity} from 'draft-js';
+import { List } from 'immutable';
 import { createToolbar } from '../Toolbar';
 import '../draftExt';
 
@@ -16,6 +17,7 @@ export interface Plugin {
     setEditorState: (editorState: EditorState) => void;
     getEditorState: () => EditorState;
   };
+  config?: Object;
 }
 
 export interface EditorProps {
@@ -28,18 +30,44 @@ export interface EditorProps {
 
 export interface EditorCoreState {
   editorState?: EditorState;
+  customStyleMap?: Object;
   toolbarPlugins?: Array<any>;
+  plugins?: Array<Plugin>;
 }
+
 
 const toolbar = createToolbar();
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
+  static ExportFunction(editorState):String {
+    const content = editorState.getCurrentContent();
+    const blockMap = content.getBlockMap();
+    return blockMap.map( block => {
+      let resultText = '';
+      let lastPosition = 0;
+      const text = block.getText();
+      block.findEntityRanges(function (character) {
+        return !!character.getEntity();
+      }, function (start, end) {
+        var key = block.getEntityAt(start);
+        const entityData = Entity.get(key).getData();
+        resultText += text.slice(lastPosition, start);
+        resultText += entityData && entityData.export ? entityData.export(entityData) : text.slice(start, end );
+        lastPosition = end;
+      });
+      resultText += text.slice(lastPosition);
+      return resultText;
+    }).join('\n');
+  }
   public state : EditorCoreState;
+  private plugins: any;
   constructor(props: EditorProps) {
     super(props);
-
+    this.plugins = List(List(props.plugins).flatten(true));
     this.state = {
+      plugins: this.reloadPlugins(),
       editorState: EditorState.createEmpty(),
+      customStyleMap: {},
     };
   }
 
@@ -54,9 +82,14 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     prefixCls: 'rc-editor-core',
     toolbars: [],
   };
-
+  public reloadPlugins(): any {
+    return this.plugins && this.plugins.size ? this.plugins.map((plugin : Plugin) => {
+      return plugin.constructor(plugin.config);
+    }) : [];
+  }
   public componentWillMount() : void {
     const plugins = this.initPlugins().concat([toolbar]);
+    const customStyleMap = {};
 
     // initialize compositeDecorator
     const compositeDecorator = new CompositeDecorator(
@@ -68,14 +101,27 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     // initialize Toolbar
     const toolbarPlugins = plugins.filter(plugin => !!plugin.component && plugin.name !== 'toolbar');
 
+    // load inline styles...
+    plugins.forEach( plugin => {
+      const { styleMap } = plugin;
+      if (styleMap) {
+        for (const key in styleMap) {
+          if (styleMap.hasOwnProperty(key)) {
+            customStyleMap[key] = styleMap[key];
+          }
+        }
+      }
+    });
+
+
     this.setState({
       toolbarPlugins,
+      customStyleMap,
     });
 
     this.onChange(EditorState.set(this.state.editorState,
       { decorator: compositeDecorator }
     ));
-
 
   }
 
@@ -92,7 +138,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public getPlugins(): Array<Plugin> {
-    return this.props.plugins.slice();
+    return this.state.plugins.slice();
   }
 
   public getEventHandler(): Object {
@@ -154,7 +200,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   render() {
     const { prefixCls, toolbars } = this.props;
-    const { editorState, toolbarPlugins } = this.state;
+    const { editorState, toolbarPlugins, customStyleMap } = this.state;
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
     return (<div
@@ -162,8 +208,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       onClick={this.focus.bind(this)}
     >
       <Toolbar
-        prefixCls={prefixCls}
         editorState={editorState}
+        prefixCls={prefixCls}
         className={`${prefixCls}-toolbar`}
         plugins={toolbarPlugins}
         toolbars={toolbars}
@@ -171,6 +217,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       <Editor
         {...eventHandler}
         ref="editor"
+        customStyleMap={customStyleMap}
         editorState={editorState}
         handleKeyCommand={this.handleKeyBinding.bind(this)}
         onChange={this.onChange.bind(this)}
@@ -180,4 +227,3 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 }
 
 export default EditorCore;
-

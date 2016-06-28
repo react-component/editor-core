@@ -1,1 +1,73 @@
-@zero: 0;
+@iconfont-css-prefix: editor-icon;
+@editor-prefix: rc-editor;
+
+@font-face {
+  font-family: 'editoricon';
+  src: url('//at.alicdn.com/t/font_1466643381_3569083.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1466643381_3569083.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1466643381_3569083.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/font_1466643381_3569083.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1466643381_3569083.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+
+.iconfont-mixin() {
+  display: inline-block;
+  font-style: normal;
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  padding: 6px;
+  border: transparent 1px solid;
+  cursor: pointer;
+
+  &:before {
+    display: block;
+    font-size: 14px;
+    font-family: "editoricon" !important;
+  }
+}
+
+.@{iconfont-css-prefix} {
+  color: #999;
+  .iconfont-mixin();
+
+  &:hover, &.active {
+    color: black;
+    border-color: #999;
+  }
+}
+.@{iconfont-css-prefix}-split {
+  padding: 0 4px;
+  &:before {
+    content: ' ';
+    border-right: 1px solid #ccc;
+  }
+}
+
+.@{iconfont-css-prefix}-bold:before                  { content: '\e60b';}
+.@{iconfont-css-prefix}-underline:before             { content: '\e60c';}
+.@{iconfont-css-prefix}-strikethrough:before         { content: '\e60d';}
+.@{iconfont-css-prefix}-italic:before                { content: '\e600';}
+.@{iconfont-css-prefix}-superscript:before           { content: '\e60f';}
+.@{iconfont-css-prefix}-emoji:before                 { content: '\e610';}
+.@{iconfont-css-prefix}-subscript:before             { content: '\e60e';}
+.@{iconfont-css-prefix}-align-justify:before         { content: '\e605';}
+.@{iconfont-css-prefix}-align-left:before            { content: '\e602';}
+.@{iconfont-css-prefix}-align-middle:before          { content: '\e603';}
+.@{iconfont-css-prefix}-align-right:before           { content: '\e601';}
+.@{iconfont-css-prefix}-font-color:before            { content: '\e606';}
+.@{iconfont-css-prefix}-view:before                  { content: '\e607';}
+.@{iconfont-css-prefix}-picture:before               { content: '\e608';}
+.@{iconfont-css-prefix}-attach:before                { content: '\e609';}
+.@{iconfont-css-prefix}-video:before                 { content: '\e60a';}
+
+.@{editor-prefix}-core-toolbar {
+  background: #f4f4f4;
+  padding: 6px;
+  .editor-icon {
+  }
+}
+
