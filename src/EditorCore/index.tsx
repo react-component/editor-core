@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { Editor, EditorState, CompositeDecorator, Entity, getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
+import {
+  Editor,
+  EditorState,
+  ContentState,
+  CompositeDecorator,
+  Entity,
+  Modifier,
+  getDefaultKeyBinding,
+  KeyBindingUtil
+} from 'draft-js';
 import { List } from 'immutable';
 import { createToolbar } from '../Toolbar';
 import '../draftExt';
@@ -30,6 +39,7 @@ export interface EditorProps {
   toolbars: Array<any>;
   splitLine: String;
   onKeyDown?: (ev:any) => boolean;
+  defaultValue?: string;
 }
 
 export interface EditorCoreState {
@@ -44,6 +54,7 @@ const toolbar = createToolbar();
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   static ExportFunction(editorState):String {
+    console.log('>> editorState', editorState);
     const content = editorState.getCurrentContent();
     const blockMap = content.getBlockMap();
     return blockMap.map( block => {
@@ -63,6 +74,12 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return resultText;
     }).join('\n');
   }
+
+  public Reset(): void {
+    const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''), 'reset-editor');
+    this.setEditorState(editorState);
+  }
+
   public state : EditorCoreState;
   private plugins: any;
   constructor(props: EditorProps) {
@@ -92,6 +109,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return plugin.constructor(plugin.config);
     }) : [];
   }
+
   public componentWillMount() : void {
     const plugins = this.initPlugins().concat([toolbar]);
     const customStyleMap = {};
@@ -130,6 +148,26 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   }
 
+  //  处理　value　
+  public componentDidMount() {
+    const { editorState } = this.state;
+    const { defaultValue } = this.props;
+    if (defaultValue) {
+      const selection = editorState.getSelection();
+      const content = editorState.getCurrentContent();
+      const insertContent = Modifier.insertText(
+        content,
+        selection,
+        defaultValue,
+        {}
+      );
+      const newEditorState = EditorState.push(editorState, insertContent, 'init-editor');
+      return this.setEditorState(EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter()));
+    }
+  }
+
+
+
   public initPlugins() : Array<any> {
     return this.getPlugins().map(plugin => {
       console.log('>> plugin', plugin);
@@ -138,6 +176,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return plugin;
     });
   }
+
   public focus() : void {
     this.refs.editor.focus();
   }
@@ -169,7 +208,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return this.state.editorState;
   }
 
-  setEditorState(editorState) : void {
+  setEditorState(editorState: EditorState) : void {
     if (this.props.onChange) {
       this.props.onChange(editorState);
     }
@@ -204,6 +243,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
     return false;
   }
+
   generatorEventHandler(eventName) : Function {
     return (...args) => {
       return this.eventHandle(eventName, ...args);
