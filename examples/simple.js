@@ -31,7 +31,7 @@ webpackJsonp([0,1],[
 	
 	var _rcEditorPluginEmoji2 = _interopRequireDefault(_rcEditorPluginEmoji);
 	
-	__webpack_require__(323);
+	__webpack_require__(322);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -199,9 +199,9 @@ webpackJsonp([0,1],[
 	            return prev.concat(curr);
 	        }, []));
 	        // initialize Toolbar
-	        var toolbarPlugins = plugins.filter(function (plugin) {
+	        var toolbarPlugins = (0, _immutable.List)(plugins.filter(function (plugin) {
 	            return !!plugin.component && plugin.name !== 'toolbar';
-	        });
+	        }));
 	        // load inline styles...
 	        plugins.forEach(function (plugin) {
 	            var styleMap = plugin.styleMap;
@@ -280,14 +280,15 @@ webpackJsonp([0,1],[
 	    };
 	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
-	        var plugins = this.getPlugins();
+	        var plugins = this.state.toolbarPlugins;
+	        console.log('>> eventHandle plugins', plugins.toIndexedSeq());
 	
 	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	            args[_key - 1] = arguments[_key];
 	        }
 	
-	        for (var i = 0; i < plugins.length; i++) {
-	            var plugin = plugins[i];
+	        for (var i = 0; i < plugins.toIndexedSeq().size; i++) {
+	            var plugin = plugins.get(i);
 	            if (plugin.callbacks[eventName] && typeof plugin.callbacks[eventName] === 'function') {
 	                var _plugin$callbacks;
 	
@@ -38618,7 +38619,7 @@ webpackJsonp([0,1],[
 	
 	var _EmojiButton2 = _interopRequireDefault(_EmojiButton);
 	
-	var _EmojiIcon = __webpack_require__(322);
+	var _EmojiIcon = __webpack_require__(321);
 	
 	var _EmojiIcon2 = _interopRequireDefault(_EmojiIcon);
 	
@@ -38651,7 +38652,8 @@ webpackJsonp([0,1],[
 	}
 	
 	function exportEntity(entityData) {
-	  return ':' + entityData.emoji + ':';
+	  console.log('> exportEneity', entityData);
+	  return '' + entityData.emoji.shortCut;
 	}
 	
 	var Emoji = {
@@ -38729,9 +38731,20 @@ webpackJsonp([0,1],[
 	
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
 	
-	    _this.toggleEmojiPicker = function () {
+	    _this.eventHandler = null;
+	
+	    _this.toggleEmojiPicker = function (ev) {
+	      ev.stopPropagation();
+	      ev.nativeEvent.stopImmediatePropagation();
 	      _this.setState({
 	        visible: !_this.state.visible
+	      });
+	    };
+	
+	    _this.hideEmojiPicker = function (e) {
+	      e.preventDefault();
+	      _this.setState({
+	        visible: false
 	      });
 	    };
 	
@@ -38741,18 +38754,32 @@ webpackJsonp([0,1],[
 	    return _this;
 	  }
 	
+	  EmojiButton.prototype.componentDidMount = function componentDidMount() {
+	    this.eventHandler = document.addEventListener('click', this.hideEmojiPicker);
+	  };
+	
+	  EmojiButton.prototype.componentWillUmount = function componentWillUmount() {
+	    document.removeEventListener('click', this.hideEmojiPicker);
+	  };
+	
+	  EmojiButton.prototype.onChange = function onChange(emoji) {
+	    this.setState({
+	      visible: false
+	    });
+	    this.props.onChange(emoji);
+	  };
+	
 	  EmojiButton.prototype.render = function render() {
 	    var _classnames;
 	
-	    var onChange = this.props.onChange;
 	    var visible = this.state.visible;
 	
 	    var classNames = (0, _classnames3["default"])((_classnames = {}, _defineProperty(_classnames, 'editor-icon', true), _defineProperty(_classnames, 'editor-icon-emoji', true), _defineProperty(_classnames, 'active', visible), _classnames));
 	    return _react2["default"].createElement(
 	      'div',
-	      { className: 'editor-icon-emoji-wrap', onClick: this.toggleEmojiPicker },
-	      _react2["default"].createElement('span', { className: classNames }),
-	      visible ? _react2["default"].createElement(_EmojiPicker2["default"], { onChange: onChange, visible: visible }) : null
+	      { className: 'editor-icon-emoji-wrap' },
+	      _react2["default"].createElement('span', { className: classNames, onClick: this.toggleEmojiPicker }),
+	      visible ? _react2["default"].createElement(_EmojiPicker2["default"], { onChange: this.onChange.bind(this), visible: visible }) : null
 	    );
 	  };
 	
@@ -38783,10 +38810,6 @@ webpackJsonp([0,1],[
 	var _classnames3 = __webpack_require__(309);
 	
 	var _classnames4 = _interopRequireDefault(_classnames3);
-	
-	var _emoticons = __webpack_require__(321);
-	
-	var _emoticons2 = _interopRequireDefault(_emoticons);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -38833,8 +38856,12 @@ webpackJsonp([0,1],[
 	    var emojis = _emojisList2["default"].slice(currentPage * emojisPerPage, (currentPage + 1) * emojisPerPage).map(function (emoji) {
 	      var _classnames;
 	
-	      var className = (0, _classnames4["default"])((_classnames = {}, _defineProperty(_classnames, 'emoji', true), _defineProperty(_classnames, 'emoji-emoticons', _emoticons2["default"].indexOf(emoji) !== -1), _defineProperty(_classnames, 'emoji-' + emoji, true), _classnames));
-	      return _react2["default"].createElement('span', { className: className, onMouseDown: _this2.pickEmoji.bind(_this2, emoji) });
+	      var className = (0, _classnames4["default"])((_classnames = {}, _defineProperty(_classnames, 'emoji', true), _defineProperty(_classnames, 'emoji-' + emoji.shortCut, true), _classnames));
+	      return _react2["default"].createElement(
+	        'span',
+	        { className: className, onMouseDown: _this2.pickEmoji.bind(_this2, emoji) },
+	        _react2["default"].createElement('img', { src: '/assets/icons/' + emoji.emotionId, alt: '' })
+	      );
 	    });
 	    var paginations = [];
 	
@@ -38852,7 +38879,9 @@ webpackJsonp([0,1],[
 	    }
 	    return _react2["default"].createElement(
 	      'div',
-	      { className: 'emoji-picker-wrapper' },
+	      { className: 'emoji-picker-wrapper', onClick: function onClick(ev) {
+	          ev.stopPropagation();ev.nativeEvent.stopImmediatePropagation();
+	        } },
 	      emojis,
 	      _react2["default"].createElement(
 	        'div',
@@ -38872,29 +38901,17 @@ webpackJsonp([0,1],[
 /* 320 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports["default"] = ['bowtie', 'smile', 'laughing', 'blush', 'smiley', 'relaxed', 'smirk', 'heart_eyes', 'kissing_heart', 'kissing_closed_eyes', 'flushed', 'relieved', 'satisfied', 'grin', 'wink', 'stuck_out_tongue_winking_eye', 'stuck_out_tongue_closed_eyes', 'grinning', 'kissing', 'kissing_smiling_eyes', 'stuck_out_tongue', 'sleeping', 'worried', 'frowning', 'anguished', 'open_mouth', 'grimacing', 'confused', 'hushed', 'expressionless', 'unamused', 'sweat_smile', 'sweat', 'weary', 'pensive', 'disappointed', 'confounded', 'fearful', 'cold_sweat', 'persevere', 'cry', 'sob', 'joy', 'astonished', 'scream', 'neckbeard', 'tired_face', 'angry', 'rage', 'triumph', 'sleepy', 'yum', 'mask', 'sunglasses', 'dizzy_face', 'imp', 'smiling_imp', 'neutral_face', 'no_mouth', 'innocent', 'alien', 'yellow_heart', 'blue_heart', 'purple_heart', 'heart', 'green_heart', 'broken_heart', 'heartbeat', 'heartpulse', 'two_hearts', 'revolving_hearts', 'cupid', 'sparkling_heart', 'sparkles', 'star', 'star2', 'dizzy', 'boom', 'collision', 'anger', 'exclamation', 'question', 'grey_exclamation', 'grey_question', 'zzz', 'dash', 'sweat_drops', 'notes', 'musical_note', 'fire', 'hankey', 'poop', 'shit', '+1', 'thumbsup', '-1', 'thumbsdown', 'ok_hand', 'punch', 'facepunch', 'fist', 'v', 'wave', 'hand', 'open_hands', 'point_up', 'point_down', 'point_left', 'point_right', 'raised_hands', 'pray', 'point_up_2', 'clap', 'muscle', 'metal', 'walking', 'runner', 'running', 'couple', 'family', 'two_men_holding_hands', 'two_women_holding_hands', 'dancer', 'dancers', 'ok_woman', 'no_good', 'information_desk_person', 'raised_hand', 'bride_with_veil', 'person_with_pouting_face', 'person_frowning', 'bow', 'couplekiss', 'couple_with_heart', 'massage', 'haircut', 'nail_care', 'boy', 'girl', 'woman', 'man', 'baby', 'older_woman', 'older_man', 'person_with_blond_hair', 'man_with_gua_pi_mao', 'man_with_turban', 'construction_worker', 'cop', 'angel', 'princess', 'smiley_cat', 'smile_cat', 'heart_eyes_cat', 'kissing_cat', 'smirk_cat', 'scream_cat', 'crying_cat_face', 'joy_cat', 'pouting_cat', 'japanese_ogre', 'japanese_goblin', 'see_no_evil', 'hear_no_evil', 'speak_no_evil', 'guardsman', 'skull', 'feet', 'lips', 'kiss', 'droplet', 'ear', 'eyes', 'nose', 'tongue', 'love_letter'];
+	var emojis = [{ "shortCut": "[愉快]", "emotionId": "01.png" }, { "shortCut": "[撇嘴]", "emotionId": "02.png" }, { "shortCut": "[色]", "emotionId": "03.png" }, { "shortCut": "[傻笑]", "emotionId": "04.png" }, { "shortCut": "[得意]", "emotionId": "05.png" }, { "shortCut": "[流泪]", "emotionId": "06.png" }, { "shortCut": "[色眯眯]", "emotionId": "07.png" }, { "shortCut": "[闭嘴]", "emotionId": "08.png" }, { "shortCut": "[可怜]", "emotionId": "09.png" }, { "shortCut": "[亲亲]", "emotionId": "10.png" }, { "shortCut": "[无聊]", "emotionId": "11.png" }, { "shortCut": "[发怒]", "emotionId": "12.png" }, { "shortCut": "[做鬼脸]", "emotionId": "13.png" }, { "shortCut": "[呲牙]", "emotionId": "14.png" }, { "shortCut": "[难过]", "emotionId": "15.png" }, { "shortCut": "[抢劫]", "emotionId": "16.png" }, { "shortCut": "[抠鼻]", "emotionId": "17.png" }, { "shortCut": "[冷汗]", "emotionId": "18.png" }, { "shortCut": "[阴险]", "emotionId": "19.png" }, { "shortCut": "[竖中指]", "emotionId": "20.png" }, { "shortCut": "[鄙视]", "emotionId": "21.png" }, { "shortCut": "[抓狂]", "emotionId": "22.png" }, { "shortCut": "[偷笑]", "emotionId": "23.png" }, { "shortCut": "[敲打]", "emotionId": "24.png" }, { "shortCut": "[白眼]", "emotionId": "25.png" }, { "shortCut": "[吐血]", "emotionId": "26.png" }, { "shortCut": "[大笑]", "emotionId": "27.png" }, { "shortCut": "[尴尬]", "emotionId": "28.png" }, { "shortCut": "[困]", "emotionId": "29.png" }, { "shortCut": "[惊恐]", "emotionId": "30.png" }, { "shortCut": "[流汗]", "emotionId": "31.png" }, { "shortCut": "[憨笑]", "emotionId": "32.png" }, { "shortCut": "[休闲]", "emotionId": "33.png" }, { "shortCut": "[大哭]", "emotionId": "34.png" }, { "shortCut": "[奋斗]", "emotionId": "35.png" }, { "shortCut": "[咒骂]", "emotionId": "36.png" }, { "shortCut": "[疑问]", "emotionId": "37.png" }, { "shortCut": "[晕]", "emotionId": "38.png" }, { "shortCut": "[震惊]", "emotionId": "39.png" }, { "shortCut": "[疯了]", "emotionId": "40.png" }, { "shortCut": "[嘘]", "emotionId": "41.png" }, { "shortCut": "[露齿笑]", "emotionId": "42.png" }, { "shortCut": "[衰]", "emotionId": "43.png" }, { "shortCut": "[骷髅]", "emotionId": "44.png" }, { "shortCut": "[骂人]", "emotionId": "45.png" }, { "shortCut": "[睡]", "emotionId": "46.png" }, { "shortCut": "[再见]", "emotionId": "47.png" }, { "shortCut": "[笑哭]", "emotionId": "48.png" }, { "shortCut": "[擦汗]", "emotionId": "49.png" }, { "shortCut": "[飞吻]", "emotionId": "50.png" }, { "shortCut": "[爱慕]", "emotionId": "51.png" }, { "shortCut": "[惊讶]", "emotionId": "52.png" }, { "shortCut": "[糗大了]", "emotionId": "53.png" }, { "shortCut": "[坏笑]", "emotionId": "54.png" }, { "shortCut": "[左哼哼]", "emotionId": "55.png" }, { "shortCut": "[右哼哼]", "emotionId": "56.png" }, { "shortCut": "[哈欠]", "emotionId": "57.png" }, { "shortCut": "[吐]", "emotionId": "58.png" }, { "shortCut": "[委屈]", "emotionId": "59.png" }, { "shortCut": "[微笑]", "emotionId": "60.png" }, { "shortCut": "[快哭了]", "emotionId": "61.png" }, { "shortCut": "[对不起]", "emotionId": "62.png" }, { "shortCut": "[邪恶]", "emotionId": "63.png" }, { "shortCut": "[傲慢]", "emotionId": "64.png" }, { "shortCut": "[安慰]", "emotionId": "65.png" }, { "shortCut": "[吓]", "emotionId": "66.png" }, { "shortCut": "[口罩]", "emotionId": "67.png" }, { "shortCut": "[害羞]", "emotionId": "68.png" }, { "shortCut": "[思考]", "emotionId": "69.png" }, { "shortCut": "[财迷]", "emotionId": "70.png" }, { "shortCut": "[饥饿]", "emotionId": "71.png" }, { "shortCut": "[享受]", "emotionId": "72.png" }, { "shortCut": "[天使]", "emotionId": "73.png" }, { "shortCut": "[调皮]", "emotionId": "74.png" }, { "shortCut": "[加油]", "emotionId": "75.png" }, { "shortCut": "[恭喜发财]", "emotionId": "76.png" }, { "shortCut": "[好主意]", "emotionId": "77.png" }, { "shortCut": "[呼叫]", "emotionId": "78.png" }, { "shortCut": "[酷]", "emotionId": "79.png" }, { "shortCut": "[发呆]", "emotionId": "80.png" }, { "shortCut": "[牛X]", "emotionId": "81.png" }, { "shortCut": "[老大]", "emotionId": "82.png" }, { "shortCut": "[怀疑]", "emotionId": "83.png" }, { "shortCut": "[背]", "emotionId": "84.png" }, { "shortCut": "[生病]", "emotionId": "85.png" }, { "shortCut": "[没办法]", "emotionId": "86.png" }, { "shortCut": "[拥抱]", "emotionId": "87.png" }, { "shortCut": "[闪电]", "emotionId": "88.png" }, { "shortCut": "[月亮]", "emotionId": "89.png" }, { "shortCut": "[太阳]", "emotionId": "90.png" }, { "shortCut": "[强]", "emotionId": "91.png" }, { "shortCut": "[弱]", "emotionId": "92.png" }, { "shortCut": "[握手]", "emotionId": "93.png" }, { "shortCut": "[胜利]", "emotionId": "94.png" }, { "shortCut": "[抱拳]", "emotionId": "95.png" }, { "shortCut": "[勾引]", "emotionId": "96.png" }, { "shortCut": "[拳头]", "emotionId": "97.png" }, { "shortCut": "[差劲]", "emotionId": "98.png" }, { "shortCut": "[我爱你]", "emotionId": "99.png" }, { "shortCut": "[NO]", "emotionId": "100.png" }, { "shortCut": "[OK]", "emotionId": "101.png" }, { "shortCut": "[鼓掌]", "emotionId": "102.png" }, { "shortCut": "[合十]", "emotionId": "103.png" }, { "shortCut": "[玫瑰]", "emotionId": "104.png" }, { "shortCut": "[凋谢]", "emotionId": "105.png" }, { "shortCut": "[嘴唇]", "emotionId": "106.png" }, { "shortCut": "[爱心]", "emotionId": "107.png" }, { "shortCut": "[心碎]", "emotionId": "108.png" }, { "shortCut": "[红包]", "emotionId": "109.png" }, { "shortCut": "[菜刀]", "emotionId": "110.png" }, { "shortCut": "[咖啡]", "emotionId": "111.png" }, { "shortCut": "[饭]", "emotionId": "112.png" }, { "shortCut": "[猪头]", "emotionId": "113.png" }, { "shortCut": "[足球]", "emotionId": "114.png" }, { "shortCut": "[便便]", "emotionId": "115.png" }, { "shortCut": "[礼物]", "emotionId": "116.png" }, { "shortCut": "[钱]", "emotionId": "117.png" }, { "shortCut": "[恶魔]", "emotionId": "118.png" }, { "shortCut": "[蛋糕]", "emotionId": "119.png" }, { "shortCut": "[打屁股]", "emotionId": "120.png" }, { "shortCut": "[招财猫]", "emotionId": "121.png" }];
+	exports["default"] = emojis;
 	module.exports = exports['default'];
 
 /***/ },
 /* 321 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var emoticons = ['broken_heart', 'confounded', 'flushed', 'frowning', 'grinning', 'heart', 'kissing_heart', 'mask', 'pensive', 'rage', 'relaxed', 'scream', 'smile', 'smirk', 'sob', 'stuck_out_tongue_closed_eyes', 'stuck_out_tongue_winking_eye', 'wink'];
-	exports["default"] = emoticons;
-	module.exports = exports['default'];
-
-/***/ },
-/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38902,6 +38919,8 @@ webpackJsonp([0,1],[
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	exports["default"] = function (props) {
 	  var _classname;
@@ -38911,11 +38930,12 @@ webpackJsonp([0,1],[
 	  var data = _draftJs.Entity.get(entityKey).getData();
 	  var emoji = data.emoji;
 	
-	  var className = (0, _classnames2["default"])((_classname = {}, _defineProperty(_classname, 'emoji', true), _defineProperty(_classname, 'emoji-emoticons', _emoticons2["default"].indexOf(emoji) !== -1), _defineProperty(_classname, 'emoji-' + emoji, true), _classname));
+	  var className = (0, _classnames2["default"])((_classname = {}, _defineProperty(_classname, 'emoji', true), _defineProperty(_classname, 'emoji-' + emoji.shortCut, true), _classname));
+	  var emojiStyle = _extends({}, iconStyle, { backgroundImage: 'url(\'/assets/icons/' + emoji.emotionId + '\')' });
 	
 	  return _react2["default"].createElement(
 	    'span',
-	    { style: iconStyle, className: className },
+	    { style: emojiStyle, className: className },
 	    props.children
 	  );
 	};
@@ -38928,10 +38948,6 @@ webpackJsonp([0,1],[
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
-	var _emoticons = __webpack_require__(321);
-	
-	var _emoticons2 = _interopRequireDefault(_emoticons);
-	
 	var _draftJs = __webpack_require__(163);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -38943,13 +38959,14 @@ webpackJsonp([0,1],[
 	  width: 32,
 	  fontSize: 32,
 	  height: 32,
-	  display: 'inline-block'
+	  display: 'inline-block',
+	  backgroundSize: '100%'
 	};
 	
 	module.exports = exports['default'];
 
 /***/ },
-/* 323 */
+/* 322 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

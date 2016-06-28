@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { EditorState } from 'draft-js';
+import { List } from 'immutable';
 import '../draftExt';
 export interface Plugin {
     name: string;
@@ -26,7 +27,7 @@ export interface EditorProps {
 export interface EditorCoreState {
     editorState?: EditorState;
     customStyleMap?: Object;
-    toolbarPlugins?: Array<any>;
+    toolbarPlugins?: List<Plugin>;
     plugins?: Array<Plugin>;
 }
 declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
