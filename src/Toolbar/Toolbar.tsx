@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { Plugin } from '../EditorCore';
 import { EditorState } from 'draft-js';
 import ToolbarLine from './ToolbarLine';
 
 export interface ToolbarProps {
-  plugins: Array<Plugin>;
+  plugins: List<Plugin>;
   toolbars: Array<any>;
   prefixCls: string;
   className: string;

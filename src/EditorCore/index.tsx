@@ -31,7 +31,7 @@ export interface EditorProps {
 export interface EditorCoreState {
   editorState?: EditorState;
   customStyleMap?: Object;
-  toolbarPlugins?: Array<any>;
+  toolbarPlugins?: List<Plugin>;
   plugins?: Array<Plugin>;
 }
 
@@ -99,7 +99,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     );
 
     // initialize Toolbar
-    const toolbarPlugins = plugins.filter(plugin => !!plugin.component && plugin.name !== 'toolbar');
+    const toolbarPlugins = List(plugins.filter(plugin => !!plugin.component && plugin.name !== 'toolbar'));
 
     // load inline styles...
     plugins.forEach( plugin => {
@@ -179,9 +179,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return command === 'split-block';
   }
   eventHandle(eventName, ...args) : boolean {
-    const plugins = this.getPlugins();
-    for (let i = 0; i < plugins.length; i++) {
-      const plugin = plugins[i];
+    const plugins = this.state.toolbarPlugins;
+    console.log('>> eventHandle plugins', plugins.toIndexedSeq());
+    for (let i = 0; i < plugins.toIndexedSeq().size; i++) {
+      const plugin = plugins.get(i);
       if (plugin.callbacks[eventName]
         && typeof plugin.callbacks[eventName] === 'function') {
         const result = plugin.callbacks[eventName](...args);
