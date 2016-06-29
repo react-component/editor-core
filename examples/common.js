@@ -356,10 +356,7 @@
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
 	        if (this.props.onKeyDown) {
 	            ev.ctrlKey = hasCommandModifier(ev);
-	            var customKeyBinding = this.props.onKeyDown(ev);
-	            if (customKeyBinding) {
-	                return customKeyBinding;
-	            }
+	            return this.props.onKeyDown(ev);
 	        }
 	        return (0, _draftJs.getDefaultKeyBinding)(ev);
 	    };
