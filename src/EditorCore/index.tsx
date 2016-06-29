@@ -76,13 +76,19 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public Reset(): void {
-    const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(this.props.defaultValue || ''), 'reset-editor');
-    this.setEditorState(editorState);
+    const createEmptyContentState = ContentState.createFromText(this.props.defaultValue || '');
+    const editorState = EditorState.push(this.state.editorState, createEmptyContentState , 'reset-editor');
+    this.setEditorState(
+      EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
+    );
   }
 
   public SetText(text: string) : void {
-    const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(text || ''), 'editor-setText');
-    this.setEditorState(editorState);
+    const createTextContentState = ContentState.createFromText(text || '');
+    const editorState = EditorState.push(this.state.editorState, createTextContentState, 'editor-setText');
+    this.setEditorState(
+      EditorState.forceSelection(editorState, createTextContentState.getSelectionAfter())
+    );
   }
 
   public state : EditorCoreState;
@@ -233,9 +239,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     if (this.props.onKeyDown) {
       ev.ctrlKey = hasCommandModifier(ev);
       const keyDownResult = this.props.onKeyDown(ev);
+      console.log('>> keyDownResult', keyDownResult);
       if (keyDownResult !== undefined && keyDownResult !== null) {
         return keyDownResult;
       }
+      return getDefaultKeyBinding(ev);
     }
     return getDefaultKeyBinding(ev);
   }

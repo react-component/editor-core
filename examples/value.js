@@ -15,11 +15,8 @@ function editorChange(editorState) {
   console.log('>> editorExport:', GetText(editorState));
 }
 
-function keyDown(ev) {
-  if (ev.keyCode === 13 && ev.ctrlKey) {
-    return 'split-block';
-  }
-}
+
+
 
 const Editor = React.createClass({
   getInitialState() {
@@ -30,6 +27,15 @@ const Editor = React.createClass({
   reset() {
     this.refs.editor.Reset();
   },
+  keyDown(ev) {
+    if (ev.keyCode === 13) {
+      if (ev.ctrlKey) {
+        return 'split-block';
+      }
+      this.refs.editor.Reset();
+    }
+    return false;
+  },
   render() {
     return (<div>
       <button onClick={this.reset}> reset </button>
@@ -37,7 +43,7 @@ const Editor = React.createClass({
         ref="editor"
         plugins={plugins}
         toolbars={toolbars}
-        onKeyDown={(ev) => keyDown(ev)}
+        onKeyDown={(ev) => this.keyDown(ev)}
         onChange={(editorState) => editorChange(editorState)}
     />
     </div>);

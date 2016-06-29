@@ -20,6 +20,7 @@ function keyDown(ev) {
   if (ev.keyCode === 13 && ev.ctrlKey) {
     return 'split-block';
   }
+  return false;
 }
 
 ReactDOM.render(<EditorCore
