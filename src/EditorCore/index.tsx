@@ -228,10 +228,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public handleKeyBinding(ev): boolean {
     if (this.props.onKeyDown) {
       ev.ctrlKey = hasCommandModifier(ev);
-      const customKeyBinding = this.props.onKeyDown(ev);
-      if (customKeyBinding) {
-        return customKeyBinding;
-      }
+      return this.props.onKeyDown(ev);
     }
     return getDefaultKeyBinding(ev);
   }
