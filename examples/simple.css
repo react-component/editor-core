@@ -1,0 +1,43 @@
+.editor-icon-emoji-wrap {
+  display: inline-block;
+  position: relative;
+}
+.editor-icon-emoji-wrap .emoji {
+  cursor: pointer;
+}
+.emoji-picker-wrapper {
+  width: 320px;
+  position: absolute;
+  bottom: 32px;
+  padding: 8px;
+  background-color: white;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}
+.pagination-wrap {
+  text-align: center;
+}
+.emoji-paginationIcon {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #ccc;
+  boreder: 1px solid #ccc;
+  margin: 0 4px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.emoji-paginationIcon.active {
+  background-color: #ddd;
+}
+.emoji {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+}
+.emoji img {
+  margin: 1px;
+  width: 30px;
+  height: 30px;
+}
+
+/*# sourceMappingURL=simple.css.map*/

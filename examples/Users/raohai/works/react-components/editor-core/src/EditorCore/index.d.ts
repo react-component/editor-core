@@ -51,7 +51,7 @@ declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         toolbars: any[];
         spilitLine: string;
     };
-    reloadPlugins(): any;
+    reloadPlugins(): Array<Plugin>;
     componentWillMount(): void;
     componentDidMount(): void;
     initPlugins(): Array<any>;
