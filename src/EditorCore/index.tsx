@@ -40,6 +40,7 @@ export interface EditorProps {
   splitLine: String;
   onKeyDown?: (ev:any) => boolean;
   defaultValue?: string;
+  placeholder?: string;
 }
 
 export interface EditorCoreState {
@@ -106,8 +107,18 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   };
   public reloadPlugins(): any {
     return this.plugins && this.plugins.size ? this.plugins.map((plugin : Plugin) => {
-      return plugin.constructor(plugin.config);
-    }) : [];
+      //　如果插件有 callbacks 方法,则认为插件已经加载。
+      if (plugin.callbacks) {
+        return plugin;
+      }
+      // 如果插件有 constructor 方法,则构造插件
+      if (plugin.hasOwnProperty('constructor')) {
+        return plugin.constructor(plugin.config);
+      }
+      // else 无效插件
+      console.log('>> 插件: [', plugin.name , '] 无效。插件或许已经过期。');
+      return false
+    }).filter(plugin => plugin) : [];
   }
 
   public componentWillMount() : void {
@@ -254,7 +265,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   render() {
-    const { prefixCls, toolbars } = this.props;
+    const { prefixCls, toolbars, placeholder } = this.props;
     const { editorState, toolbarPlugins, customStyleMap } = this.state;
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
@@ -274,6 +285,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         ref="editor"
         customStyleMap={customStyleMap}
         editorState={editorState}
+        placeholder={placeholder}
         handleKeyCommand={this.handleKeyCommand.bind(this)}
         keyBindingFn={this.handleKeyBinding.bind(this)}
         onChange={this.onChange.bind(this)}
