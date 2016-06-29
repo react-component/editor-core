@@ -56,7 +56,6 @@ const toolbar = createToolbar();
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   static ExportFunction(editorState):String {
     const content = editorState.getCurrentContent();
-    console.log('>> ExportFunction', content);
     const blockMap = content.getBlockMap();
     return blockMap.map( block => {
       let resultText = '';
@@ -116,7 +115,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         return plugin.constructor(plugin.config);
       }
       // else 无效插件
-      console.log('>> 插件: [', plugin.name , '] 无效。插件或许已经过期。');
+      console.warn('>> 插件: [', plugin.name , '] 无效。插件或许已经过期。');
       return false
     }).filter(plugin => plugin).toArray() : [];
   }
@@ -181,7 +180,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   public initPlugins() : Array<any> {
     return this.getPlugins().map(plugin => {
-      console.log('>> plugin', plugin);
+      // console.log('>> plugin', plugin);
       plugin.callbacks.getEditorState = this.getEditorState.bind(this);
       plugin.callbacks.setEditorState = this.setEditorState.bind(this);
       return plugin;
@@ -241,10 +240,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
   eventHandle(eventName, ...args) : boolean {
     const plugins = this.getPlugins();
-    console.log('>> eventHandle plugins', eventName, plugins);
+    // console.log('>> eventHandle plugins', eventName, plugins);
     for (let i = 0; i < plugins.length; i++) {
       const plugin = plugins[i];
-      console.log('>> plugin', plugin);
+      // console.log('>> plugin', plugin);
       if (plugin.callbacks[eventName]
         && typeof plugin.callbacks[eventName] === 'function') {
         const result = plugin.callbacks[eventName](...args);
