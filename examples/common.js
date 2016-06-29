@@ -230,7 +230,7 @@
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
-	        var editorState = _draftJs.EditorState.push(this.state.editorState, _draftJs.ContentState.createFromText(''), 'reset-editor');
+	        var editorState = _draftJs.EditorState.push(this.state.editorState, _draftJs.ContentState.createFromText(this.props.defaultValue || ''), 'reset-editor');
 	        this.setEditorState(editorState);
 	    };
 	
@@ -355,7 +355,10 @@
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
 	        if (this.props.onKeyDown) {
 	            ev.ctrlKey = hasCommandModifier(ev);
-	            return this.props.onKeyDown(ev);
+	            var keyDownResult = this.props.onKeyDown(ev);
+	            if (keyDownResult !== undefined && keyDownResult !== null) {
+	                return keyDownResult;
+	            }
 	        }
 	        return (0, _draftJs.getDefaultKeyBinding)(ev);
 	    };
