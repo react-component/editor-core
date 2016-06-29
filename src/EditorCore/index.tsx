@@ -7,7 +7,7 @@ import {
   Entity,
   Modifier,
   getDefaultKeyBinding,
-  KeyBindingUtil
+  KeyBindingUtil,
 } from 'draft-js';
 import { List } from 'immutable';
 import { createToolbar } from '../Toolbar';
@@ -105,7 +105,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     toolbars: [],
     spilitLine: 'enter',
   };
-  public reloadPlugins(): any {
+  public reloadPlugins(): Array<Plugin> {
     return this.plugins && this.plugins.size ? this.plugins.map((plugin : Plugin) => {
       //　如果插件有 callbacks 方法,则认为插件已经加载。
       if (plugin.callbacks) {
@@ -118,7 +118,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       // else 无效插件
       console.log('>> 插件: [', plugin.name , '] 无效。插件或许已经过期。');
       return false
-    }).filter(plugin => plugin) : [];
+    }).filter(plugin => plugin).toArray() : [];
   }
 
   public componentWillMount() : void {
@@ -243,10 +243,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return command === 'split-block';
   }
   eventHandle(eventName, ...args) : boolean {
-    const plugins = this.state.toolbarPlugins;
-    console.log('>> eventHandle plugins', plugins.toIndexedSeq());
-    for (let i = 0; i < plugins.toIndexedSeq().size; i++) {
-      const plugin = plugins.get(i);
+    const plugins = this.getPlugins();
+    console.log('>> eventHandle plugins', eventName, plugins);
+    for (let i = 0; i < plugins.length; i++) {
+      const plugin = plugins[i];
+      console.log('>> plugin', plugin);
       if (plugin.callbacks[eventName]
         && typeof plugin.callbacks[eventName] === 'function') {
         const result = plugin.callbacks[eventName](...args);
