@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		3:0
+/******/ 		4:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"event","1":"simple","2":"value"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"controllered","1":"event","2":"simple","3":"value"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -230,8 +230,15 @@
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
-	        var editorState = _draftJs.EditorState.push(this.state.editorState, _draftJs.ContentState.createFromText(this.props.defaultValue || ''), 'reset-editor');
-	        this.setEditorState(editorState);
+	        var createEmptyContentState = _draftJs.ContentState.createFromText(this.props.defaultValue || '');
+	        var editorState = _draftJs.EditorState.push(this.state.editorState, createEmptyContentState, 'reset-editor');
+	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter()));
+	    };
+	
+	    EditorCore.prototype.SetText = function SetText(text) {
+	        var createTextContentState = _draftJs.ContentState.createFromText(text || '');
+	        var editorState = _draftJs.EditorState.push(this.state.editorState, createTextContentState, 'editor-setText');
+	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createTextContentState.getSelectionAfter()));
 	    };
 	
 	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
@@ -356,9 +363,11 @@
 	        if (this.props.onKeyDown) {
 	            ev.ctrlKey = hasCommandModifier(ev);
 	            var keyDownResult = this.props.onKeyDown(ev);
+	            console.log('>> keyDownResult', keyDownResult);
 	            if (keyDownResult !== undefined && keyDownResult !== null) {
 	                return keyDownResult;
 	            }
+	            return (0, _draftJs.getDefaultKeyBinding)(ev);
 	        }
 	        return (0, _draftJs.getDefaultKeyBinding)(ev);
 	    };

@@ -37,6 +37,7 @@ export interface EditorCoreState {
 declare class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     static ExportFunction(editorState: any): String;
     Reset(): void;
+    SetText(text: string): void;
     state: EditorCoreState;
     private plugins;
     constructor(props: EditorProps);
