@@ -237,7 +237,19 @@
 	
 	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
 	        return this.plugins && this.plugins.size ? this.plugins.map(function (plugin) {
-	            return plugin.constructor(plugin.config);
+	            //　如果插件有 callbacks 方法,则认为插件已经加载。
+	            if (plugin.callbacks) {
+	                return plugin;
+	            }
+	            // 如果插件有 constructor 方法,则构造插件
+	            if (plugin.hasOwnProperty('constructor')) {
+	                return plugin.constructor(plugin.config);
+	            }
+	            // else 无效插件
+	            console.log('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
+	            return false;
+	        }).filter(function (plugin) {
+	            return plugin;
 	        }) : [];
 	    };
 	
@@ -397,6 +409,7 @@
 	        var _props = this.props;
 	        var prefixCls = _props.prefixCls;
 	        var toolbars = _props.toolbars;
+	        var placeholder = _props.placeholder;
 	        var _state = this.state;
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
@@ -408,7 +421,7 @@
 	            'div',
 	            { className: prefixCls + '-editor', onClick: this.focus.bind(this) },
 	            React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
-	            React.createElement(_draftJs.Editor, _extends({}, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
+	            React.createElement(_draftJs.Editor, _extends({}, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, placeholder: placeholder, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
 	        );
 	    };
 	

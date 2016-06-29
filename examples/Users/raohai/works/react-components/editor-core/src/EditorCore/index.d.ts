@@ -26,6 +26,7 @@ export interface EditorProps {
     splitLine: String;
     onKeyDown?: (ev: any) => boolean;
     defaultValue?: string;
+    placeholder?: string;
 }
 export interface EditorCoreState {
     editorState?: EditorState;
