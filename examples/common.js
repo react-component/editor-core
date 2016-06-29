@@ -209,8 +209,8 @@
 	    }
 	
 	    EditorCore.ExportFunction = function ExportFunction(editorState) {
-	        console.log('>> editorState', editorState);
 	        var content = editorState.getCurrentContent();
+	        console.log('>> ExportFunction', content);
 	        var blockMap = content.getBlockMap();
 	        return blockMap.map(function (block) {
 	            var resultText = '';
@@ -344,7 +344,10 @@
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
 	        if (this.props.onKeyDown) {
 	            ev.ctrlKey = hasCommandModifier(ev);
-	            return this.props.onKeyDown(ev);
+	            var customKeyBinding = this.props.onKeyDown(ev);
+	            if (customKeyBinding) {
+	                return customKeyBinding;
+	            }
 	        }
 	        return (0, _draftJs.getDefaultKeyBinding)(ev);
 	    };

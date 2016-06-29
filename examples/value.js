@@ -74,7 +74,6 @@ webpackJsonp([1],{
 	        ref: 'editor',
 	        plugins: plugins,
 	        toolbars: toolbars,
-	        defaultValue: this.state.defaultValue,
 	        onKeyDown: function onKeyDown(ev) {
 	          return keyDown(ev);
 	        },
