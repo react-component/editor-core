@@ -76,7 +76,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public Reset(): void {
-    const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''), 'reset-editor');
+    const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(this.props.defaultValue || ''), 'reset-editor');
     this.setEditorState(editorState);
   }
 
@@ -227,7 +227,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public handleKeyBinding(ev): boolean {
     if (this.props.onKeyDown) {
       ev.ctrlKey = hasCommandModifier(ev);
-      return this.props.onKeyDown(ev);
+      const keyDownResult = this.props.onKeyDown(ev);
+      if (keyDownResult !== undefined && keyDownResult !== null) {
+        return keyDownResult;
+      }
     }
     return getDefaultKeyBinding(ev);
   }
