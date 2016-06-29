@@ -210,7 +210,6 @@
 	
 	    EditorCore.ExportFunction = function ExportFunction(editorState) {
 	        var content = editorState.getCurrentContent();
-	        console.log('>> ExportFunction', content);
 	        var blockMap = content.getBlockMap();
 	        return blockMap.map(function (block) {
 	            var resultText = '';
@@ -246,7 +245,7 @@
 	                return plugin.constructor(plugin.config);
 	            }
 	            // else 无效插件
-	            console.log('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
+	            console.warn('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
 	            return false;
 	        }).filter(function (plugin) {
 	            return plugin;
@@ -306,7 +305,7 @@
 	        var _this2 = this;
 	
 	        return this.getPlugins().map(function (plugin) {
-	            console.log('>> plugin', plugin);
+	            // console.log('>> plugin', plugin);
 	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
 	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
 	            return plugin;
@@ -370,7 +369,7 @@
 	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
 	        var plugins = this.getPlugins();
-	        console.log('>> eventHandle plugins', eventName, plugins);
+	        // console.log('>> eventHandle plugins', eventName, plugins);
 	
 	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	            args[_key - 1] = arguments[_key];
@@ -378,7 +377,7 @@
 	
 	        for (var i = 0; i < plugins.length; i++) {
 	            var plugin = plugins[i];
-	            console.log('>> plugin', plugin);
+	            // console.log('>> plugin', plugin);
 	            if (plugin.callbacks[eventName] && typeof plugin.callbacks[eventName] === 'function') {
 	                var _plugin$callbacks;
 	
