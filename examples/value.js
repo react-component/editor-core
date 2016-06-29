@@ -37,7 +37,6 @@ const Editor = React.createClass({
         ref="editor"
         plugins={plugins}
         toolbars={toolbars}
-        defaultValue={this.state.defaultValue}
         onKeyDown={(ev) => keyDown(ev)}
         onChange={(editorState) => editorChange(editorState)}
     />

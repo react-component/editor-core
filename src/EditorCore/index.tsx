@@ -54,8 +54,8 @@ const toolbar = createToolbar();
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   static ExportFunction(editorState):String {
-    console.log('>> editorState', editorState);
     const content = editorState.getCurrentContent();
+    console.log('>> ExportFunction', content);
     const blockMap = content.getBlockMap();
     return blockMap.map( block => {
       let resultText = '';
@@ -217,7 +217,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public handleKeyBinding(ev): boolean {
     if (this.props.onKeyDown) {
       ev.ctrlKey = hasCommandModifier(ev);
-      return this.props.onKeyDown(ev);
+      const customKeyBinding = this.props.onKeyDown(ev);
+      if (customKeyBinding) {
+        return customKeyBinding;
+      }
     }
     return getDefaultKeyBinding(ev);
   }
