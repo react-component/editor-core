@@ -80,6 +80,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     this.setEditorState(editorState);
   }
 
+  public SetText(text: string) : void {
+    const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(text || ''), 'editor-setText');
+    this.setEditorState(editorState);
+  }
+
   public state : EditorCoreState;
   private plugins: any;
   constructor(props: EditorProps) {
