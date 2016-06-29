@@ -31,6 +31,7 @@ const Editor = React.createClass({
         return 'split-block';
       }
       this.refs.editor.Reset();
+      return true;
     }
     return false;
   },
