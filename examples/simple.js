@@ -1185,8 +1185,11 @@ webpackJsonp([2],{
 	
 	function keyDown(ev) {
 	  console.log('>> keydown', ev.keyCode, ev.ctrlKey);
-	  if (ev.keyCode === 13 && ev.ctrlKey) {
-	    return 'split-block';
+	  if (ev.keyCode === 13) {
+	    if (ev.ctrlKey) {
+	      return 'split-block';
+	    }
+	    return true;
 	  }
 	  return false;
 	}

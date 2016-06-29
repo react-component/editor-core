@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - rc-editor-core@0.3.13</title>
+  <title>simple.js - example - rc-editor-core@0.3.15</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.3.13</h1>
+      <h1>rc-editor-core@0.3.15</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -283,8 +283,11 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">keyDown</span>(<span class="hljs-params">ev</span>) </span>{
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; keydown'</span>, ev.keyCode, ev.ctrlKey);
-  <span class="hljs-keyword">if</span> (ev.keyCode === <span class="hljs-number">13</span> &amp;&amp; ev.ctrlKey) {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">'split-block'</span>;
+  <span class="hljs-keyword">if</span> (ev.keyCode === <span class="hljs-number">13</span>) {
+    <span class="hljs-keyword">if</span> (ev.ctrlKey) {
+      <span class="hljs-keyword">return</span> <span class="hljs-string">'split-block'</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
   }
   <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 }

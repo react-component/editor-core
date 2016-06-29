@@ -1199,6 +1199,7 @@ webpackJsonp([3],{
 	        return 'split-block';
 	      }
 	      this.refs.editor.Reset();
+	      return true;
 	    }
 	    return false;
 	  },
