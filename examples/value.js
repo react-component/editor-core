@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';
 import Emoji from 'rc-editor-plugin-emoji';
-import 'rc-editor-plugin-emoji/assets/index.less';
+import 'rc-editor-plugin-emoji/assets/index.css';
 
 const plugins = [BasicStyle, Emoji];
 const toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
@@ -14,8 +14,6 @@ const toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'supersc
 function editorChange(editorState) {
   console.log('>> editorExport:', GetText(editorState));
 }
-
-
 
 
 const Editor = React.createClass({
@@ -43,6 +41,7 @@ const Editor = React.createClass({
         ref="editor"
         plugins={plugins}
         toolbars={toolbars}
+        defaultValue="12312313123 [色眯眯] 123 13 "
         onKeyDown={(ev) => this.keyDown(ev)}
         onChange={(editorState) => editorChange(editorState)}
     />

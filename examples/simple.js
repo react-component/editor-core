@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';
 import Emoji from 'rc-editor-plugin-emoji';
-import 'rc-editor-plugin-emoji/assets/index.less';
+import 'rc-editor-plugin-emoji/assets/index.css';
 
 const plugins = [BasicStyle, Emoji];
 const toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
