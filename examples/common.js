@@ -359,6 +359,7 @@
 	            // console.log('>> plugin', plugin);
 	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
 	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
+	            plugin.callbacks.focus ? plugin.callbacks.focus = _this2.focus.bind(_this2) : null;
 	            return plugin;
 	        });
 	    };
@@ -473,7 +474,7 @@
 	            'div',
 	            { className: prefixCls + '-editor', onClick: this.focus.bind(this) },
 	            React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
-	            React.createElement(_draftJs.Editor, _extends({}, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, placeholder: placeholder, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
+	            React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
 	        );
 	    };
 	

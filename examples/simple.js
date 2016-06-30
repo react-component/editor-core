@@ -1197,6 +1197,7 @@ webpackJsonp([2],{
 	_reactDom2.default.render(_react2.default.createElement(_rcEditorCore.EditorCore, {
 	  plugins: plugins,
 	  toolbars: toolbars,
+	  placeholder: 'input text here',
 	  onKeyDown: function onKeyDown(ev) {
 	    return keyDown(ev);
 	  },
