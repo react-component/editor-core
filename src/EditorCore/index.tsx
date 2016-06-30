@@ -279,7 +279,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   render() {
-    const { prefixCls, toolbars, placeholder } = this.props;
+    const { prefixCls, toolbars, style } = this.props;
     const { editorState, toolbarPlugins, customStyleMap } = this.state;
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
@@ -294,16 +294,18 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         plugins={toolbarPlugins}
         toolbars={toolbars}
       />
-      <Editor
-        {...eventHandler}
-        {...this.props}
-        ref="editor"
-        customStyleMap={customStyleMap}
-        editorState={editorState}
-        handleKeyCommand={this.handleKeyCommand.bind(this)}
-        keyBindingFn={this.handleKeyBinding.bind(this)}
-        onChange={this.onChange.bind(this)}
-      />
+      <div className={`${prefixCls}-editor-wrapper`} style={style}>
+        <Editor
+          {...eventHandler}
+          {...this.props}
+          ref="editor"
+          customStyleMap={customStyleMap}
+          editorState={editorState}
+          handleKeyCommand={this.handleKeyCommand.bind(this)}
+          keyBindingFn={this.handleKeyBinding.bind(this)}
+          onChange={this.onChange.bind(this)}
+        />
+      </div>
     </div>);
   }
 }
