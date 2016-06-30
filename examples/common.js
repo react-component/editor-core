@@ -471,7 +471,7 @@
 	        var _props = this.props;
 	        var prefixCls = _props.prefixCls;
 	        var toolbars = _props.toolbars;
-	        var placeholder = _props.placeholder;
+	        var style = _props.style;
 	        var _state = this.state;
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
@@ -483,7 +483,11 @@
 	            'div',
 	            { className: prefixCls + '-editor', onClick: this.focus.bind(this) },
 	            React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
-	            React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
+	            React.createElement(
+	                'div',
+	                { className: prefixCls + '-editor-wrapper', style: style },
+	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) }))
+	            )
 	        );
 	    };
 	
