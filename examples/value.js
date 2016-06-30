@@ -672,11 +672,12 @@ webpackJsonp([3],{
 	
 	    var callbacks = {
 	      getEditorState: noop,
-	      setEditorState: noop
+	      setEditorState: noop,
+	      focus: noop
 	    };
 	    function pickEmoji(emoji) {
 	      var editorState = callbacks.getEditorState();
-	      callbacks.setEditorState((0, _util.insertEntity)(editorState, 'emoji', { emoji: emoji, "export": _util.exportEntity }));
+	      callbacks.setEditorState((0, _util.insertEntity)(editorState, 'emoji', { emoji: emoji, "export": _util.exportEntity }), true);
 	    }
 	    return {
 	      name: 'emoji',
@@ -704,6 +705,7 @@ webpackJsonp([3],{
 	exports["default"] = Emoji;
 	module.exports = exports['default'];
 
+
 /***/ },
 
 /***/ 318:
@@ -725,7 +727,7 @@ webpackJsonp([3],{
 	  var content = editorState.getCurrentContent();
 	  var insertContent = _draftJs.Modifier.replaceText(content, selection, text, {}, entity);
 	
-	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), ' ');
+	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), '');
 	  return _draftJs.EditorState.push(editorState, InsertSpaceContent, 'replace-entity');
 	}
 	
@@ -743,7 +745,7 @@ webpackJsonp([3],{
 	  var entityKey = createEntity(entityType, data, entityMode);
 	  var insertContent = _draftJs.Modifier.insertText(content, selection, ' ', {}, entityKey);
 	
-	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), ' ');
+	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), '');
 	
 	  var newEditorState = _draftJs.EditorState.push(editorState, InsertSpaceContent, 'insert-entity');
 	  return _draftJs.EditorState.forceSelection(newEditorState, InsertSpaceContent.getSelectionAfter());
@@ -753,6 +755,7 @@ webpackJsonp([3],{
 	  console.log('> exportEneity', entityData);
 	  return '' + entityData.emoji.shortCut;
 	}
+
 
 /***/ },
 
@@ -808,7 +811,6 @@ webpackJsonp([3],{
 	    };
 	
 	    _this.hideEmojiPicker = function (e) {
-	      e.preventDefault();
 	      _this.setState({
 	        visible: false
 	      });

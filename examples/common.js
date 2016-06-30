@@ -233,6 +233,8 @@
 	
 	var hasCommandModifier = _draftJs.KeyBindingUtil.hasCommandModifier;
 	
+	function noop() {}
+	;
 	var toolbar = (0, _Toolbar.createToolbar)();
 	
 	var EditorCore = function (_React$Component) {
@@ -359,7 +361,6 @@
 	            // console.log('>> plugin', plugin);
 	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
 	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
-	            plugin.callbacks.focus ? plugin.callbacks.focus = _this2.focus.bind(_this2) : null;
 	            return plugin;
 	        });
 	    };
@@ -398,10 +399,18 @@
 	    };
 	
 	    EditorCore.prototype.setEditorState = function setEditorState(editorState) {
+	        var _this4 = this;
+	
+	        var focusEditor = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	
 	        if (this.props.onChange) {
 	            this.props.onChange(editorState);
 	        }
-	        this.setState({ editorState: editorState });
+	        this.setState({ editorState: editorState }, focusEditor ? function () {
+	            return setTimeout(function () {
+	                return _this4.refs.editor.focus();
+	            }, 100);
+	        } : noop);
 	    };
 	
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
@@ -447,14 +456,14 @@
 	    };
 	
 	    EditorCore.prototype.generatorEventHandler = function generatorEventHandler(eventName) {
-	        var _this4 = this;
+	        var _this5 = this;
 	
 	        return function () {
 	            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
 	                args[_key2] = arguments[_key2];
 	            }
 	
-	            return _this4.eventHandle.apply(_this4, [eventName].concat(args));
+	            return _this5.eventHandle.apply(_this5, [eventName].concat(args));
 	        };
 	    };
 	
