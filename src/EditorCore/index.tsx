@@ -15,6 +15,8 @@ import '../draftExt';
 
 const { hasCommandModifier } = KeyBindingUtil;
 
+function noop():void {};
+
 export interface Plugin {
   name: string;
   decorators?: Array<any>;
@@ -229,11 +231,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return this.state.editorState;
   }
 
-  setEditorState(editorState: EditorState) : void {
+  setEditorState(editorState: EditorState, focusEditor?:boolean = false) : void {
     if (this.props.onChange) {
       this.props.onChange(editorState);
     }
-    this.setState({ editorState });
+    this.setState({ editorState }, focusEditor ? () => setTimeout(() => this.refs.editor.focus(), 100) : noop);
   }
   public handleKeyBinding(ev): boolean {
     if (this.props.onKeyDown) {
@@ -294,10 +296,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       />
       <Editor
         {...eventHandler}
+        {...this.props}
         ref="editor"
         customStyleMap={customStyleMap}
         editorState={editorState}
-        placeholder={placeholder}
         handleKeyCommand={this.handleKeyCommand.bind(this)}
         keyBindingFn={this.handleKeyBinding.bind(this)}
         onChange={this.onChange.bind(this)}

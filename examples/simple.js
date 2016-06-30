@@ -29,6 +29,7 @@ function keyDown(ev) {
 ReactDOM.render(<EditorCore
   plugins={plugins}
   toolbars={toolbars}
+  placeholder="input text here"
   onKeyDown={(ev) => keyDown(ev)}
   onChange={(editorState) => editorChange(editorState)}
 />, document.getElementById('__react-content'));
