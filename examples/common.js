@@ -407,7 +407,6 @@
 	        if (this.props.onKeyDown) {
 	            ev.ctrlKey = hasCommandModifier(ev);
 	            var keyDownResult = this.props.onKeyDown(ev);
-	            console.log('>> keyDownResult', keyDownResult);
 	            if (keyDownResult) {
 	                return keyDownResult;
 	            }
