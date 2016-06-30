@@ -239,7 +239,6 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     if (this.props.onKeyDown) {
       ev.ctrlKey = hasCommandModifier(ev);
       const keyDownResult = this.props.onKeyDown(ev);
-      console.log('>> keyDownResult', keyDownResult);
       if (keyDownResult) {
         return keyDownResult;
       }
