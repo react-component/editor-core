@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';
 import Emoji from 'rc-editor-plugin-emoji';
+import { Entity } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
 const plugins = [BasicStyle, Emoji];

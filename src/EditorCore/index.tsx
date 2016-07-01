@@ -90,7 +90,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const editorState = EditorState.push(this.state.editorState, createTextContentState, 'editor-setText');
     this.setEditorState(
       EditorState.forceSelection(editorState, createTextContentState.getSelectionAfter())
-    );
+    , true);
   }
 
   public state : EditorCoreState;
