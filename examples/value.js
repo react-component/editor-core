@@ -3,12 +3,12 @@ webpackJsonp([3],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(327);
+	module.exports = __webpack_require__(324);
 
 
 /***/ },
 
-/***/ 306:
+/***/ 303:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,33 +17,33 @@ webpackJsonp([3],{
 	  value: true
 	});
 	
-	var _immutable = __webpack_require__(166);
+	var _immutable = __webpack_require__(46);
 	
-	var _Bold = __webpack_require__(307);
+	var _Bold = __webpack_require__(304);
 	
 	var _Bold2 = _interopRequireDefault(_Bold);
 	
-	var _Italic = __webpack_require__(308);
+	var _Italic = __webpack_require__(305);
 	
 	var _Italic2 = _interopRequireDefault(_Italic);
 	
-	var _Spilit = __webpack_require__(311);
+	var _Spilit = __webpack_require__(308);
 	
 	var _Spilit2 = _interopRequireDefault(_Spilit);
 	
-	var _Underline = __webpack_require__(312);
+	var _Underline = __webpack_require__(309);
 	
 	var _Underline2 = _interopRequireDefault(_Underline);
 	
-	var _StrikeThrough = __webpack_require__(313);
+	var _StrikeThrough = __webpack_require__(310);
 	
 	var _StrikeThrough2 = _interopRequireDefault(_StrikeThrough);
 	
-	var _SuperScript = __webpack_require__(314);
+	var _SuperScript = __webpack_require__(311);
 	
 	var _SuperScript2 = _interopRequireDefault(_SuperScript);
 	
-	var _SubScript = __webpack_require__(315);
+	var _SubScript = __webpack_require__(312);
 	
 	var _SubScript2 = _interopRequireDefault(_SubScript);
 	
@@ -57,7 +57,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 307:
+/***/ 304:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -89,7 +89,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 308:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -102,11 +102,11 @@ webpackJsonp([3],{
 	
 	var React = _interopRequireWildcard(_react);
 	
-	var _classnames2 = __webpack_require__(309);
+	var _classnames2 = __webpack_require__(306);
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _utils = __webpack_require__(310);
+	var _utils = __webpack_require__(307);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -145,7 +145,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 309:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -200,7 +200,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 310:
+/***/ 307:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -216,7 +216,7 @@ webpackJsonp([3],{
 	exports.getToggleBlockFunc = getToggleBlockFunc;
 	exports.getCurrentEntity = getCurrentEntity;
 	
-	var _draftJs = __webpack_require__(163);
+	var _draftJs = __webpack_require__(43);
 	
 	function noop(args) {}
 	function getSelectedBlock(editorState) {
@@ -294,7 +294,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 311:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -333,7 +333,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 312:
+/***/ 309:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -346,11 +346,11 @@ webpackJsonp([3],{
 	
 	var React = _interopRequireWildcard(_react);
 	
-	var _classnames2 = __webpack_require__(309);
+	var _classnames2 = __webpack_require__(306);
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _utils = __webpack_require__(310);
+	var _utils = __webpack_require__(307);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -389,7 +389,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 313:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -402,11 +402,11 @@ webpackJsonp([3],{
 	
 	var React = _interopRequireWildcard(_react);
 	
-	var _classnames2 = __webpack_require__(309);
+	var _classnames2 = __webpack_require__(306);
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _utils = __webpack_require__(310);
+	var _utils = __webpack_require__(307);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -445,7 +445,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 314:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -458,13 +458,13 @@ webpackJsonp([3],{
 	
 	var React = _interopRequireWildcard(_react);
 	
-	var _classnames2 = __webpack_require__(309);
+	var _classnames2 = __webpack_require__(306);
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _draftJs = __webpack_require__(163);
+	var _draftJs = __webpack_require__(43);
 	
-	var _utils = __webpack_require__(310);
+	var _utils = __webpack_require__(307);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -514,7 +514,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 315:
+/***/ 312:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -527,13 +527,13 @@ webpackJsonp([3],{
 	
 	var React = _interopRequireWildcard(_react);
 	
-	var _classnames2 = __webpack_require__(309);
+	var _classnames2 = __webpack_require__(306);
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _draftJs = __webpack_require__(163);
+	var _draftJs = __webpack_require__(43);
 	
-	var _utils = __webpack_require__(310);
+	var _utils = __webpack_require__(307);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -583,7 +583,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 316:
+/***/ 313:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -592,7 +592,7 @@ webpackJsonp([3],{
 	  value: true
 	});
 	
-	var _EditorPluginEmoji = __webpack_require__(317);
+	var _EditorPluginEmoji = __webpack_require__(314);
 	
 	var _EditorPluginEmoji2 = _interopRequireDefault(_EditorPluginEmoji);
 	
@@ -604,7 +604,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 317:
+/***/ 314:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -619,23 +619,23 @@ webpackJsonp([3],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _classnames = __webpack_require__(309);
+	var _classnames = __webpack_require__(306);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
-	var _draftJs = __webpack_require__(163);
+	var _draftJs = __webpack_require__(43);
 	
-	var _util = __webpack_require__(318);
+	var _util = __webpack_require__(315);
 	
-	var _EmojiButton = __webpack_require__(319);
+	var _EmojiButton = __webpack_require__(316);
 	
 	var _EmojiButton2 = _interopRequireDefault(_EmojiButton);
 	
-	var _EmojiIcon = __webpack_require__(322);
+	var _EmojiIcon = __webpack_require__(319);
 	
 	var _EmojiIcon2 = _interopRequireDefault(_EmojiIcon);
 	
-	var _EmojiRaw = __webpack_require__(323);
+	var _EmojiRaw = __webpack_require__(320);
 	
 	var _EmojiRaw2 = _interopRequireDefault(_EmojiRaw);
 	
@@ -707,7 +707,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 318:
+/***/ 315:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -720,7 +720,7 @@ webpackJsonp([3],{
 	exports.insertEntity = insertEntity;
 	exports.exportEntity = exportEntity;
 	
-	var _draftJs = __webpack_require__(163);
+	var _draftJs = __webpack_require__(43);
 	
 	function replaceEntity(editorState, selection, text, entity) {
 	  var content = editorState.getCurrentContent();
@@ -757,7 +757,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 319:
+/***/ 316:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -770,11 +770,11 @@ webpackJsonp([3],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _classnames2 = __webpack_require__(309);
+	var _classnames2 = __webpack_require__(306);
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _EmojiPicker = __webpack_require__(320);
+	var _EmojiPicker = __webpack_require__(317);
 	
 	var _EmojiPicker2 = _interopRequireDefault(_EmojiPicker);
 	
@@ -857,7 +857,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 320:
+/***/ 317:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -870,11 +870,11 @@ webpackJsonp([3],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _emojisList = __webpack_require__(321);
+	var _emojisList = __webpack_require__(318);
 	
 	var _emojisList2 = _interopRequireDefault(_emojisList);
 	
-	var _classnames3 = __webpack_require__(309);
+	var _classnames3 = __webpack_require__(306);
 	
 	var _classnames4 = _interopRequireDefault(_classnames3);
 	
@@ -966,7 +966,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 321:
+/***/ 318:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -980,7 +980,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 322:
+/***/ 319:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1012,11 +1012,11 @@ webpackJsonp([3],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _classnames = __webpack_require__(309);
+	var _classnames = __webpack_require__(306);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
-	var _draftJs = __webpack_require__(163);
+	var _draftJs = __webpack_require__(43);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -1030,14 +1030,15 @@ webpackJsonp([3],{
 	  fontSize: 32,
 	  height: 32,
 	  display: 'inline-block',
-	  backgroundSize: '100%'
+	  backgroundSize: '100%',
+	  overflow: 'hidden'
 	};
 	
 	module.exports = exports['default'];
 
 /***/ },
 
-/***/ 323:
+/***/ 320:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1050,15 +1051,15 @@ webpackJsonp([3],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _draftJs = __webpack_require__(163);
+	var _draftJs = __webpack_require__(43);
 	
-	var _emojisList = __webpack_require__(321);
+	var _emojisList = __webpack_require__(318);
 	
 	var _emojisList2 = _interopRequireDefault(_emojisList);
 	
-	var _util = __webpack_require__(318);
+	var _util = __webpack_require__(315);
 	
-	var _DraftOffsetKey = __webpack_require__(226);
+	var _DraftOffsetKey = __webpack_require__(227);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -1143,10 +1144,10 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 324:
+/***/ 321:
 2,
 
-/***/ 327:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1159,19 +1160,19 @@ webpackJsonp([3],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(213);
+	var _reactDom = __webpack_require__(91);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcEditorPluginBasicStyle = __webpack_require__(306);
+	var _rcEditorPluginBasicStyle = __webpack_require__(303);
 	
 	var _rcEditorPluginBasicStyle2 = _interopRequireDefault(_rcEditorPluginBasicStyle);
 	
-	var _rcEditorPluginEmoji = __webpack_require__(316);
+	var _rcEditorPluginEmoji = __webpack_require__(313);
 	
 	var _rcEditorPluginEmoji2 = _interopRequireDefault(_rcEditorPluginEmoji);
 	
-	__webpack_require__(324);
+	__webpack_require__(321);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
