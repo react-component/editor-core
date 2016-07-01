@@ -705,7 +705,6 @@ webpackJsonp([2],{
 	exports["default"] = Emoji;
 	module.exports = exports['default'];
 
-
 /***/ },
 
 /***/ 318:
@@ -727,7 +726,7 @@ webpackJsonp([2],{
 	  var content = editorState.getCurrentContent();
 	  var insertContent = _draftJs.Modifier.replaceText(content, selection, text, {}, entity);
 	
-	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), '');
+	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), ' ');
 	  return _draftJs.EditorState.push(editorState, InsertSpaceContent, 'replace-entity');
 	}
 	
@@ -745,7 +744,7 @@ webpackJsonp([2],{
 	  var entityKey = createEntity(entityType, data, entityMode);
 	  var insertContent = _draftJs.Modifier.insertText(content, selection, ' ', {}, entityKey);
 	
-	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), '');
+	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), ' ');
 	
 	  var newEditorState = _draftJs.EditorState.push(editorState, InsertSpaceContent, 'insert-entity');
 	  return _draftJs.EditorState.forceSelection(newEditorState, InsertSpaceContent.getSelectionAfter());
@@ -755,7 +754,6 @@ webpackJsonp([2],{
 	  console.log('> exportEneity', entityData);
 	  return '' + entityData.emoji.shortCut;
 	}
-
 
 /***/ },
 
@@ -1173,12 +1171,15 @@ webpackJsonp([2],{
 	
 	var _rcEditorPluginEmoji2 = _interopRequireDefault(_rcEditorPluginEmoji);
 	
+	var _draftJs = __webpack_require__(163);
+	
 	__webpack_require__(324);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var plugins = [_rcEditorPluginBasicStyle2.default, _rcEditorPluginEmoji2.default]; // use jsx to render html, do not modify simple.html
+	// use jsx to render html, do not modify simple.html
 	
+	var plugins = [_rcEditorPluginBasicStyle2.default, _rcEditorPluginEmoji2.default];
 	var toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
 	
 	function editorChange(editorState) {

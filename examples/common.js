@@ -284,7 +284,7 @@
 	    EditorCore.prototype.SetText = function SetText(text) {
 	        var createTextContentState = _draftJs.ContentState.createFromText(text || '');
 	        var editorState = _draftJs.EditorState.push(this.state.editorState, createTextContentState, 'editor-setText');
-	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createTextContentState.getSelectionAfter()));
+	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createTextContentState.getSelectionAfter()), true);
 	    };
 	
 	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
@@ -29305,6 +29305,7 @@
 	 * Define proxies that can route events to the current handler.
 	 */
 
+
 /***/ },
 /* 205 */
 /***/ function(module, exports, __webpack_require__) {
@@ -29362,6 +29363,7 @@
 	   * mode. Continue the current composition session to prevent a re-render.
 	   */
 	  onCompositionStart: function onCompositionStart() {
+	    console.log('>> onCompositionStart');
 	    stillComposing = true;
 	  },
 	
@@ -29380,6 +29382,7 @@
 	   * Google Input Tools on Windows 8.1 fires `compositionend` three times.
 	   */
 	  onCompositionEnd: function onCompositionEnd() {
+	    console.log('>> onCompositionEnd');
 	    var _this = this;
 	
 	    resolved = false;
@@ -29472,6 +29475,7 @@
 	};
 	
 	module.exports = DraftEditorCompositionHandler;
+
 
 /***/ },
 /* 206 */
@@ -29876,6 +29880,7 @@
 	
 	module.exports = DraftEditorContents;
 
+
 /***/ },
 /* 210 */
 /***/ function(module, exports, __webpack_require__) {
@@ -30067,7 +30072,7 @@
 	      var _props = this.props;
 	      var direction = _props.direction;
 	      var offsetKey = _props.offsetKey;
-	
+	      console.log('> renderChildren', _props);
 	      var className = cx({
 	        'public/DraftStyleDefault/block': true,
 	        'public/DraftStyleDefault/ltr': direction === 'LTR',
@@ -30090,6 +30095,7 @@
 	}
 	
 	module.exports = DraftEditorBlock;
+
 
 /***/ },
 /* 211 */

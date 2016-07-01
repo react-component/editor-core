@@ -705,7 +705,6 @@ webpackJsonp([3],{
 	exports["default"] = Emoji;
 	module.exports = exports['default'];
 
-
 /***/ },
 
 /***/ 318:
@@ -727,7 +726,7 @@ webpackJsonp([3],{
 	  var content = editorState.getCurrentContent();
 	  var insertContent = _draftJs.Modifier.replaceText(content, selection, text, {}, entity);
 	
-	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), '');
+	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), ' ');
 	  return _draftJs.EditorState.push(editorState, InsertSpaceContent, 'replace-entity');
 	}
 	
@@ -745,7 +744,7 @@ webpackJsonp([3],{
 	  var entityKey = createEntity(entityType, data, entityMode);
 	  var insertContent = _draftJs.Modifier.insertText(content, selection, ' ', {}, entityKey);
 	
-	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), '');
+	  var InsertSpaceContent = _draftJs.Modifier.insertText(insertContent, insertContent.getSelectionAfter(), ' ');
 	
 	  var newEditorState = _draftJs.EditorState.push(editorState, InsertSpaceContent, 'insert-entity');
 	  return _draftJs.EditorState.forceSelection(newEditorState, InsertSpaceContent.getSelectionAfter());
@@ -755,7 +754,6 @@ webpackJsonp([3],{
 	  console.log('> exportEneity', entityData);
 	  return '' + entityData.emoji.shortCut;
 	}
-
 
 /***/ },
 
