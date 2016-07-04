@@ -481,11 +481,11 @@
 	        var Toolbar = toolbar.component;
 	        return React.createElement(
 	            'div',
-	            { className: prefixCls + '-editor', onClick: this.focus.bind(this) },
+	            { style: style, className: prefixCls + '-editor', onClick: this.focus.bind(this) },
 	            React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
 	            React.createElement(
 	                'div',
-	                { className: prefixCls + '-editor-wrapper', style: style },
+	                { className: prefixCls + '-editor-wrapper' },
 	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) })),
 	                this.props.children
 	            )
