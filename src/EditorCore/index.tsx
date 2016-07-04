@@ -43,6 +43,8 @@ export interface EditorProps {
   onKeyDown?: (ev:any) => boolean;
   defaultValue?: string;
   placeholder?: string;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 export interface EditorCoreState {
@@ -189,8 +191,6 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
   }
 
-
-
   public initPlugins() : Array<any> {
     return this.getPlugins().map(plugin => {
       // console.log('>> plugin', plugin);
@@ -279,7 +279,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   render() {
-    const { prefixCls, toolbars, style } = this.props;
+    const { prefixCls, toolbars, style, onFocus, onBlur } = this.props;
     const { editorState, toolbarPlugins, customStyleMap } = this.state;
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
@@ -295,7 +295,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         plugins={toolbarPlugins}
         toolbars={toolbars}
       />
-      <div className={`${prefixCls}-editor-wrapper`}  >
+      <div className={`${prefixCls}-editor-wrapper`}  style={style}>
         <Editor
           {...eventHandler}
           {...this.props}
@@ -305,6 +305,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           handleKeyCommand={this.handleKeyCommand.bind(this)}
           keyBindingFn={this.handleKeyBinding.bind(this)}
           onChange={this.onChange.bind(this)}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         {this.props.children}
       </div>

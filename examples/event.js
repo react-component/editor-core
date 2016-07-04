@@ -19,5 +19,7 @@ const toolbars = [];
 
 ReactDOM.render(<EditorCore
   plugins={plugins}
+  onFocus={() => console.log('on focus')}
+  onBlur={() => console.log('on blur')}
   toolbars={toolbars}
 />, document.getElementById('__react-content'));
