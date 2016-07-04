@@ -46,6 +46,12 @@ webpackJsonp([1],{
 	
 	_reactDom2.default.render(_react2.default.createElement(_rcEditorCore.EditorCore, {
 	  plugins: plugins,
+	  onFocus: function onFocus() {
+	    return console.log('on focus');
+	  },
+	  onBlur: function onBlur() {
+	    return console.log('on blur');
+	  },
 	  toolbars: toolbars
 	}), document.getElementById('__react-content'));
 

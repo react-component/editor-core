@@ -472,6 +472,8 @@
 	        var prefixCls = _props.prefixCls;
 	        var toolbars = _props.toolbars;
 	        var style = _props.style;
+	        var onFocus = _props.onFocus;
+	        var onBlur = _props.onBlur;
 	        var _state = this.state;
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
@@ -486,7 +488,7 @@
 	            React.createElement(
 	                'div',
 	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) })),
+	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this), onFocus: onFocus, onBlur: onBlur })),
 	                this.props.children
 	            )
 	        );
