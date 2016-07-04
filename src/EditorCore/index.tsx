@@ -284,6 +284,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
     return (<div
+      style={style}
       className={`${prefixCls}-editor`}
       onClick={this.focus.bind(this)}
     >
@@ -294,7 +295,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         plugins={toolbarPlugins}
         toolbars={toolbars}
       />
-      <div className={`${prefixCls}-editor-wrapper`} style={style}>
+      <div className={`${prefixCls}-editor-wrapper`}  >
         <Editor
           {...eventHandler}
           {...this.props}
@@ -305,6 +306,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           keyBindingFn={this.handleKeyBinding.bind(this)}
           onChange={this.onChange.bind(this)}
         />
+        {this.props.children}
       </div>
     </div>);
   }
