@@ -1003,7 +1003,7 @@ webpackJsonp([2],{
 	  var emojiStyle = _extends({}, iconStyle, { backgroundImage: 'url(\'' + emoji.url + '\')' });
 	  return _react2["default"].createElement(
 	    'span',
-	    { style: emojiStyle, className: className },
+	    { style: emojiStyle, contentEditable: false, className: className },
 	    props.children
 	  );
 	};
@@ -1121,7 +1121,9 @@ webpackJsonp([2],{
 	      focusOffset: endKey
 	    });
 	    if (emojiMap.hasOwnProperty(decoratedText)) {
-	      setEditorState((0, _util.replaceEntity)(editorState, updatedSelection, ' ', (0, _util.createEntity)('emoji', { emoji: emojiMap[decoratedText], "export": _util.exportEntity })));
+	      var newEditorState = (0, _util.replaceEntity)(editorState, updatedSelection, ' ', (0, _util.createEntity)('emoji', { emoji: emojiMap[decoratedText], "export": _util.exportEntity }));
+	
+	      setEditorState(_draftJs.EditorState.moveFocusToEnd(newEditorState));
 	    }
 	    // if (emojiMap.hasOwnProperty(decoratedText)) {
 	    //   Entity.replaceData(entityKey, emojiMap[decoratedText]);
