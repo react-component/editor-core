@@ -51,7 +51,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		4:0
+/******/ 		5:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -97,7 +97,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"controllered","1":"event","2":"simple","3":"value"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"controllered","1":"event","2":"plugin","3":"simple","4":"value"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -305,7 +305,7 @@
 	        }).toArray() : [];
 	    };
 	
-	    EditorCore.prototype.componentWillMount = function componentWillMount() {
+	    EditorCore.prototype.updateEditorPlugins = function updateEditorPlugins() {
 	        var plugins = this.initPlugins().concat([toolbar]);
 	        var customStyleMap = {};
 	        // initialize compositeDecorator
@@ -338,6 +338,10 @@
 	        });
 	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
 	    };
+	
+	    EditorCore.prototype.componentWillMount = function componentWillMount() {
+	        this.updateEditorPlugins();
+	    };
 	    //  处理　value　
 	
 	
@@ -367,6 +371,15 @@
 	
 	    EditorCore.prototype.focus = function focus() {
 	        this.refs.editor.focus();
+	    };
+	
+	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        console.log('>> componentWillReceiveProps', nextProps);
+	        this.plugins = (0, _immutable.List)((0, _immutable.List)(nextProps.plugins).flatten(true));
+	        this.setState({
+	            plugins: this.reloadPlugins()
+	        });
+	        this.updateEditorPlugins();
 	    };
 	
 	    EditorCore.prototype.getPlugins = function getPlugins() {
@@ -38233,6 +38246,14 @@
 	        };
 	        return _this;
 	    }
+	
+	    Toolbar.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        var map = {};
+	        nextProps.plugins.forEach(function (plugin) {
+	            map[plugin.name] = plugin;
+	        });
+	        this.pluginsMap = (0, _immutable.Map)(map);
+	    };
 	
 	    Toolbar.prototype.renderToolbarItem = function renderToolbarItem(pluginName, idx) {
 	        var element = this.pluginsMap.get(pluginName);
