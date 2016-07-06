@@ -71,7 +71,8 @@ webpackJsonp([2],{
 	  displayName: 'EditorWrapper',
 	  getInitialState: function getInitialState() {
 	    return {
-	      plugins: []
+	      plugins: [],
+	      children: null
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
@@ -79,36 +80,44 @@ webpackJsonp([2],{
 	
 	    var i = 0;
 	    setInterval(function () {
+	      // i++;
+	      // this.setState({
+	      //   plugins:[{
+	      //     name: 'test',
+	      //     callbacks: {
+	      //       getEditorState: () => {},
+	      //       setEditorState: () => {},
+	      //     },
+	      //     component: <div>{i}</div>
+	      //   }]
+	      // });
 	      i++;
 	      _this.setState({
-	        plugins: [{
-	          name: 'test',
-	          callbacks: {
-	            getEditorState: function getEditorState() {},
-	            setEditorState: function setEditorState() {}
-	          },
-	          component: _react2.default.createElement(
-	            'div',
-	            null,
-	            i
-	          )
-	        }]
+	        children: _react2.default.createElement(
+	          'div',
+	          null,
+	          i
+	        )
 	      });
 	    }, 1000);
 	  },
 	  render: function render() {
 	    console.log('>> render', this.state.plugins);
-	    return _react2.default.createElement(_rcEditorCore.EditorCore, {
-	      plugins: this.state.plugins,
-	      toolbars: toolbars,
-	      placeholder: 'input text here',
-	      onKeyDown: function onKeyDown(ev) {
-	        return keyDown(ev);
+	    return _react2.default.createElement(
+	      _rcEditorCore.EditorCore,
+	      {
+	        plugins: plugins,
+	        toolbars: toolbars,
+	        placeholder: 'input text here',
+	        onKeyDown: function onKeyDown(ev) {
+	          return keyDown(ev);
+	        },
+	        onChange: function onChange(editorState) {
+	          return editorChange(editorState);
+	        }
 	      },
-	      onChange: function onChange(editorState) {
-	        return editorChange(editorState);
-	      }
-	    });
+	      this.state.children
+	    );
 	  }
 	});
 	

@@ -374,8 +374,10 @@
 	    };
 	
 	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	        console.log('>> componentWillReceiveProps', nextProps);
-	        this.plugins = (0, _immutable.List)((0, _immutable.List)(nextProps.plugins).flatten(true));
+	        var newPlugins = (0, _immutable.List)((0, _immutable.List)(nextProps.plugins).flatten(true));
+	        if (newPlugins.equals(this.plugins)) {
+	            return;
+	        }
 	        this.setState({
 	            plugins: this.reloadPlugins()
 	        });
