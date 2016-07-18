@@ -407,7 +407,7 @@
 	    };
 	
 	    EditorCore.prototype.getEditorState = function getEditorState() {
-	        return this.state.editorState;
+	        return this.controlledMode ? this.props.value : this.state.editorState;
 	    };
 	
 	    EditorCore.prototype.setEditorState = function setEditorState(editorState) {
