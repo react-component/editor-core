@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>plugin.js - example - rc-editor-core@0.3.28-beta</title>
+  <title>plugin.js - example - rc-editor-core@0.3.28-beta2</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.3.28-beta</h1>
+      <h1>rc-editor-core@0.3.28-beta2</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -324,6 +324,7 @@ const EditorWrapper = React.createClass({
     };
   },
   onChange(editorState) {
+    console.log('&gt;&gt; onChange', editorState.getDecorator());
     this.setState({
       editorState,
     });
@@ -332,7 +333,7 @@ const EditorWrapper = React.createClass({
     return <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
       <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
       <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
-      <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">"input text here"</span>
+      <span class="hljs-attribute">defaultValue</span>=<span class="hljs-value">"input text here"</span>
       <span class="hljs-attribute">onKeyDown</span>=<span class="hljs-value">{(ev)</span> =&gt;</span> keyDown(ev)}
       onChange={this.onChange}
       value={this.state.editorState}

@@ -99,6 +99,7 @@ webpackJsonp([2],{
 	    };
 	  },
 	  onChange: function onChange(editorState) {
+	    console.log('>> onChange', editorState.getDecorator());
 	    this.setState({
 	      editorState: editorState
 	    });
@@ -107,7 +108,7 @@ webpackJsonp([2],{
 	    return _react2.default.createElement(_rcEditorCore.EditorCore, {
 	      plugins: plugins,
 	      toolbars: toolbars,
-	      placeholder: 'input text here',
+	      defaultValue: 'input text here',
 	      onKeyDown: function onKeyDown(ev) {
 	        return keyDown(ev);
 	      },

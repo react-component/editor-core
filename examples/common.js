@@ -246,9 +246,20 @@
 	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 	
 	        _this.plugins = (0, _immutable.List)((0, _immutable.List)(props.plugins).flatten(true));
+	        var editorState = void 0;
+	        if (props.value !== undefined) {
+	            if (props.value instanceof _draftJs.EditorState) {
+	                editorState = props.value;
+	            } else {
+	                editorState = _draftJs.EditorState.createEmpty();
+	            }
+	        } else {
+	            editorState = _draftJs.EditorState.createEmpty();
+	        }
+	        editorState = _this.generatorDefaultValue(editorState);
 	        _this.state = {
 	            plugins: _this.reloadPlugins(),
-	            editorState: props.value ? props.value : _draftJs.EditorState.createEmpty(),
+	            editorState: editorState,
 	            customStyleMap: {}
 	        };
 	        if (props.value !== undefined) {
@@ -344,7 +355,6 @@
 	    };
 	
 	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	        console.log('>> componentWillReceiveProps', this.controlledMode);
 	        if (this.controlledMode) {
 	            this.setState({
 	                editorState: nextProps.value
@@ -354,8 +364,7 @@
 	    //  处理　value　
 	
 	
-	    EditorCore.prototype.componentDidMount = function componentDidMount() {
-	        var editorState = this.state.editorState;
+	    EditorCore.prototype.generatorDefaultValue = function generatorDefaultValue(editorState) {
 	        var defaultValue = this.props.defaultValue;
 	
 	        if (defaultValue) {
@@ -363,8 +372,9 @@
 	            var content = editorState.getCurrentContent();
 	            var insertContent = _draftJs.Modifier.insertText(content, selection, defaultValue, {});
 	            var newEditorState = _draftJs.EditorState.push(editorState, insertContent, 'init-editor');
-	            return this.setEditorState(_draftJs.EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter()));
+	            return _draftJs.EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter());
 	        }
+	        return editorState;
 	    };
 	
 	    EditorCore.prototype.initPlugins = function initPlugins() {
