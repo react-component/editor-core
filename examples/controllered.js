@@ -41,10 +41,6 @@ webpackJsonp([0],{
 	
 	var toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
 	
-	function editorChange(editorState) {
-	  console.log('>> editorExport:', (0, _rcEditorCore.GetText)(editorState));
-	}
-	
 	function keyDown(ev) {
 	  if (ev.keyCode === 13 && ev.ctrlKey) {
 	    return 'split-block';
@@ -55,8 +51,14 @@ webpackJsonp([0],{
 	  displayName: 'Editor',
 	  getInitialState: function getInitialState() {
 	    return {
-	      defaultValue: "hello world"
+	      defaultValue: "hello world",
+	      value: null
 	    };
+	  },
+	  editorChange: function editorChange(editorState) {
+	    this.setState({
+	      value: editorState
+	    });
 	  },
 	  reset: function reset() {
 	    this.refs.editor.SetText('照日深红暖见鱼，\n连村绿暗晚藏乌。\n黄童白叟聚瞧盱。\n麋鹿逢人虽未惯，\n猿猱闻鼓不须呼。\n归家说与采桑姑。');
@@ -77,9 +79,8 @@ webpackJsonp([0],{
 	        onKeyDown: function onKeyDown(ev) {
 	          return keyDown(ev);
 	        },
-	        onChange: function onChange(editorState) {
-	          return editorChange(editorState);
-	        }
+	        onChange: this.editorChange,
+	        value: this.state.value
 	      })
 	    );
 	  }

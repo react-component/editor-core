@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>controllered.js - example - rc-editor-core@0.3.26-beta2</title>
+  <title>controllered.js - example - rc-editor-core@0.3.26</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.3.26-beta2</h1>
+      <h1>rc-editor-core@0.3.26</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -277,10 +277,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">const</span> plugins = [BasicStyle, Emoji];
 <span class="hljs-keyword">const</span> toolbars = [[<span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'strikethrough'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'superscript'</span>, <span class="hljs-string">'subscript'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'emoji'</span>]];
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">editorChange</span>(<span class="hljs-params">editorState</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; editorExport:'</span>, GetText(editorState));
-}
-
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">keyDown</span>(<span class="hljs-params">ev</span>) </span>{
   <span class="hljs-keyword">if</span> (ev.keyCode === <span class="hljs-number">13</span> &amp;&amp; ev.ctrlKey) {
     <span class="hljs-keyword">return</span> <span class="hljs-string">'split-block'</span>;
@@ -291,7 +287,13 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   getInitialState() {
     <span class="hljs-keyword">return</span> {
       defaultValue: <span class="hljs-string">"hello world"</span>,
+      value: <span class="hljs-literal">null</span>,
     };
+  },
+  editorChange(editorState) {
+    <span class="hljs-keyword">this</span>.setState({
+      value: editorState,
+    });
   },
   reset() {
     <span class="hljs-keyword">this</span>.refs.editor.SetText(<span class="hljs-string">`照日深红暖见鱼，
@@ -309,7 +311,8 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
         <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
         <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
         <span class="hljs-attribute">onKeyDown</span>=<span class="hljs-value">{(ev)</span> =&gt;</span> keyDown(ev)}
-        onChange={(editorState) =&gt; editorChange(editorState)}
+        onChange={this.editorChange}
+        value={this.state.value}
       /&gt;
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   }

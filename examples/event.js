@@ -52,11 +52,7 @@ webpackJsonp([1],{
 	  onBlur: function onBlur() {
 	    return console.log('on blur');
 	  },
-	  toolbars: toolbars,
-	  handlePastedFiles: function handlePastedFiles(files) {
-	    console.log('handlePastedFiles', files);
-	    return true;
-	  }
+	  toolbars: toolbars
 	}), document.getElementById('__react-content'));
 
 /***/ }

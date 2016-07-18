@@ -251,6 +251,10 @@
 	            editorState: _draftJs.EditorState.createEmpty(),
 	            customStyleMap: {}
 	        };
+	        if (props.value !== undefined) {
+	            _this.controlledMode = true;
+	            console.warn('this component is in controllred mode');
+	        }
 	        return _this;
 	    }
 	
@@ -305,7 +309,15 @@
 	        }).toArray() : [];
 	    };
 	
-	    EditorCore.prototype.updateEditorPlugins = function updateEditorPlugins() {
+	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        if (this.controlledMode) {
+	            this.setState({
+	                editorState: nextProps.value
+	            });
+	        }
+	    };
+	
+	    EditorCore.prototype.componentWillMount = function componentWillMount() {
 	        var plugins = this.initPlugins().concat([toolbar]);
 	        var customStyleMap = {};
 	        // initialize compositeDecorator
@@ -338,10 +350,6 @@
 	        });
 	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
 	    };
-	
-	    EditorCore.prototype.componentWillMount = function componentWillMount() {
-	        this.updateEditorPlugins();
-	    };
 	    //  处理　value　
 	
 	
@@ -371,17 +379,6 @@
 	
 	    EditorCore.prototype.focus = function focus() {
 	        this.refs.editor.focus();
-	    };
-	
-	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	        var newPlugins = (0, _immutable.List)((0, _immutable.List)(nextProps.plugins).flatten(true));
-	        if (newPlugins.equals(this.plugins)) {
-	            return;
-	        }
-	        this.setState({
-	            plugins: this.reloadPlugins()
-	        });
-	        this.updateEditorPlugins();
 	    };
 	
 	    EditorCore.prototype.getPlugins = function getPlugins() {
@@ -421,11 +418,13 @@
 	        if (this.props.onChange) {
 	            this.props.onChange(editorState);
 	        }
-	        this.setState({ editorState: editorState }, focusEditor ? function () {
-	            return setTimeout(function () {
-	                return _this4.refs.editor.focus();
-	            }, 100);
-	        } : noop);
+	        if (!this.controlledMode) {
+	            this.setState({ editorState: editorState }, focusEditor ? function () {
+	                return setTimeout(function () {
+	                    return _this4.refs.editor.focus();
+	                }, 100);
+	            } : noop);
+	        }
 	    };
 	
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
@@ -13773,6 +13772,7 @@
 	/**
 	 * Define proxies that can route events to the current handler.
 	 */
+
 
 /***/ },
 /* 83 */
@@ -36268,6 +36268,9 @@
 	
 	  // Get files, unless this is likely to be a string the user wants inline.
 	  if (!data.isRichText()) {
+	    if (e.clipboardData.items && e.clipboardData.items.length) {
+	      
+	    }
 	    var files = data.getFiles();
 	    var defaultFileText = data.getText();
 	    if (files.length > 0) {
@@ -36373,6 +36376,7 @@
 	}
 	
 	module.exports = editOnPaste;
+
 
 /***/ },
 /* 278 */
@@ -38248,14 +38252,6 @@
 	        };
 	        return _this;
 	    }
-	
-	    Toolbar.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	        var map = {};
-	        nextProps.plugins.forEach(function (plugin) {
-	            map[plugin.name] = plugin;
-	        });
-	        this.pluginsMap = (0, _immutable.Map)(map);
-	    };
 	
 	    Toolbar.prototype.renderToolbarItem = function renderToolbarItem(pluginName, idx) {
 	        var element = this.pluginsMap.get(pluginName);
