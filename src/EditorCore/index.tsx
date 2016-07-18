@@ -45,6 +45,7 @@ export interface EditorProps {
   placeholder?: string;
   onFocus?: () => void;
   onBlur?: () => void;
+  value?: EditorState;
 }
 
 export interface EditorCoreState {
@@ -97,6 +98,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   public state : EditorCoreState;
   private plugins: any;
+  private controlledMode: boolean;
   constructor(props: EditorProps) {
     super(props);
     this.plugins = List(List(props.plugins).flatten(true));
@@ -105,6 +107,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       editorState: EditorState.createEmpty(),
       customStyleMap: {},
     };
+    if (props.value !== undefined) {
+      this.controlledMode = true;
+      console.warn('this component is in controllred mode');
+    }
   }
 
   refs: {
@@ -134,7 +140,13 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return false
     }).filter(plugin => plugin).toArray() : [];
   }
-
+  public componentWillReceiveProps(nextProps) {
+    if (this.controlledMode) {
+      this.setState({
+        editorState: nextProps.value,
+      });
+    }
+  }
   public componentWillMount() : void {
     const plugins = this.initPlugins().concat([toolbar]);
     const customStyleMap = {};
@@ -235,7 +247,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     if (this.props.onChange) {
       this.props.onChange(editorState);
     }
-    this.setState({ editorState }, focusEditor ? () => setTimeout(() => this.refs.editor.focus(), 100) : noop);
+    if (!this.controlledMode) {
+      this.setState({editorState}, focusEditor ? () => setTimeout(() => this.refs.editor.focus(), 100) : noop);
+    }
   }
   public handleKeyBinding(ev): boolean {
     if (this.props.onKeyDown) {

@@ -11,10 +11,6 @@ import 'rc-editor-plugin-emoji/assets/index.css';
 const plugins = [BasicStyle, Emoji];
 const toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
 
-function editorChange(editorState) {
-  console.log('>> editorExport:', GetText(editorState));
-}
-
 function keyDown(ev) {
   if (ev.keyCode === 13 && ev.ctrlKey) {
     return 'split-block';
@@ -25,7 +21,13 @@ const Editor = React.createClass({
   getInitialState() {
     return {
       defaultValue: "hello world",
+      value: null,
     };
+  },
+  editorChange(editorState) {
+    this.setState({
+      value: editorState,
+    });
   },
   reset() {
     this.refs.editor.SetText(`照日深红暖见鱼，
@@ -43,7 +45,8 @@ const Editor = React.createClass({
         plugins={plugins}
         toolbars={toolbars}
         onKeyDown={(ev) => keyDown(ev)}
-        onChange={(editorState) => editorChange(editorState)}
+        onChange={this.editorChange}
+        value={this.state.value}
       />
     </div>);
   }
