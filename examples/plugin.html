@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>plugin.js - example - rc-editor-core@0.3.27</title>
+  <title>plugin.js - example - rc-editor-core@0.3.28-beta</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.3.27</h1>
+      <h1>rc-editor-core@0.3.28-beta</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -273,6 +273,19 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> { Entity } <span class="hljs-keyword">from</span> <span class="hljs-string">'draft-js'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-plugin-emoji/assets/index.css'</span>;
 
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findWithRegex</span>(<span class="hljs-params">regex, contentBlock, callback</span>) </span>{
+  <span class="hljs-comment">// Get the text from the contentBlock</span>
+  <span class="hljs-keyword">const</span> text = contentBlock.getText();
+  <span class="hljs-keyword">let</span> matchArr;
+  <span class="hljs-keyword">let</span> start; <span class="hljs-comment">// eslint-disable-line</span>
+  <span class="hljs-comment">// Go through all matches in the text and return the indizes to the callback</span>
+  <span class="hljs-keyword">while</span> ((matchArr = regex.exec(text)) !== <span class="hljs-literal">null</span>) { <span class="hljs-comment">// eslint-disable-line</span>
+    start = matchArr.index;
+    callback(start, start + matchArr[<span class="hljs-number">0</span>].length);
+  }
+}
+
+<span class="hljs-keyword">const</span> suggestionRegex = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">`(\\s|^)@[\\w]*`</span>, <span class="hljs-string">'g'</span>);
 
 <span class="hljs-keyword">const</span> Test = {
   name: <span class="hljs-string">'test'</span>,
@@ -280,15 +293,17 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     getEditorState: () =&gt; {},
     setEditorState: () =&gt; {},
   },
-  component: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>123<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  component: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>123<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>,
+  decorators: [{
+    strategy: (contentBlock, callback) =&gt; {
+      findWithRegex(suggestionRegex, contentBlock, callback);
+    },
+    component: (props) =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{color:</span> '<span class="hljs-attribute">red</span>'}}&gt;</span>{props.children}<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+  }],
 };
 
 const plugins = [Test];
 const toolbars = [['test']];
-
-function editorChange(editorState) {
-  console.log('&gt;&gt; editorExport:', GetText(editorState));
-}
 
 function keyDown(ev) {
   console.log('&gt;&gt; keydown', ev.keyCode, ev.ctrlKey);
@@ -305,39 +320,23 @@ const EditorWrapper = React.createClass({
   getInitialState() {
     return {
       plugins: [],
-      children: null,
+      editorState: null,
     };
   },
-  componentDidMount() {
-    let i = 0;
-    setInterval( () =&gt; {
-      // i++;
-      // this.setState({
-      //   plugins:[{
-      //     name: 'test',
-      //     callbacks: {
-      //       getEditorState: () =&gt; {},
-      //       setEditorState: () =&gt; {},
-      //     },
-      //     component: <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>{i}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-      //   }]
-      // });
-      i++;
-      this.setState({
-        children: <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>{i}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-      });
-    }, 1000);
+  onChange(editorState) {
+    this.setState({
+      editorState,
+    });
   },
   render() {
-    console.log('&gt;&gt; render', this.state.plugins);
     return <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
       <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
       <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
       <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">"input text here"</span>
       <span class="hljs-attribute">onKeyDown</span>=<span class="hljs-value">{(ev)</span> =&gt;</span> keyDown(ev)}
-      onChange={(editorState) =&gt; editorChange(editorState)}
+      onChange={this.onChange}
+      value={this.state.editorState}
     &gt;
-      {this.state.children}
     <span class="hljs-tag">&lt;/<span class="hljs-title">EditorCore</span>&gt;</span>;</span>
   }
 });

@@ -248,7 +248,7 @@
 	        _this.plugins = (0, _immutable.List)((0, _immutable.List)(props.plugins).flatten(true));
 	        _this.state = {
 	            plugins: _this.reloadPlugins(),
-	            editorState: _draftJs.EditorState.createEmpty(),
+	            editorState: props.value ? props.value : _draftJs.EditorState.createEmpty(),
 	            customStyleMap: {}
 	        };
 	        if (props.value !== undefined) {
@@ -309,14 +309,6 @@
 	        }).toArray() : [];
 	    };
 	
-	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	        if (this.controlledMode) {
-	            this.setState({
-	                editorState: nextProps.value
-	            });
-	        }
-	    };
-	
 	    EditorCore.prototype.componentWillMount = function componentWillMount() {
 	        var plugins = this.initPlugins().concat([toolbar]);
 	        var customStyleMap = {};
@@ -349,6 +341,15 @@
 	            customStyleMap: customStyleMap
 	        });
 	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
+	    };
+	
+	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        console.log('>> componentWillReceiveProps', this.controlledMode);
+	        if (this.controlledMode) {
+	            this.setState({
+	                editorState: nextProps.value
+	            });
+	        }
 	    };
 	    //  处理　value　
 	
@@ -407,7 +408,7 @@
 	    };
 	
 	    EditorCore.prototype.getEditorState = function getEditorState() {
-	        return this.controlledMode ? this.props.value : this.state.editorState;
+	        return this.state.editorState;
 	    };
 	
 	    EditorCore.prototype.setEditorState = function setEditorState(editorState) {

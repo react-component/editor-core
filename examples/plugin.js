@@ -36,6 +36,21 @@ webpackJsonp([2],{
 	
 	// use jsx to render html, do not modify simple.html
 	
+	function findWithRegex(regex, contentBlock, callback) {
+	  // Get the text from the contentBlock
+	  var text = contentBlock.getText();
+	  var matchArr = void 0;
+	  var start = void 0; // eslint-disable-line
+	  // Go through all matches in the text and return the indizes to the callback
+	  while ((matchArr = regex.exec(text)) !== null) {
+	    // eslint-disable-line
+	    start = matchArr.index;
+	    callback(start, start + matchArr[0].length);
+	  }
+	}
+	
+	var suggestionRegex = new RegExp('(\\s|^)@[\\w]*', 'g');
+	
 	var Test = {
 	  name: 'test',
 	  callbacks: {
@@ -46,15 +61,23 @@ webpackJsonp([2],{
 	    'div',
 	    null,
 	    '123'
-	  )
+	  ),
+	  decorators: [{
+	    strategy: function strategy(contentBlock, callback) {
+	      findWithRegex(suggestionRegex, contentBlock, callback);
+	    },
+	    component: function component(props) {
+	      return _react2.default.createElement(
+	        'span',
+	        { style: { color: 'red' } },
+	        props.children
+	      );
+	    }
+	  }]
 	};
 	
 	var plugins = [Test];
 	var toolbars = [['test']];
-	
-	function editorChange(editorState) {
-	  console.log('>> editorExport:', (0, _rcEditorCore.GetText)(editorState));
-	}
 	
 	function keyDown(ev) {
 	  console.log('>> keydown', ev.keyCode, ev.ctrlKey);
@@ -72,52 +95,25 @@ webpackJsonp([2],{
 	  getInitialState: function getInitialState() {
 	    return {
 	      plugins: [],
-	      children: null
+	      editorState: null
 	    };
 	  },
-	  componentDidMount: function componentDidMount() {
-	    var _this = this;
-	
-	    var i = 0;
-	    setInterval(function () {
-	      // i++;
-	      // this.setState({
-	      //   plugins:[{
-	      //     name: 'test',
-	      //     callbacks: {
-	      //       getEditorState: () => {},
-	      //       setEditorState: () => {},
-	      //     },
-	      //     component: <div>{i}</div>
-	      //   }]
-	      // });
-	      i++;
-	      _this.setState({
-	        children: _react2.default.createElement(
-	          'div',
-	          null,
-	          i
-	        )
-	      });
-	    }, 1000);
+	  onChange: function onChange(editorState) {
+	    this.setState({
+	      editorState: editorState
+	    });
 	  },
 	  render: function render() {
-	    console.log('>> render', this.state.plugins);
-	    return _react2.default.createElement(
-	      _rcEditorCore.EditorCore,
-	      {
-	        plugins: plugins,
-	        toolbars: toolbars,
-	        placeholder: 'input text here',
-	        onKeyDown: function onKeyDown(ev) {
-	          return keyDown(ev);
-	        },
-	        onChange: function onChange(editorState) {
-	          return editorChange(editorState);
-	        }
+	    return _react2.default.createElement(_rcEditorCore.EditorCore, {
+	      plugins: plugins,
+	      toolbars: toolbars,
+	      placeholder: 'input text here',
+	      onKeyDown: function onKeyDown(ev) {
+	        return keyDown(ev);
 	      },
-	      this.state.children
-	    );
+	      onChange: this.onChange,
+	      value: this.state.editorState
+	    });
 	  }
 	});
 	
