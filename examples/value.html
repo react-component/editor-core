@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>value.js - example - rc-editor-core@0.3.28</title>
+  <title>value.js - example - rc-editor-core@0.4.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.3.28</h1>
+      <h1>rc-editor-core@0.4.0</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -267,7 +267,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-core/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
+<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText, toEditorState } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> BasicStyle <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-basic-style'</span>;
@@ -308,7 +308,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
         <span class="hljs-attribute">ref</span>=<span class="hljs-value">"editor"</span>
         <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
         <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
-        <span class="hljs-attribute">defaultValue</span>=<span class="hljs-value">"12312313123 [色眯眯] 123 13 "</span>
+        <span class="hljs-attribute">defaultValue</span>=<span class="hljs-value">{toEditorState('12312313123</span> [色眯眯] <span class="hljs-attribute">123</span> <span class="hljs-attribute">13</span>')}
         <span class="hljs-attribute">onKeyDown</span>=<span class="hljs-value">{(ev)</span> =&gt;</span> this.keyDown(ev)}
         onChange={(editorState) =&gt; editorChange(editorState)}
     /&gt;

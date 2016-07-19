@@ -192,7 +192,8 @@
 	
 	var EditorCorePublic = {
 	    EditorCore: _EditorCore2.default,
-	    GetText: _EditorCore2.default.ExportFunction
+	    GetText: _EditorCore2.default.ExportFunction,
+	    toEditorState: _EditorCore2.default.toEditorState
 	};
 	exports.default = EditorCorePublic;
 	module.exports = exports['default'];
@@ -260,7 +261,8 @@
 	        _this.state = {
 	            plugins: _this.reloadPlugins(),
 	            editorState: editorState,
-	            customStyleMap: {}
+	            customStyleMap: {},
+	            compositeDecorator: null
 	        };
 	        if (props.value !== undefined) {
 	            _this.controlledMode = true;
@@ -268,6 +270,12 @@
 	        }
 	        return _this;
 	    }
+	
+	    EditorCore.toEditorState = function toEditorState(text) {
+	        var createEmptyContentState = _draftJs.ContentState.createFromText(text || '');
+	        var editorState = _draftJs.EditorState.createWithContent(createEmptyContentState);
+	        return _draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter());
+	    };
 	
 	    EditorCore.ExportFunction = function ExportFunction(editorState) {
 	        var content = editorState.getCurrentContent();
@@ -291,9 +299,13 @@
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
-	        var createEmptyContentState = _draftJs.ContentState.createFromText(this.props.defaultValue || '');
-	        var editorState = _draftJs.EditorState.push(this.state.editorState, createEmptyContentState, 'reset-editor');
-	        this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter()));
+	        if (typeof this.props.defaultValue === 'string') {
+	            var createEmptyContentState = _draftJs.ContentState.createFromText(this.props.defaultValue || '');
+	            var editorState = _draftJs.EditorState.push(this.state.editorState, createEmptyContentState, 'reset-editor');
+	            this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter()));
+	        } else {
+	            this.setEditorState(_draftJs.EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor'));
+	        }
 	    };
 	
 	    EditorCore.prototype.SetText = function SetText(text) {
@@ -349,7 +361,8 @@
 	        });
 	        this.setState({
 	            toolbarPlugins: toolbarPlugins,
-	            customStyleMap: customStyleMap
+	            customStyleMap: customStyleMap,
+	            compositeDecorator: compositeDecorator
 	        });
 	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
 	    };
@@ -368,11 +381,16 @@
 	        var defaultValue = this.props.defaultValue;
 	
 	        if (defaultValue) {
-	            var selection = editorState.getSelection();
-	            var content = editorState.getCurrentContent();
-	            var insertContent = _draftJs.Modifier.insertText(content, selection, defaultValue, {});
-	            var newEditorState = _draftJs.EditorState.push(editorState, insertContent, 'init-editor');
-	            return _draftJs.EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter());
+	            if (typeof defaultValue === 'string') {
+	                console.warn(' The property `defaultValue` will not support `string` soon... Please use `toEditorState(string)` to convert it into `EditorState`');
+	                var selection = editorState.getSelection();
+	                var content = editorState.getCurrentContent();
+	                var insertContent = _draftJs.Modifier.insertText(content, selection, defaultValue, {});
+	                var newEditorState = _draftJs.EditorState.push(editorState, insertContent, 'init-editor');
+	                return _draftJs.EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter());
+	            } else {
+	                return defaultValue;
+	            }
 	        }
 	        return editorState;
 	    };

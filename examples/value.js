@@ -1221,7 +1221,7 @@ webpackJsonp([4],{
 	        ref: 'editor',
 	        plugins: plugins,
 	        toolbars: toolbars,
-	        defaultValue: '12312313123 [色眯眯] 123 13 ',
+	        defaultValue: (0, _rcEditorCore.toEditorState)('12312313123 [色眯眯] 123 13'),
 	        onKeyDown: function onKeyDown(ev) {
 	          return _this.keyDown(ev);
 	        },
