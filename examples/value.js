@@ -1,7 +1,7 @@
 // use jsx to render html, do not modify simple.html
 
 import 'rc-editor-core/assets/index.less';
-import { EditorCore, Toolbar, GetText } from 'rc-editor-core';
+import { EditorCore, Toolbar, GetText, toEditorState } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';
@@ -42,7 +42,7 @@ const Editor = React.createClass({
         ref="editor"
         plugins={plugins}
         toolbars={toolbars}
-        defaultValue="12312313123 [色眯眯] 123 13 "
+        defaultValue={toEditorState('12312313123 [色眯眯] 123 13')}
         onKeyDown={(ev) => this.keyDown(ev)}
         onChange={(editorState) => editorChange(editorState)}
     />

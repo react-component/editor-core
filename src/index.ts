@@ -16,6 +16,7 @@ import EditorCore from './EditorCore';
 const EditorCorePublic = {
   EditorCore,
   GetText: EditorCore.ExportFunction,
+  toEditorState: EditorCore.toEditorState,
 };
 
 export default EditorCorePublic;

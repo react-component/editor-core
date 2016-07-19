@@ -7,6 +7,19 @@ import ReactDOM from 'react-dom';
 import { Entity } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
+function findWithRegex(regex, contentBlock, callback) {
+  // Get the text from the contentBlock
+  const text = contentBlock.getText();
+  let matchArr;
+  let start; // eslint-disable-line
+  // Go through all matches in the text and return the indizes to the callback
+  while ((matchArr = regex.exec(text)) !== null) { // eslint-disable-line
+    start = matchArr.index;
+    callback(start, start + matchArr[0].length);
+  }
+}
+
+const suggestionRegex = new RegExp(`(\\s|^)@[\\w]*`, 'g');
 
 const Test = {
   name: 'test',
@@ -14,15 +27,17 @@ const Test = {
     getEditorState: () => {},
     setEditorState: () => {},
   },
-  component: <div>123</div>
+  component: <div>123</div>,
+  decorators: [{
+    strategy: (contentBlock, callback) => {
+      findWithRegex(suggestionRegex, contentBlock, callback);
+    },
+    component: (props) => <span style={{color: 'red'}}>{props.children}</span>
+  }],
 };
 
 const plugins = [Test];
 const toolbars = [['test']];
-
-function editorChange(editorState) {
-  console.log('>> editorExport:', GetText(editorState));
-}
 
 function keyDown(ev) {
   console.log('>> keydown', ev.keyCode, ev.ctrlKey);
@@ -39,39 +54,24 @@ const EditorWrapper = React.createClass({
   getInitialState() {
     return {
       plugins: [],
-      children: null,
+      editorState: null,
     };
   },
-  componentDidMount() {
-    let i = 0;
-    setInterval( () => {
-      // i++;
-      // this.setState({
-      //   plugins:[{
-      //     name: 'test',
-      //     callbacks: {
-      //       getEditorState: () => {},
-      //       setEditorState: () => {},
-      //     },
-      //     component: <div>{i}</div>
-      //   }]
-      // });
-      i++;
-      this.setState({
-        children: <div>{i}</div>
-      });
-    }, 1000);
+  onChange(editorState) {
+    console.log('>> onChange', editorState.getDecorator());
+    this.setState({
+      editorState,
+    });
   },
   render() {
-    console.log('>> render', this.state.plugins);
     return <EditorCore
       plugins={plugins}
       toolbars={toolbars}
-      placeholder="input text here"
+      defaultValue="input text here"
       onKeyDown={(ev) => keyDown(ev)}
-      onChange={(editorState) => editorChange(editorState)}
+      onChange={this.onChange}
+      value={this.state.editorState}
     >
-      {this.state.children}
     </EditorCore>;
   }
 });

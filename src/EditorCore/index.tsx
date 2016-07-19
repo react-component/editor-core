@@ -41,7 +41,7 @@ export interface EditorProps {
   toolbars: Array<any>;
   splitLine: String;
   onKeyDown?: (ev:any) => boolean;
-  defaultValue?: string;
+  defaultValue?: EditorState;
   placeholder?: string;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -53,12 +53,18 @@ export interface EditorCoreState {
   customStyleMap?: Object;
   toolbarPlugins?: List<Plugin>;
   plugins?: Array<Plugin>;
+  compositeDecorator?: CompositeDecorator;
 }
 
 
 const toolbar = createToolbar();
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
+  static toEditorState(text: string): EditorState {
+    const createEmptyContentState = ContentState.createFromText(text || '');
+    const editorState = EditorState.createWithContent(createEmptyContentState);
+    return EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
+  }
   static ExportFunction(editorState):String {
     const content = editorState.getCurrentContent();
     const blockMap = content.getBlockMap();
@@ -81,11 +87,18 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public Reset(): void {
-    const createEmptyContentState = ContentState.createFromText(this.props.defaultValue || '');
-    const editorState = EditorState.push(this.state.editorState, createEmptyContentState , 'reset-editor');
-    this.setEditorState(
-      EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
-    );
+    if (typeof this.props.defaultValue === 'string') {
+      const createEmptyContentState = ContentState.createFromText(this.props.defaultValue || '');
+      const editorState = EditorState.push(this.state.editorState, createEmptyContentState, 'reset-editor');
+      this.setEditorState(
+        EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
+      );
+    } else {
+
+      this.setEditorState(
+        EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor')
+      );
+    }
   }
 
   public SetText(text: string) : void {
@@ -102,11 +115,28 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   constructor(props: EditorProps) {
     super(props);
     this.plugins = List(List(props.plugins).flatten(true));
+
+    let editorState;
+
+    if (props.value !== undefined) {
+      if (props.value instanceof EditorState) {
+        editorState = props.value;
+      } else {
+        editorState = EditorState.createEmpty();
+      }
+    } else {
+      editorState = EditorState.createEmpty();
+    }
+
+    editorState = this.generatorDefaultValue(editorState);
+
     this.state = {
       plugins: this.reloadPlugins(),
-      editorState: EditorState.createEmpty(),
+      editorState: editorState,
       customStyleMap: {},
+      compositeDecorator: null,
     };
+
     if (props.value !== undefined) {
       this.controlledMode = true;
       console.warn('this component is in controllred mode');
@@ -140,13 +170,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return false
     }).filter(plugin => plugin).toArray() : [];
   }
-  public componentWillReceiveProps(nextProps) {
-    if (this.controlledMode) {
-      this.setState({
-        editorState: nextProps.value,
-      });
-    }
-  }
+
   public componentWillMount() : void {
     const plugins = this.initPlugins().concat([toolbar]);
     const customStyleMap = {};
@@ -177,6 +201,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     this.setState({
       toolbarPlugins,
       customStyleMap,
+      compositeDecorator,
     });
 
     this.onChange(EditorState.set(this.state.editorState,
@@ -184,23 +209,34 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     ));
 
   }
-
+  public componentWillReceiveProps(nextProps) {
+    if (this.controlledMode) {
+      this.setState({
+        editorState: nextProps.value,
+      });
+    }
+  }
   //  处理　value　
-  public componentDidMount() {
-    const { editorState } = this.state;
+  generatorDefaultValue(editorState: EditorState): EditorState {
     const { defaultValue } = this.props;
     if (defaultValue) {
-      const selection = editorState.getSelection();
-      const content = editorState.getCurrentContent();
-      const insertContent = Modifier.insertText(
-        content,
-        selection,
-        defaultValue,
-        {}
-      );
-      const newEditorState = EditorState.push(editorState, insertContent, 'init-editor');
-      return this.setEditorState(EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter()));
+      if (typeof defaultValue === 'string') {
+        console.warn(' The property `defaultValue` will not support `string` soon... Please use `toEditorState(string)` to convert it into `EditorState`');
+        const selection = editorState.getSelection();
+        const content = editorState.getCurrentContent();
+        const insertContent = Modifier.insertText(
+          content,
+          selection,
+          defaultValue,
+          {}
+        );
+        const newEditorState = EditorState.push(editorState, insertContent, 'init-editor');
+        return EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter());
+      } else {
+        return defaultValue;
+      }
     }
+    return editorState;
   }
 
   public initPlugins() : Array<any> {
