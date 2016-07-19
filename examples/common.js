@@ -193,7 +193,7 @@
 	var EditorCorePublic = {
 	    EditorCore: _EditorCore2.default,
 	    GetText: _EditorCore2.default.ExportFunction,
-	    toEditorState: _EditorCore2.default.toEditorState
+	    toEditorState: _EditorCore2.default.ToEditorState
 	};
 	exports.default = EditorCorePublic;
 	module.exports = exports['default'];
@@ -271,7 +271,7 @@
 	        return _this;
 	    }
 	
-	    EditorCore.toEditorState = function toEditorState(text) {
+	    EditorCore.ToEditorState = function ToEditorState(text) {
 	        var createEmptyContentState = _draftJs.ContentState.createFromText(text || '');
 	        var editorState = _draftJs.EditorState.createWithContent(createEmptyContentState);
 	        return _draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter());
@@ -299,13 +299,7 @@
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
-	        if (typeof this.props.defaultValue === 'string') {
-	            var createEmptyContentState = _draftJs.ContentState.createFromText(this.props.defaultValue || '');
-	            var editorState = _draftJs.EditorState.push(this.state.editorState, createEmptyContentState, 'reset-editor');
-	            this.setEditorState(_draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter()));
-	        } else {
-	            this.setEditorState(_draftJs.EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor'));
-	        }
+	        this.setEditorState(_draftJs.EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor'));
 	    };
 	
 	    EditorCore.prototype.SetText = function SetText(text) {
@@ -381,16 +375,7 @@
 	        var defaultValue = this.props.defaultValue;
 	
 	        if (defaultValue) {
-	            if (typeof defaultValue === 'string') {
-	                console.warn(' The property `defaultValue` will not support `string` soon... Please use `toEditorState(string)` to convert it into `EditorState`');
-	                var selection = editorState.getSelection();
-	                var content = editorState.getCurrentContent();
-	                var insertContent = _draftJs.Modifier.insertText(content, selection, defaultValue, {});
-	                var newEditorState = _draftJs.EditorState.push(editorState, insertContent, 'init-editor');
-	                return _draftJs.EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter());
-	            } else {
-	                return defaultValue;
-	            }
+	            return defaultValue;
 	        }
 	        return editorState;
 	    };
