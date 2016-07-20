@@ -38,6 +38,12 @@ webpackJsonp([1],{
 	    },
 	    onDownArrow: function onDownArrow() {
 	      console.log('>> onDownArrow ');
+	    },
+	    onBlur: function onBlur() {
+	      console.log('>> onBlur');
+	    },
+	    onFocus: function onFocus() {
+	      console.log('>> onBlur prevent');return true;
 	    }
 	  }
 	};

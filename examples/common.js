@@ -461,8 +461,9 @@
 	    };
 	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
+	        var _props;
+	
 	        var plugins = this.getPlugins();
-	        // console.log('>> eventHandle plugins', eventName, plugins);
 	
 	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	            args[_key - 1] = arguments[_key];
@@ -480,7 +481,7 @@
 	                }
 	            }
 	        }
-	        return false;
+	        return this.props.hasOwnProperty(eventName) && (_props = this.props)[eventName].apply(_props, args) === true;
 	    };
 	
 	    EditorCore.prototype.generatorEventHandler = function generatorEventHandler(eventName) {
@@ -496,12 +497,10 @@
 	    };
 	
 	    EditorCore.prototype.render = function render() {
-	        var _props = this.props;
-	        var prefixCls = _props.prefixCls;
-	        var toolbars = _props.toolbars;
-	        var style = _props.style;
-	        var onFocus = _props.onFocus;
-	        var onBlur = _props.onBlur;
+	        var _props2 = this.props;
+	        var prefixCls = _props2.prefixCls;
+	        var toolbars = _props2.toolbars;
+	        var style = _props2.style;
 	        var _state = this.state;
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
@@ -516,7 +515,7 @@
 	            React.createElement(
 	                'div',
 	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, eventHandler, this.props, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this), onFocus: onFocus, onBlur: onBlur })),
+	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) })),
 	                this.props.children
 	            )
 	        );
