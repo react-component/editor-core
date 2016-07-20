@@ -402,7 +402,7 @@
 	    EditorCore.prototype.getEventHandler = function getEventHandler() {
 	        var _this3 = this;
 	
-	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn'];
+	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur'];
 	        var eventHandler = {};
 	        enabledEvents.forEach(function (event) {
 	            eventHandler[event] = _this3.generatorEventHandler(event);
