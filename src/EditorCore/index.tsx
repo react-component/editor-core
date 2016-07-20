@@ -203,8 +203,15 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
   public componentWillReceiveProps(nextProps) {
     if (this.controlledMode) {
+      const decorators = nextProps.value.getDecorator();
+
+      const editorState = decorators ?
+        nextProps.value :
+        EditorState.set(nextProps.value,
+          { decorator: this.state.compositeDecorator }
+        );
       this.setState({
-        editorState: nextProps.value,
+        editorState,
       });
     }
   }

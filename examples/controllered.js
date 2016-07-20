@@ -1,7 +1,7 @@
 // use jsx to render html, do not modify simple.html
 
 import 'rc-editor-core/assets/index.less';
-import { EditorCore, Toolbar, GetText } from 'rc-editor-core';
+import { EditorCore, Toolbar, GetText, toEditorState } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';
@@ -20,7 +20,7 @@ function keyDown(ev) {
 const Editor = React.createClass({
   getInitialState() {
     return {
-      defaultValue: "hello world",
+      defaultValue: toEditorState('hello world'),
       value: null,
     };
   },
@@ -30,12 +30,9 @@ const Editor = React.createClass({
     });
   },
   reset() {
-    this.refs.editor.SetText(`照日深红暖见鱼，
-连村绿暗晚藏乌。
-黄童白叟聚瞧盱。
-麋鹿逢人虽未惯，
-猿猱闻鼓不须呼。
-归家说与采桑姑。`);
+    this.setState({
+      value: this.state.defaultValue,
+    });
   },
   render() {
     return (<div>
