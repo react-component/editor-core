@@ -285,7 +285,6 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
   eventHandle(eventName, ...args) : boolean {
     const plugins = this.getPlugins();
-    // console.log('>> eventHandle plugins', eventName, plugins);
     for (let i = 0; i < plugins.length; i++) {
       const plugin = plugins[i];
       // console.log('>> plugin', plugin);
@@ -297,7 +296,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         }
       }
     }
-    return false;
+    return this.props.hasOwnProperty(eventName) && this.props[eventName](...args) === true ;
   }
 
   generatorEventHandler(eventName) : Function {
@@ -307,7 +306,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   render() {
-    const { prefixCls, toolbars, style, onFocus, onBlur } = this.props;
+    const { prefixCls, toolbars, style } = this.props;
     const { editorState, toolbarPlugins, customStyleMap } = this.state;
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
@@ -325,16 +324,14 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       />
       <div className={`${prefixCls}-editor-wrapper`}  style={style}>
         <Editor
-          {...eventHandler}
           {...this.props}
+          {...eventHandler}
           ref="editor"
           customStyleMap={customStyleMap}
           editorState={editorState}
           handleKeyCommand={this.handleKeyCommand.bind(this)}
           keyBindingFn={this.handleKeyBinding.bind(this)}
           onChange={this.onChange.bind(this)}
-          onFocus={onFocus}
-          onBlur={onBlur}
         />
         {this.props.children}
       </div>

@@ -11,6 +11,8 @@ const EventPlugin = {
     getEditorState: null,
     onUpArrow:() => { console.log('>> onUpArrow') },
     onDownArrow:() => { console.log('>> onDownArrow ')},
+    onBlur:() => { console.log('>> onBlur')},
+    onFocus:() => { console.log('>> onBlur prevent'); return true;}
   }
 };
 const plugins = [EventPlugin];
