@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>controllered.js - example - rc-editor-core@0.4.5</title>
+  <title>controllered.js - example - rc-editor-core@0.4.6</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.4.5</h1>
+      <h1>rc-editor-core@0.4.6</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -267,7 +267,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-core/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
+<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText, toEditorState } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> BasicStyle <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-basic-style'</span>;
@@ -286,7 +286,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">const</span> Editor = React.createClass({
   getInitialState() {
     <span class="hljs-keyword">return</span> {
-      defaultValue: <span class="hljs-string">"hello world"</span>,
+      defaultValue: toEditorState(<span class="hljs-string">'hello world'</span>),
       value: <span class="hljs-literal">null</span>,
     };
   },
@@ -296,12 +296,9 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     });
   },
   reset() {
-    <span class="hljs-keyword">this</span>.refs.editor.SetText(<span class="hljs-string">`照日深红暖见鱼，
-连村绿暗晚藏乌。
-黄童白叟聚瞧盱。
-麋鹿逢人虽未惯，
-猿猱闻鼓不须呼。
-归家说与采桑姑。`</span>);
+    <span class="hljs-keyword">this</span>.setState({
+      value: <span class="hljs-keyword">this</span>.state.defaultValue,
+    });
   },
   render() {
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>

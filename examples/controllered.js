@@ -49,7 +49,7 @@ webpackJsonp([0],[
 	  displayName: 'Editor',
 	  getInitialState: function getInitialState() {
 	    return {
-	      defaultValue: "hello world",
+	      defaultValue: (0, _rcEditorCore.toEditorState)('hello world'),
 	      value: null
 	    };
 	  },
@@ -59,7 +59,9 @@ webpackJsonp([0],[
 	    });
 	  },
 	  reset: function reset() {
-	    this.refs.editor.SetText('照日深红暖见鱼，\n连村绿暗晚藏乌。\n黄童白叟聚瞧盱。\n麋鹿逢人虽未惯，\n猿猱闻鼓不须呼。\n归家说与采桑姑。');
+	    this.setState({
+	      value: this.state.defaultValue
+	    });
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
