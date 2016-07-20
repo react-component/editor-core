@@ -8,14 +8,12 @@ import BasicStyle from 'rc-editor-plugin-basic-style';
 import Emoji from 'rc-editor-plugin-emoji';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
-const plugins = [BasicStyle, Emoji];
+const plugins = [BasicStyle];
 const toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
 
 function editorChange(editorState) {
   console.log('>> editorExport:', GetText(editorState));
 }
-
-
 const Editor = React.createClass({
   getInitialState() {
     return {

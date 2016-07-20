@@ -1,3 +1,4 @@
+import { EditorState } from 'draft-js';
 // export this package's api
 
 /*eslint-disable*/
@@ -16,7 +17,7 @@ import EditorCore from './EditorCore';
 const EditorCorePublic = {
   EditorCore,
   GetText: EditorCore.ExportFunction,
-  toEditorState: EditorCore.toEditorState,
+  toEditorState: EditorCore.ToEditorState,
 };
 
 export default EditorCorePublic;

@@ -45,7 +45,8 @@ export interface EditorProps {
   placeholder?: string;
   onFocus?: () => void;
   onBlur?: () => void;
-  value?: EditorState;
+  style?: Object;
+  value?: EditorState | any;
 }
 
 export interface EditorCoreState {
@@ -60,7 +61,7 @@ export interface EditorCoreState {
 const toolbar = createToolbar();
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
-  static toEditorState(text: string): EditorState {
+  static ToEditorState(text: string): EditorState {
     const createEmptyContentState = ContentState.createFromText(text || '');
     const editorState = EditorState.createWithContent(createEmptyContentState);
     return EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
@@ -87,18 +88,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public Reset(): void {
-    if (typeof this.props.defaultValue === 'string') {
-      const createEmptyContentState = ContentState.createFromText(this.props.defaultValue || '');
-      const editorState = EditorState.push(this.state.editorState, createEmptyContentState, 'reset-editor');
-      this.setEditorState(
-        EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
-      );
-    } else {
-
-      this.setEditorState(
-        EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor')
-      );
-    }
+    this.setEditorState(
+      EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor')
+    );
   }
 
   public SetText(text: string) : void {
@@ -220,21 +212,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   generatorDefaultValue(editorState: EditorState): EditorState {
     const { defaultValue } = this.props;
     if (defaultValue) {
-      if (typeof defaultValue === 'string') {
-        console.warn(' The property `defaultValue` will not support `string` soon... Please use `toEditorState(string)` to convert it into `EditorState`');
-        const selection = editorState.getSelection();
-        const content = editorState.getCurrentContent();
-        const insertContent = Modifier.insertText(
-          content,
-          selection,
-          defaultValue,
-          {}
-        );
-        const newEditorState = EditorState.push(editorState, insertContent, 'init-editor');
-        return EditorState.forceSelection(newEditorState, insertContent.getSelectionAfter());
-      } else {
-        return defaultValue;
-      }
+      return defaultValue;
     }
     return editorState;
   }
@@ -257,7 +235,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public getEventHandler(): Object {
-    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn'];
+    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur'];
     const eventHandler = {};
     enabledEvents.forEach(event => {
       eventHandler[event] = this.generatorEventHandler(event);
@@ -279,7 +257,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return this.state.editorState;
   }
 
-  setEditorState(editorState: EditorState, focusEditor?:boolean = false) : void {
+  setEditorState(editorState: EditorState, focusEditor:boolean = false) : void {
     if (this.props.onChange) {
       this.props.onChange(editorState);
     }

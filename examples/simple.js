@@ -1,6 +1,7 @@
 // use jsx to render html, do not modify simple.html
 
 import 'rc-editor-core/assets/index.less';
+import 'rc-select/assets/index.css';
 import { EditorCore, Toolbar, GetText } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,7 +11,7 @@ import { Entity } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
 const plugins = [BasicStyle, Emoji];
-const toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
+const toolbars = [['fontSize', '|', 'bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
 
 function editorChange(editorState) {
   console.log('>> editorExport:', GetText(editorState));
