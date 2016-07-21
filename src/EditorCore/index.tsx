@@ -21,7 +21,7 @@ export interface Plugin {
   name: string;
   decorators?: Array<any>;
   component?: Function;
-  onChange: (editorState: EditorState)=> boolean;
+  onChange: (editorState: EditorState)=> EditorState;
   callbacks: {
     onUpArrow?: Function;
     onDownArrow?: Function;
@@ -37,7 +37,7 @@ export interface EditorProps {
   multiLines: boolean;
   plugins: Array<Plugin>;
   prefixCls: string;
-  onChange?: (editorState: EditorState) => void;
+  onChange?: (editorState: EditorState) => EditorState;
   toolbars: Array<any>;
   splitLine: String;
   onKeyDown?: (ev:any) => boolean;
@@ -197,7 +197,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       compositeDecorator,
     });
 
-    this.onChange(EditorState.set(this.state.editorState,
+    this.setEditorState(EditorState.set(this.state.editorState,
       { decorator: compositeDecorator }
     ));
 
@@ -237,7 +237,6 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
     return this.getPlugins().map(plugin => {
       enableCallbacks.forEach( callbackName => {
-        console.log('>> plugin', callbackName, plugin);
         if (plugin.callbacks.hasOwnProperty(callbackName)) {
           plugin.callbacks[callbackName] = this[callbackName].bind(this);
         }
@@ -264,26 +263,27 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return eventHandler;
   }
 
-  public onChange(editorState) : void {
-    let newEditorState = editorState;
-    this.getPlugins().forEach(plugin => {
-      if (plugin.onChange) {
-        newEditorState = plugin.onChange(newEditorState);
-      }
-    });
-    this.setEditorState(editorState);
-  }
-
   getEditorState() : EditorState {
     return this.state.editorState;
   }
 
   setEditorState(editorState: EditorState, focusEditor:boolean = false) : void {
+    let newEditorState = editorState;
+
+    this.getPlugins().forEach(plugin => {
+      if (plugin.onChange) {
+        const updatedEditorState = plugin.onChange(newEditorState);
+        if (updatedEditorState) {
+          newEditorState = updatedEditorState;
+        }
+      }
+    });
+
     if (this.props.onChange) {
-      this.props.onChange(editorState);
+      this.props.onChange(newEditorState);
     }
     if (!this.controlledMode) {
-      this.setState({editorState}, focusEditor ? () => setTimeout(() => this.refs.editor.focus(), 100) : noop);
+      this.setState({ editorState: newEditorState }, focusEditor ? () => setTimeout(() => this.refs.editor.focus(), 100) : noop);
     }
   }
   public handleKeyBinding(ev): boolean {
@@ -352,7 +352,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           editorState={editorState}
           handleKeyCommand={this.handleKeyCommand.bind(this)}
           keyBindingFn={this.handleKeyBinding.bind(this)}
-          onChange={this.onChange.bind(this)}
+          onChange={this.setEditorState.bind(this)}
         />
         {this.props.children}
       </div>
