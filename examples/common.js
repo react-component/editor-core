@@ -250,7 +250,7 @@
 	        var editorState = void 0;
 	        if (props.value !== undefined) {
 	            if (props.value instanceof _draftJs.EditorState) {
-	                editorState = props.value;
+	                editorState = props.value || _draftJs.EditorState.createEmpty();
 	            } else {
 	                editorState = _draftJs.EditorState.createEmpty();
 	            }
@@ -382,13 +382,27 @@
 	        return editorState;
 	    };
 	
+	    EditorCore.prototype.getStyleMap = function getStyleMap() {
+	        return this.state.customStyleMap;
+	    };
+	
+	    EditorCore.prototype.setStyleMap = function setStyleMap(customStyleMap) {
+	        return this.setState({
+	            customStyleMap: customStyleMap
+	        });
+	    };
+	
 	    EditorCore.prototype.initPlugins = function initPlugins() {
 	        var _this2 = this;
 	
+	        var enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
 	        return this.getPlugins().map(function (plugin) {
-	            // console.log('>> plugin', plugin);
-	            plugin.callbacks.getEditorState = _this2.getEditorState.bind(_this2);
-	            plugin.callbacks.setEditorState = _this2.setEditorState.bind(_this2);
+	            enableCallbacks.forEach(function (callbackName) {
+	                console.log('>> plugin', callbackName, plugin);
+	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
+	                    plugin.callbacks[callbackName] = _this2[callbackName].bind(_this2);
+	                }
+	            });
 	            return plugin;
 	        });
 	    };

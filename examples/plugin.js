@@ -51,12 +51,15 @@ webpackJsonp([2],{
 	
 	var suggestionRegex = new RegExp('(\\s|^)@[\\w]*', 'g');
 	
+	var callbacks = {
+	  getEditorState: function getEditorState() {},
+	  setEditorState: function setEditorState() {},
+	  getStyleMap: function getStyleMap() {}
+	};
+	
 	var Test = {
 	  name: 'test',
-	  callbacks: {
-	    getEditorState: function getEditorState() {},
-	    setEditorState: function setEditorState() {}
-	  },
+	  callbacks: callbacks,
 	  component: _react2.default.createElement(
 	    'div',
 	    null,
@@ -108,7 +111,6 @@ webpackJsonp([2],{
 	    return _react2.default.createElement(_rcEditorCore.EditorCore, {
 	      plugins: plugins,
 	      toolbars: toolbars,
-	      defaultValue: 'input text here',
 	      onKeyDown: function onKeyDown(ev) {
 	        return keyDown(ev);
 	      },
