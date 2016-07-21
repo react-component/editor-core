@@ -398,7 +398,6 @@
 	        var enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
 	        return this.getPlugins().map(function (plugin) {
 	            enableCallbacks.forEach(function (callbackName) {
-	                console.log('>> plugin', callbackName, plugin);
 	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
 	                    plugin.callbacks[callbackName] = _this2[callbackName].bind(_this2);
 	                }
