@@ -21,18 +21,23 @@ function findWithRegex(regex, contentBlock, callback) {
 
 const suggestionRegex = new RegExp(`(\\s|^)@[\\w]*`, 'g');
 
+const callbacks = {
+  getEditorState: () => {},
+  setEditorState: () => {},
+  getStyleMap: () => {},
+};
+
 const Test = {
   name: 'test',
-  callbacks: {
-    getEditorState: () => {},
-    setEditorState: () => {},
-  },
+  callbacks,
   component: <div>123</div>,
   decorators: [{
     strategy: (contentBlock, callback) => {
       findWithRegex(suggestionRegex, contentBlock, callback);
     },
-    component: (props) => <span style={{color: 'red'}}>{props.children}</span>
+    component: (props) => {
+      return <span style={{color: 'red'}}>{props.children}</span>
+    }
   }],
 };
 
@@ -67,7 +72,6 @@ const EditorWrapper = React.createClass({
     return <EditorCore
       plugins={plugins}
       toolbars={toolbars}
-      defaultValue="input text here"
       onKeyDown={(ev) => keyDown(ev)}
       onChange={this.onChange}
       value={this.state.editorState}

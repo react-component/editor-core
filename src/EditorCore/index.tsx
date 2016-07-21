@@ -104,6 +104,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public state : EditorCoreState;
   private plugins: any;
   private controlledMode: boolean;
+
   constructor(props: EditorProps) {
     super(props);
     this.plugins = List(List(props.plugins).flatten(true));
@@ -112,7 +113,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     if (props.value !== undefined) {
       if (props.value instanceof EditorState) {
-        editorState = props.value;
+        editorState = props.value || EditorState.createEmpty();
       } else {
         editorState = EditorState.createEmpty();
       }
@@ -224,11 +225,24 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return editorState;
   }
 
+  public getStyleMap(): Object {
+    return this.state.customStyleMap;
+  }
+  public setStyleMap(customStyleMap): void {
+    return this.setState({
+      customStyleMap,
+    });
+  }
   public initPlugins() : Array<any> {
+    const enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
     return this.getPlugins().map(plugin => {
-      // console.log('>> plugin', plugin);
-      plugin.callbacks.getEditorState = this.getEditorState.bind(this);
-      plugin.callbacks.setEditorState = this.setEditorState.bind(this);
+      enableCallbacks.forEach( callbackName => {
+        console.log('>> plugin', callbackName, plugin);
+        if (plugin.callbacks.hasOwnProperty(callbackName)) {
+          plugin.callbacks[callbackName] = this[callbackName].bind(this);
+        }
+      });
+
       return plugin;
     });
   }
