@@ -358,7 +358,7 @@
 	            customStyleMap: customStyleMap,
 	            compositeDecorator: compositeDecorator
 	        });
-	        this.onChange(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
+	        this.setEditorState(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
 	    };
 	
 	    EditorCore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
@@ -425,16 +425,6 @@
 	        return eventHandler;
 	    };
 	
-	    EditorCore.prototype.onChange = function onChange(editorState) {
-	        var newEditorState = editorState;
-	        this.getPlugins().forEach(function (plugin) {
-	            if (plugin.onChange) {
-	                newEditorState = plugin.onChange(newEditorState);
-	            }
-	        });
-	        this.setEditorState(editorState);
-	    };
-	
 	    EditorCore.prototype.getEditorState = function getEditorState() {
 	        return this.state.editorState;
 	    };
@@ -444,11 +434,20 @@
 	
 	        var focusEditor = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 	
+	        var newEditorState = editorState;
+	        this.getPlugins().forEach(function (plugin) {
+	            if (plugin.onChange) {
+	                var updatedEditorState = plugin.onChange(newEditorState);
+	                if (updatedEditorState) {
+	                    newEditorState = updatedEditorState;
+	                }
+	            }
+	        });
 	        if (this.props.onChange) {
-	            this.props.onChange(editorState);
+	            this.props.onChange(newEditorState);
 	        }
 	        if (!this.controlledMode) {
-	            this.setState({ editorState: editorState }, focusEditor ? function () {
+	            this.setState({ editorState: newEditorState }, focusEditor ? function () {
 	                return setTimeout(function () {
 	                    return _this4.refs.editor.focus();
 	                }, 100);
@@ -530,7 +529,7 @@
 	            React.createElement(
 	                'div',
 	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.onChange.bind(this) })),
+	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this) })),
 	                this.props.children
 	            )
 	        );
