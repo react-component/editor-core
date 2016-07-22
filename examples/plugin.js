@@ -57,16 +57,23 @@ webpackJsonp([2],{
 	  getStyleMap: function getStyleMap() {}
 	};
 	
+	function toggleBlockType() {
+	  var editorState = callbacks.getEditorState();
+	  var blockTypedContent = _draftJs.Modifier.setBlockType(editorState.getCurrentContent(), editorState.getSelection(), 'text_align');
+	
+	  callbacks.setEditorState(_draftJs.EditorState.push(editorState, blockTypedContent, 'apply-block-type'));
+	}
+	
 	var Test = {
 	  name: 'test',
 	  callbacks: callbacks,
 	  component: _react2.default.createElement(
 	    'div',
-	    null,
+	    { onMouseDown: toggleBlockType },
 	    '123'
 	  ),
 	  blockStyleMap: {
-	    'textaligin': 'alignLeft'
+	    'text_align': 'alignLeft'
 	  },
 	  decorators: [{
 	    strategy: function strategy(contentBlock, callback) {

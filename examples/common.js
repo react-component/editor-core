@@ -331,6 +331,7 @@
 	        var plugins = this.initPlugins().concat([toolbar]);
 	        var customStyleMap = {};
 	        var customBlockStyleMap = {};
+	        var customBlockRenderMap = (0, _immutable.Map)(_draftJs.DefaultDraftBlockRenderMap);
 	        // initialize compositeDecorator
 	        var compositeDecorator = new _draftJs.CompositeDecorator(plugins.filter(function (plugin) {
 	            return plugin.decorators !== undefined;
@@ -359,6 +360,9 @@
 	                for (var _key in blockStyleMap) {
 	                    if (blockStyleMap.hasOwnProperty(_key)) {
 	                        customBlockStyleMap[_key] = blockStyleMap[_key];
+	                        customBlockRenderMap = customBlockRenderMap.set(_key, {
+	                            element: null
+	                        });
 	                    }
 	                }
 	            }
@@ -367,6 +371,7 @@
 	            toolbarPlugins: toolbarPlugins,
 	            customStyleMap: customStyleMap,
 	            customBlockStyleMap: customBlockStyleMap,
+	            blockRenderMap: customBlockRenderMap,
 	            compositeDecorator: compositeDecorator
 	        });
 	        this.setEditorState(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
@@ -539,6 +544,7 @@
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
 	        var customStyleMap = _state.customStyleMap;
+	        var blockRenderMap = _state.blockRenderMap;
 	
 	        var eventHandler = this.getEventHandler();
 	        var Toolbar = toolbar.component;
@@ -549,7 +555,7 @@
 	            React.createElement(
 	                'div',
 	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this) })),
+	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap })),
 	                this.props.children
 	            )
 	        );
