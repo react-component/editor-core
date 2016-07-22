@@ -31,6 +31,9 @@ const Test = {
   name: 'test',
   callbacks,
   component: <div>123</div>,
+  blockStyleMap: {
+    'textaligin': 'alignLeft',
+  },
   decorators: [{
     strategy: (contentBlock, callback) => {
       findWithRegex(suggestionRegex, contentBlock, callback);

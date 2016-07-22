@@ -52,6 +52,7 @@ export interface EditorProps {
 export interface EditorCoreState {
   editorState?: EditorState;
   customStyleMap?: Object;
+  customBlockStyleMap?: Object;
   toolbarPlugins?: List<Plugin>;
   plugins?: Array<Plugin>;
   compositeDecorator?: CompositeDecorator;
@@ -127,6 +128,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       plugins: this.reloadPlugins(),
       editorState: editorState,
       customStyleMap: {},
+      customBlockStyleMap: {},
       compositeDecorator: null,
     };
 
@@ -167,6 +169,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public componentWillMount() : void {
     const plugins = this.initPlugins().concat([toolbar]);
     const customStyleMap = {};
+    const customBlockStyleMap = {};
 
     // initialize compositeDecorator
     const compositeDecorator = new CompositeDecorator(
@@ -180,11 +183,18 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     // load inline styles...
     plugins.forEach( plugin => {
-      const { styleMap } = plugin;
+      const { styleMap, blockStyleMap } = plugin;
       if (styleMap) {
         for (const key in styleMap) {
           if (styleMap.hasOwnProperty(key)) {
             customStyleMap[key] = styleMap[key];
+          }
+        }
+      }
+      if (blockStyleMap) {
+        for (const key in blockStyleMap) {
+          if (blockStyleMap.hasOwnProperty(key)) {
+            customBlockStyleMap[key] = blockStyleMap[key];
           }
         }
       }
@@ -194,6 +204,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     this.setState({
       toolbarPlugins,
       customStyleMap,
+      customBlockStyleMap,
       compositeDecorator,
     });
 
@@ -304,6 +315,13 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     return command === 'split-block';
   }
+  public getBlockStyle(contentBlock): String {
+    const { customBlockStyleMap } = this.state;
+    const type = contentBlock.getType();
+    if (customBlockStyleMap.hasOwnProperty(type)) {
+      return customBlockStyleMap[type];
+    }
+  }
   eventHandle(eventName, ...args) : boolean {
     const plugins = this.getPlugins();
     for (let i = 0; i < plugins.length; i++) {
@@ -353,6 +371,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           handleKeyCommand={this.handleKeyCommand.bind(this)}
           keyBindingFn={this.handleKeyBinding.bind(this)}
           onChange={this.setEditorState.bind(this)}
+          blockStyleFn={this.getBlockStyle.bind(this)}
         />
         {this.props.children}
       </div>
