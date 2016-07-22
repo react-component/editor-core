@@ -4,7 +4,7 @@ import 'rc-editor-core/assets/index.less';
 import { EditorCore, Toolbar, GetText } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Entity } from 'draft-js';
+import { Entity, Modifier, EditorState } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
 function findWithRegex(regex, contentBlock, callback) {
@@ -27,19 +27,32 @@ const callbacks = {
   getStyleMap: () => {},
 };
 
+function toggleBlockType() {
+  const editorState = callbacks.getEditorState();
+  const blockTypedContent = Modifier.setBlockType(
+    editorState.getCurrentContent(),
+    editorState.getSelection(),
+    'text_align',
+  );
+  
+  callbacks.setEditorState(
+    EditorState.push(editorState, blockTypedContent, 'apply-block-type')
+  );
+}
+
 const Test = {
   name: 'test',
   callbacks,
-  component: <div>123</div>,
+  component: <div onMouseDown={toggleBlockType}>123</div>,
   blockStyleMap: {
-    'textaligin': 'alignLeft',
+    'text_align': 'alignLeft',
   },
   decorators: [{
     strategy: (contentBlock, callback) => {
       findWithRegex(suggestionRegex, contentBlock, callback);
     },
     component: (props) => {
-      return <span style={{color: 'red'}}>{props.children}</span>
+      return <span style={{color: 'red'}} >{props.children}</span>
     }
   }],
 };

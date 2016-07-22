@@ -8,8 +8,11 @@ import {
   Modifier,
   getDefaultKeyBinding,
   KeyBindingUtil,
+  DefaultDraftBlockRenderMap,
+  DraftBlockRenderConfig,
 } from 'draft-js';
-import { List } from 'immutable';
+
+import { List, Map } from 'immutable';
 import { createToolbar } from '../Toolbar';
 import '../draftExt';
 
@@ -53,6 +56,7 @@ export interface EditorCoreState {
   editorState?: EditorState;
   customStyleMap?: Object;
   customBlockStyleMap?: Object;
+  blockRenderMap?: Map<String, DraftBlockRenderConfig>;
   toolbarPlugins?: List<Plugin>;
   plugins?: Array<Plugin>;
   compositeDecorator?: CompositeDecorator;
@@ -170,6 +174,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const plugins = this.initPlugins().concat([toolbar]);
     const customStyleMap = {};
     const customBlockStyleMap = {};
+    let customBlockRenderMap: Map<String, DraftBlockRenderConfig> = Map(DefaultDraftBlockRenderMap);
 
     // initialize compositeDecorator
     const compositeDecorator = new CompositeDecorator(
@@ -195,6 +200,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         for (const key in blockStyleMap) {
           if (blockStyleMap.hasOwnProperty(key)) {
             customBlockStyleMap[key] = blockStyleMap[key];
+            customBlockRenderMap = customBlockRenderMap.set(key, {
+              element: null,
+            });
           }
         }
       }
@@ -205,6 +213,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       toolbarPlugins,
       customStyleMap,
       customBlockStyleMap,
+      blockRenderMap: customBlockRenderMap,
       compositeDecorator,
     });
 
@@ -346,7 +355,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   render() {
     const { prefixCls, toolbars, style } = this.props;
-    const { editorState, toolbarPlugins, customStyleMap } = this.state;
+    const { editorState, toolbarPlugins, customStyleMap, blockRenderMap } = this.state;
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
     return (<div
@@ -372,6 +381,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           keyBindingFn={this.handleKeyBinding.bind(this)}
           onChange={this.setEditorState.bind(this)}
           blockStyleFn={this.getBlockStyle.bind(this)}
+          blockRenderMap={blockRenderMap}
         />
         {this.props.children}
       </div>

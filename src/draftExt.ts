@@ -20,5 +20,10 @@ declare module 'draft-js' {
     hasCommandModifier(args: any): any;
   }
 
+  interface DraftBlockRenderConfig {
+    element: string;
+    wrapper?: Element;
+  }
+  var DefaultDraftBlockRenderMap: Object;
   var KeyBindingUtil: KeyBindingUtil;
 }
