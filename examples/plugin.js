@@ -65,6 +65,9 @@ webpackJsonp([2],{
 	    null,
 	    '123'
 	  ),
+	  blockStyleMap: {
+	    'textaligin': 'alignLeft'
+	  },
 	  decorators: [{
 	    strategy: function strategy(contentBlock, callback) {
 	      findWithRegex(suggestionRegex, contentBlock, callback);

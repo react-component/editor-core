@@ -262,6 +262,7 @@
 	            plugins: _this.reloadPlugins(),
 	            editorState: editorState,
 	            customStyleMap: {},
+	            customBlockStyleMap: {},
 	            compositeDecorator: null
 	        };
 	        if (props.value !== undefined) {
@@ -329,6 +330,7 @@
 	    EditorCore.prototype.componentWillMount = function componentWillMount() {
 	        var plugins = this.initPlugins().concat([toolbar]);
 	        var customStyleMap = {};
+	        var customBlockStyleMap = {};
 	        // initialize compositeDecorator
 	        var compositeDecorator = new _draftJs.CompositeDecorator(plugins.filter(function (plugin) {
 	            return plugin.decorators !== undefined;
@@ -344,6 +346,7 @@
 	        // load inline styles...
 	        plugins.forEach(function (plugin) {
 	            var styleMap = plugin.styleMap;
+	            var blockStyleMap = plugin.blockStyleMap;
 	
 	            if (styleMap) {
 	                for (var key in styleMap) {
@@ -352,10 +355,18 @@
 	                    }
 	                }
 	            }
+	            if (blockStyleMap) {
+	                for (var _key in blockStyleMap) {
+	                    if (blockStyleMap.hasOwnProperty(_key)) {
+	                        customBlockStyleMap[_key] = blockStyleMap[_key];
+	                    }
+	                }
+	            }
 	        });
 	        this.setState({
 	            toolbarPlugins: toolbarPlugins,
 	            customStyleMap: customStyleMap,
+	            customBlockStyleMap: customBlockStyleMap,
 	            compositeDecorator: compositeDecorator
 	        });
 	        this.setEditorState(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
@@ -474,13 +485,22 @@
 	        return command === 'split-block';
 	    };
 	
+	    EditorCore.prototype.getBlockStyle = function getBlockStyle(contentBlock) {
+	        var customBlockStyleMap = this.state.customBlockStyleMap;
+	
+	        var type = contentBlock.getType();
+	        if (customBlockStyleMap.hasOwnProperty(type)) {
+	            return customBlockStyleMap[type];
+	        }
+	    };
+	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
 	        var _props;
 	
 	        var plugins = this.getPlugins();
 	
-	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	            args[_key - 1] = arguments[_key];
+	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
+	            args[_key2 - 1] = arguments[_key2];
 	        }
 	
 	        for (var i = 0; i < plugins.length; i++) {
@@ -502,8 +522,8 @@
 	        var _this5 = this;
 	
 	        return function () {
-	            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	                args[_key2] = arguments[_key2];
+	            for (var _len2 = arguments.length, args = Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
+	                args[_key3] = arguments[_key3];
 	            }
 	
 	            return _this5.eventHandle.apply(_this5, [eventName].concat(args));
@@ -529,7 +549,7 @@
 	            React.createElement(
 	                'div',
 	                { className: prefixCls + '-editor-wrapper', style: style },
-	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this) })),
+	                React.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this) })),
 	                this.props.children
 	            )
 	        );
