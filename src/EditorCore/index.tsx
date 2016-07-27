@@ -14,8 +14,10 @@ import {
 
 import { List, Map } from 'immutable';
 import { createToolbar } from '../Toolbar';
+import GetHTML from './getHTML';
+import exportText from './exportText';
+
 import '../draftExt';
-import exportText, { decodeContent } from './exportText';
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -72,7 +74,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const editorState = EditorState.createWithContent(createEmptyContentState);
     return EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
   }
-  static ExportFunction = exportText;
+  public static ExportFunction = exportText;
+  public static GetHTML = GetHTML;
   public Reset(): void {
     this.setEditorState(
       EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor')

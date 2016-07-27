@@ -16,7 +16,8 @@ import EditorCore from './EditorCore';
 
 const EditorCorePublic = {
   EditorCore,
-  GetText: EditorCore.ExportFunction,
+  GetText: EditorCore.GetText,
+  GetHTML: EditorCore.GetHTML,
   toEditorState: EditorCore.ToEditorState,
 };
 

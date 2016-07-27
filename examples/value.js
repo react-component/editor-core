@@ -1,7 +1,7 @@
 // use jsx to render html, do not modify simple.html
 
 import 'rc-editor-core/assets/index.less';
-import { EditorCore, Toolbar, GetText, toEditorState } from 'rc-editor-core';
+import { EditorCore, Toolbar, GetText, getHTML, toEditorState } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';

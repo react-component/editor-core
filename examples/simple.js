@@ -2,7 +2,7 @@
 
 import 'rc-editor-core/assets/index.less';
 import 'rc-select/assets/index.css';
-import { EditorCore, Toolbar, GetText } from 'rc-editor-core';
+import { EditorCore, Toolbar, GetHTML } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';
@@ -14,7 +14,7 @@ const plugins = [BasicStyle, Emoji];
 const toolbars = [['fontSize', '|', 'bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
 
 function editorChange(editorState) {
-  console.log('>> editorExport:', GetText(editorState));
+  console.log('>> editorExport:', GetHTML(editorState));
 }
 
 function keyDown(ev) {
