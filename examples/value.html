@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>value.js - example - rc-editor-core@0.4.11</title>
+  <title>value.js - example - rc-editor-core@0.4.12</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.4.11</h1>
+      <h1>rc-editor-core@0.4.12</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -278,7 +278,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">const</span> toolbars = [[<span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'strikethrough'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'superscript'</span>, <span class="hljs-string">'subscript'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'emoji'</span>]];
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">editorChange</span>(<span class="hljs-params">editorState</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; editorExport:'</span>, GetText(editorState));
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; editorExport:'</span>, GetText(editorState, { encode: <span class="hljs-literal">true</span> }));
 }
 <span class="hljs-keyword">const</span> Editor = React.createClass({
   getInitialState() {

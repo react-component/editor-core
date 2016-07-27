@@ -222,6 +222,12 @@
 	
 	__webpack_require__(302);
 	
+	var _exportText = __webpack_require__(303);
+	
+	var _exportText2 = _interopRequireDefault(_exportText);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
@@ -276,27 +282,6 @@
 	        var createEmptyContentState = _draftJs.ContentState.createFromText(text || '');
 	        var editorState = _draftJs.EditorState.createWithContent(createEmptyContentState);
 	        return _draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter());
-	    };
-	
-	    EditorCore.ExportFunction = function ExportFunction(editorState) {
-	        var content = editorState.getCurrentContent();
-	        var blockMap = content.getBlockMap();
-	        return blockMap.map(function (block) {
-	            var resultText = '';
-	            var lastPosition = 0;
-	            var text = block.getText();
-	            block.findEntityRanges(function (character) {
-	                return !!character.getEntity();
-	            }, function (start, end) {
-	                var key = block.getEntityAt(start);
-	                var entityData = _draftJs.Entity.get(key).getData();
-	                resultText += text.slice(lastPosition, start);
-	                resultText += entityData && entityData.export ? entityData.export(entityData) : text.slice(start, end);
-	                lastPosition = end;
-	            });
-	            resultText += text.slice(lastPosition);
-	            return resultText;
-	        }).join('\n');
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
@@ -564,6 +549,7 @@
 	    return EditorCore;
 	}(React.Component);
 	
+	EditorCore.ExportFunction = _exportText2.default;
 	EditorCore.defaultProps = {
 	    multiLines: true,
 	    plugins: [],
@@ -38407,6 +38393,48 @@
 /***/ function(module, exports) {
 
 	"use strict";
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = exportText;
+	
+	var _draftJs = __webpack_require__(43);
+	
+	function encodeContent(text) {
+	    return text.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('\xA0').join('&nbsp;').split('\n').join('<br >' + '\n');
+	}
+	function exportText(editorState) {
+	    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    var content = editorState.getCurrentContent();
+	    var blockMap = content.getBlockMap();
+	    var encode = options.encode;
+	
+	    return blockMap.map(function (block) {
+	        var resultText = '';
+	        var lastPosition = 0;
+	        var text = block.getText();
+	        block.findEntityRanges(function (character) {
+	            return !!character.getEntity();
+	        }, function (start, end) {
+	            var key = block.getEntityAt(start);
+	            var entityData = _draftJs.Entity.get(key).getData();
+	            resultText += text.slice(lastPosition, start);
+	            resultText += entityData && entityData.export ? entityData.export(entityData) : text.slice(start, end);
+	            lastPosition = end;
+	        });
+	        resultText += text.slice(lastPosition);
+	        return encode ? encodeContent(resultText) : resultText;
+	    }).join(encode ? '<br />\n' : '\n');
+	}
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ])));
