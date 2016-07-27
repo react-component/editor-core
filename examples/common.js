@@ -279,7 +279,7 @@
 	    }
 	
 	    EditorCore.ToEditorState = function ToEditorState(text) {
-	        var createEmptyContentState = _draftJs.ContentState.createFromText(text || '');
+	        var createEmptyContentState = _draftJs.ContentState.createFromText((0, _exportText.decodeContent)(text) || '');
 	        var editorState = _draftJs.EditorState.createWithContent(createEmptyContentState);
 	        return _draftJs.EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter());
 	    };
@@ -38403,12 +38403,17 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.encodeContent = encodeContent;
+	exports.decodeContent = decodeContent;
 	exports.default = exportText;
 	
 	var _draftJs = __webpack_require__(43);
 	
 	function encodeContent(text) {
 	    return text.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('\xA0').join('&nbsp;').split('\n').join('<br >' + '\n');
+	}
+	function decodeContent(text) {
+	    return text.split('<br >\n').join('\n');
 	}
 	function exportText(editorState) {
 	    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -38434,7 +38439,6 @@
 	        return encode ? encodeContent(resultText) : resultText;
 	    }).join(encode ? '<br />\n' : '\n');
 	}
-	module.exports = exports['default'];
 
 /***/ }
 /******/ ])));
