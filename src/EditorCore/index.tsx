@@ -15,6 +15,7 @@ import {
 import { List, Map } from 'immutable';
 import { createToolbar } from '../Toolbar';
 import '../draftExt';
+import exportText from './exportText';
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -71,27 +72,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const editorState = EditorState.createWithContent(createEmptyContentState);
     return EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
   }
-  static ExportFunction(editorState):String {
-    const content = editorState.getCurrentContent();
-    const blockMap = content.getBlockMap();
-    return blockMap.map( block => {
-      let resultText = '';
-      let lastPosition = 0;
-      const text = block.getText();
-      block.findEntityRanges(function (character) {
-        return !!character.getEntity();
-      }, function (start, end) {
-        var key = block.getEntityAt(start);
-        const entityData = Entity.get(key).getData();
-        resultText += text.slice(lastPosition, start);
-        resultText += entityData && entityData.export ? entityData.export(entityData) : text.slice(start, end );
-        lastPosition = end;
-      });
-      resultText += text.slice(lastPosition);
-      return resultText;
-    }).join('\n');
-  }
-
+  static ExportFunction = exportText;
   public Reset(): void {
     this.setEditorState(
       EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor')

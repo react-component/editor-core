@@ -12,7 +12,7 @@ const plugins = [BasicStyle, Emoji];
 const toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
 
 function editorChange(editorState) {
-  console.log('>> editorExport:', GetText(editorState));
+  console.log('>> editorExport:', GetText(editorState, { encode: true }));
 }
 const Editor = React.createClass({
   getInitialState() {
