@@ -492,11 +492,6 @@
 	        return command === 'split-block';
 	    };
 	
-	    EditorCore.prototype.getBlockRender = function getBlockRender(contentBlock) {
-	        var customBlockStyleMap = configStore.get('customBlockStyleMap');
-	        var type = contentBlock.getType();
-	    };
-	
 	    EditorCore.prototype.getBlockStyle = function getBlockStyle(contentBlock) {
 	        var customBlockStyleMap = configStore.get('customBlockStyleMap');
 	        var type = contentBlock.getType();
@@ -570,7 +565,7 @@
 	    return EditorCore;
 	}(React.Component);
 	
-	EditorCore.ExportFunction = _exportText2.default;
+	EditorCore.GetText = _exportText2.default;
 	EditorCore.GetHTML = (0, _getHTML2.default)(configStore);
 	EditorCore.defaultProps = {
 	    multiLines: true,
