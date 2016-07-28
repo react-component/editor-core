@@ -192,7 +192,8 @@
 	
 	var EditorCorePublic = {
 	    EditorCore: _EditorCore2.default,
-	    GetText: _EditorCore2.default.ExportFunction,
+	    GetText: _EditorCore2.default.GetText,
+	    GetHTML: _EditorCore2.default.GetHTML,
 	    toEditorState: _EditorCore2.default.ToEditorState
 	};
 	exports.default = EditorCorePublic;
@@ -220,11 +221,19 @@
 	
 	var _Toolbar = __webpack_require__(299);
 	
-	__webpack_require__(302);
+	var _ConfigStore = __webpack_require__(302);
 	
-	var _exportText = __webpack_require__(303);
+	var _ConfigStore2 = _interopRequireDefault(_ConfigStore);
+	
+	var _getHTML = __webpack_require__(303);
+	
+	var _getHTML2 = _interopRequireDefault(_getHTML);
+	
+	var _exportText = __webpack_require__(304);
 	
 	var _exportText2 = _interopRequireDefault(_exportText);
+	
+	__webpack_require__(305);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -243,6 +252,7 @@
 	function noop() {}
 	;
 	var toolbar = (0, _Toolbar.createToolbar)();
+	var configStore = new _ConfigStore2.default();
 	
 	var EditorCore = function (_React$Component) {
 	    _inherits(EditorCore, _React$Component);
@@ -333,6 +343,7 @@
 	        plugins.forEach(function (plugin) {
 	            var styleMap = plugin.styleMap;
 	            var blockStyleMap = plugin.blockStyleMap;
+	            var blockRenderMap = plugin.blockRenderMap;
 	
 	            if (styleMap) {
 	                for (var key in styleMap) {
@@ -351,12 +362,19 @@
 	                    }
 	                }
 	            }
+	            if (blockRenderMap) {
+	                for (var _key2 in blockRenderMap) {
+	                    if (blockRenderMap.hasOwnProperty(_key2)) {
+	                        customBlockRenderMap = customBlockRenderMap.set(_key2, blockRenderMap[_key2]);
+	                    }
+	                }
+	            }
 	        });
+	        configStore.set('customStyleMap', customStyleMap);
+	        configStore.set('customBlockStyleMap', customBlockStyleMap);
+	        configStore.set('blockRenderMap', customBlockRenderMap);
 	        this.setState({
 	            toolbarPlugins: toolbarPlugins,
-	            customStyleMap: customStyleMap,
-	            customBlockStyleMap: customBlockStyleMap,
-	            blockRenderMap: customBlockRenderMap,
 	            compositeDecorator: compositeDecorator
 	        });
 	        this.setEditorState(_draftJs.EditorState.set(this.state.editorState, { decorator: compositeDecorator }));
@@ -383,14 +401,13 @@
 	        return editorState;
 	    };
 	
-	    EditorCore.prototype.getStyleMap = function getStyleMap() {
-	        return this.state.customStyleMap;
+	    EditorCore.getStyleMap = function getStyleMap() {
+	        return configStore.get('customStyleMap');
 	    };
 	
 	    EditorCore.prototype.setStyleMap = function setStyleMap(customStyleMap) {
-	        return this.setState({
-	            customStyleMap: customStyleMap
-	        });
+	        configStore.set('customStyleMap', customStyleMap);
+	        this.render();
 	    };
 	
 	    EditorCore.prototype.initPlugins = function initPlugins() {
@@ -475,9 +492,13 @@
 	        return command === 'split-block';
 	    };
 	
-	    EditorCore.prototype.getBlockStyle = function getBlockStyle(contentBlock) {
-	        var customBlockStyleMap = this.state.customBlockStyleMap;
+	    EditorCore.prototype.getBlockRender = function getBlockRender(contentBlock) {
+	        var customBlockStyleMap = configStore.get('customBlockStyleMap');
+	        var type = contentBlock.getType();
+	    };
 	
+	    EditorCore.prototype.getBlockStyle = function getBlockStyle(contentBlock) {
+	        var customBlockStyleMap = configStore.get('customBlockStyleMap');
 	        var type = contentBlock.getType();
 	        if (customBlockStyleMap.hasOwnProperty(type)) {
 	            return customBlockStyleMap[type];
@@ -489,8 +510,8 @@
 	
 	        var plugins = this.getPlugins();
 	
-	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
-	            args[_key2 - 1] = arguments[_key2];
+	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key3 = 1; _key3 < _len; _key3++) {
+	            args[_key3 - 1] = arguments[_key3];
 	        }
 	
 	        for (var i = 0; i < plugins.length; i++) {
@@ -512,8 +533,8 @@
 	        var _this5 = this;
 	
 	        return function () {
-	            for (var _len2 = arguments.length, args = Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
-	                args[_key3] = arguments[_key3];
+	            for (var _len2 = arguments.length, args = Array(_len2), _key4 = 0; _key4 < _len2; _key4++) {
+	                args[_key4] = arguments[_key4];
 	            }
 	
 	            return _this5.eventHandle.apply(_this5, [eventName].concat(args));
@@ -528,9 +549,9 @@
 	        var _state = this.state;
 	        var editorState = _state.editorState;
 	        var toolbarPlugins = _state.toolbarPlugins;
-	        var customStyleMap = _state.customStyleMap;
-	        var blockRenderMap = _state.blockRenderMap;
 	
+	        var customStyleMap = configStore.get('customStyleMap');
+	        var blockRenderMap = configStore.get('blockRenderMap');
 	        var eventHandler = this.getEventHandler();
 	        var Toolbar = toolbar.component;
 	        return React.createElement(
@@ -550,6 +571,7 @@
 	}(React.Component);
 	
 	EditorCore.ExportFunction = _exportText2.default;
+	EditorCore.GetHTML = (0, _getHTML2.default)(configStore);
 	EditorCore.defaultProps = {
 	    multiLines: true,
 	    plugins: [],
@@ -38390,12 +38412,200 @@
 
 /***/ },
 /* 302 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _immutable = __webpack_require__(46);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var ConfigStore = function () {
+	    function ConfigStore() {
+	        _classCallCheck(this, ConfigStore);
+	
+	        this._store = new _immutable.Map();
+	    }
+	
+	    ConfigStore.prototype.set = function set(key, value) {
+	        this._store = this._store.set(key, value);
+	    };
+	
+	    ConfigStore.prototype.get = function get(key) {
+	        return this._store.get(key);
+	    };
+	
+	    return ConfigStore;
+	}();
+
+	exports.default = ConfigStore;
+	module.exports = exports['default'];
 
 /***/ },
 /* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.DEFAULT_INLINE_STYLE = exports.DEFAULT_ELEMENT = exports.EMPTY_SET = undefined;
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	exports.default = GetHTML;
+	
+	var _draftJs = __webpack_require__(43);
+	
+	var _immutable = __webpack_require__(46);
+	
+	var _DefaultDraftInlineStyle = __webpack_require__(81);
+	
+	var _DefaultDraftInlineStyle2 = _interopRequireDefault(_DefaultDraftInlineStyle);
+	
+	var _CSSProperty = __webpack_require__(147);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var EMPTY_SET = exports.EMPTY_SET = new _immutable.OrderedSet();
+	var DEFAULT_ELEMENT = exports.DEFAULT_ELEMENT = 'span';
+	var DEFAULT_INLINE_STYLE = exports.DEFAULT_INLINE_STYLE = _DefaultDraftInlineStyle2.default;
+	function encodeContent(text) {
+	    return text.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('\xA0').join('&nbsp;').split('\n').join('<br >' + '\n');
+	}
+	function encodeAttr(text) {
+	    return text.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;');
+	}
+	var VENDOR_PREFIX = /^(moz|ms|o|webkit)-/;
+	var NUMERIC_STRING = /^\d+$/;
+	var UPPERCASE_PATTERN = /([A-Z])/g;
+	// Lifted from: https://github.com/facebook/react/blob/master/src/renderers/dom/shared/CSSPropertyOperations.js
+	function processStyleName(name) {
+	    return name.replace(UPPERCASE_PATTERN, '-$1').toLowerCase().replace(VENDOR_PREFIX, '-$1-');
+	}
+	// Lifted from: https://github.com/facebook/react/blob/master/src/renderers/dom/shared/dangerousStyleValue.js
+	function processStyleValue(name, value) {
+	    var isNumeric = void 0;
+	    if (typeof value === 'string') {
+	        isNumeric = NUMERIC_STRING.test(value);
+	    } else {
+	        isNumeric = true;
+	        value = String(value);
+	    }
+	    if (!isNumeric || value === '0' || _CSSProperty.isUnitlessNumber[name] === true) {
+	        return value;
+	    } else {
+	        return value + 'px';
+	    }
+	}
+	function getStyleText(styleObject) {
+	    return Object.keys(styleObject).map(function (name) {
+	        var styleName = processStyleName(name);
+	        var styleValue = processStyleValue(name, styleObject[name]);
+	        return styleName + ':' + styleValue;
+	    }).join(';');
+	}
+	function getEntityContent(entityKey, content) {
+	    if (entityKey) {
+	        var entity = _draftJs.Entity.get(entityKey);
+	        var entityData = entity.getData();
+	        if (entityData && entityData.export) {
+	            return entityData.export(content, entityData);
+	        }
+	    }
+	    return content;
+	}
+	function GetHTML(configStore) {
+	    return function exportHtml(editorState) {
+	        var content = editorState.getCurrentContent();
+	        var blockMap = content.getBlockMap();
+	        var customStyleMap = configStore.get('customStyleMap') || {};
+	        Object.assign(customStyleMap, _DefaultDraftInlineStyle2.default);
+	        return blockMap.map(function (block) {
+	            console.log('>> block', block.toSource());
+	            var resultText = '';
+	            var lastPosition = 0;
+	            var text = block.getText();
+	            var charMetaList = block.getCharacterList();
+	            var charEntity = null;
+	            var prevCharEntity = null;
+	            var ranges = [];
+	            var rangeStart = 0;
+	            for (var i = 0, len = text.length; i < len; i++) {
+	                prevCharEntity = charEntity;
+	                var meta = charMetaList.get(i);
+	                charEntity = meta ? meta.getEntity() : null;
+	                if (i > 0 && charEntity !== prevCharEntity) {
+	                    ranges.push([prevCharEntity, getStyleRanges(text.slice(rangeStart, i), charMetaList.slice(rangeStart, i))]);
+	                    rangeStart = i;
+	                }
+	            }
+	            ranges.push([charEntity, getStyleRanges(text.slice(rangeStart), charMetaList.slice(rangeStart))]);
+	            ranges.map(function (_ref) {
+	                var _ref2 = _slicedToArray(_ref, 2);
+	
+	                var entityKey = _ref2[0];
+	                var stylePieces = _ref2[1];
+	
+	                var element = DEFAULT_ELEMENT;
+	                var content = stylePieces.map(function (_ref3) {
+	                    var _ref4 = _slicedToArray(_ref3, 2);
+	
+	                    var text = _ref4[0];
+	                    var styleSet = _ref4[1];
+	
+	                    var encodedContent = encodeContent(text);
+	                    if (styleSet.size) {
+	                        var _ret = function () {
+	                            var inlineStyle = {};
+	                            styleSet.forEach(function (item) {
+	                                if (customStyleMap.hasOwnProperty(item)) {
+	                                    var currentStyle = customStyleMap[item];
+	                                    inlineStyle = Object.assign(inlineStyle, currentStyle);
+	                                }
+	                            });
+	                            return {
+	                                v: '<span style="' + getStyleText(inlineStyle) + '">' + encodedContent + '</span>'
+	                            };
+	                        }();
+	
+	                        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	                    }
+	                    return '<span>' + encodedContent + '</span>';
+	                }).join('');
+	                resultText += getEntityContent(entityKey, content);
+	            });
+	            return resultText;
+	        }).join('<br />\n');
+	    };
+	}
+	function getStyleRanges(text, charMetaList) {
+	    var charStyle = EMPTY_SET;
+	    var prevCharStyle = EMPTY_SET;
+	    var ranges = [];
+	    var rangeStart = 0;
+	    for (var i = 0, len = text.length; i < len; i++) {
+	        prevCharStyle = charStyle;
+	        var meta = charMetaList.get(i);
+	        charStyle = meta ? meta.getStyle() : EMPTY_SET;
+	        if (i > 0 && !(0, _immutable.is)(charStyle, prevCharStyle)) {
+	            ranges.push([text.slice(rangeStart, i), prevCharStyle]);
+	            rangeStart = i;
+	        }
+	    }
+	    ranges.push([text.slice(rangeStart), charStyle]);
+	    return ranges;
+	}
+
+/***/ },
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38439,6 +38649,12 @@
 	        return encode ? encodeContent(resultText) : resultText;
 	    }).join(encode ? '<br />\n' : '\n');
 	}
+
+/***/ },
+/* 305 */
+/***/ function(module, exports) {
+
+	"use strict";
 
 /***/ }
 /******/ ])));
