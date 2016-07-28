@@ -15,7 +15,7 @@ import {
 import { List, Map } from 'immutable';
 import { createToolbar } from '../Toolbar';
 import '../draftExt';
-import exportText from './exportText';
+import exportText, { decodeContent } from './exportText';
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -68,7 +68,7 @@ const toolbar = createToolbar();
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   static ToEditorState(text: string): EditorState {
-    const createEmptyContentState = ContentState.createFromText(text || '');
+    const createEmptyContentState = ContentState.createFromText(decodeContent(text) || '');
     const editorState = EditorState.createWithContent(createEmptyContentState);
     return EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
   }

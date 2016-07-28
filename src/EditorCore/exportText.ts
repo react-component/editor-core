@@ -1,12 +1,17 @@
 import { EditorState, Entity } from "draft-js";
 
-function encodeContent(text: string): string {
+export function encodeContent(text: string): string {
   return text
     .split('&').join('&amp;')
     .split('<').join('&lt;')
     .split('>').join('&gt;')
     .split('\xA0').join('&nbsp;')
-    .split('\n').join('<br >' + '\n');
+    .split('\n').join('<br />' + '\n');
+}
+
+export function decodeContent(text: string): string {
+  return text
+    .split('<br />' + '\n').join('\n');
 }
 
 export default function exportText(editorState: EditorState, options: Object = {}): string {
