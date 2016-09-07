@@ -36,7 +36,7 @@ React EditorCore Component
 
 ## Screenshots
 
-<img src="" width="288"/>
+<img src="https://zos.alipayobjects.com/rmsportal/iNbBdYhHdLxfnCT.png" width="288"/>
 
 
 ## Development
