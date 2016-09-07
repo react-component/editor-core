@@ -3,15 +3,15 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(384);
+	module.exports = __webpack_require__(484);
 
 
 /***/ },
 
-/***/ 382:
+/***/ 482:
 2,
 
-/***/ 384:
+/***/ 484:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24,13 +24,13 @@ webpackJsonp([2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(91);
+	var _reactDom = __webpack_require__(87);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _draftJs = __webpack_require__(43);
+	var _draftJs = __webpack_require__(39);
 	
-	__webpack_require__(382);
+	__webpack_require__(482);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -57,11 +57,12 @@ webpackJsonp([2],{
 	  getStyleMap: function getStyleMap() {}
 	};
 	
-	function toggleBlockType() {
-	  var editorState = callbacks.getEditorState();
-	  var blockTypedContent = _draftJs.Modifier.setBlockType(editorState.getCurrentContent(), editorState.getSelection(), 'text_align');
+	function toggleInlineStyle(style) {
+	  return function () {
+	    var editorState = callbacks.getEditorState();
 	
-	  callbacks.setEditorState(_draftJs.EditorState.push(editorState, blockTypedContent, 'apply-block-type'));
+	    callbacks.setEditorState(_draftJs.RichUtils.toggleInlineStyle(editorState, 'customer-style-' + style));
+	  };
 	}
 	
 	var Test = {
@@ -69,24 +70,33 @@ webpackJsonp([2],{
 	  callbacks: callbacks,
 	  component: _react2.default.createElement(
 	    'div',
-	    { onMouseDown: toggleBlockType },
-	    '123'
+	    null,
+	    _react2.default.createElement(
+	      'div',
+	      { onMouseDown: toggleInlineStyle('red') },
+	      'red'
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { onMouseDown: toggleInlineStyle('bold') },
+	      'bold'
+	    )
 	  ),
-	  blockStyleMap: {
-	    'text_align': 'alignLeft'
-	  },
-	  decorators: [{
-	    strategy: function strategy(contentBlock, callback) {
-	      findWithRegex(suggestionRegex, contentBlock, callback);
-	    },
-	    component: function component(props) {
-	      return _react2.default.createElement(
-	        'span',
-	        { style: { color: 'red' } },
-	        props.children
-	      );
-	    }
-	  }]
+	  customStyleFn: function customStyleFn(styleSet) {
+	    return styleSet.map(function (style) {
+	      if (style === 'customer-style-red') {
+	        return {
+	          color: 'red'
+	        };
+	      }
+	      if (style === 'customer-style-bold') {
+	        return {
+	          fontWeight: 'bold'
+	        };
+	      }
+	      return {};
+	    }).reduce(Object.assign);
+	  }
 	};
 	
 	var plugins = [Test];

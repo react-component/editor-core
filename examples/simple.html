@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - rc-editor-core@0.4.15-beta3</title>
+  <title>simple.js - example - rc-editor-core@0.5.0-beta</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.4.15-beta3</h1>
+      <h1>rc-editor-core@0.5.0-beta</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -273,15 +273,16 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> BasicStyle <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-basic-style'</span>;
 <span class="hljs-keyword">import</span> Emoji <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-emoji'</span>;
+<span class="hljs-keyword">import</span> Image <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-image'</span>;
 <span class="hljs-keyword">import</span> { Entity } <span class="hljs-keyword">from</span> <span class="hljs-string">'draft-js'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-plugin-emoji/assets/index.css'</span>;
 
-<span class="hljs-keyword">const</span> plugins = [BasicStyle, Emoji];
+<span class="hljs-keyword">const</span> plugins = [BasicStyle, Emoji, Image];
 <span class="hljs-keyword">const</span> toolbars = [[<span class="hljs-string">'fontSize'</span>, <span class="hljs-string">'|'</span>,
   <span class="hljs-string">'fontColor'</span>,
   <span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'strikethrough'</span>, <span class="hljs-string">'|'</span>,
   <span class="hljs-string">'superscript'</span>, <span class="hljs-string">'subscript'</span>, <span class="hljs-string">'|'</span>,
-  <span class="hljs-string">'align-justify'</span>, <span class="hljs-string">'align-left'</span>, <span class="hljs-string">'align-right'</span>, <span class="hljs-string">'align-middle'</span>]];
+  <span class="hljs-string">'align-justify'</span>, <span class="hljs-string">'align-left'</span>, <span class="hljs-string">'align-right'</span>, <span class="hljs-string">'align-middle'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'image'</span>]];
 
 
 <span class="hljs-keyword">const</span> EditorWithPreview = React.createClass({
