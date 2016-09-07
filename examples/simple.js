@@ -7,31 +7,39 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';
 import Emoji from 'rc-editor-plugin-emoji';
+import Image from 'rc-editor-plugin-image';
 import { Entity } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
-const plugins = [BasicStyle, Emoji];
-const toolbars = [['fontSize', '|', 'bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'emoji']];
+const plugins = [BasicStyle, Emoji, Image];
+const toolbars = [['fontSize', '|',
+  'fontColor',
+  'bold', 'italic', 'underline', 'strikethrough', '|',
+  'superscript', 'subscript', '|',
+  'align-justify', 'align-left', 'align-right', 'align-middle', '|', 'image']];
 
-function editorChange(editorState) {
-  console.log('>> editorExport:', GetHTML(editorState));
-}
 
-function keyDown(ev) {
-  console.log('>> keydown', ev.keyCode, ev.ctrlKey);
-  if (ev.keyCode === 13) {
-    if (ev.ctrlKey) {
-      return 'split-block';
-    }
-    return true
+const EditorWithPreview = React.createClass({
+  getInitialState() {
+    return {
+      html: '',
+    };
+  },
+  editorChange(editorState) {
+    this.setState({
+      html: GetHTML(editorState),
+    });
+  },
+  render() {
+    return (<div>
+      <div className="preview" dangerouslySetInnerHTML={{__html: this.state.html}}></div>
+      <EditorCore
+        plugins={plugins}
+        toolbars={toolbars}
+        placeholder="input text here"
+        onChange={this.editorChange}
+      />
+    </div>);
   }
-  return false;
-}
-
-ReactDOM.render(<EditorCore
-  plugins={plugins}
-  toolbars={toolbars}
-  placeholder="input text here"
-  onKeyDown={(ev) => keyDown(ev)}
-  onChange={(editorState) => editorChange(editorState)}
-/>, document.getElementById('__react-content'));
+});
+ReactDOM.render(<EditorWithPreview />, document.getElementById('__react-content'));

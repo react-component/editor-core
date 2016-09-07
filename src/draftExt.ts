@@ -25,5 +25,12 @@ declare module 'draft-js' {
     wrapper?: Element;
   }
   var DefaultDraftBlockRenderMap: Object;
+  var DefaultDraftInlineStyle: Object;
   var KeyBindingUtil: KeyBindingUtil;
+}
+
+declare module 'react/lib/CSSProperty.js' {
+  interface isUnitlessNumber {
+
+  }
 }

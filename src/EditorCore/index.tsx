@@ -14,8 +14,9 @@ import {
 
 import { List, Map } from 'immutable';
 import { createToolbar } from '../Toolbar';
-import GetHTML from './getHTML';
-import exportText from './exportText';
+import ConfigStore from './ConfigStore';
+import GetHTML from './export/getHTML';
+import exportText, { decodeContent } from './export/exportText';
 
 import '../draftExt';
 
@@ -67,6 +68,7 @@ export interface EditorCoreState {
 
 
 const toolbar = createToolbar();
+const configStore = new ConfigStore();
 
 class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   static ToEditorState(text: string): EditorState {
@@ -74,8 +76,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const editorState = EditorState.createWithContent(createEmptyContentState);
     return EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
   }
-  public static ExportFunction = exportText;
-  public static GetHTML = GetHTML;
+  public static GetText = exportText;
+  public static GetHTML = GetHTML(configStore);
   public Reset(): void {
     this.setEditorState(
       EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor')
@@ -158,6 +160,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const plugins = this.initPlugins().concat([toolbar]);
     const customStyleMap = {};
     const customBlockStyleMap = {};
+
     let customBlockRenderMap: Map<String, DraftBlockRenderConfig> = Map(DefaultDraftBlockRenderMap);
 
     // initialize compositeDecorator
@@ -172,7 +175,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     // load inline styles...
     plugins.forEach( plugin => {
-      const { styleMap, blockStyleMap } = plugin;
+      const { styleMap, blockStyleMap, blockRenderMap } = plugin;
       if (styleMap) {
         for (const key in styleMap) {
           if (styleMap.hasOwnProperty(key)) {
@@ -190,14 +193,22 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           }
         }
       }
+
+      if (blockRenderMap) {
+        for (const key in blockRenderMap) {
+          if (blockRenderMap.hasOwnProperty(key)) {
+            customBlockRenderMap = customBlockRenderMap.set(key, blockRenderMap[key]);
+          }
+        }
+      }
     });
 
+    configStore.set('customStyleMap', customStyleMap);
+    configStore.set('customBlockStyleMap', customBlockStyleMap);
+    configStore.set('blockRenderMap', customBlockRenderMap);
 
     this.setState({
       toolbarPlugins,
-      customStyleMap,
-      customBlockStyleMap,
-      blockRenderMap: customBlockRenderMap,
       compositeDecorator,
     });
 
@@ -229,14 +240,14 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return editorState;
   }
 
-  public getStyleMap(): Object {
-    return this.state.customStyleMap;
+  public static getStyleMap(): Object {
+    return configStore.get('customStyleMap');
   }
   public setStyleMap(customStyleMap): void {
-    return this.setState({
-      customStyleMap,
-    });
+    configStore.set('customStyleMap', customStyleMap);
+    this.render();
   }
+
   public initPlugins() : Array<any> {
     const enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
     return this.getPlugins().map(plugin => {
@@ -308,8 +319,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     return command === 'split-block';
   }
+
   public getBlockStyle(contentBlock): String {
-    const { customBlockStyleMap } = this.state;
+    const customBlockStyleMap = configStore.get('customBlockStyleMap');
     const type = contentBlock.getType();
     if (customBlockStyleMap.hasOwnProperty(type)) {
       return customBlockStyleMap[type];
@@ -339,7 +351,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   render() {
     const { prefixCls, toolbars, style } = this.props;
-    const { editorState, toolbarPlugins, customStyleMap, blockRenderMap } = this.state;
+    const { editorState, toolbarPlugins } = this.state;
+    const customStyleMap = configStore.get('customStyleMap');
+    const blockRenderMap = configStore.get('blockRenderMap');
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
     return (<div
