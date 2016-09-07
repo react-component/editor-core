@@ -29,6 +29,7 @@ export interface Plugin {
   decorators?: Array<any>;
   component?: Function;
   onChange: (editorState: EditorState)=> EditorState;
+  customStyleFn?: Function;
   callbacks: {
     onUpArrow?: Function;
     onDownArrow?: Function;
@@ -240,7 +241,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return editorState;
   }
 
-  public static getStyleMap(): Object {
+  public getStyleMap(): Object {
     return configStore.get('customStyleMap');
   }
   public setStyleMap(customStyleMap): void {
@@ -348,7 +349,23 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return this.eventHandle(eventName, ...args);
     };
   }
+  customStyleFn(styleSet) : Object {
+    if (styleSet.size === 0) {
+      return {};
+    }
 
+    const plugins = this.getPlugins();
+    const resultStyle = {};
+    for (let i = 0; i < plugins.length; i++) {
+      if (plugins[i].customStyleFn) {
+        const styled = plugins[i].customStyleFn(styleSet);
+        if (styled) {
+          Object.assign(resultStyle, styled);
+        }
+      }
+    }
+    return resultStyle;
+  }
   render() {
     const { prefixCls, toolbars, style } = this.props;
     const { editorState, toolbarPlugins } = this.state;
@@ -374,6 +391,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           {...eventHandler}
           ref="editor"
           customStyleMap={customStyleMap}
+          customStyleFn={this.customStyleFn.bind(this)}
           editorState={editorState}
           handleKeyCommand={this.handleKeyCommand.bind(this)}
           keyBindingFn={this.handleKeyBinding.bind(this)}

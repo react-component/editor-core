@@ -4,7 +4,7 @@ import 'rc-editor-core/assets/index.less';
 import { EditorCore, Toolbar, GetText } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Entity, Modifier, EditorState } from 'draft-js';
+import { Entity, Modifier, EditorState,RichUtils  } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
 function findWithRegex(regex, contentBlock, callback) {
@@ -27,34 +27,38 @@ const callbacks = {
   getStyleMap: () => {},
 };
 
-function toggleBlockType() {
-  const editorState = callbacks.getEditorState();
-  const blockTypedContent = Modifier.setBlockType(
-    editorState.getCurrentContent(),
-    editorState.getSelection(),
-    'text_align',
-  );
+function toggleInlineStyle(style) {
+  return () => {
+    const editorState = callbacks.getEditorState();
   
-  callbacks.setEditorState(
-    EditorState.push(editorState, blockTypedContent, 'apply-block-type')
-  );
+    callbacks.setEditorState(
+      RichUtils.toggleInlineStyle(editorState, `customer-style-${style}`)
+    );
+  }
 }
 
 const Test = {
   name: 'test',
   callbacks,
-  component: <div onMouseDown={toggleBlockType}>123</div>,
-  blockStyleMap: {
-    'text_align': 'alignLeft',
+  component: <div>
+    <div onMouseDown={toggleInlineStyle('red')}>red</div>
+    <div onMouseDown={toggleInlineStyle('bold')}>bold</div>
+  </div>,
+  customStyleFn(styleSet) {
+   return styleSet.map(style => {
+      if (style === 'customer-style-red') {
+        return {
+          color: 'red'
+        };
+      }
+      if (style === 'customer-style-bold') {
+        return {
+          fontWeight: 'bold'
+        };
+      }
+      return {}
+    }).reduce(Object.assign);
   },
-  decorators: [{
-    strategy: (contentBlock, callback) => {
-      findWithRegex(suggestionRegex, contentBlock, callback);
-    },
-    component: (props) => {
-      return <span style={{color: 'red'}} >{props.children}</span>
-    }
-  }],
 };
 
 const plugins = [Test];
