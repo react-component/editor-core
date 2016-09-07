@@ -1034,14 +1034,21 @@ webpackJsonp([3],[
 	var getCurrentEntity = _rcEditorUtils2["default"].getCurrentEntity;
 	
 	var Option = _rcSelect2["default"].Option;
-	var sizeArray = [12, 14, 18, 24];
+	var sizeArray = [];
+	for (var i = 12; i < 24; i += 2) {
+	    sizeArray.push(i);
+	}
 	var PREFIX = 'FONTSIZE_';
-	var styleMap = {};
-	sizeArray.forEach(function (fontSize) {
-	    styleMap[PREFIX + '_' + fontSize] = {
-	        fontSize: fontSize
-	    };
-	});
+	function customStyleFn(styleSet) {
+	    return styleSet.map(function (style) {
+	        if (style.indexOf(PREFIX) !== -1) {
+	            var fontSize = Number(style.substring(PREFIX.length));
+	            return {
+	                fontSize: fontSize
+	            };
+	        }
+	    }).reduce(Object.assign);
+	}
 	var FontSize = {
 	    constructor: function constructor() {
 	        var callbacks = {
@@ -1050,19 +1057,19 @@ webpackJsonp([3],[
 	        };
 	        var toggleStyle = (0, _utils.getToggleFontStyleFunc)(PREFIX, callbacks);
 	        function changeSelect(fontSize) {
-	            toggleStyle(PREFIX + '_' + fontSize);
+	            toggleStyle('' + PREFIX + fontSize);
 	        }
 	        return {
 	            name: 'fontSize',
 	            callbacks: callbacks,
-	            styleMap: styleMap,
+	            customStyleFn: customStyleFn,
 	            component: function component(props) {
 	                var editorState = callbacks.getEditorState();
 	                var currentStyle = getCurrentInlineStyle(editorState);
 	                var currentFontSize = currentStyle.find(function (item) {
-	                    return item.indexOf(PREFIX + '_') !== -1;
+	                    return item.indexOf('' + PREFIX) !== -1;
 	                });
-	                var fontSizeNumber = currentFontSize ? currentFontSize.substring(PREFIX.length + 1) : 16;
+	                var fontSizeNumber = currentFontSize ? currentFontSize.substring(PREFIX.length) : 16;
 	                var options = sizeArray.map(function (item) {
 	                    return React.createElement(
 	                        Option,
@@ -11266,14 +11273,8 @@ webpackJsonp([3],[
 	var getCurrentEntity = _rcEditorUtils2["default"].getCurrentEntity;
 	
 	var Option = _rcSelect2["default"].Option;
-	var colorArray = ['red', 'blue', 'green', 'yellow'];
+	var colorArray = ['c00000', 'ff0000', 'ffc000', 'ffff00', '92d050', '00b050', '00b0f0', '0070c0', '002060', '7030a0'];
 	var PREFIX = 'FONTCOLOR_';
-	var styleMap = {};
-	colorArray.forEach(function (color) {
-	    styleMap[PREFIX + '_' + color] = {
-	        color: color
-	    };
-	});
 	var fontColor = {
 	    constructor: function constructor() {
 	        var callbacks = {
@@ -11282,23 +11283,33 @@ webpackJsonp([3],[
 	        };
 	        var toggleStyle = (0, _utils.getToggleFontStyleFunc)(PREFIX, callbacks);
 	        function changeSelect(fontSize) {
-	            toggleStyle(PREFIX + '_' + fontSize);
+	            toggleStyle('' + PREFIX + fontSize);
+	        }
+	        function customStyleFn(styleSet) {
+	            return styleSet.map(function (style) {
+	                if (style.indexOf(PREFIX) !== -1) {
+	                    var color = '#' + style.substring(PREFIX.length);
+	                    return {
+	                        color: color
+	                    };
+	                }
+	            }).reduce(Object.assign);
 	        }
 	        return {
 	            name: 'fontColor',
 	            callbacks: callbacks,
-	            styleMap: styleMap,
+	            customStyleFn: customStyleFn,
 	            component: function component(props) {
 	                var editorState = callbacks.getEditorState();
 	                var currentStyle = getCurrentInlineStyle(editorState);
 	                var currentFontSize = currentStyle.find(function (item) {
-	                    return item.indexOf(PREFIX + '_') !== -1;
+	                    return item.indexOf('' + PREFIX) !== -1;
 	                });
-	                var fontColor = currentFontSize ? currentFontSize.substring(PREFIX.length + 1) : '';
+	                var fontColor = currentFontSize ? currentFontSize.substring(PREFIX.length) : '';
 	                var options = colorArray.map(function (item) {
 	                    return React.createElement(
 	                        Option,
-	                        { key: item, value: item, style: { backgroundColor: item } },
+	                        { key: item, value: item, style: { backgroundColor: '#' + item } },
 	                        ' '
 	                    );
 	                });
