@@ -373,6 +373,7 @@
 	        configStore.set('customStyleMap', customStyleMap);
 	        configStore.set('customBlockStyleMap', customBlockStyleMap);
 	        configStore.set('blockRenderMap', customBlockRenderMap);
+	        configStore.set('customStyleFn', this.customStyleFn.bind(this));
 	        this.setState({
 	            toolbarPlugins: toolbarPlugins,
 	            compositeDecorator: compositeDecorator
@@ -44632,6 +44633,7 @@
 	        var blockMap = content.getBlockMap();
 	        var customStyleMap = configStore.get('customStyleMap') || {};
 	        var customBlockRenderMap = configStore.get('blockRenderMap') || {};
+	        var customStyleFn = configStore.get('customStyleFn');
 	        Object.assign(customStyleMap, DEFAULT_INLINE_STYLE);
 	        return blockMap.map(function (block) {
 	            var resultText = '<div>';
@@ -44679,6 +44681,8 @@
 	                                    inlineStyle = Object.assign(inlineStyle, currentStyle);
 	                                }
 	                            });
+	                            var costumedStyle = customStyleFn(styleSet);
+	                            inlineStyle = Object.assign(inlineStyle, costumedStyle);
 	                            return {
 	                                v: '<span style="' + getStyleText(inlineStyle) + '">' + encodedContent + '</span>'
 	                            };

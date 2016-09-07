@@ -1128,6 +1128,7 @@ webpackJsonp([0],[
 	                fontSize: fontSize
 	            };
 	        }
+	        return {};
 	    }).reduce(Object.assign);
 	}
 	var FontSize = {
@@ -11374,6 +11375,7 @@ webpackJsonp([0],[
 	                        color: color
 	                    };
 	                }
+	                return {};
 	            }).reduce(Object.assign);
 	        }
 	        return {
