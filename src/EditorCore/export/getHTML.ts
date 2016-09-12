@@ -76,13 +76,13 @@ function getEntityContent(entityKey, content: string): string {
 
 export default function GetHTML(configStore) {
 
-
   return function exportHtml(editorState: EditorState) {
     const content = editorState.getCurrentContent();
     const blockMap:BlockMap = content.getBlockMap();
 
     const customStyleMap = configStore.get('customStyleMap') || {};
     const customBlockRenderMap = configStore.get('blockRenderMap') || {};
+    const customStyleFn = configStore.get('customStyleFn');
     Object.assign(customStyleMap, DEFAULT_INLINE_STYLE);
 
     return blockMap.map(block => {
@@ -136,6 +136,8 @@ export default function GetHTML(configStore) {
                 inlineStyle = Object.assign(inlineStyle, currentStyle);
               }
             });
+            const costumedStyle = customStyleFn(styleSet);
+            inlineStyle = Object.assign(inlineStyle, costumedStyle);
             return `<span style="${getStyleText(inlineStyle)}">${encodedContent}</span>`;
           }
           return `<span>${encodedContent}</span>`;

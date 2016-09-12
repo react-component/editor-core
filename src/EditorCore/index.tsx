@@ -44,6 +44,7 @@ export interface Plugin {
 export interface EditorProps {
   multiLines: boolean;
   plugins: Array<Plugin>;
+  pluginConfig?: Object;
   prefixCls: string;
   onChange?: (editorState: EditorState) => EditorState;
   toolbars: Array<any>;
@@ -138,6 +139,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     multiLines: true,
     plugins: [],
     prefixCls: 'rc-editor-core',
+    pluginConfig: {},
     toolbars: [],
     spilitLine: 'enter',
   };
@@ -149,7 +151,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       }
       // 如果插件有 constructor 方法,则构造插件
       if (plugin.hasOwnProperty('constructor')) {
-        return plugin.constructor(plugin.config);
+        const pluginConfig = Object.assign(this.props.pluginConfig, plugin.config);
+        return plugin.constructor(pluginConfig);
       }
       // else 无效插件
       console.warn('>> 插件: [', plugin.name , '] 无效。插件或许已经过期。');
@@ -203,10 +206,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         }
       }
     });
-
     configStore.set('customStyleMap', customStyleMap);
     configStore.set('customBlockStyleMap', customBlockStyleMap);
     configStore.set('blockRenderMap', customBlockRenderMap);
+    configStore.set('customStyleFn', this.customStyleFn.bind(this));
 
     this.setState({
       toolbarPlugins,
@@ -328,6 +331,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return customBlockStyleMap[type];
     }
   }
+
   eventHandle(eventName, ...args) : boolean {
     const plugins = this.getPlugins();
     for (let i = 0; i < plugins.length; i++) {

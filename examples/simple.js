@@ -34,7 +34,9 @@ const EditorWithPreview = React.createClass({
     return (<div>
       <div className="preview" dangerouslySetInnerHTML={{__html: this.state.html}}></div>
       <EditorCore
+        prefixCls="rc-editor-core"
         plugins={plugins}
+        pluginConfig={{ prefixCls: 'ant-editor-plugin' }}
         toolbars={toolbars}
         placeholder="input text here"
         onChange={this.editorChange}
