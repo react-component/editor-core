@@ -305,6 +305,8 @@
 	    };
 	
 	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
+	        var _this2 = this;
+	
 	        return this.plugins && this.plugins.size ? this.plugins.map(function (plugin) {
 	            //　如果插件有 callbacks 方法,则认为插件已经加载。
 	            if (plugin.callbacks) {
@@ -312,7 +314,8 @@
 	            }
 	            // 如果插件有 constructor 方法,则构造插件
 	            if (plugin.hasOwnProperty('constructor')) {
-	                return plugin.constructor(plugin.config);
+	                var pluginConfig = Object.assign(_this2.props.pluginConfig, plugin.config);
+	                return plugin.constructor(pluginConfig);
 	            }
 	            // else 无效插件
 	            console.warn('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
@@ -412,13 +415,13 @@
 	    };
 	
 	    EditorCore.prototype.initPlugins = function initPlugins() {
-	        var _this2 = this;
+	        var _this3 = this;
 	
 	        var enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
 	        return this.getPlugins().map(function (plugin) {
 	            enableCallbacks.forEach(function (callbackName) {
 	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
-	                    plugin.callbacks[callbackName] = _this2[callbackName].bind(_this2);
+	                    plugin.callbacks[callbackName] = _this3[callbackName].bind(_this3);
 	                }
 	            });
 	            return plugin;
@@ -434,12 +437,12 @@
 	    };
 	
 	    EditorCore.prototype.getEventHandler = function getEventHandler() {
-	        var _this3 = this;
+	        var _this4 = this;
 	
 	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur'];
 	        var eventHandler = {};
 	        enabledEvents.forEach(function (event) {
-	            eventHandler[event] = _this3.generatorEventHandler(event);
+	            eventHandler[event] = _this4.generatorEventHandler(event);
 	        });
 	        return eventHandler;
 	    };
@@ -449,7 +452,7 @@
 	    };
 	
 	    EditorCore.prototype.setEditorState = function setEditorState(editorState) {
-	        var _this4 = this;
+	        var _this5 = this;
 	
 	        var focusEditor = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 	
@@ -468,7 +471,7 @@
 	        if (!this.controlledMode) {
 	            this.setState({ editorState: newEditorState }, focusEditor ? function () {
 	                return setTimeout(function () {
-	                    return _this4.refs.editor.focus();
+	                    return _this5.refs.editor.focus();
 	                }, 100);
 	            } : noop);
 	        }
@@ -526,14 +529,14 @@
 	    };
 	
 	    EditorCore.prototype.generatorEventHandler = function generatorEventHandler(eventName) {
-	        var _this5 = this;
+	        var _this6 = this;
 	
 	        return function () {
 	            for (var _len2 = arguments.length, args = Array(_len2), _key4 = 0; _key4 < _len2; _key4++) {
 	                args[_key4] = arguments[_key4];
 	            }
 	
-	            return _this5.eventHandle.apply(_this5, [eventName].concat(args));
+	            return _this6.eventHandle.apply(_this6, [eventName].concat(args));
 	        };
 	    };
 	
@@ -589,6 +592,7 @@
 	    multiLines: true,
 	    plugins: [],
 	    prefixCls: 'rc-editor-core',
+	    pluginConfig: {},
 	    toolbars: [],
 	    spilitLine: 'enter'
 	};

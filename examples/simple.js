@@ -11947,7 +11947,9 @@ webpackJsonp([3],[
 	      null,
 	      _react2.default.createElement('div', { className: 'preview', dangerouslySetInnerHTML: { __html: this.state.html } }),
 	      _react2.default.createElement(_rcEditorCore.EditorCore, {
+	        prefixCls: 'rc-editor-core',
 	        plugins: plugins,
+	        pluginConfig: { prefixCls: 'ant-editor-plugin' },
 	        toolbars: toolbars,
 	        placeholder: 'input text here',
 	        onChange: this.editorChange
