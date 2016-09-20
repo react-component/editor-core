@@ -1,4 +1,8 @@
 {
+  "compilerOptions": {
+    "sourceMap": true,
+    "experimentalDecorators": true
+  },
   "files": [
     "typings/index.d.ts",
     "src/interfaces.d.ts"

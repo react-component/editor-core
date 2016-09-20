@@ -36,7 +36,6 @@ const EditorWithPreview = React.createClass({
       <EditorCore
         prefixCls="rc-editor-core"
         plugins={plugins}
-        pluginConfig={{ prefixCls: 'ant-editor-plugin' }}
         toolbars={toolbars}
         placeholder="input text here"
         onChange={this.editorChange}

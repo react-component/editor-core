@@ -68,6 +68,8 @@ export interface EditorCoreState {
   compositeDecorator?: CompositeDecorator;
 }
 
+const defaultPluginConfig = {
+};
 
 const toolbar = createToolbar();
 const configStore = new ConfigStore();
@@ -151,7 +153,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       }
       // 如果插件有 constructor 方法,则构造插件
       if (plugin.hasOwnProperty('constructor')) {
-        const pluginConfig = Object.assign(this.props.pluginConfig, plugin.config);
+        const pluginConfig = Object.assign(this.props.pluginConfig, plugin.config || {}, defaultPluginConfig);
         return plugin.constructor(pluginConfig);
       }
       // else 无效插件

@@ -1,6 +1,6 @@
 {
   "name": "rc-editor-core",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "editor-core ui component for react",
   "keywords": [
     "react",
@@ -55,8 +55,9 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "draft-js": "^0.8.1",
-    "immutable": "^3.7.4"
+    "draft-js": "^0.9.1",
+    "immutable": "^3.7.4",
+    "rc-editor-plugin-image": "0.0.3"
   },
   "pre-commit": [
     "lint"
