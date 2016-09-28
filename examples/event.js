@@ -3,12 +3,12 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(512);
+	module.exports = __webpack_require__(511);
 
 
 /***/ },
 
-/***/ 512:
+/***/ 511:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,11 +17,11 @@ webpackJsonp([1],{
 	
 	var _rcEditorCore = __webpack_require__(3);
 	
-	var _react = __webpack_require__(7);
+	var _react = __webpack_require__(6);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(88);
+	var _reactDom = __webpack_require__(87);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
