@@ -14,7 +14,7 @@ export function decodeContent(text: string): string {
     .split('<br />' + '\n').join('\n');
 }
 
-export default function exportText(editorState: EditorState, options: Object = {}): string {
+export default function exportText(editorState: EditorState, options = { encode: false}): string {
   const content = editorState.getCurrentContent();
   const blockMap = content.getBlockMap();
   const { encode } = options;

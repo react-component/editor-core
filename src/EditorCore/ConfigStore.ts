@@ -1,9 +1,9 @@
 import { Map } from 'immutable';
 
 export default class ConfigStore {
-  private _store: Map;
+  private _store: Map<string, any>;
   constructor() {
-    this._store = new Map();
+    this._store = Map<string, any>();
   }
 
   set(key, value) {

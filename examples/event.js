@@ -12,8 +12,9 @@ const EventPlugin = {
     onUpArrow:() => { console.log('>> onUpArrow') },
     onDownArrow:() => { console.log('>> onDownArrow ')},
     onBlur:() => { console.log('>> onBlur')},
-    onFocus:() => { console.log('>> onBlur prevent'); return true;}
-  }
+    onFocus:() => { console.log('>> onBlur prevent'); return true;},
+    handlePastedText: (text, html) => { console.log('>> handlePastedText', text, html )}
+  },
 };
 const plugins = [EventPlugin];
 const toolbars = [];

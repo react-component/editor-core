@@ -2,11 +2,10 @@ import { EditorState, CharacterMetadata, Entity, DefaultDraftInlineStyle } from 
 import { List, OrderedSet, is } from 'immutable';
 import { isUnitlessNumber } from 'react/lib/CSSProperty.js';
 
-import '../../draftExt';
-import {BlockMap} from "draft-js";
+import BlockMap from 'draft-js/lib/BlockMap';
 
 export type Style = OrderedSet<string>;
-export const EMPTY_SET: Style = new OrderedSet();
+export const EMPTY_SET: Style = OrderedSet<string>();
 export const DEFAULT_ELEMENT = 'span';
 export const DEFAULT_INLINE_STYLE = DefaultDraftInlineStyle;
 

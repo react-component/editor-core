@@ -1,6 +1,7 @@
 {
   "globalDependencies": {
-    "draft-js": "registry:dt/draft-js#0.2.2+20160316171810",
+    "draft-js": "registry:dt/draft-js#0.7.0+20160728135642",
+    "immutable": "registry:dt/immutable#3.8.1+20160608070634",
     "react": "registry:dt/react#0.14.0+20160526134601"
   }
 }

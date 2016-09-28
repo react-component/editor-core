@@ -11,7 +11,24 @@ import Image from 'rc-editor-plugin-image';
 import { Entity } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
-const plugins = [BasicStyle, Emoji, Image];
+const Wrapper = (props) => <div {...props} />;
+const blockPlugin = {
+  name: 'image',
+  callbacks: {
+    setEditorState: null,
+    getEditorState: null,
+  },
+  blockRenderMap: {
+    'img': {
+      element: 'img',
+    },
+    'paragraph': {
+      element: 'p'
+    }
+  }
+};;
+
+const plugins = [blockPlugin, BasicStyle, Emoji, Image];
 const toolbars = [['fontSize', '|',
   'fontColor',
   'bold', 'italic', 'underline', 'strikethrough', '|',
@@ -37,6 +54,7 @@ const EditorWithPreview = React.createClass({
         prefixCls="rc-editor-core"
         plugins={plugins}
         toolbars={toolbars}
+        pluginConfig={{prefixCls: 'rc'}}
         placeholder="input text here"
         onChange={this.editorChange}
       />

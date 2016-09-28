@@ -1,4 +1,5 @@
 import { EditorState } from 'draft-js';
+// import createPlugin from './EditorCore/createPlugin';
 // export this package's api
 
 /*eslint-disable*/
@@ -19,6 +20,7 @@ const EditorCorePublic = {
   GetText: EditorCore.GetText,
   GetHTML: EditorCore.GetHTML,
   toEditorState: EditorCore.ToEditorState,
+  // createPlugin: createPlugin,
 };
 
 export default EditorCorePublic;

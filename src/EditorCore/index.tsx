@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {
   Editor,
   EditorState,
@@ -18,12 +19,11 @@ import ConfigStore from './ConfigStore';
 import GetHTML from './export/getHTML';
 import exportText, { decodeContent } from './export/exportText';
 
-import '../draftExt';
-
 const { hasCommandModifier } = KeyBindingUtil;
 
 function noop():void {};
 
+export type DraftHandleValue = 'handled' | 'not-handled';
 export interface Plugin {
   name: string;
   decorators?: Array<any>;
@@ -84,13 +84,13 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public static GetHTML = GetHTML(configStore);
   public Reset(): void {
     this.setEditorState(
-      EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'reset-editor')
+      EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'remove-range')
     );
   }
 
   public SetText(text: string) : void {
     const createTextContentState = ContentState.createFromText(text || '');
-    const editorState = EditorState.push(this.state.editorState, createTextContentState, 'editor-setText');
+    const editorState = EditorState.push(this.state.editorState, createTextContentState, 'change-block-data');
     this.setEditorState(
       EditorState.moveFocusToEnd(editorState)
     , true);
@@ -276,7 +276,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public getEventHandler(): Object {
-    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur'];
+    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'handlePastedText'];
     const eventHandler = {};
     enabledEvents.forEach(event => {
       eventHandler[event] = this.generatorEventHandler(event);
@@ -307,7 +307,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       this.setState({ editorState: newEditorState }, focusEditor ? () => setTimeout(() => this.refs.editor.focus(), 100) : noop);
     }
   }
-  public handleKeyBinding(ev): boolean {
+  public handleKeyBinding(ev): any {
     if (this.props.onKeyDown) {
       ev.ctrlKey = hasCommandModifier(ev);
       const keyDownResult = this.props.onKeyDown(ev);
@@ -318,12 +318,12 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
     return getDefaultKeyBinding(ev);
   }
-  public handleKeyCommand(command: String): boolean {
+  public handleKeyCommand(command: String): DraftHandleValue {
     if (this.props.multiLines) {
       return this.eventHandle('handleKeyBinding', command);
     }
 
-    return command === 'split-block';
+    return command === 'split-block' ? 'handled' : 'not-handled';
   }
 
   public getBlockStyle(contentBlock): String {
@@ -334,7 +334,12 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
   }
 
-  eventHandle(eventName, ...args) : boolean {
+  public blockRendererFn(contentBlock) {
+    const type = contentBlock.getType();
+    console.log('>> blockRender', type);
+  }
+
+  eventHandle(eventName, ...args) : DraftHandleValue {
     const plugins = this.getPlugins();
     for (let i = 0; i < plugins.length; i++) {
       const plugin = plugins[i];
@@ -343,11 +348,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         && typeof plugin.callbacks[eventName] === 'function') {
         const result = plugin.callbacks[eventName](...args);
         if (result === true) {
-          return true;
+          return 'handled';
         }
       }
     }
-    return this.props.hasOwnProperty(eventName) && this.props[eventName](...args) === true ;
+    return this.props.hasOwnProperty(eventName) && this.props[eventName](...args) === true ? 'handled' : 'not-handled';
   }
 
   generatorEventHandler(eventName) : Function {
@@ -404,6 +409,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           onChange={this.setEditorState.bind(this)}
           blockStyleFn={this.getBlockStyle.bind(this)}
           blockRenderMap={blockRenderMap}
+          blockRendererFn={this.blockRendererFn}
         />
         {this.props.children}
       </div>
