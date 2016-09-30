@@ -494,8 +494,16 @@
 	    };
 	
 	    EditorCore.prototype.blockRendererFn = function blockRendererFn(contentBlock) {
-	        var type = contentBlock.getType();
-	        console.log('>> blockRender', type);
+	        var blockRenderResult = null;
+	        this.getPlugins().forEach(function (plugin) {
+	            if (plugin.blockRendererFn) {
+	                var result = plugin.blockRendererFn(contentBlock);
+	                if (result) {
+	                    blockRenderResult = result;
+	                }
+	            }
+	        });
+	        return blockRenderResult;
 	    };
 	
 	    EditorCore.prototype.eventHandle = function eventHandle(eventName) {
@@ -37733,6 +37741,7 @@
 	function getBlockMapSupportedTags(blockRenderMap) {
 	  var unstyledElement = blockRenderMap.get('unstyled').element;
 	  return blockRenderMap.map(function (config) {
+	    console.log(">> config", config);
 	    return config.element;
 	  }).valueSeq().toSet().filter(function (tag) {
 	    return tag && tag !== unstyledElement;
@@ -37754,7 +37763,7 @@
 	  var matchedTypes = blockRenderMap.filter(function (config) {
 	    return config.element === tag || config.wrapper === tag;
 	  }).keySeq().toSet().toArray().sort();
-	  
+	  console.log('>> getBlockTypeForTag', blockRenderMap);
 	  // if we dont have any matched type, return unstyled
 	  // if we have one matched type return it
 	  // if we have multi matched types use the multi-match function to gather type
@@ -37933,6 +37942,7 @@
 	  }
 	
 	  var entityId = null;
+	  console.log('>> child', child);
 	  while (child) {
 	    if (child instanceof HTMLAnchorElement && child.href && hasValidLinkText(child)) {
 	      (function () {
@@ -37981,7 +37991,7 @@
 	  html = html.trim().replace(REGEX_CR, '').replace(REGEX_NBSP, SPACE).replace(REGEX_CARRIAGE, '').replace(REGEX_ZWS, '');
 	
 	  var supportedBlockTags = getBlockMapSupportedTags(blockRenderMap);
-	
+	  console.log('>> supportedBlockTags', supportedBlockTags)
 	  var safeBody = DOMBuilder(html);
 	  if (!safeBody) {
 	    return null;
