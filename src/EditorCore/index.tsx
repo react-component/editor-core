@@ -30,6 +30,7 @@ export interface Plugin {
   component?: Function;
   onChange: (editorState: EditorState)=> EditorState;
   customStyleFn?: Function;
+  blockRendererFn?: Function;
   callbacks: {
     onUpArrow?: Function;
     onDownArrow?: Function;
@@ -335,8 +336,16 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public blockRendererFn(contentBlock) {
-    const type = contentBlock.getType();
-    console.log('>> blockRender', type);
+    let blockRenderResult = null;
+    this.getPlugins().forEach(plugin => {
+      if (plugin.blockRendererFn) {
+        const result = plugin.blockRendererFn(contentBlock);
+        if (result) {
+          blockRenderResult = result;
+        }
+      }
+    });
+    return blockRenderResult;
   }
 
   eventHandle(eventName, ...args) : DraftHandleValue {
@@ -409,7 +418,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           onChange={this.setEditorState.bind(this)}
           blockStyleFn={this.getBlockStyle.bind(this)}
           blockRenderMap={blockRenderMap}
-          blockRendererFn={this.blockRendererFn}
+          blockRendererFn={this.blockRendererFn.bind(this)}
         />
         {this.props.children}
       </div>
