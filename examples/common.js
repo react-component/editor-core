@@ -301,6 +301,13 @@
 	        this.setEditorState(_draftJs.EditorState.moveFocusToEnd(editorState), true);
 	    };
 	
+	    EditorCore.prototype.getChildContext = function getChildContext() {
+	        return {
+	            getEditorState: this.getEditorState,
+	            setEditorState: this.setEditorState
+	        };
+	    };
+	
 	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
 	        var _this2 = this;
 	
@@ -596,6 +603,10 @@
 	    pluginConfig: {},
 	    toolbars: [],
 	    spilitLine: 'enter'
+	};
+	EditorCore.childContextTypes = {
+	    getEditorState: React.PropTypes.func,
+	    setEditorState: React.PropTypes.func
 	};
 	exports.default = EditorCore;
 	module.exports = exports['default'];
