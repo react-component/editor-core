@@ -44496,7 +44496,6 @@
 	    };
 	
 	    Toolbar.prototype.conpomentWillReceiveProps = function conpomentWillReceiveProps(nextProps) {
-	        console.log('conpomentWillReceiveProps', nextProps);
 	        this.render();
 	    };
 	
@@ -44732,8 +44731,9 @@
 	                                    inlineStyle = Object.assign(inlineStyle, currentStyle);
 	                                }
 	                            });
-	                            var costumedStyle = customStyleFn(styleSet);
-	                            inlineStyle = Object.assign(inlineStyle, costumedStyle);
+	                            var customedStyle = customStyleFn(styleSet);
+	                            debugger;
+	                            inlineStyle = Object.assign(inlineStyle, customedStyle);
 	                            return {
 	                                v: '<span style="' + getStyleText(inlineStyle) + '">' + encodedContent + '</span>'
 	                            };
@@ -44747,7 +44747,7 @@
 	            });
 	            resultText += '</div>';
 	            return resultText;
-	        }).join('<br />\n');
+	        }).join('\n');
 	    };
 	}
 	function getStyleRanges(text, charMetaList) {
