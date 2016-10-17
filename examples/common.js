@@ -44732,7 +44732,6 @@
 	                                }
 	                            });
 	                            var customedStyle = customStyleFn(styleSet);
-	                            debugger;
 	                            inlineStyle = Object.assign(inlineStyle, customedStyle);
 	                            return {
 	                                v: '<span style="' + getStyleText(inlineStyle) + '">' + encodedContent + '</span>'
