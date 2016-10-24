@@ -44767,8 +44767,9 @@
 	                    }();
 	
 	                    if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+	                } else {
+	                    resultText += content;
 	                }
-	                resultText += content;
 	            });
 	            resultText += '</div>';
 	            return resultText;
