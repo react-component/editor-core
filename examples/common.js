@@ -331,6 +331,7 @@
 	        var customStyleMap = {};
 	        var customBlockStyleMap = {};
 	        var customBlockRenderMap = (0, _immutable.Map)(_draftJs.DefaultDraftBlockRenderMap);
+	        var toHTMLList = (0, _immutable.List)([]);
 	        var compositeDecorator = new _draftJs.CompositeDecorator(plugins.filter(function (plugin) {
 	            return plugin.decorators !== undefined;
 	        }).map(function (plugin) {
@@ -345,6 +346,7 @@
 	            var styleMap = plugin.styleMap;
 	            var blockStyleMap = plugin.blockStyleMap;
 	            var blockRenderMap = plugin.blockRenderMap;
+	            var toHtml = plugin.toHtml;
 	
 	            if (styleMap) {
 	                for (var key in styleMap) {
@@ -363,6 +365,9 @@
 	                    }
 	                }
 	            }
+	            if (toHtml) {
+	                toHTMLList = toHTMLList.push(toHtml);
+	            }
 	            if (blockRenderMap) {
 	                for (var _key2 in blockRenderMap) {
 	                    if (blockRenderMap.hasOwnProperty(_key2)) {
@@ -375,6 +380,7 @@
 	        configStore.set('customBlockStyleMap', customBlockStyleMap);
 	        configStore.set('blockRenderMap', customBlockRenderMap);
 	        configStore.set('customStyleFn', this.customStyleFn.bind(this));
+	        configStore.set('toHTMLList', toHTMLList);
 	        this.setState({
 	            toolbarPlugins: toolbarPlugins,
 	            compositeDecorator: compositeDecorator
@@ -44667,16 +44673,6 @@
 	        return styleName + ':' + styleValue;
 	    }).join(';');
 	}
-	function getEntityContent(entityKey, content) {
-	    if (entityKey) {
-	        var entity = _draftJs.Entity.get(entityKey);
-	        var entityData = entity.getData();
-	        if (entityData && entityData.export) {
-	            return entityData.export(content, entityData);
-	        }
-	    }
-	    return content;
-	}
 	function GetHTML(configStore) {
 	    return function exportHtml(editorState) {
 	        var content = editorState.getCurrentContent();
@@ -44684,6 +44680,7 @@
 	        var customStyleMap = configStore.get('customStyleMap') || {};
 	        var customBlockRenderMap = configStore.get('blockRenderMap') || {};
 	        var customStyleFn = configStore.get('customStyleFn');
+	        var toHTMLList = configStore.get('toHTMLList');
 	        Object.assign(customStyleMap, DEFAULT_INLINE_STYLE);
 	        return blockMap.map(function (block) {
 	            var resultText = '<div>';
@@ -44742,7 +44739,32 @@
 	                    }
 	                    return '<span>' + encodedContent + '</span>';
 	                }).join('');
-	                resultText += getEntityContent(entityKey, content);
+	                if (entityKey) {
+	                    var _ret2 = function () {
+	                        var entity = _draftJs.Entity.get(entityKey);
+	                        var entityData = entity.getData();
+	                        if (entityData && entityData.export) {
+	                            return {
+	                                v: entityData.export(content, entityData)
+	                            };
+	                        }
+	                        var HTMLText = '';
+	                        toHTMLList.forEach(function (toHTML) {
+	                            var text = toHTML(entity);
+	                            if (text) {
+	                                HTMLText = text;
+	                            }
+	                        });
+	                        if (HTMLText) {
+	                            return {
+	                                v: HTMLText
+	                            };
+	                        }
+	                    }();
+	
+	                    if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+	                }
+	                return content;
 	            });
 	            resultText += '</div>';
 	            return resultText;
