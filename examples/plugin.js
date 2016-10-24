@@ -82,10 +82,10 @@ webpackJsonp([2],{
 	      'bold'
 	    )
 	  ),
-	  toHtml: function toHtml(entity) {
+	  toHtml: function toHtml(text, entity) {
 	    console.log('>> toHtml', entity);
 	    if (entity.getType() === 'LINK') {
-	      return '<a href="#">test</a>';
+	      return '<a href="#">text</a>';
 	    }
 	  },
 	  customStyleFn: function customStyleFn(styleSet) {

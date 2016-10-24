@@ -44712,11 +44712,17 @@
 	                var stylePieces = _ref2[1];
 	
 	                var element = DEFAULT_ELEMENT;
-	                var content = stylePieces.map(function (_ref3) {
-	                    var _ref4 = _slicedToArray(_ref3, 2);
+	                var rawContent = stylePieces.map(function (_ref3) {
+	                    var _ref4 = _slicedToArray(_ref3, 1);
 	
 	                    var text = _ref4[0];
-	                    var styleSet = _ref4[1];
+	                    return text;
+	                }).join('');
+	                var content = stylePieces.map(function (_ref5) {
+	                    var _ref6 = _slicedToArray(_ref5, 2);
+	
+	                    var text = _ref6[0];
+	                    var styleSet = _ref6[1];
 	
 	                    var encodedContent = encodeContent(text);
 	                    if (styleSet.size) {
@@ -44750,7 +44756,7 @@
 	                        }
 	                        var HTMLText = '';
 	                        toHTMLList.forEach(function (toHTML) {
-	                            var text = toHTML(entity);
+	                            var text = toHTML(rawContent, entity);
 	                            if (text) {
 	                                HTMLText = text;
 	                            }
