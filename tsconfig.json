@@ -17,6 +17,6 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": ["draft-js", "immutable", "react"]
+    "types": ["draft-js", "immutable", "react", "lodash"]
   }
 }

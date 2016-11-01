@@ -44,7 +44,6 @@ export default class Toolbar extends React.Component<ToolbarProps, any> {
     return null;
   }
   public conpomentWillReceiveProps(nextProps) {
-    console.log('conpomentWillReceiveProps', nextProps);
     this.render();
   }
   render() {

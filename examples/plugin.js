@@ -1,7 +1,7 @@
 // use jsx to render html, do not modify simple.html
 
 import 'rc-editor-core/assets/index.less';
-import { EditorCore, Toolbar, GetText, createPlugin } from 'rc-editor-core';
+import { EditorCore, Toolbar, GetText, createPlugin, GetHTML } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Entity, Modifier, EditorState,RichUtils  } from 'draft-js';
@@ -44,6 +44,12 @@ const Test = {
     <div onMouseDown={toggleInlineStyle('red')}>red</div>
     <div onMouseDown={toggleInlineStyle('bold')}>bold</div>
   </div>,
+  toHtml(text, entity) {
+    console.log('>> toHtml', entity);
+    if (entity.getType() === 'LINK') {
+      return `<a href="#">text</a>`
+    }
+  },
   customStyleFn(styleSet) {
    return styleSet.map(style => {
       if (style === 'customer-style-red') {
@@ -65,7 +71,6 @@ const plugins = [Test];
 const toolbars = [['test']];
 
 function keyDown(ev) {
-  console.log('>> keydown', ev.keyCode, ev.ctrlKey);
   if (ev.keyCode === 13) {
     if (ev.ctrlKey) {
       return 'split-block';
@@ -83,20 +88,21 @@ const EditorWrapper = React.createClass({
     };
   },
   onChange(editorState) {
-    console.log('>> onChange', editorState.getDecorator());
     this.setState({
       editorState,
     });
   },
   render() {
-    return <EditorCore
-      plugins={plugins}
-      toolbars={toolbars}
-      onKeyDown={(ev) => keyDown(ev)}
-      onChange={this.onChange}
-      value={this.state.editorState}
-    >
-    </EditorCore>;
+    return <div>
+      <EditorCore
+        plugins={plugins}
+        toolbars={toolbars}
+        onKeyDown={(ev) => keyDown(ev)}
+        onChange={this.onChange}
+        value={this.state.editorState}
+      />
+      {this.state.editorState ? GetHTML(this.state.editorState) : null}
+    </div>
   }
 });
 

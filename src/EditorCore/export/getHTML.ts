@@ -62,19 +62,7 @@ function getStyleText(styleObject) {
   }).join(';');
 }
 
-function getEntityContent(entityKey, content: string): string {
-  if (entityKey) {
-    const entity = Entity.get(entityKey);
-    const entityData = entity.getData();
-    if (entityData && entityData.export) {
-      return entityData.export(content, entityData);
-    }
-  }
-  return content;
-}
-
 export default function GetHTML(configStore) {
-
   return function exportHtml(editorState: EditorState) {
     const content = editorState.getCurrentContent();
     const blockMap:BlockMap = content.getBlockMap();
@@ -82,6 +70,7 @@ export default function GetHTML(configStore) {
     const customStyleMap = configStore.get('customStyleMap') || {};
     const customBlockRenderMap = configStore.get('blockRenderMap') || {};
     const customStyleFn = configStore.get('customStyleFn');
+    const toHTMLList = configStore.get('toHTMLList');
     Object.assign(customStyleMap, DEFAULT_INLINE_STYLE);
 
     return blockMap.map(block => {
@@ -125,6 +114,7 @@ export default function GetHTML(configStore) {
 
       ranges.map(([ entityKey, stylePieces]) => {
         let element = DEFAULT_ELEMENT;
+        const rawContent = stylePieces.map(([text]) => text).join('');
         let content = stylePieces.map(([text, styleSet]) => {
           let encodedContent = encodeContent(text);
           if (styleSet.size) {
@@ -135,18 +125,34 @@ export default function GetHTML(configStore) {
                 inlineStyle = Object.assign(inlineStyle, currentStyle);
               }
             });
-            const costumedStyle = customStyleFn(styleSet);
-            inlineStyle = Object.assign(inlineStyle, costumedStyle);
+            const customedStyle = customStyleFn(styleSet);
+            inlineStyle = Object.assign(inlineStyle, customedStyle);
             return `<span style="${getStyleText(inlineStyle)}">${encodedContent}</span>`;
           }
           return `<span>${encodedContent}</span>`;
         }).join('');
-        resultText += getEntityContent(entityKey, content);
+        if (entityKey) {
+          const entity = Entity.get(entityKey);
+          const entityData = entity.getData();
+          if (entityData && entityData.export) {
+            return entityData.export(content, entityData);
+          }
+          let HTMLText = '';
+          toHTMLList.forEach(toHTML => {
+            const text = toHTML(rawContent, entity);
+            if (text) {
+              HTMLText = text;
+            }
+          });
+          if (HTMLText) { resultText += HTMLText }
+        } else {
+          resultText += content;
+        }
       });
 
       resultText += '</div>';
       return resultText;
-    }).join('<br />\n');
+    }).join('\n');
   }
 }
 
