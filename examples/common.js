@@ -44885,7 +44885,7 @@
 	var getBlockSpecForElement = function getBlockSpecForElement(imgElement) {
 	    return {
 	        contentType: 'image',
-	        imgSrc: imgElement.getAttribute('src')
+	        src: imgElement.getAttribute('src')
 	    };
 	};
 	var wrapBlockSpec = function wrapBlockSpec(blockSpec) {
@@ -44905,7 +44905,6 @@
 	};
 	var elementToBlockSpecElement = compose(wrapBlockSpec, getBlockSpecForElement);
 	var imgReplacer = function imgReplacer(imgElement) {
-	    console.log('> imgReplacer', imgElement);
 	    return replaceElement(imgElement, elementToBlockSpecElement(imgElement));
 	};
 	var createContentBlock = function createContentBlock(blockData) {
@@ -44954,18 +44953,24 @@
 	
 	        var _JSON$parse = JSON.parse(block.getText());
 	
-	        var imgSrc = _JSON$parse.imgSrc;
+	        var src = _JSON$parse.src;
 	
-	        var entityData = {
-	            type: 'IMAGE',
-	            mutability: 'IMMUTABLE',
-	            data: { imgSrc: imgSrc }
-	        };
-	        var blockSpec = Object.assign({ type: 'atomic', text: ' ' }, { entityData: entityData });
-	        var atomicBlock = createContentBlock(blockSpec);
-	        var spacerBlock = createContentBlock({});
-	        return contentBlocks.concat([atomicBlock, spacerBlock]);
+	        var entityData = _draftJs.Entity.create('IMAGE', 'IMMUTABLE', { src: src });
+	        var charData = _draftJs.CharacterMetadata.create({ entity: entityData });
+	        var fragmentArray = [new _draftJs.ContentBlock({
+	            key: (0, _draftJs.genKey)(),
+	            type: 'image-block',
+	            text: ' ',
+	            characterList: (0, _Immutable.List)((0, _Immutable.Repeat)(charData, charData.count()))
+	        }), new _draftJs.ContentBlock({
+	            key: (0, _draftJs.genKey)(),
+	            type: 'unstyled',
+	            text: '',
+	            characterList: (0, _Immutable.List)()
+	        })];
+	        return contentBlocks.concat(fragmentArray);
 	    }, []);
+	    console.log('>> customHTML2Content contentBlocks', contentBlocks);
 	    tempDoc = null;
 	    return _draftJs.BlockMapBuilder.createFromArray(contentBlocks);
 	}

@@ -15102,9 +15102,48 @@ webpackJsonp([3],[
 	      element: 'p'
 	    }
 	  }
-	};;
+	};
 	
-	var plugins = [blockPlugin, _rcEditorPluginBasicStyle2.default, _rcEditorPluginEmoji2.default, _rcEditorPluginImage2.default];
+	function MediaBlock(props) {
+	  var block = props.block;
+	
+	  console.log('>> block', block);
+	  var entity = block.getEntityAt(0);
+	  if (entity) {
+	    var entityInstance = _draftJs.Entity.get(entity);
+	    var entityData = entityInstance.getData();
+	    console.log('MediaBlock', entityInstance.getType(), entityData);
+	  }
+	  return _react2.default.createElement(
+	    'span',
+	    null,
+	    'MediaBlock'
+	  );
+	}
+	
+	var ImagePlugin = {
+	  name: 'image',
+	  callbacks: {
+	    setEditorState: null,
+	    getEditorState: null
+	  },
+	  blockRendererFn: function blockRendererFn(contentBlock) {
+	    if (contentBlock.getType() === 'image-block') {
+	      return {
+	        component: MediaBlock,
+	        editable: false
+	      };
+	    }
+	  },
+	  blockRenderMap: {
+	    'image-block': {
+	      component: 'div',
+	      editable: false
+	    }
+	  }
+	};
+	
+	var plugins = [blockPlugin, ImagePlugin, _rcEditorPluginBasicStyle2.default, _rcEditorPluginEmoji2.default];
 	var toolbars = [['fontSize', '|', 'fontColor', 'bold', 'italic', 'underline', 'strikethrough', '|', 'superscript', 'subscript', '|', 'align-justify', 'align-left', 'align-right', 'align-middle', '|', 'image']];
 	
 	var EditorWithPreview = _react2.default.createClass({
