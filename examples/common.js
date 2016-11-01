@@ -179,15 +179,6 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	console.error = function () {
-	    var error = console.error;
-	    return function (exception) {
-	        if ((exception + '').indexOf('Warning: A component is `contentEditable`') != 0) {
-	            error.apply(console, arguments);
-	        }
-	    };
-	}();
-	
 	var EditorCorePublic = {
 	    EditorCore: _EditorCore2.default,
 	    GetText: _EditorCore2.default.GetText,
@@ -301,13 +292,6 @@
 	        this.setEditorState(_draftJs.EditorState.moveFocusToEnd(editorState), true);
 	    };
 	
-	    EditorCore.prototype.getChildContext = function getChildContext() {
-	        return {
-	            getEditorState: this.getEditorState,
-	            setEditorState: this.setEditorState
-	        };
-	    };
-	
 	    EditorCore.prototype.reloadPlugins = function reloadPlugins() {
 	        var _this2 = this;
 	
@@ -331,7 +315,6 @@
 	        var customStyleMap = {};
 	        var customBlockStyleMap = {};
 	        var customBlockRenderMap = (0, _immutable.Map)(_draftJs.DefaultDraftBlockRenderMap);
-	        var toHTMLList = (0, _immutable.List)([]);
 	        var compositeDecorator = new _draftJs.CompositeDecorator(plugins.filter(function (plugin) {
 	            return plugin.decorators !== undefined;
 	        }).map(function (plugin) {
@@ -346,7 +329,6 @@
 	            var styleMap = plugin.styleMap;
 	            var blockStyleMap = plugin.blockStyleMap;
 	            var blockRenderMap = plugin.blockRenderMap;
-	            var toHtml = plugin.toHtml;
 	
 	            if (styleMap) {
 	                for (var key in styleMap) {
@@ -365,9 +347,6 @@
 	                    }
 	                }
 	            }
-	            if (toHtml) {
-	                toHTMLList = toHTMLList.push(toHtml);
-	            }
 	            if (blockRenderMap) {
 	                for (var _key2 in blockRenderMap) {
 	                    if (blockRenderMap.hasOwnProperty(_key2)) {
@@ -380,7 +359,6 @@
 	        configStore.set('customBlockStyleMap', customBlockStyleMap);
 	        configStore.set('blockRenderMap', customBlockRenderMap);
 	        configStore.set('customStyleFn', this.customStyleFn.bind(this));
-	        configStore.set('toHTMLList', toHTMLList);
 	        this.setState({
 	            toolbarPlugins: toolbarPlugins,
 	            compositeDecorator: compositeDecorator
@@ -609,10 +587,6 @@
 	    pluginConfig: {},
 	    toolbars: [],
 	    spilitLine: 'enter'
-	};
-	EditorCore.childContextTypes = {
-	    getEditorState: React.PropTypes.func,
-	    setEditorState: React.PropTypes.func
 	};
 	exports.default = EditorCore;
 	module.exports = exports['default'];
@@ -37885,9 +37859,6 @@
 	
 	function genFragment(node, inlineStyle, lastList, inBlock, blockTags, depth, blockRenderMap, inEntity) {
 	  var nodeName = node.nodeName.toLowerCase();
-	  if (nodeName === 'img') {
-	    debugger;
-	  }
 	  var newBlock = false;
 	  var nextBlockType = 'unstyled';
 	  var lastLastBlock = lastBlock;
@@ -44502,6 +44473,7 @@
 	    };
 	
 	    Toolbar.prototype.conpomentWillReceiveProps = function conpomentWillReceiveProps(nextProps) {
+	        console.log('conpomentWillReceiveProps', nextProps);
 	        this.render();
 	    };
 	
@@ -44673,6 +44645,16 @@
 	        return styleName + ':' + styleValue;
 	    }).join(';');
 	}
+	function getEntityContent(entityKey, content) {
+	    if (entityKey) {
+	        var entity = _draftJs.Entity.get(entityKey);
+	        var entityData = entity.getData();
+	        if (entityData && entityData.export) {
+	            return entityData.export(content, entityData);
+	        }
+	    }
+	    return content;
+	}
 	function GetHTML(configStore) {
 	    return function exportHtml(editorState) {
 	        var content = editorState.getCurrentContent();
@@ -44680,7 +44662,6 @@
 	        var customStyleMap = configStore.get('customStyleMap') || {};
 	        var customBlockRenderMap = configStore.get('blockRenderMap') || {};
 	        var customStyleFn = configStore.get('customStyleFn');
-	        var toHTMLList = configStore.get('toHTMLList');
 	        Object.assign(customStyleMap, DEFAULT_INLINE_STYLE);
 	        return blockMap.map(function (block) {
 	            var resultText = '<div>';
@@ -44712,17 +44693,11 @@
 	                var stylePieces = _ref2[1];
 	
 	                var element = DEFAULT_ELEMENT;
-	                var rawContent = stylePieces.map(function (_ref3) {
-	                    var _ref4 = _slicedToArray(_ref3, 1);
+	                var content = stylePieces.map(function (_ref3) {
+	                    var _ref4 = _slicedToArray(_ref3, 2);
 	
 	                    var text = _ref4[0];
-	                    return text;
-	                }).join('');
-	                var content = stylePieces.map(function (_ref5) {
-	                    var _ref6 = _slicedToArray(_ref5, 2);
-	
-	                    var text = _ref6[0];
-	                    var styleSet = _ref6[1];
+	                    var styleSet = _ref4[1];
 	
 	                    var encodedContent = encodeContent(text);
 	                    if (styleSet.size) {
@@ -44734,8 +44709,8 @@
 	                                    inlineStyle = Object.assign(inlineStyle, currentStyle);
 	                                }
 	                            });
-	                            var customedStyle = customStyleFn(styleSet);
-	                            inlineStyle = Object.assign(inlineStyle, customedStyle);
+	                            var costumedStyle = customStyleFn(styleSet);
+	                            inlineStyle = Object.assign(inlineStyle, costumedStyle);
 	                            return {
 	                                v: '<span style="' + getStyleText(inlineStyle) + '">' + encodedContent + '</span>'
 	                            };
@@ -44745,35 +44720,11 @@
 	                    }
 	                    return '<span>' + encodedContent + '</span>';
 	                }).join('');
-	                if (entityKey) {
-	                    var _ret2 = function () {
-	                        var entity = _draftJs.Entity.get(entityKey);
-	                        var entityData = entity.getData();
-	                        if (entityData && entityData.export) {
-	                            return {
-	                                v: entityData.export(content, entityData)
-	                            };
-	                        }
-	                        var HTMLText = '';
-	                        toHTMLList.forEach(function (toHTML) {
-	                            var text = toHTML(rawContent, entity);
-	                            if (text) {
-	                                HTMLText = text;
-	                            }
-	                        });
-	                        if (HTMLText) {
-	                            resultText += HTMLText;
-	                        }
-	                    }();
-	
-	                    if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
-	                } else {
-	                    resultText += content;
-	                }
+	                resultText += getEntityContent(entityKey, content);
 	            });
 	            resultText += '</div>';
 	            return resultText;
-	        }).join('\n');
+	        }).join('<br />\n');
 	    };
 	}
 	function getStyleRanges(text, charMetaList) {
