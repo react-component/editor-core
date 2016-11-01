@@ -18,6 +18,7 @@ import { createToolbar } from '../Toolbar';
 import ConfigStore from './ConfigStore';
 import GetHTML from './export/getHTML';
 import exportText, { decodeContent } from './export/exportText';
+import handlePastedText from './handlePastedText';
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -141,7 +142,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     [string: string]: any;
     editor?: any;
   };
-
+ 
   public static defaultProps = {
     multiLines: true,
     plugins: [],
@@ -150,6 +151,19 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     toolbars: [],
     spilitLine: 'enter',
   };
+  
+  public static childContextTypes = {
+    getEditorState: React.PropTypes.func,
+    setEditorState: React.PropTypes.func,
+  };
+
+  public getChildContext() {
+    return {
+      getEditorState: this.getEditorState,
+      setEditorState: this.setEditorState,
+    };
+  }
+
   public reloadPlugins(): Array<Plugin> {
     return this.plugins && this.plugins.size ? this.plugins.map((plugin : Plugin) => {
       //　如果插件有 callbacks 方法,则认为插件已经加载。
@@ -173,6 +187,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const customBlockStyleMap = {};
 
     let customBlockRenderMap: Map<String, DraftBlockRenderConfig> = Map(DefaultDraftBlockRenderMap);
+    let toHTMLList: List<Function> = List([]);
 
     // initialize compositeDecorator
     const compositeDecorator = new CompositeDecorator(
@@ -186,7 +201,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     // load inline styles...
     plugins.forEach( plugin => {
-      const { styleMap, blockStyleMap, blockRenderMap } = plugin;
+      const { styleMap, blockStyleMap, blockRenderMap, toHtml } = plugin;
       if (styleMap) {
         for (const key in styleMap) {
           if (styleMap.hasOwnProperty(key)) {
@@ -205,6 +220,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         }
       }
 
+      if (toHtml) {
+        toHTMLList = toHTMLList.push(toHtml);
+      }
+
       if (blockRenderMap) {
         for (const key in blockRenderMap) {
           if (blockRenderMap.hasOwnProperty(key)) {
@@ -217,6 +236,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     configStore.set('customBlockStyleMap', customBlockStyleMap);
     configStore.set('blockRenderMap', customBlockRenderMap);
     configStore.set('customStyleFn', this.customStyleFn.bind(this));
+    configStore.set('toHTMLList', toHTMLList);
 
     this.setState({
       toolbarPlugins,
@@ -435,6 +455,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           onChange={this.setEditorState.bind(this)}
           blockStyleFn={this.getBlockStyle.bind(this)}
           blockRenderMap={blockRenderMap}
+          handlePastedText={handlePastedText}
           blockRendererFn={this.blockRendererFn.bind(this)}
         />
         {this.props.children}

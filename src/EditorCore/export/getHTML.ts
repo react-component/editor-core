@@ -75,7 +75,6 @@ function getEntityContent(contentState: ContentState, entityKey, content: string
 }
 
 export default function GetHTML(configStore) {
-
   return function exportHtml(editorState: EditorState) {
     const contentState = editorState.getCurrentContent();
     const blockMap:BlockMap = contentState.getBlockMap();
@@ -83,6 +82,7 @@ export default function GetHTML(configStore) {
     const customStyleMap = configStore.get('customStyleMap') || {};
     const customBlockRenderMap = configStore.get('blockRenderMap') || {};
     const customStyleFn = configStore.get('customStyleFn');
+    const toHTMLList = configStore.get('toHTMLList');
     Object.assign(customStyleMap, DEFAULT_INLINE_STYLE);
 
     return blockMap.map(block => {
@@ -126,6 +126,7 @@ export default function GetHTML(configStore) {
 
       ranges.map(([ entityKey, stylePieces]) => {
         let element = DEFAULT_ELEMENT;
+        const rawContent = stylePieces.map(([text]) => text).join('');
         let content = stylePieces.map(([text, styleSet]) => {
           let encodedContent = encodeContent(text);
           if (styleSet.size) {
@@ -136,18 +137,35 @@ export default function GetHTML(configStore) {
                 inlineStyle = Object.assign(inlineStyle, currentStyle);
               }
             });
-            const costumedStyle = customStyleFn(styleSet);
-            inlineStyle = Object.assign(inlineStyle, costumedStyle);
+            const customedStyle = customStyleFn(styleSet);
+            inlineStyle = Object.assign(inlineStyle, customedStyle);
             return `<span style="${getStyleText(inlineStyle)}">${encodedContent}</span>`;
           }
           return `<span>${encodedContent}</span>`;
         }).join('');
-        resultText += getEntityContent(contentState, entityKey, content);
+
+        if (entityKey) {
+          const entity = Entity.get(entityKey);
+          const entityData = entity.getData();
+          if (entityData && entityData.export) {
+            return entityData.export(content, entityData);
+          }
+          let HTMLText = '';
+          toHTMLList.forEach(toHTML => {
+            const text = toHTML(rawContent, entity, contentState);
+            if (text) {
+              HTMLText = text;
+            }
+          });
+          if (HTMLText) { resultText += HTMLText }
+        } else {
+          resultText += content;
+        }
       });
 
       resultText += '</div>';
       return resultText;
-    }).join('<br />\n');
+    }).join('\n');
   }
 }
 
