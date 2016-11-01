@@ -44955,7 +44955,7 @@
 	
 	        var src = _JSON$parse.src;
 	
-	        var entityData = _draftJs.Entity.create('IMAGE', 'IMMUTABLE', { src: src });
+	        var entityData = _draftJs.Entity.create('IMAGE', 'IMMUTABLE', { image: { src: src } });
 	        var charData = _draftJs.CharacterMetadata.create({ entity: entityData });
 	        var fragmentArray = [new _draftJs.ContentBlock({
 	            key: (0, _draftJs.genKey)(),
