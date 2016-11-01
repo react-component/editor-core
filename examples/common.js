@@ -44885,7 +44885,9 @@
 	var getBlockSpecForElement = function getBlockSpecForElement(imgElement) {
 	    return {
 	        contentType: 'image',
-	        src: imgElement.getAttribute('src')
+	        src: imgElement.getAttribute('src'),
+	        width: imgElement.getAttribute('width'),
+	        height: imgElement.getAttribute('height')
 	    };
 	};
 	var wrapBlockSpec = function wrapBlockSpec(blockSpec) {
@@ -44950,12 +44952,8 @@
 	        if (block.getType() !== 'blockquote') {
 	            return contentBlocks.concat(block);
 	        }
-	
-	        var _JSON$parse = JSON.parse(block.getText());
-	
-	        var src = _JSON$parse.src;
-	
-	        var entityData = _draftJs.Entity.create('IMAGE', 'IMMUTABLE', { image: { src: src } });
+	        var image = JSON.parse(block.getText());
+	        var entityData = _draftJs.Entity.create('IMAGE-ENTITY', 'IMMUTABLE', { image: image });
 	        var charData = _draftJs.CharacterMetadata.create({ entity: entityData });
 	        var fragmentArray = [new _draftJs.ContentBlock({
 	            key: (0, _draftJs.genKey)(),
