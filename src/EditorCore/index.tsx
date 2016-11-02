@@ -19,6 +19,7 @@ import ConfigStore from './ConfigStore';
 import GetHTML from './export/getHTML';
 import exportText, { decodeContent } from './export/exportText';
 import handlePastedText from './handlePastedText';
+import customHTML2Content from './customHTML2Content';
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -423,6 +424,32 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
     return resultStyle;
   }
+  handlePastedText = (text: string, html: string):DraftHandleValue => {
+    const { editorState } = this.state;
+    if (html) {
+      const contentState = editorState.getCurrentContent();
+      const selection = editorState.getSelection();
+  
+      const fragment = customHTML2Content(html);
+      const pastedContent = Modifier.replaceWithFragment(
+        contentState,
+        selection,
+        fragment
+      );
+      
+      const newContent = pastedContent.merge({
+        selectionBefore: selection,
+        selectionAfter: pastedContent.getSelectionAfter().set('hasFocus', true),
+      });
+
+      this.setEditorState(
+        EditorState.push(editorState, newContent as ContentState, 'insert-fragment'), 
+        true
+      );
+      return 'handled';
+    }
+    return 'not-handled'; 
+  }
   render() {
     const { prefixCls, toolbars, style } = this.props;
     const { editorState, toolbarPlugins } = this.state;
@@ -455,7 +482,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           onChange={this.setEditorState.bind(this)}
           blockStyleFn={this.getBlockStyle.bind(this)}
           blockRenderMap={blockRenderMap}
-          handlePastedText={handlePastedText}
+          handlePastedText={this.handlePastedText}
           blockRendererFn={this.blockRendererFn.bind(this)}
         />
         {this.props.children}

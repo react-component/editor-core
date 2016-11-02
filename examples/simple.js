@@ -26,9 +26,43 @@ const blockPlugin = {
       element: 'p'
     }
   }
-};;
+};
 
-const plugins = [blockPlugin, BasicStyle, Emoji, Image];
+function MediaBlock(props) {
+  const { block } = props;
+  console.log('>> block', block);
+  const entity = block.getEntityAt(0);
+  if (entity) {
+    const entityInstance = Entity.get(entity);
+    const entityData = entityInstance.getData();
+    console.log('MediaBlock', entityInstance.getType(), entityData);
+  }
+  return <span>MediaBlock</span>
+}
+
+const ImagePlugin = {
+  name: 'image',
+  callbacks: {
+    setEditorState: null,
+    getEditorState: null,
+  },
+  blockRendererFn: (contentBlock) => {
+    if (contentBlock.getType() === 'image-block') {
+      return {
+        component: MediaBlock,
+        editable: false,
+      };
+    }
+  },
+  blockRenderMap: {
+    'image-block': {
+      component: 'div',
+      editable: false,
+    }
+  },
+}
+
+const plugins = [blockPlugin, ImagePlugin, BasicStyle, Emoji];
 const toolbars = [['fontSize', '|',
   'fontColor',
   'bold', 'italic', 'underline', 'strikethrough', '|',
