@@ -44693,11 +44693,14 @@
 	        Object.assign(customStyleMap, DEFAULT_INLINE_STYLE);
 	        return blockMap.map(function (block) {
 	            var resultText = '<div>';
+	            var closeTag = '</div>';
 	            var lastPosition = 0;
 	            var text = block.getText();
 	            var blockType = block.getType();
-	            if (customBlockRenderMap.get(blockType)) {
-	                resultText = '<div style="' + getStyleText(customBlockRenderMap.get(blockType).style || {}) + '">';
+	            var blockRender = customBlockRenderMap.get(blockType);
+	            if (blockRender) {
+	                resultText = '<' + (blockRender.element || 'div') + ' style="' + getStyleText(customBlockRenderMap.get(blockType).style || {}) + '">';
+	                closeTag = '</' + (blockRender.element || 'div') + '>';
 	            }
 	            var charMetaList = block.getCharacterList();
 	            var charEntity = null;
@@ -44780,7 +44783,7 @@
 	                    resultText += content;
 	                }
 	            });
-	            resultText += '</div>';
+	            resultText += closeTag;
 	            return resultText;
 	        }).join('\n');
 	    };
