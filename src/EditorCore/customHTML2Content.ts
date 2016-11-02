@@ -1,4 +1,4 @@
-import { ContentState, genKey, Entity, CharacterMetadata, ContentBlock, convertFromHTML } from 'draft-js'
+import { BlockMapBuilder, BlockMap, ContentState, genKey, Entity, CharacterMetadata, ContentBlock, convertFromHTML } from 'draft-js'
 import { toArray } from 'lodash';
 import DraftEntityInstance = Entity.DraftEntityInstance;
 import CharacterMetadataConfig = CharacterMetadata.CharacterMetadataConfig;
@@ -22,8 +22,11 @@ function compose (...argument): Function {
 // Prepares img meta data object based on img attributes
 const getBlockSpecForElement = (imgElement) => ({
   contentType: 'image',
-  imgSrc: imgElement.getAttribute('src')
+  src: imgElement.getAttribute('src'),
+  width: imgElement.getAttribute('width'),
+  height: imgElement.getAttribute('height'),
 })
+
 // Wraps meta data in HTML element which is 'understandable' by Draft, I used <blockquote />.
 const wrapBlockSpec = (blockSpec) => {
   if (blockSpec == null) {
@@ -47,7 +50,6 @@ const replaceElement = (oldEl, newEl) => {
 const elementToBlockSpecElement = compose(wrapBlockSpec, getBlockSpecForElement);
 
 const imgReplacer = (imgElement) => {
-  console.log('> imgReplacer', imgElement);
   return replaceElement(imgElement, elementToBlockSpecElement(imgElement));
 }
 
@@ -59,12 +61,13 @@ const createContentBlock = ( blockData: DraftEntityInstance ) => {
     text: text != null ? text : '',
     key: key != null ? key : genKey(),
     data: null,
-    characterList: null,
+    characterList: List([]),
   };
 
   if (data) {
     blockSpec.data = fromJS(data)
   }
+
   if (inlineStyles || entityData) {
     let entityKey;
     if (entityData) {
@@ -81,7 +84,7 @@ const createContentBlock = ( blockData: DraftEntityInstance ) => {
 }
 
 // takes HTML string and returns DraftJS ContentState
-export default function customHTML2Content(HTML): ContentState {
+export default function customHTML2Content(HTML): BlockMap {
   let tempDoc = new DOMParser().parseFromString(HTML, 'text/html')
   // replace all <img /> with <blockquote /> elements
   toArray(tempDoc.querySelectorAll('img')).forEach(imgReplacer);
@@ -93,18 +96,31 @@ export default function customHTML2Content(HTML): ContentState {
     if (block.getType() !== 'blockquote') {
       return contentBlocks.concat(block)
     }
-    const { imgSrc } = JSON.parse(block.getText())
-    const entityData = {
-      type: 'IMAGE',
-      mutability: 'IMMUTABLE',
-      data: { imgSrc }
-    }
-    const blockSpec = Object.assign({ type: 'atomic', text: ' ' }, { entityData })
-    const atomicBlock = createContentBlock(blockSpec)
-    const spacerBlock = createContentBlock({});
+    const image = JSON.parse(block.getText())
+    const entityData = Entity.create('IMAGE-ENTITY', 'IMMUTABLE', { image });
+    const charData = CharacterMetadata.create({ entity: entityData });
+    // const blockSpec = Object.assign({ type: 'atomic', text: ' ' }, { entityData })
+    // const atomicBlock = createContentBlock(blockSpec)
+    // const spacerBlock = createContentBlock({});
 
-    return contentBlocks.concat([ atomicBlock, spacerBlock ])
+    const fragmentArray = [
+      new ContentBlock({
+        key: genKey(),
+        type: 'image-block',
+        text: ' ',
+        characterList: List(Repeat(charData, charData.count())),
+      }),
+      new ContentBlock({
+        key: genKey(),
+        type: 'unstyled',
+        text: '',
+        characterList: List(),
+      }),
+    ];
+
+    return contentBlocks.concat(fragmentArray);
   }, []);
+  console.log('>> customHTML2Content contentBlocks', contentBlocks);
   tempDoc = null;
-  return ContentState.createFromBlockArray(contentBlocks)
+  return BlockMapBuilder.createFromArray(contentBlocks)
 }

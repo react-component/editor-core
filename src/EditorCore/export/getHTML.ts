@@ -75,12 +75,14 @@ export default function GetHTML(configStore) {
 
     return blockMap.map(block => {
       let resultText = '<div>';
+      let closeTag = '</div>';
       let lastPosition = 0;
       const text = block.getText();
       const blockType = block.getType();
-
-      if (customBlockRenderMap.get(blockType)) {
-        resultText = `<div style="${getStyleText(customBlockRenderMap.get(blockType).style || {})}">`;
+      const blockRender = customBlockRenderMap.get(blockType);
+      if (blockRender) {
+        resultText = `<${blockRender.element || 'div'} style="${getStyleText(customBlockRenderMap.get(blockType).style || {})}">`;
+        closeTag = `</${blockRender.element || 'div'}>`;
       }
 
       const charMetaList = block.getCharacterList();
@@ -150,7 +152,7 @@ export default function GetHTML(configStore) {
         }
       });
 
-      resultText += '</div>';
+      resultText += closeTag;
       return resultText;
     }).join('\n');
   }
