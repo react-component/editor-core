@@ -42,6 +42,7 @@ const Editor = React.createClass({
         toolbars={toolbars}
         defaultValue={toEditorState('12312313123 [色眯眯] 123 13')}
         onKeyDown={(ev) => this.keyDown(ev)}
+        style={{width: 300, height: 200}}
         onChange={(editorState) => editorChange(editorState)}
     />
     </div>);

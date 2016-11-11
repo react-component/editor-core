@@ -268,8 +268,16 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     });
   }
 
-  public focus() : void {
-    this.refs.editor.focus();
+
+  public focus(ev) : void {
+    const { editorState } = this.state;
+    if (editorState.getSelection().getHasFocus()) {
+      this.refs.editor.focus(ev);
+    } else {
+      this.setState({
+        editorState: EditorState.moveFocusToEnd(editorState)
+      }, () => this.refs.editor.focus(ev));
+    }
   }
 
   public getPlugins(): Array<Plugin> {
@@ -405,7 +413,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         plugins={toolbarPlugins}
         toolbars={toolbars}
       />
-      <div className={`${prefixCls}-editor-wrapper`}  style={style}>
+      <div className={`${prefixCls}-editor-wrapper`}  style={style} onClick={(ev) => ev.preventDefault()}>
         <Editor
           {...this.props}
           {...eventHandler}
