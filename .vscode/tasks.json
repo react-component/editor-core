@@ -1,0 +1,12 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "0.1.0",
+  "command": "tsc",
+  "jsx": "react",
+  "isShellCommand": true,
+  "args": ["-p", ".", "--jsx", "preserve"],
+  "module": "commonjs",
+  "declaration": false,
+  "problemMatcher": "$tsc"
+}
