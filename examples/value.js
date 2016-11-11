@@ -15130,6 +15130,7 @@ webpackJsonp([4],[
 	        onKeyDown: function onKeyDown(ev) {
 	          return _this.keyDown(ev);
 	        },
+	        style: { width: 300, height: 200 },
 	        onChange: function onChange(editorState) {
 	          return editorChange(editorState);
 	        }
