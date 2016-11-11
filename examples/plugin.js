@@ -3,15 +3,15 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(516);
+	module.exports = __webpack_require__(512);
 
 
 /***/ },
 
-/***/ 514:
+/***/ 510:
 2,
 
-/***/ 516:
+/***/ 512:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30,7 +30,7 @@ webpackJsonp([2],{
 	
 	var _draftJs = __webpack_require__(39);
 	
-	__webpack_require__(514);
+	__webpack_require__(510);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -82,12 +82,6 @@ webpackJsonp([2],{
 	      'bold'
 	    )
 	  ),
-	  toHtml: function toHtml(text, entity) {
-	    console.log('>> toHtml', entity);
-	    if (entity.getType() === 'LINK') {
-	      return '<a href="#">text</a>';
-	    }
-	  },
 	  customStyleFn: function customStyleFn(styleSet) {
 	    return styleSet.map(function (style) {
 	      if (style === 'customer-style-red') {
@@ -109,6 +103,7 @@ webpackJsonp([2],{
 	var toolbars = [['test']];
 	
 	function keyDown(ev) {
+	  console.log('>> keydown', ev.keyCode, ev.ctrlKey);
 	  if (ev.keyCode === 13) {
 	    if (ev.ctrlKey) {
 	      return 'split-block';
@@ -127,25 +122,21 @@ webpackJsonp([2],{
 	    };
 	  },
 	  onChange: function onChange(editorState) {
+	    console.log('>> onChange', editorState.getDecorator());
 	    this.setState({
 	      editorState: editorState
 	    });
 	  },
 	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(_rcEditorCore.EditorCore, {
-	        plugins: plugins,
-	        toolbars: toolbars,
-	        onKeyDown: function onKeyDown(ev) {
-	          return keyDown(ev);
-	        },
-	        onChange: this.onChange,
-	        value: this.state.editorState
-	      }),
-	      this.state.editorState ? (0, _rcEditorCore.GetHTML)(this.state.editorState) : null
-	    );
+	    return _react2.default.createElement(_rcEditorCore.EditorCore, {
+	      plugins: plugins,
+	      toolbars: toolbars,
+	      onKeyDown: function onKeyDown(ev) {
+	        return keyDown(ev);
+	      },
+	      onChange: this.onChange,
+	      value: this.state.editorState
+	    });
 	  }
 	});
 	
