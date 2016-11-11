@@ -409,12 +409,18 @@
 	    };
 	
 	    EditorCore.prototype.focus = function focus(ev) {
+	        var _this4 = this;
+	
 	        var editorState = this.state.editorState;
 	
 	        if (editorState.getSelection().getHasFocus()) {
 	            this.refs.editor.focus(ev);
 	        } else {
-	            this.setEditorState(_draftJs.EditorState.moveFocusToEnd(editorState), true);
+	            this.setState({
+	                editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
+	            }, function () {
+	                return _this4.refs.editor.focus(ev);
+	            });
 	        }
 	    };
 	
@@ -423,12 +429,12 @@
 	    };
 	
 	    EditorCore.prototype.getEventHandler = function getEventHandler() {
-	        var _this4 = this;
+	        var _this5 = this;
 	
 	        var enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'handlePastedText'];
 	        var eventHandler = {};
 	        enabledEvents.forEach(function (event) {
-	            eventHandler[event] = _this4.generatorEventHandler(event);
+	            eventHandler[event] = _this5.generatorEventHandler(event);
 	        });
 	        return eventHandler;
 	    };
@@ -438,7 +444,7 @@
 	    };
 	
 	    EditorCore.prototype.setEditorState = function setEditorState(editorState) {
-	        var _this5 = this;
+	        var _this6 = this;
 	
 	        var focusEditor = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 	
@@ -457,7 +463,7 @@
 	        if (!this.controlledMode) {
 	            this.setState({ editorState: newEditorState }, focusEditor ? function () {
 	                return setTimeout(function () {
-	                    return _this5.refs.editor.focus();
+	                    return _this6.refs.editor.focus();
 	                }, 100);
 	            } : noop);
 	        }
@@ -527,14 +533,14 @@
 	    };
 	
 	    EditorCore.prototype.generatorEventHandler = function generatorEventHandler(eventName) {
-	        var _this6 = this;
+	        var _this7 = this;
 	
 	        return function () {
 	            for (var _len2 = arguments.length, args = Array(_len2), _key4 = 0; _key4 < _len2; _key4++) {
 	                args[_key4] = arguments[_key4];
 	            }
 	
-	            return _this6.eventHandle.apply(_this6, [eventName].concat(args));
+	            return _this7.eventHandle.apply(_this7, [eventName].concat(args));
 	        };
 	    };
 	
