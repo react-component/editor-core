@@ -1,6 +1,6 @@
 import { EditorState, CharacterMetadata, Entity, DefaultDraftInlineStyle } from "draft-js";
 import { List, OrderedSet, is } from 'immutable';
-import { isUnitlessNumber } from 'react/lib/CSSProperty.js';
+import isUnitlessNumber from './isUnitlessNumber';
 
 import BlockMap from 'draft-js/lib/BlockMap';
 
@@ -47,6 +47,7 @@ function processStyleValue(name: string, value: string): string {
     isNumeric = true;
     value = String(value);
   }
+  console.log('>> isUnitlessNumber', name, isUnitlessNumber[name]);
   if (!isNumeric || value === '0' || isUnitlessNumber[name] === true) {
     return value;
   } else {
