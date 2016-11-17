@@ -845,6 +845,7 @@
   position: absolute;
   outline: none;
 }
+.rc-select-dropdown:empty,
 .rc-select-dropdown-hidden {
   display: none;
 }
