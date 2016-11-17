@@ -47,7 +47,7 @@ function processStyleValue(name: string, value: string): string {
     isNumeric = true;
     value = String(value);
   }
-  console.log('>> isUnitlessNumber', name, isUnitlessNumber[name]);
+  
   if (!isNumeric || value === '0' || isUnitlessNumber[name] === true) {
     return value;
   } else {

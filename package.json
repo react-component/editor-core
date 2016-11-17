@@ -55,8 +55,6 @@
     "typescript": "~2.0"
   },
   "dependencies": {
-    "@types/draft-js": "^0.7.33",
-    "@types/react": "^0.14.48",
     "classnames": "^2.2.5",
     "draft-js": "^0.9.1",
     "immutable": "^3.7.4",
