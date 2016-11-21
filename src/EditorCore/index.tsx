@@ -84,8 +84,12 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public static GetText = exportText;
   public static GetHTML = GetHTML(configStore);
   public Reset(): void {
+    const { defaultValue } = this.props;
+
     this.setEditorState(
-      EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'remove-range')
+      EditorState.push(this.state.editorState,
+      defaultValue ? defaultValue.getCurrentContent() : ContentState.createFromText(''),
+      'remove-range')
     );
   }
 
@@ -268,7 +272,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     });
   }
 
-  
+
   public focus(ev) : void {
     const { editorState } = this.state;
     if (editorState.getSelection().getHasFocus()) {
