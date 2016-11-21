@@ -5776,11 +5776,11 @@ webpackJsonp([4],[
 	    var _this = this;
 	
 	    var item = e.item;
-	    var _props = this.props;
-	    var mode = _props.mode;
-	    var closeSubMenuOnMouseLeave = _props.closeSubMenuOnMouseLeave;
-	    var _e$openChanges = e.openChanges;
-	    var openChanges = _e$openChanges === undefined ? [] : _e$openChanges;
+	    var _props = this.props,
+	        mode = _props.mode,
+	        closeSubMenuOnMouseLeave = _props.closeSubMenuOnMouseLeave;
+	    var _e$openChanges = e.openChanges,
+	        openChanges = _e$openChanges === undefined ? [] : _e$openChanges;
 	    // special for top sub menu
 	
 	    if (mode !== 'inline' && !closeSubMenuOnMouseLeave && item.isSubMenu) {
@@ -5986,8 +5986,8 @@ webpackJsonp([4],[
 	
 	function getActiveKey(props, originalActiveKey) {
 	  var activeKey = originalActiveKey;
-	  var children = props.children;
-	  var eventKey = props.eventKey;
+	  var children = props.children,
+	      eventKey = props.eventKey;
 	
 	  if (activeKey) {
 	    var found = void 0;
@@ -6122,9 +6122,9 @@ webpackJsonp([4],[
 	  },
 	  getOpenChangesOnItemHover: function getOpenChangesOnItemHover(e) {
 	    var mode = this.props.mode;
-	    var key = e.key;
-	    var hover = e.hover;
-	    var trigger = e.trigger;
+	    var key = e.key,
+	        hover = e.hover,
+	        trigger = e.trigger;
 	
 	    var activeKey = this.state.activeKey;
 	    if (!trigger || hover || this.props.closeSubMenuOnMouseLeave || !e.item.isSubMenu || mode === 'inline') {
@@ -7101,10 +7101,10 @@ webpackJsonp([4],[
 	    };
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
-	    var _props = this.props;
-	    var onDestroy = _props.onDestroy;
-	    var eventKey = _props.eventKey;
-	    var parentMenu = _props.parentMenu;
+	    var _props = this.props,
+	        onDestroy = _props.onDestroy,
+	        eventKey = _props.eventKey,
+	        parentMenu = _props.parentMenu;
 	
 	    if (onDestroy) {
 	      onDestroy(eventKey);
@@ -7171,8 +7171,8 @@ webpackJsonp([4],[
 	  },
 	  onTitleMouseEnter: function onTitleMouseEnter(domEvent) {
 	    var props = this.props;
-	    var parentMenu = props.parentMenu;
-	    var key = props.eventKey;
+	    var parentMenu = props.parentMenu,
+	        key = props.eventKey;
 	
 	    var item = this;
 	    this.clearSubMenuTitleLeaveTimer(parentMenu.subMenuInstance !== item);
@@ -7207,8 +7207,8 @@ webpackJsonp([4],[
 	    var _this = this;
 	
 	    var props = this.props;
-	    var parentMenu = props.parentMenu;
-	    var eventKey = props.eventKey;
+	    var parentMenu = props.parentMenu,
+	        eventKey = props.eventKey;
 	
 	    parentMenu.subMenuInstance = this;
 	    parentMenu.subMenuTitleLeaveFn = function () {
@@ -7235,8 +7235,8 @@ webpackJsonp([4],[
 	    var _this2 = this;
 	
 	    var props = this.props;
-	    var parentMenu = props.parentMenu;
-	    var eventKey = props.eventKey;
+	    var parentMenu = props.parentMenu,
+	        eventKey = props.eventKey;
 	
 	    parentMenu.subMenuInstance = this;
 	    parentMenu.subMenuLeaveFn = function () {
@@ -7460,7 +7460,7 @@ webpackJsonp([4],[
 	          style: style,
 	          className: prefixCls + '-title'
 	        }, titleMouseEvents, titleClickEvents, {
-	          'aria-open': isOpen,
+	          'aria-expanded': isOpen,
 	          'aria-owns': this._menuId,
 	          'aria-haspopup': 'true'
 	        }),
@@ -7543,8 +7543,8 @@ webpackJsonp([4],[
 	    this.props.onDestroy(key);
 	  },
 	  onItemHover: function onItemHover(e) {
-	    var _e$openChanges = e.openChanges;
-	    var openChanges = _e$openChanges === undefined ? [] : _e$openChanges;
+	    var _e$openChanges = e.openChanges,
+	        openChanges = _e$openChanges === undefined ? [] : _e$openChanges;
 	
 	    openChanges = openChanges.concat(this.getOpenChangesOnItemHover(e));
 	    if (openChanges.length) {
@@ -8219,8 +8219,8 @@ webpackJsonp([4],[
 	    var _this = this;
 	
 	    var props = this.props;
-	    var eventKey = props.eventKey;
-	    var parentMenu = props.parentMenu;
+	    var eventKey = props.eventKey,
+	        parentMenu = props.parentMenu;
 	
 	    parentMenu.menuItemInstance = this;
 	    parentMenu.menuItemMouseLeaveFn = function () {
@@ -8242,8 +8242,8 @@ webpackJsonp([4],[
 	  },
 	  onMouseEnter: function onMouseEnter(e) {
 	    var props = this.props;
-	    var eventKey = props.eventKey;
-	    var parentMenu = props.parentMenu;
+	    var eventKey = props.eventKey,
+	        parentMenu = props.parentMenu;
 	
 	    this.clearMenuItemMouseLeaveTimer(parentMenu.menuItemInstance !== this);
 	    if (parentMenu.subMenuInstance) {
@@ -8385,17 +8385,17 @@ webpackJsonp([4],[
 	    };
 	  },
 	  renderInnerMenuItem: function renderInnerMenuItem(item, subIndex) {
-	    var _props = this.props;
-	    var renderMenuItem = _props.renderMenuItem;
-	    var index = _props.index;
+	    var _props = this.props,
+	        renderMenuItem = _props.renderMenuItem,
+	        index = _props.index;
 	
 	    return renderMenuItem(item, index, subIndex);
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var _props$className = props.className;
-	    var className = _props$className === undefined ? '' : _props$className;
-	    var rootPrefixCls = props.rootPrefixCls;
+	    var _props$className = props.className,
+	        className = _props$className === undefined ? '' : _props$className,
+	        rootPrefixCls = props.rootPrefixCls;
 	
 	    var titleClassName = rootPrefixCls + '-item-group-title';
 	    var listClassName = rootPrefixCls + '-item-group-list';
@@ -8452,10 +8452,10 @@ webpackJsonp([4],[
 	    };
 	  },
 	  render: function render() {
-	    var _props = this.props;
-	    var _props$className = _props.className;
-	    var className = _props$className === undefined ? '' : _props$className;
-	    var rootPrefixCls = _props.rootPrefixCls;
+	    var _props = this.props,
+	        _props$className = _props.className,
+	        className = _props$className === undefined ? '' : _props$className,
+	        rootPrefixCls = _props.rootPrefixCls;
 	
 	    return _react2["default"].createElement('li', { className: className + ' ' + rootPrefixCls + '-item-divider' });
 	  }
@@ -15282,7 +15282,6 @@ webpackJsonp([4],[
 	        ref: 'editor',
 	        plugins: plugins,
 	        toolbars: toolbars,
-	        defaultValue: (0, _rcEditorCore.toEditorState)('12312313123 [色眯眯] 123 13'),
 	        onKeyDown: function onKeyDown(ev) {
 	          return _this.keyDown(ev);
 	        },

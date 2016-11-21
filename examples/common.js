@@ -290,7 +290,9 @@
 	    };
 	
 	    EditorCore.prototype.Reset = function Reset() {
-	        this.setEditorState(_draftJs.EditorState.push(this.state.editorState, this.props.defaultValue.getCurrentContent(), 'remove-range'));
+	        var defaultValue = this.props.defaultValue;
+	
+	        this.setEditorState(_draftJs.EditorState.push(this.state.editorState, defaultValue ? defaultValue.getCurrentContent() : _draftJs.ContentState.createFromText(''), 'remove-range'));
 	    };
 	
 	    EditorCore.prototype.SetText = function SetText(text) {
