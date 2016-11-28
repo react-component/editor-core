@@ -13,10 +13,6 @@
     "removeComments": true,
     "noLib": false,
     "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": ["draft-js", "immutable", "react"]
+    "suppressImplicitAnyIndexErrors": true
   }
 }
