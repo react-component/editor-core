@@ -25,6 +25,7 @@ const getBlockSpecForElement = (imgElement) => ({
   src: imgElement.getAttribute('src'),
   width: imgElement.getAttribute('width'),
   height: imgElement.getAttribute('height'),
+  float: imageElement.style.cssFloat,
 })
 
 // Wraps meta data in HTML element which is 'understandable' by Draft, I used <blockquote />.
