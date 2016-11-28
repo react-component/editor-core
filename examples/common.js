@@ -44647,7 +44647,7 @@
 	            return contentBlocks.concat(block);
 	        }
 	        var image = JSON.parse(block.getText());
-	        var entityData = _draftJs.Entity.create('IMAGE-ENTITY', 'IMMUTABLE', { image: image });
+	        var entityData = _draftJs.Entity.create('IMAGE-ENTITY', 'IMMUTABLE', image);
 	        var charData = _draftJs.CharacterMetadata.create({ entity: entityData });
 	        var fragmentArray = [new _draftJs.ContentBlock({
 	            key: (0, _draftJs.genKey)(),
