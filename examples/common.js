@@ -44581,7 +44581,7 @@
 	        src: imgElement.getAttribute('src'),
 	        width: imgElement.getAttribute('width'),
 	        height: imgElement.getAttribute('height'),
-	        float: imgElement.style.cssFloat
+	        align: imgElement.style.cssFloat
 	    };
 	};
 	var wrapBlockSpec = function wrapBlockSpec(blockSpec) {
