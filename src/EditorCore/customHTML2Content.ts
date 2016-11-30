@@ -25,7 +25,7 @@ const getBlockSpecForElement = (imgElement) => ({
   src: imgElement.getAttribute('src'),
   width: imgElement.getAttribute('width'),
   height: imgElement.getAttribute('height'),
-  float: imageElement.style.cssFloat,
+  align: imgElement.style.cssFloat,
 })
 
 // Wraps meta data in HTML element which is 'understandable' by Draft, I used <blockquote />.
@@ -98,7 +98,7 @@ export default function customHTML2Content(HTML): BlockMap {
       return contentBlocks.concat(block)
     }
     const image = JSON.parse(block.getText())
-    const entityData = Entity.create('IMAGE-ENTITY', 'IMMUTABLE', { image });
+    const entityData = Entity.create('IMAGE-ENTITY', 'IMMUTABLE', image);
     const charData = CharacterMetadata.create({ entity: entityData });
     // const blockSpec = Object.assign({ type: 'atomic', text: ' ' }, { entityData })
     // const atomicBlock = createContentBlock(blockSpec)
