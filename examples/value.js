@@ -43,6 +43,7 @@ const Editor = React.createClass({
         onKeyDown={(ev) => this.keyDown(ev)}
         style={{width: 300, height: 200}}
         onChange={(editorState) => editorChange(editorState)}
+        onFocus={(ev) => console.log('focus', ev)}
     />
     </div>);
   }

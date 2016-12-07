@@ -280,7 +280,12 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     } else {
       this.setState({
         editorState: EditorState.moveFocusToEnd(editorState)
-      }, () => this.refs.editor.focus(ev));
+      }, () => {
+        this.refs.editor.focus(ev);
+        if (this.props.onFocus) {
+          this.props.onFocus(ev);
+        }
+      });
     }
   }
 
