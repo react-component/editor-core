@@ -42603,7 +42603,10 @@
 	function customHTML2Content(HTML) {
 	    var tempDoc = new DOMParser().parseFromString(HTML, 'text/html');
 	    (0, _lodash.toArray)(tempDoc.querySelectorAll('img')).forEach(imgReplacer);
-	    var contentBlocks = (0, _draftJs.convertFromHTML)(tempDoc.body.innerHTML);
+	
+	    var _convertFromHTML = (0, _draftJs.convertFromHTML)(tempDoc.body.innerHTML),
+	        contentBlocks = _convertFromHTML.contentBlocks;
+	
 	    contentBlocks = contentBlocks.reduce(function (contentBlocks, block) {
 	        if (block.getType() !== 'blockquote') {
 	            return contentBlocks.concat(block);
