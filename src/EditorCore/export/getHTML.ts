@@ -147,7 +147,7 @@ export default function GetHTML(configStore) {
         }).join('');
 
         if (entityKey) {
-          const entity = Entity.get(entityKey);
+          const entity = contentState.getEntity(entityKey);
           const entityData = entity.getData();
           if (entityData && entityData.export) {
             return entityData.export(content, entityData);
