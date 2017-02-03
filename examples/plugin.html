@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>plugin.js - example - rc-editor-core@0.6.0</title>
+  <title>plugin.js - example - rc-editor-core@0.6.1</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.6.0</h1>
+      <h1>rc-editor-core@0.6.1</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -272,7 +272,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-core/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText, createPlugin } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
+<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText, createPlugin, GetHTML } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> { Entity, Modifier, EditorState,RichUtils  } <span class="hljs-keyword">from</span> <span class="hljs-string">'draft-js'</span>;
@@ -315,6 +315,12 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">onMouseDown</span>=<span class="hljs-value">{toggleInlineStyle('red')}</span>&gt;</span>red<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">onMouseDown</span>=<span class="hljs-value">{toggleInlineStyle('bold')}</span>&gt;</span>bold<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>,
+  toHtml(text, entity) {
+    console.log('&gt;&gt; toHtml', entity);
+    if (entity.getType() === 'LINK') {
+      return `<span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span>&gt;</span>text<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>`
+    }
+  },
   customStyleFn(styleSet) {
    return styleSet.map(style =&gt; {
       if (style === 'customer-style-red') {
@@ -336,7 +342,6 @@ const plugins = [Test];
 const toolbars = [['test']];
 
 function keyDown(ev) {
-  console.log('&gt;&gt; keydown', ev.keyCode, ev.ctrlKey);
   if (ev.keyCode === 13) {
     if (ev.ctrlKey) {
       return 'split-block';
@@ -354,24 +359,25 @@ const EditorWrapper = React.createClass({
     };
   },
   onChange(editorState) {
-    console.log('&gt;&gt; onChange', editorState.getDecorator());
     this.setState({
       editorState,
     });
   },
   render() {
-    return <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
-      <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
-      <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
-      <span class="hljs-attribute">onKeyDown</span>=<span class="hljs-value">{(ev)</span> =&gt;</span> keyDown(ev)}
-      onChange={this.onChange}
-      value={this.state.editorState}
-    &gt;
-    <span class="hljs-tag">&lt;/<span class="hljs-title">EditorCore</span>&gt;</span>;</span>
+    return <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
+        <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
+        <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
+        <span class="hljs-attribute">onKeyDown</span>=<span class="hljs-value">{(ev)</span> =&gt;</span> keyDown(ev)}
+        onChange={this.onChange}
+        value={this.state.editorState}
+      /&gt;
+      {this.state.editorState ? GetHTML(this.state.editorState) : null}
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
   }
 });
 
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">EditorWrapper</span> /&gt;</span>, document.getElementById('__react-content'));
+ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">EditorWrapper</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>
   <a href="https://github.com/react-component/editor-core">
