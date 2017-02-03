@@ -487,7 +487,6 @@
 	    EditorCore.prototype.getEditorState = function getEditorState() {
 	        var doFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 	
-	        console.log('>> getEditorState', doFocus);
 	        if (doFocus) {
 	            return this.focus();
 	        }
@@ -44505,9 +44504,7 @@
 	function createToolbar() {
 	    var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	
-	    function editorStateChange(editorState) {
-	        console.log('>> editorStateChange', editorState);
-	    }
+	    function editorStateChange(editorState) {}
 	    var callbacks = {
 	        onChange: editorStateChange,
 	        onUpArrow: noop,
@@ -45120,7 +45117,6 @@
 	        })];
 	        return contentBlocks.concat(fragmentArray);
 	    }, []);
-	    console.log('>> customHTML2Content contentBlocks', contentBlocks);
 	    tempDoc = null;
 	    return _draftJs.BlockMapBuilder.createFromArray(contentBlocks);
 	}
