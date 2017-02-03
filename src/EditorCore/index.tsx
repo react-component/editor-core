@@ -294,7 +294,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public getEventHandler(): Object {
-    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'handlePastedText'];
+    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'onTab', 'handlePastedText'];
     const eventHandler = {};
     enabledEvents.forEach(event => {
       eventHandler[event] = this.generatorEventHandler(event);
