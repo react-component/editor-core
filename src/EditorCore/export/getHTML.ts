@@ -1,4 +1,4 @@
-import { EditorState, CharacterMetadata, Entity, DefaultDraftInlineStyle } from "draft-js";
+import { EditorState, ContentState, CharacterMetadata, Entity, DefaultDraftInlineStyle } from "draft-js";
 import { List, OrderedSet, is } from 'immutable';
 import isUnitlessNumber from './isUnitlessNumber';
 
@@ -47,7 +47,7 @@ function processStyleValue(name: string, value: string): string {
     isNumeric = true;
     value = String(value);
   }
-  
+
   if (!isNumeric || value === '0' || isUnitlessNumber[name] === true) {
     return value;
   } else {
@@ -63,9 +63,9 @@ function getStyleText(styleObject) {
   }).join(';');
 }
 
-function getEntityContent(entityKey, content: string): string {
+function getEntityContent(contentState: ContentState, entityKey, content: string): string {
   if (entityKey) {
-    const entity = Entity.get(entityKey);
+    const entity = contentState.getEntity(entityKey);
     const entityData = entity.getData();
     if (entityData && entityData.export) {
       return entityData.export(content, entityData);
@@ -77,8 +77,8 @@ function getEntityContent(entityKey, content: string): string {
 export default function GetHTML(configStore) {
 
   return function exportHtml(editorState: EditorState) {
-    const content = editorState.getCurrentContent();
-    const blockMap:BlockMap = content.getBlockMap();
+    const contentState = editorState.getCurrentContent();
+    const blockMap:BlockMap = contentState.getBlockMap();
 
     const customStyleMap = configStore.get('customStyleMap') || {};
     const customBlockRenderMap = configStore.get('blockRenderMap') || {};
@@ -142,7 +142,7 @@ export default function GetHTML(configStore) {
           }
           return `<span>${encodedContent}</span>`;
         }).join('');
-        resultText += getEntityContent(entityKey, content);
+        resultText += getEntityContent(contentState, entityKey, content);
       });
 
       resultText += '</div>';

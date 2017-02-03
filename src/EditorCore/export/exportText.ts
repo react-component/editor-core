@@ -26,7 +26,7 @@ export default function exportText(editorState: EditorState, options = { encode:
       return !!character.getEntity();
     }, function (start, end) {
       var key = block.getEntityAt(start);
-      const entityData = Entity.get(key).getData();
+      const entityData = content.getEntity(key).getData();
       resultText += text.slice(lastPosition, start);
       resultText += entityData && entityData.export ? entityData.export(entityData) : text.slice(start, end );
       lastPosition = end;
