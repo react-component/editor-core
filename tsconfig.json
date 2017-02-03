@@ -16,7 +16,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "typeRoots": [
       "node_modules/@types"
-    ],
-    "types": ["draft-js", "immutable", "react", "lodash"]
+    ]
   }
 }

@@ -143,7 +143,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     [string: string]: any;
     editor?: any;
   };
- 
+
   public static defaultProps = {
     multiLines: true,
     plugins: [],
@@ -152,7 +152,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     toolbars: [],
     spilitLine: 'enter',
   };
-  
+
   public static childContextTypes = {
     getEditorState: React.PropTypes.func,
     setEditorState: React.PropTypes.func,
@@ -429,26 +429,26 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     if (html) {
       const contentState = editorState.getCurrentContent();
       const selection = editorState.getSelection();
-  
-      const fragment = customHTML2Content(html);
+
+      const fragment = customHTML2Content(html, contentState);
       const pastedContent = Modifier.replaceWithFragment(
         contentState,
         selection,
         fragment
       );
-      
+
       const newContent = pastedContent.merge({
         selectionBefore: selection,
         selectionAfter: pastedContent.getSelectionAfter().set('hasFocus', true),
       });
 
       this.setEditorState(
-        EditorState.push(editorState, newContent as ContentState, 'insert-fragment'), 
+        EditorState.push(editorState, newContent as ContentState, 'insert-fragment'),
         true
       );
       return 'handled';
     }
-    return 'not-handled'; 
+    return 'not-handled';
   }
   render() {
     const { prefixCls, toolbars, style } = this.props;

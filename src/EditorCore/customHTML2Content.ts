@@ -55,7 +55,7 @@ const imgReplacer = (imgElement) => {
 }
 
 // creates ContentBlock based on provided spec
-const createContentBlock = ( blockData: DraftEntityInstance ) => {
+const createContentBlock = ( blockData: DraftEntityInstance, contentState: ContentState) => {
   const {key, type, text, data, inlineStyles, entityData} = blockData;
   let blockSpec = {
     type: type != null ? type : 'unstyled',
@@ -72,8 +72,9 @@ const createContentBlock = ( blockData: DraftEntityInstance ) => {
   if (inlineStyles || entityData) {
     let entityKey;
     if (entityData) {
-      const {type, mutability, data} = entityData
-      entityKey = Entity.create(type, mutability, data)
+      const {type, mutability, data} = entityData;
+      contentState.createEntity(type, mutability, data);
+      entityKey = contentState.getLastCreatedEntityKey();
     } else {
       entityKey = null
     }
@@ -85,7 +86,7 @@ const createContentBlock = ( blockData: DraftEntityInstance ) => {
 }
 
 // takes HTML string and returns DraftJS ContentState
-export default function customHTML2Content(HTML): BlockMap {
+export default function customHTML2Content(HTML, contentState: ContentState): BlockMap {
   let tempDoc = new DOMParser().parseFromString(HTML, 'text/html')
   // replace all <img /> with <blockquote /> elements
   toArray(tempDoc.querySelectorAll('img')).forEach(imgReplacer);
@@ -98,8 +99,9 @@ export default function customHTML2Content(HTML): BlockMap {
       return contentBlocks.concat(block)
     }
     const image = JSON.parse(block.getText())
-    const entityData = Entity.create('IMAGE-ENTITY', 'IMMUTABLE', image);
-    const charData = CharacterMetadata.create({ entity: entityData });
+    contentState.createEntity('IMAGE-ENTITY', 'IMMUTABLE', image);
+    const entityKey = contentState.getLastCreatedEntityKey();
+    const charData = CharacterMetadata.create({ entity: entityKey });
     // const blockSpec = Object.assign({ type: 'atomic', text: ' ' }, { entityData })
     // const atomicBlock = createContentBlock(blockSpec)
     // const spacerBlock = createContentBlock({});
