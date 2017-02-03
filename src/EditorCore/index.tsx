@@ -323,7 +323,6 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   getEditorState(doFocus: boolean = false) : EditorState {
-    console.log('>> getEditorState', doFocus);
     if (doFocus) {
       return this.focus();
     }

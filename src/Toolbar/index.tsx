@@ -6,7 +6,7 @@ function noop(args : any) : any {};
 
 export function createToolbar(config = {})  {
   function editorStateChange(editorState) {
-    console.log('>> editorStateChange', editorState);
+    // console.log('>> editorStateChange', editorState);
   }
   const callbacks = {
     onChange: editorStateChange,

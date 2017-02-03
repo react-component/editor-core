@@ -123,7 +123,7 @@ export default function customHTML2Content(HTML, contentState: ContentState): Bl
 
     return contentBlocks.concat(fragmentArray);
   }, []);
-  console.log('>> customHTML2Content contentBlocks', contentBlocks);
+  // console.log('>> customHTML2Content contentBlocks', contentBlocks);
   tempDoc = null;
   return BlockMapBuilder.createFromArray(contentBlocks)
 }
