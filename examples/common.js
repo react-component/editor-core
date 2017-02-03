@@ -44843,7 +44843,7 @@
 	                }).join('');
 	                if (entityKey) {
 	                    var _ret2 = function () {
-	                        var entity = _draftJs.Entity.get(entityKey);
+	                        var entity = contentState.getEntity(entityKey);
 	                        var entityData = entity.getData();
 	                        if (entityData && entityData.export) {
 	                            return {
