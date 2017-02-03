@@ -91,7 +91,7 @@ export default function customHTML2Content(HTML): BlockMap {
   toArray(tempDoc.querySelectorAll('img')).forEach(imgReplacer);
   // use DraftJS converter to do initial conversion. I don't provide DOMBuilder and
   // blockRenderMap arguments here since it should fall back to its default ones, which are fine
-  let contentBlocks = convertFromHTML(tempDoc.body.innerHTML);
+  let { contentBlocks } = convertFromHTML(tempDoc.body.innerHTML);
   // now replace <blockquote /> ContentBlocks with 'atomic' ones
   contentBlocks = contentBlocks.reduce(function (contentBlocks, block) {
     if (block.getType() !== 'blockquote') {
