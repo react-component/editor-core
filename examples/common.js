@@ -456,15 +456,17 @@
 	
 	        var editorState = this.state.editorState;
 	
+	        var focusedState = _draftJs.EditorState.moveFocusToEnd(editorState);
 	        if (!editorState.getSelection().getHasFocus()) {
 	            this.setState({
-	                editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
+	                editorState: focusedState
 	            }, function () {
 	                if (_this4.props.onFocus) {
 	                    _this4.props.onFocus(ev);
 	                }
 	            });
 	        }
+	        return focusedState;
 	    };
 	
 	    EditorCore.prototype.getPlugins = function getPlugins() {
@@ -483,6 +485,12 @@
 	    };
 	
 	    EditorCore.prototype.getEditorState = function getEditorState() {
+	        var doFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	
+	        console.log('>> getEditorState', doFocus);
+	        if (doFocus) {
+	            return this.focus();
+	        }
 	        return this.state.editorState;
 	    };
 	

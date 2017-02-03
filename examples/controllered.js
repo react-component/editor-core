@@ -510,7 +510,7 @@ webpackJsonp([0],[
 	        var getEditorState = callbacks.getEditorState,
 	            setEditorState = callbacks.setEditorState;
 	
-	        var editorState = getEditorState();
+	        var editorState = getEditorState(true);
 	        var contentState = editorState.getCurrentContent();
 	        var selection = editorState.getSelection();
 	        var currentStyle = (0, _rcEditorUtils.getCurrentInlineStyle)(editorState);
@@ -520,7 +520,7 @@ webpackJsonp([0],[
 	            }
 	        });
 	        contentState = _draftJs.Modifier.applyInlineStyle(contentState, selection, styleName);
-	        setEditorState(_draftJs.EditorState.push(editorState, contentState, 'apply-style'));
+	        setEditorState(_draftJs.EditorState.push(editorState, contentState, 'apply-style'), true);
 	    };
 	}
 	function getToggleFontStyleFunc(prefix, callbacks) {
@@ -528,7 +528,7 @@ webpackJsonp([0],[
 	        var getEditorState = callbacks.getEditorState,
 	            setEditorState = callbacks.setEditorState;
 	
-	        var editorState = getEditorState();
+	        var editorState = getEditorState(true);
 	        var currentStyle = (0, _rcEditorUtils.getCurrentInlineStyle)(editorState);
 	        currentStyle.forEach(function (style) {
 	            if (style.indexOf('' + prefix) !== -1 && style !== styleName) {
@@ -561,10 +561,11 @@ webpackJsonp([0],[
 	            setEditorState = callbacks.setEditorState;
 	
 	        var editorState = getEditorState();
+	        var contentState = editorState.getCurrentContent();
 	        var selection = editorState.getSelection();
 	        var currentEntity = getCurrentEntity(editorState);
-	        var entityKey = _draftJs.Entity.create(entityType, entityMode, data);
-	        var replacedContent = _draftJs.Modifier.applyEntity(editorState.getCurrentContent(), selection, entityKey);
+	        var entityKey = contentState.createEntity(entityType, entityMode, data);
+	        var replacedContent = _draftJs.Modifier.applyEntity(contentState, selection, entityKey);
 	        return setEditorState(_draftJs.EditorState.push(editorState, replacedContent, 'toggle-block'));
 	    };
 	}
@@ -635,8 +636,8 @@ webpackJsonp([0],[
 	
 	                    var currentStyle = (0, _rcEditorUtils.getCurrentInlineStyle)(callbacks.getEditorState());
 	                    var classNames = (0, _classnames4["default"])((_classnames = {}, _defineProperty(_classnames, 'editor-icon', true), _defineProperty(_classnames, 'editor-icon-' + name, true), _defineProperty(_classnames, 'active', currentStyle.has(upperName)), _classnames));
-	                    return React.createElement("span", { onMouseDown: function onMouseDown() {
-	                            return toggleStyle(upperName);
+	                    return React.createElement("span", { onMouseDown: function onMouseDown(e) {
+	                            toggleStyle(upperName);e.preventDefault();
 	                        }, className: classNames });
 	                }
 	            };
@@ -1262,7 +1263,8 @@ webpackJsonp([0],[
 	    constructor: function constructor(config) {
 	        var callbacks = {
 	            getEditorState: _utils.noop,
-	            setEditorState: _utils.noop
+	            setEditorState: _utils.noop,
+	            focus: _utils.noop
 	        };
 	        var toggleStyle = (0, _utils.getToggleFontStyleFunc)(PREFIX, callbacks);
 	        function changeSelect(_ref) {
