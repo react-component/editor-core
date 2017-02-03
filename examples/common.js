@@ -456,13 +456,10 @@
 	
 	        var editorState = this.state.editorState;
 	
-	        if (editorState.getSelection().getHasFocus()) {
-	            this.refs.editor.focus(ev);
-	        } else {
+	        if (!editorState.getSelection().getHasFocus()) {
 	            this.setState({
 	                editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
 	            }, function () {
-	                _this4.refs.editor.focus(ev);
 	                if (_this4.props.onFocus) {
 	                    _this4.props.onFocus(ev);
 	                }
