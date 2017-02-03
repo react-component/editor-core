@@ -294,17 +294,19 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
 
-  public focus(ev) : void {
+  public focus(ev?) : void {
     const { editorState } = this.state;
+    const focusedState = EditorState.moveFocusToEnd(editorState);
     if (!editorState.getSelection().getHasFocus()) {
       this.setState({
-        editorState: EditorState.moveFocusToEnd(editorState)
+        editorState: focusedState,
       }, () => {
         if (this.props.onFocus) {
           this.props.onFocus(ev);
         }
       });
     }
+    return focusedState;
   }
 
   public getPlugins(): Array<Plugin> {
@@ -320,7 +322,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return eventHandler;
   }
 
-  getEditorState() : EditorState {
+  getEditorState(doFocus: boolean = false) : EditorState {
+    console.log('>> getEditorState', doFocus);
+    if (doFocus) {
+      return this.focus();
+    }
     return this.state.editorState;
   }
 
