@@ -3,15 +3,15 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(520);
+	module.exports = __webpack_require__(625);
 
 
 /***/ },
 
-/***/ 518:
+/***/ 623:
 2,
 
-/***/ 520:
+/***/ 625:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30,7 +30,7 @@ webpackJsonp([2],{
 	
 	var _draftJs = __webpack_require__(37);
 	
-	__webpack_require__(518);
+	__webpack_require__(623);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
