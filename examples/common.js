@@ -267,7 +267,7 @@
 	            if (html) {
 	                var contentState = editorState.getCurrentContent();
 	                var selection = editorState.getSelection();
-	                var fragment = (0, _customHTML2Content2.default)(html);
+	                var fragment = (0, _customHTML2Content2.default)(html, contentState);
 	                var pastedContent = _draftJs.Modifier.replaceWithFragment(contentState, selection, fragment);
 	                var newContent = pastedContent.merge({
 	                    selectionBefore: selection,
@@ -45051,7 +45051,7 @@
 	var imgReplacer = function imgReplacer(imgElement) {
 	    return replaceElement(imgElement, elementToBlockSpecElement(imgElement));
 	};
-	var createContentBlock = function createContentBlock(blockData) {
+	var createContentBlock = function createContentBlock(blockData, contentState) {
 	    var key = blockData.key,
 	        type = blockData.type,
 	        text = blockData.text,
@@ -45076,7 +45076,8 @@
 	                mutability = entityData.mutability,
 	                _data = entityData.data;
 	
-	            entityKey = _draftJs.Entity.create(_type, mutability, _data);
+	            contentState.createEntity(_type, mutability, _data);
+	            entityKey = contentState.getLastCreatedEntityKey();
 	        } else {
 	            entityKey = null;
 	        }
@@ -45086,7 +45087,7 @@
 	    }
 	    return new _draftJs.ContentBlock(blockSpec);
 	};
-	function customHTML2Content(HTML) {
+	function customHTML2Content(HTML, contentState) {
 	    var tempDoc = new DOMParser().parseFromString(HTML, 'text/html');
 	    (0, _lodash.toArray)(tempDoc.querySelectorAll('img')).forEach(imgReplacer);
 	
@@ -45098,8 +45099,9 @@
 	            return contentBlocks.concat(block);
 	        }
 	        var image = JSON.parse(block.getText());
-	        var entityData = _draftJs.Entity.create('IMAGE-ENTITY', 'IMMUTABLE', image);
-	        var charData = _draftJs.CharacterMetadata.create({ entity: entityData });
+	        contentState.createEntity('IMAGE-ENTITY', 'IMMUTABLE', image);
+	        var entityKey = contentState.getLastCreatedEntityKey();
+	        var charData = _draftJs.CharacterMetadata.create({ entity: entityKey });
 	        var fragmentArray = [new _draftJs.ContentBlock({
 	            key: (0, _draftJs.genKey)(),
 	            type: 'image-block',
