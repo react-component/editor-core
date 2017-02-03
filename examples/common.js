@@ -440,7 +440,7 @@
 	    EditorCore.prototype.initPlugins = function initPlugins() {
 	        var _this3 = this;
 	
-	        var enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
+	        var enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap', 'nextTicksetEditorState'];
 	        return this.getPlugins().map(function (plugin) {
 	            enableCallbacks.forEach(function (callbackName) {
 	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
@@ -499,6 +499,10 @@
 	        var focusEditor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 	
 	        var newEditorState = editorState;
+	        if (this._nextTickEditorState) {
+	            newEditorState = this._nextTickEditorState;
+	            this._nextTickEditorState = null;
+	        }
 	        this.getPlugins().forEach(function (plugin) {
 	            if (plugin.onChange) {
 	                var updatedEditorState = plugin.onChange(newEditorState);
@@ -517,6 +521,12 @@
 	                }, 100);
 	            } : noop);
 	        }
+	    };
+	
+	    EditorCore.prototype.nextTicksetEditorState = function nextTicksetEditorState(editorState) {
+	        var focusEditor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+	
+	        this._nextTickEditorState = editorState;
 	    };
 	
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
