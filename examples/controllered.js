@@ -27,11 +27,11 @@ webpackJsonp([0],[
 	
 	var _rcEditorPluginBasicStyle2 = _interopRequireDefault(_rcEditorPluginBasicStyle);
 	
-	var _rcEditorPluginEmoji = __webpack_require__(518);
+	var _rcEditorPluginEmoji = __webpack_require__(496);
 	
 	var _rcEditorPluginEmoji2 = _interopRequireDefault(_rcEditorPluginEmoji);
 	
-	__webpack_require__(526);
+	__webpack_require__(504);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -510,9 +510,10 @@ webpackJsonp([0],[
 	        var getEditorState = callbacks.getEditorState,
 	            setEditorState = callbacks.setEditorState;
 	
-	        var editorState = getEditorState(true);
+	        var editorState = getEditorState();
 	        var contentState = editorState.getCurrentContent();
 	        var selection = editorState.getSelection();
+	        console.log('>> selection', selection.toSource());
 	        var currentStyle = (0, _rcEditorUtils.getCurrentInlineStyle)(editorState);
 	        currentStyle.forEach(function (style) {
 	            if (style.indexOf('' + prefix) !== -1) {
@@ -520,7 +521,7 @@ webpackJsonp([0],[
 	            }
 	        });
 	        contentState = _draftJs.Modifier.applyInlineStyle(contentState, selection, styleName);
-	        setEditorState(_draftJs.EditorState.push(editorState, contentState, 'apply-style'), true);
+	        setEditorState(_draftJs.EditorState.push(editorState, contentState, 'apply-style'));
 	    };
 	}
 	function getToggleFontStyleFunc(prefix, callbacks) {
@@ -528,7 +529,7 @@ webpackJsonp([0],[
 	        var getEditorState = callbacks.getEditorState,
 	            setEditorState = callbacks.setEditorState;
 	
-	        var editorState = getEditorState(true);
+	        var editorState = getEditorState();
 	        var currentStyle = (0, _rcEditorUtils.getCurrentInlineStyle)(editorState);
 	        currentStyle.forEach(function (style) {
 	            if (style.indexOf('' + prefix) !== -1 && style !== styleName) {
@@ -1263,8 +1264,7 @@ webpackJsonp([0],[
 	    constructor: function constructor(config) {
 	        var callbacks = {
 	            getEditorState: _utils.noop,
-	            setEditorState: _utils.noop,
-	            focus: _utils.noop
+	            setEditorState: _utils.noop
 	        };
 	        var toggleStyle = (0, _utils.getToggleFontStyleFunc)(PREFIX, callbacks);
 	        function changeSelect(_ref) {
@@ -12213,9 +12213,9 @@ webpackJsonp([0],[
 	
 	var React = _interopRequireWildcard(_react);
 	
-	var _rcColorPicker = __webpack_require__(492);
+	var _ColorPickerPanel = __webpack_require__(492);
 	
-	var _rcColorPicker2 = _interopRequireDefault(_rcColorPicker);
+	var _ColorPickerPanel2 = _interopRequireDefault(_ColorPickerPanel);
 	
 	var _utils = __webpack_require__(325);
 	
@@ -12223,11 +12223,11 @@ webpackJsonp([0],[
 	
 	var _rcEditorUtils2 = _interopRequireDefault(_rcEditorUtils);
 	
-	var _ColorPickerBtn = __webpack_require__(516);
+	var _ColorPickerBtn = __webpack_require__(494);
 	
 	var _ColorPickerBtn2 = _interopRequireDefault(_ColorPickerBtn);
 	
-	__webpack_require__(517);
+	__webpack_require__(495);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -12271,11 +12271,12 @@ webpackJsonp([0],[
 	            component: function component(props) {
 	                var editorState = callbacks.getEditorState();
 	                var currentStyle = getCurrentInlineStyle(editorState);
+	                console.log('>> currentStyle', currentStyle.toSource());
 	                var currentFontColor = currentStyle && currentStyle.find(function (item) {
 	                    return item.indexOf('' + PREFIX) !== -1;
 	                });
 	                var fontColor = currentFontColor ? currentFontColor.substring(PREFIX.length) : defaultFontColor;
-	                return React.createElement(_rcColorPicker2["default"], { defaultColor: '#' + defaultFontColor, animation: "slide-up", color: '#' + fontColor, onChange: changeSelect }, React.createElement(_ColorPickerBtn2["default"], null));
+	                return React.createElement(_ColorPickerPanel2["default"], { defaultColor: '#' + defaultFontColor, animation: "slide-up", color: '#' + fontColor, onChange: changeSelect }, React.createElement(_ColorPickerBtn2["default"], null));
 	            }
 	        };
 	    }
@@ -12289,46 +12290,29 @@ webpackJsonp([0],[
 
 	'use strict';
 	
-	module.exports = __webpack_require__(493);
-	module.exports.Panel = __webpack_require__(494);
-
-/***/ },
-/* 493 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _react = __webpack_require__(6);
 	
-	var _react2 = _interopRequireDefault(_react);
+	var React = _interopRequireWildcard(_react);
 	
 	var _reactDom = __webpack_require__(85);
 	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
+	var ReactDOM = _interopRequireWildcard(_reactDom);
 	
 	var _rcTrigger = __webpack_require__(398);
 	
 	var _rcTrigger2 = _interopRequireDefault(_rcTrigger);
 	
-	var _Panel = __webpack_require__(494);
-	
-	var _Panel2 = _interopRequireDefault(_Panel);
-	
-	var _placements = __webpack_require__(515);
+	var _placements = __webpack_require__(493);
 	
 	var _placements2 = _interopRequireDefault(_placements);
 	
-	var _colr = __webpack_require__(495);
-	
-	var _colr2 = _interopRequireDefault(_colr);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 	
@@ -12338,2903 +12322,191 @@ webpackJsonp([0],[
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
-	var colr = new _colr2["default"]();
-	
-	function refFn(field, component) {
-	  this[field] = component;
-	}
-	
-	function prevent(e) {
-	  e.preventDefault();
-	}
-	
-	var ColorPicker = function (_React$Component) {
-	  _inherits(ColorPicker, _React$Component);
-	
-	  function ColorPicker(props) {
-	    _classCallCheck(this, ColorPicker);
-	
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
-	
-	    var alpha = typeof props.alpha === 'undefined' ? props.defaultAlpha : Math.min(props.alpha, props.defaultAlpha);
-	
-	    _this.state = {
-	      color: props.color || props.defaultColor,
-	      alpha: alpha,
-	      open: false
-	    };
-	
-	    var events = ['onTriggerClick', 'onChange', 'onBlur', 'getPickerElement', 'getRootDOMNode', 'getTriggerDOMNode', 'onVisibleChange', 'setOpen', 'open', 'close', 'focus'];
-	
-	    events.forEach(function (e) {
-	      _this[e] = _this[e].bind(_this);
-	    });
-	
-	    _this.savePickerPanelRef = refFn.bind(_this, 'pickerPanelInstance');
-	    _this.saveTriggerRef = refFn.bind(_this, 'triggerInstance');
-	    return _this;
-	  }
-	
-	  ColorPicker.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	    if (nextProps.color) {
-	      this.setState({
-	        color: nextProps.color
-	      });
-	    }
-	    if (nextProps.alpha !== null && nextProps.alpha !== undefined) {
-	      this.setState({
-	        alpha: nextProps.alpha
-	      });
-	    }
-	  };
-	
-	  ColorPicker.prototype.onTriggerClick = function onTriggerClick() {
-	    this.setState({
-	      open: !this.state.open
-	    });
-	  };
-	
-	  ColorPicker.prototype.onChange = function onChange(colors) {
-	    var _this2 = this;
-	
-	    this.setState(_extends({}, colors), function () {
-	      _this2.props.onChange(_this2.state);
-	    });
-	  };
-	
-	  ColorPicker.prototype.onBlur = function onBlur() {
-	    this.setOpen(false);
-	  };
-	
-	  ColorPicker.prototype.onVisibleChange = function onVisibleChange(open) {
-	    var _this3 = this;
-	
-	    this.setOpen(open, function () {
-	      if (open) {
-	        _reactDom2["default"].findDOMNode(_this3.pickerPanelInstance).focus();
-	      }
-	    });
-	  };
-	
-	  ColorPicker.prototype.setOpen = function setOpen(open, callback) {
-	    var _this4 = this;
-	
-	    var _props = this.props,
-	        onOpen = _props.onOpen,
-	        onClose = _props.onClose;
-	
-	    if (this.state.open !== open) {
-	      this.setState({
-	        open: open
-	      }, function () {
-	        if (typeof callback === 'function') {
-	          callback();
-	        }
-	
-	        if (_this4.state.open) {
-	          onOpen(_this4.state);
-	        } else {
-	          onClose(_this4.state);
-	        }
-	      });
-	    }
-	  };
-	
-	  ColorPicker.prototype.getRootDOMNode = function getRootDOMNode() {
-	    return _reactDom2["default"].findDOMNode(this);
-	  };
-	
-	  ColorPicker.prototype.getTriggerDOMNode = function getTriggerDOMNode() {
-	    return _reactDom2["default"].findDOMNode(this.triggerInstance);
-	  };
-	
-	  ColorPicker.prototype.getPickerElement = function getPickerElement() {
-	    // const state = this.state;
-	    return _react2["default"].createElement(_Panel2["default"], {
-	      ref: this.savePickerPanelRef,
-	      defaultColor: this.state.color,
-	      alpha: this.state.alpha,
-	      prefixCls: this.props.prefixCls + '-panel',
-	      onChange: this.onChange,
-	      onBlur: this.onBlur,
-	      mode: this.props.mode
-	    });
-	  };
-	
-	  ColorPicker.prototype.open = function open(callback) {
-	    this.setOpen(true, callback);
-	  };
-	
-	  ColorPicker.prototype.close = function close(callback) {
-	    this.setOpen(false, callback);
-	  };
-	
-	  ColorPicker.prototype.focus = function focus() {
-	    if (!this.state.open) {
-	      _reactDom2["default"].findDOMNode(this).focus();
-	    }
-	  };
-	
-	  ColorPicker.prototype.render = function render() {
-	    var props = this.props;
-	    var state = this.state;
-	    var classes = [props.prefixCls + '-wrap'];
-	    if (state.open) {
-	      classes.push(props.prefixCls + '-open');
-	    }
-	
-	    var children = props.children;
-	
-	    var RGBA = colr.fromHex(this.state.color).toRgbArray();
-	
-	    RGBA.push(this.state.alpha / 100);
-	
-	    if (children) {
-	      children = _react2["default"].cloneElement(children, {
-	        ref: this.saveTriggerRef,
-	        unselectable: true,
-	        style: {
-	          backgroundColor: 'rgba(' + RGBA.join(',') + ')'
-	        },
-	        onClick: this.onTriggerClick,
-	        onMouseDown: prevent
-	      });
-	    }
-	
-	    var prefixCls = props.prefixCls,
-	        placement = props.placement,
-	        style = props.style,
-	        getCalendarContainer = props.getCalendarContainer,
-	        align = props.align,
-	        animation = props.animation,
-	        disabled = props.disabled,
-	        transitionName = props.transitionName;
-	
-	
-	    return _react2["default"].createElement(
-	      'div',
-	      { className: classes.join(' ') },
-	      _react2["default"].createElement(
-	        _rcTrigger2["default"],
-	        {
-	          popup: this.getPickerElement(),
-	          popupAlign: align,
-	          builtinPlacements: _placements2["default"],
-	          popupPlacement: placement,
-	          action: disabled ? [] : ['click'],
-	          destroyPopupOnHide: true,
-	          getPopupContainer: getCalendarContainer,
-	          popupStyle: style,
-	          popupAnimation: animation,
-	          popupTransitionName: transitionName,
-	          popupVisible: state.open,
-	          onPopupVisibleChange: this.onVisibleChange,
-	          prefixCls: prefixCls
-	        },
-	        children
-	      )
-	    );
-	  };
-	
-	  return ColorPicker;
-	}(_react2["default"].Component);
-	
-	exports["default"] = ColorPicker;
-	
-	
-	ColorPicker.propTypes = {
-	  defaultColor: _react.PropTypes.string,
-	  defaultAlpha: _react.PropTypes.number,
-	  // can custom
-	  color: _react.PropTypes.string,
-	  alpha: _react.PropTypes.number,
-	  onChange: _react.PropTypes.func,
-	  onOpen: _react.PropTypes.func,
-	  onClose: _react.PropTypes.func,
-	  prefixCls: _react.PropTypes.string.isRequired,
-	  children: _react.PropTypes.node.isRequired,
-	  mode: _react.PropTypes.oneOf(['RGB', 'HSL', 'HSB']),
-	  placement: _react.PropTypes.oneOf(['topLeft', 'topRight', 'bottomLeft', 'bottomRight']),
-	  style: _react.PropTypes.object
-	};
-	
-	ColorPicker.defaultProps = {
-	  defaultColor: '#F00',
-	  defaultAlpha: 100,
-	  onChange: function onChange() {},
-	  onOpen: function onOpen() {},
-	  onClose: function onClose() {},
-	
-	  prefixCls: 'rc-color-picker',
-	  children: _react2["default"].createElement('span', { className: 'rc-color-picker-trigger' }),
-	  placement: 'topLeft',
-	  style: {}
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 494 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(6);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _colr = __webpack_require__(495);
-	
-	var _colr2 = _interopRequireDefault(_colr);
-	
-	var _Board = __webpack_require__(497);
-	
-	var _Board2 = _interopRequireDefault(_Board);
-	
-	var _Preview = __webpack_require__(510);
-	
-	var _Preview2 = _interopRequireDefault(_Preview);
-	
-	var _Ribbon = __webpack_require__(511);
-	
-	var _Ribbon2 = _interopRequireDefault(_Ribbon);
-	
-	var _Alpha = __webpack_require__(512);
-	
-	var _Alpha2 = _interopRequireDefault(_Alpha);
-	
-	var _Params = __webpack_require__(513);
-	
-	var _Params2 = _interopRequireDefault(_Params);
-	
-	var _validationColor = __webpack_require__(514);
-	
-	var _validationColor2 = _interopRequireDefault(_validationColor);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
+	var ColorSet = 'ffffff,000000,eeece1,1f497d,4f81bd,c0504d,9bbb59,8064a2,4bacc6,f79646,\n  \'f2f2f2,7f7f7f,ddd9c3,c6d9f0,dbe5f1,f2dcdb,ebf1dd,e5e0ec,dbeef3,fdeada,\n  \'d8d8d8,595959,c4bd97,8db3e2,b8cce4,e5b9b7,d7e3bc,ccc1d9,b7dde8,fbd5b5,\n  \'bfbfbf,3f3f3f,938953,548dd4,95b3d7,d99694,c3d69b,b2a2c7,92cddc,fac08f,\n  \'a5a5a5,262626,494429,17365d,366092,953734,76923c,5f497a,31859b,e36c09,\n  \'7f7f7f,0c0c0c,1d1b10,0f243e,244061,632423,4f6128,3f3151,205867,974806,\n  \'c00000,ff0000,ffc000,ffff00,92d050,00b050,00b0f0,0070c0,002060,7030a0,'.split(',');
 	function noop() {}
+	function newArray(length, iterator) {
+	    if (Array.prototype.fill) {
+	        return new Array(length).fill(0).map(iterator);
+	    }
+	    return new Array(length).join('').split('').map(iterator);
+	}
 	
-	var colr = new _colr2["default"]();
+	var ColorPickerPanel = function (_React$Component) {
+	    _inherits(ColorPickerPanel, _React$Component);
 	
-	var Panel = function (_React$Component) {
-	  _inherits(Panel, _React$Component);
+	    function ColorPickerPanel(props) {
+	        _classCallCheck(this, ColorPickerPanel);
 	
-	  function Panel(props) {
-	    _classCallCheck(this, Panel);
+	        var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 	
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+	        _this._canvas = {};
+	        _this.fillCanvasColor = function () {
+	            for (var color in _this._canvas) {
+	                if (_this._canvas.hasOwnProperty(color)) {
+	                    var canvas = _this._canvas[color];
+	                    if (canvas && !canvas.getAttribute('filled')) {
+	                        var ctx = canvas.getContext('2d');
+	                        ctx.fillStyle = color;
+	                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+	                        _this._canvas[color].setAttribute('filled', true);
+	                    }
+	                }
+	            }
+	        };
+	        _this.onVisibleChange = function (open) {
+	            _this.setState({ open: open }, function () {
+	                if (open) {
+	                    _this.fillCanvasColor();
+	                    ReactDOM.findDOMNode(_this.pickerPanelInstance).focus();
+	                }
+	            });
+	        };
+	        _this.renderColorPickerCell = function (color, idx) {
+	            var text = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+	            var ele = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'li';
 	
-	    var color = props.color || props.defaultColor;
-	    var hsv = colr.fromHex(color).toHsvObject();
+	            var Ele = ele;
+	            return React.createElement(Ele, { className: "color-picker-cell", key: idx }, React.createElement("a", { tabIndex: 0, onClick: function onClick(e) {
+	                    _this.pickColor(color, true);e.preventDefault();
+	                } }, React.createElement("canvas", { className: "color-picker-celldiv", ref: function ref(ele) {
+	                    return _this._canvas[color] = ele;
+	                } }), text));
+	        };
+	        _this.state = {
+	            currentColor: _this.getDefaultColor(props),
+	            open: false
+	        };
+	        _this._canvas = {};
+	        return _this;
+	    }
 	
-	    var alpha = typeof props.alpha === 'undefined' ? props.defaultAlpha : Math.min(props.alpha, props.defaultAlpha);
+	    ColorPickerPanel.prototype.getDefaultColor = function getDefaultColor() {
+	        var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
 	
-	    _this.state = {
-	      paramsHsv: hsv,
-	      hsv: hsv,
-	      alpha: alpha
+	        return props.defaultColor || '#000';
 	    };
 	
-	    var events = ['onChange', 'onAlphaChange', 'onFocus', 'onBlur', 'onSystemColorPickerOpen'];
-	    // bind methods
-	    events.forEach(function (m) {
-	      _this[m] = _this[m].bind(_this);
-	    });
-	    return _this;
-	  }
-	
-	  Panel.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	    if (nextProps.color) {
-	      var hsv = colr.fromHex(nextProps.color).toHsvObject();
-	      this.setState({
-	        hsv: hsv,
-	        paramsHsv: hsv
-	      });
-	    }
-	    if (nextProps.alpha !== undefined) {
-	      this.setState({
-	        alpha: nextProps.alpha
-	      });
-	    }
-	  };
-	
-	  Panel.prototype.onChange = function onChange(hsvObject) {
-	    var syncParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-	
-	    var hsv = hsvObject;
-	    var state = {
-	      hsv: hsv
+	    ColorPickerPanel.prototype.reset = function reset() {
+	        this.pickColor(this.getDefaultColor());
 	    };
-	    if (syncParams) {
-	      state.paramsHsv = hsv;
-	    }
-	    this.setState(state);
 	
-	    var ret = {
-	      color: this.getHexColor(hsv),
-	      hsv: hsv,
-	      alpha: this.state.alpha
+	    ColorPickerPanel.prototype.pickColor = function pickColor(currentColor) {
+	        var closeModal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+	
+	        this.props.onChange ? this.props.onChange({ color: currentColor }) : null;
+	        this.setState({
+	            currentColor: currentColor,
+	            open: closeModal ? false : this.state.open
+	        });
 	    };
-	    this.props.onChange(ret);
-	  };
 	
-	  Panel.prototype.onSystemColorPickerOpen = function onSystemColorPickerOpen(e) {
-	    // only work with broswer which support color input
-	    if (e.target.type === 'color') {
-	      this.systemColorPickerOpen = true;
-	    }
-	  };
+	    ColorPickerPanel.prototype.getPickerElement = function getPickerElement() {
+	        var _this2 = this;
 	
-	  Panel.prototype.onAlphaChange = function onAlphaChange(alpha) {
-	    if (this.props.alpha === undefined) {
-	      this.setState({
-	        alpha: alpha
-	      });
-	    }
-	    this.props.onChange({
-	      color: this.getHexColor(),
-	      hsv: this.state.hsv,
-	      alpha: alpha
-	    });
-	  };
+	        if (!this._pickerElement) {
+	            this._pickerElement = React.createElement("div", { className: "color-picker-panel", ref: function ref(ele) {
+	                    return _this2.pickerPanelInstance = ele;
+	                } }, React.createElement("div", { className: "color-picker-color-auto", onClick: this.reset }, React.createElement("ul", null, this.renderColorPickerCell('#000', 0, '自动'))), React.createElement("div", { className: "color-picker-first-row" }, React.createElement("ul", null, newArray(10, function (_, idx) {
+	                return _this2.renderColorPickerCell('#' + ColorSet[idx], idx + 1);
+	            }))), React.createElement("table", null, React.createElement("tbody", null, newArray(5, function (_, row) {
+	                return React.createElement("tr", { className: "color-picker-compactrow", key: row }, newArray(10, function (_, idx) {
+	                    return _this2.renderColorPickerCell('#' + ColorSet[idx + (row + 1) * 10], row * 10 + idx + 1, null, 'td');
+	                }));
+	            }))), React.createElement("span", null, '\u6807\u51C6\u989C\u8272'), React.createElement("div", { className: "color-picker-last-row" }, React.createElement("ul", null, newArray(10, function (_, idx) {
+	                return _this2.renderColorPickerCell('#' + ColorSet[idx + 60], idx + 1);
+	            }))));
+	        }
+	        return this._pickerElement;
+	    };
 	
-	  Panel.prototype.onFocus = function onFocus() {
-	    if (this._blurTimer) {
-	      clearTimeout(this._blurTimer);
-	      this._blurTimer = null;
-	    } else {
-	      this.props.onFocus();
-	    }
-	  };
+	    ColorPickerPanel.prototype.render = function render() {
+	        var _this3 = this;
 	
-	  Panel.prototype.onBlur = function onBlur() {
-	    var _this2 = this;
+	        var _props = this.props,
+	            prefixCls = _props.prefixCls,
+	            placement = _props.placement,
+	            style = _props.style,
+	            getCalendarContainer = _props.getCalendarContainer,
+	            align = _props.align,
+	            animation = _props.animation,
+	            disabled = _props.disabled,
+	            transitionName = _props.transitionName;
 	
-	    if (this._blurTimer) {
-	      clearTimeout(this._blurTimer);
-	    }
-	    this._blurTimer = setTimeout(function () {
-	      // if is system color picker open, then stop run blur
-	      if (_this2.systemColorPickerOpen) {
-	        _this2.systemColorPickerOpen = false;
-	        return;
-	      }
+	        var children = this.props.children;
+	        if (children) {
+	            children = React.cloneElement(children, {
+	                ref: function ref(ele) {
+	                    return _this3.triggerInstance = ele;
+	                },
+	                unselectable: true
+	            });
+	        }
+	        return React.createElement(_rcTrigger2["default"], { popup: this.getPickerElement(), popupAlign: align, builtinPlacements: _placements2["default"], popupPlacement: placement, action: disabled ? [] : ['click'], destroyPopupOnHide: true, getPopupContainer: getCalendarContainer, popupStyle: style, popupAnimation: animation, popupTransitionName: transitionName, popupVisible: this.state.open, onPopupVisibleChange: this.onVisibleChange, prefixCls: prefixCls }, children);
+	    };
 	
-	      _this2.props.onBlur();
-	    }, 100);
-	  };
+	    return ColorPickerPanel;
+	}(React.Component);
 	
-	  Panel.prototype.getHexColor = function getHexColor(hsv) {
-	    return colr.fromHsvObject(hsv || this.state.hsv).toHex();
-	  };
+	exports["default"] = ColorPickerPanel;
 	
-	  Panel.prototype.render = function render() {
-	    var prefixCls = this.props.prefixCls;
-	    var hsv = this.state.hsv;
-	    var alpha = this.state.alpha;
-	    return _react2["default"].createElement(
-	      'div',
-	      {
-	        className: prefixCls,
-	        style: this.props.style,
-	        onFocus: this.onFocus,
-	        onBlur: this.onBlur,
-	        tabIndex: '0'
-	      },
-	      _react2["default"].createElement(
-	        'div',
-	        { className: prefixCls + '-inner' },
-	        _react2["default"].createElement(_Board2["default"], {
-	          rootPrefixCls: prefixCls,
-	          hsv: hsv,
-	          onChange: this.onChange
-	        }),
-	        _react2["default"].createElement(
-	          'div',
-	          { className: prefixCls + '-wrap' },
-	          _react2["default"].createElement(
-	            'div',
-	            { className: prefixCls + '-wrap-ribbon' },
-	            _react2["default"].createElement(_Ribbon2["default"], {
-	              rootPrefixCls: prefixCls,
-	              hsv: hsv,
-	              onChange: this.onChange
-	            })
-	          ),
-	          _react2["default"].createElement(
-	            'div',
-	            { className: prefixCls + '-wrap-alpha' },
-	            _react2["default"].createElement(_Alpha2["default"], {
-	              rootPrefixCls: prefixCls,
-	              alpha: alpha,
-	              hsv: hsv,
-	              onChange: this.onAlphaChange
-	            })
-	          ),
-	          _react2["default"].createElement(
-	            'div',
-	            { className: prefixCls + '-wrap-preview' },
-	            _react2["default"].createElement(_Preview2["default"], {
-	              rootPrefixCls: prefixCls,
-	              alpha: alpha,
-	              onChange: this.onChange,
-	              onInputClick: this.onSystemColorPickerOpen,
-	              hsv: hsv
-	            })
-	          )
-	        ),
-	        _react2["default"].createElement(
-	          'div',
-	          { className: prefixCls + '-wrap', style: { height: 40, marginTop: 6 } },
-	          _react2["default"].createElement(_Params2["default"], {
-	            rootPrefixCls: prefixCls,
-	            hsv: this.state.paramsHsv,
-	            alpha: alpha,
-	            onAlphaChange: this.onAlphaChange,
-	            onChange: this.onChange,
-	            mode: this.props.mode
-	          })
-	        )
-	      )
-	    );
-	  };
-	
-	  return Panel;
-	}(_react2["default"].Component);
-	
-	exports["default"] = Panel;
-	
-	
-	Panel.propTypes = {
-	  defaultAlpha: _react.PropTypes.number,
-	  defaultColor: _validationColor2["default"],
-	  // can custom
-	  prefixCls: _react.PropTypes.string,
-	  color: _validationColor2["default"],
-	  alpha: _react.PropTypes.number,
-	  style: _react.PropTypes.object,
-	  onChange: _react.PropTypes.func,
-	  onFocus: _react.PropTypes.func,
-	  onBlur: _react.PropTypes.func,
-	  mode: _react.PropTypes.oneOf(['RGB', 'HSL', 'HSB'])
-	};
-	
-	Panel.defaultProps = {
-	  prefixCls: 'rc-color-picker-panel',
-	  defaultColor: '#ff0000',
-	  defaultAlpha: 100,
-	  style: {},
-	  onChange: noop,
-	  onFocus: noop,
-	  onBlur: noop,
-	  mode: 'RGB'
+	ColorPickerPanel.defaultProps = {
+	    defaultColor: '#F00',
+	    defaultAlpha: 100,
+	    onChange: noop,
+	    onOpen: noop,
+	    onClose: noop,
+	    prefixCls: 'rc-color-picker',
+	    children: React.createElement("span", { className: "rc-color-picker-trigger" }),
+	    placement: 'topLeft',
+	    style: {}
 	};
 	module.exports = exports['default'];
 
 /***/ },
-/* 495 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	
-	/*
-	 * DEPENDENCIES
-	 */
-	
-	var convert = __webpack_require__(496);
-	
-	
-	/*
-	 * CONSTRUCTOR
-	 */
-	
-	function Colr () {
-	  if ((this instanceof Colr) === false) { return new Colr(); }
-	  this._ = {};
-	}
-	
-	
-	/*
-	 * STATIC METHODS
-	 */
-	
-	Colr.fromHex = function (hex) {
-	  return (new Colr()).fromHex(hex);
-	};
-	
-	Colr.fromGrayscale = function (value) {
-	  return (new Colr()).fromGrayscale(value);
-	};
-	
-	Colr.fromRgb = function (r, g, b) {
-	  return (new Colr()).fromRgb(r, g, b);
-	};
-	
-	Colr.fromRgbArray = function (arr) {
-	  return (new Colr()).fromRgb(arr[0], arr[1], arr[2]);
-	};
-	
-	Colr.fromRgbObject = function (obj) {
-	  return (new Colr()).fromRgb(obj.r, obj.g, obj.b);
-	};
-	Colr.fromHsl = function (h, s, l) {
-	  return (new Colr()).fromHsl(h, s, l);
-	};
-	
-	Colr.fromHslArray = function (arr) {
-	  return (new Colr()).fromHsl(arr[0], arr[1], arr[2]);
-	};
-	
-	Colr.fromHslObject = function (obj) {
-	  return (new Colr()).fromHsl(obj.h, obj.s, obj.l);
-	};
-	
-	Colr.fromHsv = function (h, s, v) {
-	  return (new Colr()).fromHsv(h, s, v);
-	};
-	
-	Colr.fromHsvArray = function (arr) {
-	  return (new Colr()).fromHsv(arr[0], arr[1], arr[2]);
-	};
-	
-	Colr.fromHsvObject = function (obj) {
-	  return (new Colr()).fromHsv(obj.h, obj.s, obj.v);
-	};
-	
-	
-	/*
-	 * IMPORTERS
-	 */
-	
-	// HEX
-	
-	Colr.prototype.fromHex = function (input) {
-	  var value = convert.hex.rgb(input);
-	  this._ = { rgb: value };
-	  return this;
-	};
-	
-	// GRAYSCALE
-	
-	Colr.prototype.fromGrayscale = function (input) {
-	  input = clampByte(input);
-	  var value = convert.grayscale.rgb(input);
-	  this._ = { rgb: value };
-	  return this;
-	};
-	
-	// RGB
-	
-	Colr.prototype.fromRgb = function (r, g, b) {
-	  if (typeof(r) !== 'number' || typeof(g) !== 'number' || typeof(b) !== 'number') {
-	    throw new Error('Arguments must be numbers');
-	  }
-	  var value = clampRgb(r, g, b);
-	  this._ = { rgb: value };
-	  return this;
-	};
-	
-	Colr.prototype.fromRgbArray = function (arr) {
-	  return this.fromRgb(arr[0], arr[1], arr[2]);
-	};
-	
-	Colr.prototype.fromRgbObject = function (obj) {
-	  return this.fromRgb(obj.r, obj.g, obj.b);
-	};
-	
-	// HSL
-	
-	Colr.prototype.fromHsl = function (h, s, l) {
-	  if (typeof(h) !== 'number' || typeof(s) !== 'number' || typeof(l) !== 'number') {
-	    throw new Error('Arguments must be numbers');
-	  }
-	  this._ = { hsl: clampHsx(h, s, l) };
-	  return this;
-	};
-	
-	Colr.prototype.fromHslArray = function (arr) {
-	  return this.fromHsl(arr[0], arr[1], arr[2]);
-	};
-	
-	Colr.prototype.fromHslObject = function (obj) {
-	  return this.fromHsl(obj.h, obj.s, obj.l);
-	};
-	
-	// HSV
-	
-	Colr.prototype.fromHsv = function (h, s, v) {
-	  if (typeof(h) !== 'number' || typeof(s) !== 'number' || typeof(v) !== 'number') {
-	    throw new Error('Arguments must be numbers');
-	  }
-	  this._ = { hsv: clampHsx(h, s, v) };
-	  return this;
-	};
-	
-	Colr.prototype.fromHsvArray = function (arr) {
-	  return this.fromHsv(arr[0], arr[1], arr[2]);
-	};
-	
-	Colr.prototype.fromHsvObject = function (obj) {
-	  return this.fromHsv(obj.h, obj.s, obj.v);
-	};
-	
-	
-	/*
-	 * EXPORTERS
-	 */
-	
-	// HEX
-	
-	Colr.prototype.toHex = function () {
-	  var cached = this._.hex;
-	  if (cached !== undefined) { return cached; }
-	
-	  var input;
-	  var cachedFrom = this._.rgb;
-	
-	  if (cachedFrom !== undefined) { input = cachedFrom; }
-	  else { input = this.toRawRgbArray(); }
-	
-	  input[0] = Math.round(input[0]);
-	  input[1] = Math.round(input[1]);
-	  input[2] = Math.round(input[2]);
-	
-	  var value = convert.rgb.hex(input);
-	  this._.hex = value;
-	
-	  return value;
-	};
-	
-	// GRAYSCALE
-	
-	Colr.prototype.toGrayscale = function () {
-	  var cached = this._.grayscale;
-	  if (cached !== undefined) { return cached; }
-	
-	  var input;
-	  var cachedFrom = this._.rgb;
-	
-	  if (cachedFrom !== undefined) { input = cachedFrom; }
-	  else { input = this.toRawRgbArray(); }
-	
-	  var value = convert.rgb.grayscale(input);
-	  this._.grayscale = value;
-	  return value;
-	};
-	
-	// RGB
-	
-	Colr.prototype.toRawRgbArray = function () {
-	  var cached = this._.rgb;
-	  if (cached !== undefined) { return cached; }
-	
-	  var value;
-	
-	  if ((value = this._.hsv) !== undefined) {
-	    value = convert.hsv.rgb(value);
-	  } else if ((value = this._.hsl) !== undefined) {
-	    value = convert.hsl.rgb(value);
-	  } else {
-	    throw new Error('No data to convert');
-	  }
-	
-	  this._.rgb = value;
-	  return value;
-	};
-	
-	Colr.prototype.toRawRgbObject = function () {
-	  var arr = this.toRawRgbArray();
-	  return { r: arr[0], g: arr[1], b: arr[2] };
-	};
-	
-	Colr.prototype.toRgbArray = function () {
-	  var arr = this.toRawRgbArray();
-	  return [ Math.round(arr[0]), Math.round(arr[1]), Math.round(arr[2]) ];
-	};
-	
-	Colr.prototype.toRgbObject = function () {
-	  var arr = this.toRgbArray();
-	  return { r: arr[0], g: arr[1], b: arr[2] };
-	};
-	
-	// HSL
-	
-	Colr.prototype.toRawHslArray = function () {
-	  var cached = this._.hsl;
-	  if (cached !== undefined) { return cached; }
-	
-	  var value;
-	
-	  if ((value = this._.hsv) !== undefined) {
-	    value = convert.hsv.hsl(value);
-	  } else if ((value = this._.rgb) !== undefined) {
-	    value = convert.rgb.hsl(value);
-	  } else {
-	    throw new Error('No data to convert');
-	  }
-	
-	  this._.hsl = value;
-	  return value;
-	};
-	
-	Colr.prototype.toRawHslObject = function () {
-	  var arr = this.toRawHslArray();
-	  return { h: arr[0], s: arr[1], l: arr[2] };
-	};
-	
-	Colr.prototype.toHslArray = function () {
-	  var arr = this.toRawHslArray();
-	  return [ Math.round(arr[0]), Math.round(arr[1]), Math.round(arr[2]) ];
-	};
-	
-	Colr.prototype.toHslObject = function () {
-	  var arr = this.toHslArray();
-	  return { h: arr[0], s: arr[1], l: arr[2] };
-	};
-	
-	// HSV
-	
-	Colr.prototype.toRawHsvArray = function () {
-	  var cached = this._.hsv;
-	  if (cached !== undefined) { return cached; }
-	
-	  var value;
-	
-	  if ((value = this._.hsl) !== undefined) {
-	    value = convert.hsl.hsv(value);
-	  } else if ((value = this._.rgb) !== undefined) {
-	    value = convert.rgb.hsv(value);
-	  } else {
-	    throw new Error('No data to convert');
-	  }
-	
-	  this._.hsv = value;
-	  return value;
-	};
-	
-	Colr.prototype.toRawHsvObject = function () {
-	  var arr = this.toRawHsvArray();
-	  return { h: arr[0], s: arr[1], v: arr[2] };
-	};
-	
-	Colr.prototype.toHsvArray = function () {
-	  var arr = this.toRawHsvArray();
-	  return [ Math.round(arr[0]), Math.round(arr[1]), Math.round(arr[2]) ];
-	};
-	
-	Colr.prototype.toHsvObject = function () {
-	  var arr = this.toHsvArray();
-	  return { h: arr[0], s: arr[1], v: arr[2] };
-	};
-	
-	
-	/*
-	 * MODIFIERS
-	 */
-	
-	Colr.prototype.lighten = function (amount) {
-	  var hsl = this.toRawHslArray();
-	  hsl[2] = clampPercentage(hsl[2] + amount);
-	  this._ = { hsl: hsl };
-	  return this;
-	};
-	
-	Colr.prototype.darken = function (amount) {
-	  var hsl = this.toRawHslArray();
-	  hsl[2] = clampPercentage(hsl[2] - amount);
-	  this._ = { hsl: hsl };
-	  return this;
-	};
-	
-	/*
-	 * MISC
-	 */
-	
-	Colr.prototype.clone = function () {
-	  var colr = new Colr();
-	  colr._.hex = this._.hex;
-	  colr._.grayscale = this._.grayscale;
-	
-	  if (this._.rgb !== undefined) {
-	    colr._.rgb = this._.rgb.slice(0);
-	  }
-	  if (this._.hsv !== undefined) {
-	    colr._.hsv = this._.hsv.slice(0);
-	  }
-	  if (this._.hsl !== undefined) {
-	    colr._.hsl = this._.hsl.slice(0);
-	  }
-	
-	  return colr;
-	};
-	
-	/*
-	 * UTILS
-	 */
-	
-	function clampPercentage (val) {
-	  return Math.max(Math.min(val, 100), 0);
-	}
-	
-	function clampByte (byte) {
-	  return Math.max(Math.min(byte, 255), 0);
-	}
-	
-	function clampRgb (r, g, b) {
-	  return [
-	    Math.max(Math.min(r, 255), 0),
-	    Math.max(Math.min(g, 255), 0),
-	    Math.max(Math.min(b, 255), 0),
-	  ];
-	}
-	
-	function clampHsx (h, s, x) {
-	  return [
-	    Math.max(Math.min(h, 360), 0),
-	    Math.max(Math.min(s, 100), 0),
-	    Math.max(Math.min(x, 100), 0),
-	  ];
-	}
-	
-	
-	module.exports = Colr;
-
-
-/***/ },
-/* 496 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	module.exports = {
-	  grayscale: {
-	    rgb: grayscale2rgb
-	  },
-	  hex: {
-	    rgb: hex2rgb,
-	  },
-	  rgb: {
-	    hsl: rgb2hsl,
-	    hsv: rgb2hsv,
-	    hex: rgb2hex,
-	    grayscale: rgb2grayscale
-	  },
-	  hsl: {
-	    rgb: hsl2rgb,
-	    hsv: hsl2hsv,
-	  },
-	  hsv: {
-	    rgb: hsv2rgb,
-	    hsl: hsv2hsl,
-	  },
-	};
-	
-	// convert a charcode to a hex val
-	function hexVal (c) {
-	  return (
-	    c < 58 ? c - 48 : // 0 - 9
-	    c < 71 ? c - 55 : // A - F
-	    c - 87            // a - f
-	  );
-	}
-	
-	function hex2rgb (hex) {
-	  var i = hex[0] === '#' ? 1 : 0;
-	  var len = hex.length;
-	
-	  if (len - i < 3) {
-	    throw new Error('hex input must be at least three chars long');
-	  }
-	
-	  var r, g, b;
-	
-	  var h1 = hexVal(hex.charCodeAt(0+i));
-	  var h2 = hexVal(hex.charCodeAt(1+i));
-	  var h3 = hexVal(hex.charCodeAt(2+i));
-	
-	  if (len - i >= 6) {
-	    r = (h1 << 4) + h2;
-	    g = (h3 << 4) + hexVal(hex.charCodeAt(3+i));
-	    b = (hexVal(hex.charCodeAt(4+i)) << 4) + hexVal(hex.charCodeAt(5+i));
-	  } else {
-	    r = (h1 << 4) + h1;
-	    g = (h2 << 4) + h2;
-	    b = (h3 << 4) + h3;
-	  }
-	
-	  if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
-	    throw new Error('hex input is invalid');
-	  }
-	
-	  return [r, g, b];
-	}
-	
-	
-	function rgb2hex (rgb) {
-	  return '#' + (
-	    '000000' +
-	    ((rgb[0] << 16) +
-	     (rgb[1] << 8) +
-	      rgb[2]
-	    ).toString(16)
-	  ).slice(-6);
-	}
-	
-	function rgb2hsl (rgb) {
-	  var r = rgb[0] / 255;
-	  var g = rgb[1] / 255;
-	  var b = rgb[2] / 255;
-	
-	  var min = Math.min(r, g, b);
-	  var max = Math.max(r, g, b);
-	  var delta = max - min;
-	  var h, s, l;
-	
-	  if (max === min) {
-	    h = 0;
-	  } else if (r === max) {
-	    h = (g - b) / delta;
-	  } else if (g === max) {
-	    h = 2 + (b - r) / delta;
-	  } else if (b === max) {
-	    h = 4 + (r - g) / delta;
-	  }
-	
-	  h = Math.min(h * 60, 360);
-	
-	  if (h < 0) {
-	    h += 360;
-	  }
-	
-	  l = (min + max) / 2;
-	
-	  if (max === min) {
-	    s = 0;
-	  } else if (l <= 0.5) {
-	    s = delta / (max + min);
-	  } else {
-	    s = delta / (2 - max - min);
-	  }
-	
-	  return [h, s * 100, l * 100];
-	}
-	
-	function rgb2hsv(rgb) {
-	  var r = rgb[0];
-	  var g = rgb[1];
-	  var b = rgb[2];
-	  var min = Math.min(r, g, b);
-	  var max = Math.max(r, g, b);
-	  var delta = max - min;
-	  var h, s, v;
-	
-	  if (max === 0) {
-	    s = 0;
-	  } else {
-	    s = delta / max * 100;
-	  }
-	
-	  if (max === min) {
-	    h = 0;
-	  } else if (r === max) {
-	    h = (g - b) / delta;
-	  } else if (g === max) {
-	    h = 2 + (b - r) / delta;
-	  } else if (b === max) {
-	    h = 4 + (r - g) / delta;
-	  }
-	
-	  h = Math.min(h * 60, 360);
-	
-	  if (h < 0) {
-	    h += 360;
-	  }
-	
-	  v = (max / 255) * 100;
-	
-	  return [h, s, v];
-	}
-	
-	function hsl2rgb (hsl) {
-	  var h = hsl[0] / 360;
-	  var s = hsl[1] / 100;
-	  var l = hsl[2] / 100;
-	
-	  var r, g, b;
-	
-	  if (s === 0) { // monochrome
-	    r = g = b = l;
-	
-	  } else {
-	    var q = l < 0.5 ? l * (s + 1) : l + s - l * s;
-	    var p = 2 * l - q;
-	    var t;
-	
-	    // red
-	    t = h + 1/3;
-	    if      (t < 0) { t += 1; }
-	    else if (t > 1) { t -= 1; }
-	    if      (t < 1/6)  { r = p + (q - p) * t * 6; }
-	    else if (t < 1/2 ) { r = q; }
-	    else if (t < 2/3 ) { r = p + (q - p) * (2/3 - t) * 6; }
-	    else               { r = p; }
-	
-	    // green
-	    t = h;
-	    if      (t < 0) { t += 1; }
-	    else if (t > 1) { t -= 1; }
-	    if      (t < 1/6)  { g = p + (q - p) * t * 6; }
-	    else if (t < 1/2 ) { g = q; }
-	    else if (t < 2/3 ) { g = p + (q - p) * (2/3 - t) * 6; }
-	    else               { g = p; }
-	
-	    // blue
-	    t = h - 1/3;
-	    if      (t < 0) { t += 1; }
-	    else if (t > 1) { t -= 1; }
-	    if      (t < 1/6)  { b = p + (q - p) * t * 6; }
-	    else if (t < 1/2 ) { b = q; }
-	    else if (t < 2/3 ) { b = p + (q - p) * (2/3 - t) * 6; }
-	    else               { b = p; }
-	  }
-	
-	  return [r * 255, g * 255, b * 255];
-	}
-	
-	function hsl2hsv(hsl) {
-	  var h = hsl[0];
-	  var s = hsl[1] / 100;
-	  var l = hsl[2] / 100;
-	  var sv, v;
-	
-	  if (s === 0) {
-	    return [h, 0, l * 100];
-	  }
-	
-	  if (l === 0) {
-	    return [h, 0, 0];
-	  }
-	
-	  l *= 2;
-	  s *= (l <= 1) ? l : 2 - l;
-	  v = (l + s) / 2;
-	  sv = (2 * s) / (l + s);
-	  return [h, sv * 100, v * 100];
-	}
-	
-	function hsv2rgb(hsv) {
-	  var h = hsv[0] / 60;
-	  var s = hsv[1] / 100;
-	  var v = hsv[2] / 100;
-	
-	  var hi = Math.floor(h) % 6;
-	
-	  var f = h - Math.floor(h);
-	  var p = 255 * v * (1 - s);
-	  var q = 255 * v * (1 - (s * f));
-	  var t = 255 * v * (1 - (s * (1 - f)));
-	      v = 255 * v;
-	
-	  switch(hi) {
-	    case 0:
-	      return [v, t, p];
-	    case 1:
-	      return [q, v, p];
-	    case 2:
-	      return [p, v, t];
-	    case 3:
-	      return [p, q, v];
-	    case 4:
-	      return [t, p, v];
-	    case 5:
-	      return [v, p, q];
-	  }
-	}
-	
-	function hsv2hsl(hsv) {
-	  var h = hsv[0];
-	  var s = hsv[1] / 100;
-	  var v = hsv[2] / 100;
-	  var sl, l;
-	
-	  if (s === 0) {
-	    return [h, 0, v * 100];
-	  }
-	
-	  if (v === 0) {
-	    return [h, 0, 0];
-	  }
-	
-	  l = (2 - s) * v;
-	  sl = s * v;
-	  sl /= (l <= 1) ? l : 2 - l;
-	  l /= 2;
-	  return [h, sl * 100, l * 100];
-	}
-	
-	function grayscale2rgb (value) {
-	  return [value, value, value];
-	}
-	
-	function rgb2grayscale (rgb) {
-	  return (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
-	}
-
-
-/***/ },
-/* 497 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _colr = __webpack_require__(495);
-	
-	var _colr2 = _interopRequireDefault(_colr);
-	
-	var _react = __webpack_require__(6);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(85);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	var _rcUtil = __webpack_require__(498);
-	
-	var _rcUtil2 = _interopRequireDefault(_rcUtil);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
-	var colr = new _colr2["default"]();
-	
-	var WIDTH = 200;
-	var HEIGHT = 150;
-	
-	var Board = function (_React$Component) {
-	  _inherits(Board, _React$Component);
-	
-	  function Board(props) {
-	    _classCallCheck(this, Board);
-	
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
-	
-	    var events = ['onBoardMouseDown', 'onBoardDrag', 'onBoardDragEnd', 'onBoardTouchStart', 'onBoardTouchMove', 'onBoardTouchEnd'];
-	    events.forEach(function (m) {
-	      _this[m] = _this[m].bind(_this);
-	    });
-	    return _this;
-	  }
-	
-	  Board.prototype.componentWillUnmount = function componentWillUnmount() {
-	    this.removeListeners();
-	    this.removeTouchListeners();
-	  };
-	
-	  Board.prototype.onBoardMouseDown = function onBoardMouseDown(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	    this.pointMoveTo({
-	      x: x,
-	      y: y
-	    });
-	    this.dragListener = _rcUtil2["default"].Dom.addEventListener(window, 'mousemove', this.onBoardDrag);
-	    this.dragUpListener = _rcUtil2["default"].Dom.addEventListener(window, 'mouseup', this.onBoardDragEnd);
-	  };
-	
-	  Board.prototype.onBoardTouchStart = function onBoardTouchStart(e) {
-	    if (e.touches.length !== 1) {
-	      return;
-	    }
-	
-	    var x = e.targetTouches[0].clientX;
-	    var y = e.targetTouches[0].clientY;
-	    this.pointMoveTo({
-	      x: x,
-	      y: y
-	    });
-	    this.touchMoveListener = _rcUtil2["default"].Dom.addEventListener(window, 'touchmove', this.onBoardTouchMove);
-	    this.touchEndListener = _rcUtil2["default"].Dom.addEventListener(window, 'touchend', this.onBoardTouchEnd);
-	  };
-	
-	  Board.prototype.onBoardTouchMove = function onBoardTouchMove(e) {
-	    if (e.preventDefault) {
-	      e.preventDefault();
-	    }
-	
-	    var x = e.targetTouches[0].clientX;
-	    var y = e.targetTouches[0].clientY;
-	    this.pointMoveTo({
-	      x: x,
-	      y: y
-	    });
-	  };
-	
-	  Board.prototype.onBoardTouchEnd = function onBoardTouchEnd() {
-	    this.removeTouchListeners();
-	  };
-	
-	  Board.prototype.onBoardDrag = function onBoardDrag(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	    this.pointMoveTo({
-	      x: x,
-	      y: y
-	    });
-	  };
-	
-	  Board.prototype.onBoardDragEnd = function onBoardDragEnd(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	    this.pointMoveTo({
-	      x: x,
-	      y: y
-	    });
-	    this.removeListeners();
-	  };
-	
-	  Board.prototype.getPrefixCls = function getPrefixCls() {
-	    return this.props.rootPrefixCls + '-board';
-	  };
-	
-	  Board.prototype.removeTouchListeners = function removeTouchListeners() {
-	    if (this.touchMoveListener) {
-	      this.touchMoveListener.remove();
-	      this.touchMoveListener = null;
-	    }
-	    if (this.touchEndListener) {
-	      this.touchEndListener.remove();
-	      this.touchEndListener = null;
-	    }
-	  };
-	
-	  Board.prototype.removeListeners = function removeListeners() {
-	    if (this.dragListener) {
-	      this.dragListener.remove();
-	      this.dragListener = null;
-	    }
-	    if (this.dragUpListener) {
-	      this.dragUpListener.remove();
-	      this.dragUpListener = null;
-	    }
-	  };
-	
-	  /**
-	   * 移动光标位置到
-	   * @param  {object} pos X Y 全局坐标点
-	   * @return {undefined}
-	   */
-	
-	
-	  Board.prototype.pointMoveTo = function pointMoveTo(pos) {
-	    var rect = _reactDom2["default"].findDOMNode(this).getBoundingClientRect();
-	    var left = pos.x - rect.left;
-	    var top = pos.y - rect.top;
-	
-	    left = Math.max(0, left);
-	    left = Math.min(left, WIDTH);
-	    top = Math.max(0, top);
-	    top = Math.min(top, HEIGHT);
-	
-	    var hsv = {
-	      h: this.props.hsv.h,
-	      s: parseInt(left / WIDTH * 100, 10),
-	      v: parseInt((1 - top / HEIGHT) * 100, 10)
-	    };
-	    this.props.onChange(hsv);
-	  };
-	
-	  Board.prototype.render = function render() {
-	    var prefixCls = this.getPrefixCls();
-	    var hsv = this.props.hsv;
-	    var hueHsv = [hsv.h, 100, 100];
-	    var hueColor = colr.fromHsvArray(hueHsv).toHex();
-	    var x = hsv.s / 100 * WIDTH - 4;
-	    var y = (1 - hsv.v / 100) * HEIGHT - 4;
-	    return _react2["default"].createElement(
-	      'div',
-	      { className: prefixCls },
-	      _react2["default"].createElement(
-	        'div',
-	        { className: prefixCls + '-hsv', style: { backgroundColor: hueColor } },
-	        _react2["default"].createElement('div', { className: prefixCls + '-value' }),
-	        _react2["default"].createElement('div', { className: prefixCls + '-saturation' })
-	      ),
-	      _react2["default"].createElement('span', { style: { left: x, top: y } }),
-	      _react2["default"].createElement('div', {
-	        className: prefixCls + '-handler',
-	        onMouseDown: this.onBoardMouseDown,
-	        onTouchStart: this.onBoardTouchStart
-	      })
-	    );
-	  };
-	
-	  return Board;
-	}(_react2["default"].Component);
-	
-	exports["default"] = Board;
-	
-	
-	Board.propTypes = {
-	  hsv: _react2["default"].PropTypes.object,
-	  onChange: _react2["default"].PropTypes.func,
-	  rootPrefixCls: _react2["default"].PropTypes.string
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 498 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = {
-	  guid: __webpack_require__(499),
-	  classSet: __webpack_require__(500),
-	  joinClasses: __webpack_require__(501),
-	  KeyCode: __webpack_require__(502),
-	  PureRenderMixin: __webpack_require__(503),
-	  shallowEqual: __webpack_require__(504),
-	  createChainedFunction: __webpack_require__(505),
-	  Dom: {
-	    addEventListener: __webpack_require__(506),
-	    contains: __webpack_require__(507)
-	  },
-	  Children: {
-	    toArray: __webpack_require__(508),
-	    mapSelf: __webpack_require__(509)
-	  }
-	};
-
-
-/***/ },
-/* 499 */
-/***/ function(module, exports) {
-
-	var seed = 0;
-	module.exports = function () {
-	  return Date.now() + '_' + (seed++);
-	};
-
-
-/***/ },
-/* 500 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(326);
-
-
-/***/ },
-/* 501 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This file contains an unmodified version of:
-	 * https://github.com/facebook/react/blob/v0.12.0/src/utils/joinClasses.js
-	 *
-	 * This source code is licensed under the BSD-style license found here:
-	 * https://github.com/facebook/react/blob/v0.12.0/LICENSE
-	 * An additional grant of patent rights can be found here:
-	 * https://github.com/facebook/react/blob/v0.12.0/PATENTS
-	 */
-	
-	"use strict";
-	
-	/**
-	 * Combines multiple className strings into one.
-	 * http://jsperf.com/joinclasses-args-vs-array
-	 *
-	 * @param {...?string} classes
-	 * @return {string}
-	 */
-	
-	function joinClasses(className /*, ... */ ) {
-	  if (!className) {
-	    className = '';
-	  }
-	  var nextClass;
-	  var argLength = arguments.length;
-	  if (argLength > 1) {
-	    for (var ii = 1; ii < argLength; ii++) {
-	      nextClass = arguments[ii];
-	      if (nextClass) {
-	        className = (className ? className + ' ' : '') + nextClass;
-	      }
-	    }
-	  }
-	  return className;
-	}
-	
-	module.exports = joinClasses;
-
-
-/***/ },
-/* 502 */
-/***/ function(module, exports) {
-
-	/**
-	 * @ignore
-	 * some key-codes definition and utils from closure-library
-	 * @author yiminghe@gmail.com
-	 */
-	
-	var KeyCode = {
-	  /**
-	   * MAC_ENTER
-	   */
-	  MAC_ENTER: 3,
-	  /**
-	   * BACKSPACE
-	   */
-	  BACKSPACE: 8,
-	  /**
-	   * TAB
-	   */
-	  TAB: 9,
-	  /**
-	   * NUMLOCK on FF/Safari Mac
-	   */
-	  NUM_CENTER: 12, // NUMLOCK on FF/Safari Mac
-	  /**
-	   * ENTER
-	   */
-	  ENTER: 13,
-	  /**
-	   * SHIFT
-	   */
-	  SHIFT: 16,
-	  /**
-	   * CTRL
-	   */
-	  CTRL: 17,
-	  /**
-	   * ALT
-	   */
-	  ALT: 18,
-	  /**
-	   * PAUSE
-	   */
-	  PAUSE: 19,
-	  /**
-	   * CAPS_LOCK
-	   */
-	  CAPS_LOCK: 20,
-	  /**
-	   * ESC
-	   */
-	  ESC: 27,
-	  /**
-	   * SPACE
-	   */
-	  SPACE: 32,
-	  /**
-	   * PAGE_UP
-	   */
-	  PAGE_UP: 33, // also NUM_NORTH_EAST
-	  /**
-	   * PAGE_DOWN
-	   */
-	  PAGE_DOWN: 34, // also NUM_SOUTH_EAST
-	  /**
-	   * END
-	   */
-	  END: 35, // also NUM_SOUTH_WEST
-	  /**
-	   * HOME
-	   */
-	  HOME: 36, // also NUM_NORTH_WEST
-	  /**
-	   * LEFT
-	   */
-	  LEFT: 37, // also NUM_WEST
-	  /**
-	   * UP
-	   */
-	  UP: 38, // also NUM_NORTH
-	  /**
-	   * RIGHT
-	   */
-	  RIGHT: 39, // also NUM_EAST
-	  /**
-	   * DOWN
-	   */
-	  DOWN: 40, // also NUM_SOUTH
-	  /**
-	   * PRINT_SCREEN
-	   */
-	  PRINT_SCREEN: 44,
-	  /**
-	   * INSERT
-	   */
-	  INSERT: 45, // also NUM_INSERT
-	  /**
-	   * DELETE
-	   */
-	  DELETE: 46, // also NUM_DELETE
-	  /**
-	   * ZERO
-	   */
-	  ZERO: 48,
-	  /**
-	   * ONE
-	   */
-	  ONE: 49,
-	  /**
-	   * TWO
-	   */
-	  TWO: 50,
-	  /**
-	   * THREE
-	   */
-	  THREE: 51,
-	  /**
-	   * FOUR
-	   */
-	  FOUR: 52,
-	  /**
-	   * FIVE
-	   */
-	  FIVE: 53,
-	  /**
-	   * SIX
-	   */
-	  SIX: 54,
-	  /**
-	   * SEVEN
-	   */
-	  SEVEN: 55,
-	  /**
-	   * EIGHT
-	   */
-	  EIGHT: 56,
-	  /**
-	   * NINE
-	   */
-	  NINE: 57,
-	  /**
-	   * QUESTION_MARK
-	   */
-	  QUESTION_MARK: 63, // needs localization
-	  /**
-	   * A
-	   */
-	  A: 65,
-	  /**
-	   * B
-	   */
-	  B: 66,
-	  /**
-	   * C
-	   */
-	  C: 67,
-	  /**
-	   * D
-	   */
-	  D: 68,
-	  /**
-	   * E
-	   */
-	  E: 69,
-	  /**
-	   * F
-	   */
-	  F: 70,
-	  /**
-	   * G
-	   */
-	  G: 71,
-	  /**
-	   * H
-	   */
-	  H: 72,
-	  /**
-	   * I
-	   */
-	  I: 73,
-	  /**
-	   * J
-	   */
-	  J: 74,
-	  /**
-	   * K
-	   */
-	  K: 75,
-	  /**
-	   * L
-	   */
-	  L: 76,
-	  /**
-	   * M
-	   */
-	  M: 77,
-	  /**
-	   * N
-	   */
-	  N: 78,
-	  /**
-	   * O
-	   */
-	  O: 79,
-	  /**
-	   * P
-	   */
-	  P: 80,
-	  /**
-	   * Q
-	   */
-	  Q: 81,
-	  /**
-	   * R
-	   */
-	  R: 82,
-	  /**
-	   * S
-	   */
-	  S: 83,
-	  /**
-	   * T
-	   */
-	  T: 84,
-	  /**
-	   * U
-	   */
-	  U: 85,
-	  /**
-	   * V
-	   */
-	  V: 86,
-	  /**
-	   * W
-	   */
-	  W: 87,
-	  /**
-	   * X
-	   */
-	  X: 88,
-	  /**
-	   * Y
-	   */
-	  Y: 89,
-	  /**
-	   * Z
-	   */
-	  Z: 90,
-	  /**
-	   * META
-	   */
-	  META: 91, // WIN_KEY_LEFT
-	  /**
-	   * WIN_KEY_RIGHT
-	   */
-	  WIN_KEY_RIGHT: 92,
-	  /**
-	   * CONTEXT_MENU
-	   */
-	  CONTEXT_MENU: 93,
-	  /**
-	   * NUM_ZERO
-	   */
-	  NUM_ZERO: 96,
-	  /**
-	   * NUM_ONE
-	   */
-	  NUM_ONE: 97,
-	  /**
-	   * NUM_TWO
-	   */
-	  NUM_TWO: 98,
-	  /**
-	   * NUM_THREE
-	   */
-	  NUM_THREE: 99,
-	  /**
-	   * NUM_FOUR
-	   */
-	  NUM_FOUR: 100,
-	  /**
-	   * NUM_FIVE
-	   */
-	  NUM_FIVE: 101,
-	  /**
-	   * NUM_SIX
-	   */
-	  NUM_SIX: 102,
-	  /**
-	   * NUM_SEVEN
-	   */
-	  NUM_SEVEN: 103,
-	  /**
-	   * NUM_EIGHT
-	   */
-	  NUM_EIGHT: 104,
-	  /**
-	   * NUM_NINE
-	   */
-	  NUM_NINE: 105,
-	  /**
-	   * NUM_MULTIPLY
-	   */
-	  NUM_MULTIPLY: 106,
-	  /**
-	   * NUM_PLUS
-	   */
-	  NUM_PLUS: 107,
-	  /**
-	   * NUM_MINUS
-	   */
-	  NUM_MINUS: 109,
-	  /**
-	   * NUM_PERIOD
-	   */
-	  NUM_PERIOD: 110,
-	  /**
-	   * NUM_DIVISION
-	   */
-	  NUM_DIVISION: 111,
-	  /**
-	   * F1
-	   */
-	  F1: 112,
-	  /**
-	   * F2
-	   */
-	  F2: 113,
-	  /**
-	   * F3
-	   */
-	  F3: 114,
-	  /**
-	   * F4
-	   */
-	  F4: 115,
-	  /**
-	   * F5
-	   */
-	  F5: 116,
-	  /**
-	   * F6
-	   */
-	  F6: 117,
-	  /**
-	   * F7
-	   */
-	  F7: 118,
-	  /**
-	   * F8
-	   */
-	  F8: 119,
-	  /**
-	   * F9
-	   */
-	  F9: 120,
-	  /**
-	   * F10
-	   */
-	  F10: 121,
-	  /**
-	   * F11
-	   */
-	  F11: 122,
-	  /**
-	   * F12
-	   */
-	  F12: 123,
-	  /**
-	   * NUMLOCK
-	   */
-	  NUMLOCK: 144,
-	  /**
-	   * SEMICOLON
-	   */
-	  SEMICOLON: 186, // needs localization
-	  /**
-	   * DASH
-	   */
-	  DASH: 189, // needs localization
-	  /**
-	   * EQUALS
-	   */
-	  EQUALS: 187, // needs localization
-	  /**
-	   * COMMA
-	   */
-	  COMMA: 188, // needs localization
-	  /**
-	   * PERIOD
-	   */
-	  PERIOD: 190, // needs localization
-	  /**
-	   * SLASH
-	   */
-	  SLASH: 191, // needs localization
-	  /**
-	   * APOSTROPHE
-	   */
-	  APOSTROPHE: 192, // needs localization
-	  /**
-	   * SINGLE_QUOTE
-	   */
-	  SINGLE_QUOTE: 222, // needs localization
-	  /**
-	   * OPEN_SQUARE_BRACKET
-	   */
-	  OPEN_SQUARE_BRACKET: 219, // needs localization
-	  /**
-	   * BACKSLASH
-	   */
-	  BACKSLASH: 220, // needs localization
-	  /**
-	   * CLOSE_SQUARE_BRACKET
-	   */
-	  CLOSE_SQUARE_BRACKET: 221, // needs localization
-	  /**
-	   * WIN_KEY
-	   */
-	  WIN_KEY: 224,
-	  /**
-	   * MAC_FF_META
-	   */
-	  MAC_FF_META: 224, // Firefox (Gecko) fires this for the meta key instead of 91
-	  /**
-	   * WIN_IME
-	   */
-	  WIN_IME: 229
-	};
-	
-	/*
-	 whether text and modified key is entered at the same time.
-	 */
-	KeyCode.isTextModifyingKeyEvent = function (e) {
-	  var keyCode = e.keyCode;
-	  if (e.altKey && !e.ctrlKey || e.metaKey ||
-	      // Function keys don't generate text
-	    keyCode >= KeyCode.F1 && keyCode <= KeyCode.F12) {
-	    return false;
-	  }
-	
-	  // The following keys are quite harmless, even in combination with
-	  // CTRL, ALT or SHIFT.
-	  switch (keyCode) {
-	    case KeyCode.ALT:
-	    case KeyCode.CAPS_LOCK:
-	    case KeyCode.CONTEXT_MENU:
-	    case KeyCode.CTRL:
-	    case KeyCode.DOWN:
-	    case KeyCode.END:
-	    case KeyCode.ESC:
-	    case KeyCode.HOME:
-	    case KeyCode.INSERT:
-	    case KeyCode.LEFT:
-	    case KeyCode.MAC_FF_META:
-	    case KeyCode.META:
-	    case KeyCode.NUMLOCK:
-	    case KeyCode.NUM_CENTER:
-	    case KeyCode.PAGE_DOWN:
-	    case KeyCode.PAGE_UP:
-	    case KeyCode.PAUSE:
-	    case KeyCode.PRINT_SCREEN:
-	    case KeyCode.RIGHT:
-	    case KeyCode.SHIFT:
-	    case KeyCode.UP:
-	    case KeyCode.WIN_KEY:
-	    case KeyCode.WIN_KEY_RIGHT:
-	      return false;
-	    default:
-	      return true;
-	  }
-	};
-	
-	/*
-	 whether character is entered.
-	 */
-	KeyCode.isCharacterKey = function (keyCode) {
-	  if (keyCode >= KeyCode.ZERO &&
-	    keyCode <= KeyCode.NINE) {
-	    return true;
-	  }
-	
-	  if (keyCode >= KeyCode.NUM_ZERO &&
-	    keyCode <= KeyCode.NUM_MULTIPLY) {
-	    return true;
-	  }
-	
-	  if (keyCode >= KeyCode.A &&
-	    keyCode <= KeyCode.Z) {
-	    return true;
-	  }
-	
-	  // Safari sends zero key code for non-latin characters.
-	  if (window.navigation.userAgent.indexOf('WebKit') !== -1 && keyCode === 0) {
-	    return true;
-	  }
-	
-	  switch (keyCode) {
-	    case KeyCode.SPACE:
-	    case KeyCode.QUESTION_MARK:
-	    case KeyCode.NUM_PLUS:
-	    case KeyCode.NUM_MINUS:
-	    case KeyCode.NUM_PERIOD:
-	    case KeyCode.NUM_DIVISION:
-	    case KeyCode.SEMICOLON:
-	    case KeyCode.DASH:
-	    case KeyCode.EQUALS:
-	    case KeyCode.COMMA:
-	    case KeyCode.PERIOD:
-	    case KeyCode.SLASH:
-	    case KeyCode.APOSTROPHE:
-	    case KeyCode.SINGLE_QUOTE:
-	    case KeyCode.OPEN_SQUARE_BRACKET:
-	    case KeyCode.BACKSLASH:
-	    case KeyCode.CLOSE_SQUARE_BRACKET:
-	      return true;
-	    default:
-	      return false;
-	  }
-	};
-	
-	module.exports = KeyCode;
-
-
-/***/ },
-/* 503 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	* @providesModule ReactComponentWithPureRenderMixin
-	*/
-	
-	"use strict";
-	
-	var shallowEqual = __webpack_require__(504);
-	
-	/**
-	 * If your React component's render function is "pure", e.g. it will render the
-	 * same result given the same props and state, provide this Mixin for a
-	 * considerable performance boost.
-	 *
-	 * Most React components have pure render functions.
-	 *
-	 * Example:
-	 *
-	 *   var ReactComponentWithPureRenderMixin =
-	 *     require('ReactComponentWithPureRenderMixin');
-	 *   React.createClass({
-	 *     mixins: [ReactComponentWithPureRenderMixin],
-	 *
-	 *     render: function() {
-	 *       return <div className={this.props.className}>foo</div>;
-	 *     }
-	 *   });
-	 *
-	 * Note: This only checks shallow equality for props and state. If these contain
-	 * complex data structures this mixin may have false-negatives for deeper
-	 * differences. Only mixin to components which have simple props and state, or
-	 * use `forceUpdate()` when you know deep data structures have changed.
-	 */
-	var ReactComponentWithPureRenderMixin = {
-	  shouldComponentUpdate: function(nextProps, nextState) {
-	    return !shallowEqual(this.props, nextProps) ||
-	           !shallowEqual(this.state, nextState);
-	  }
-	};
-	
-	module.exports = ReactComponentWithPureRenderMixin;
-
-
-/***/ },
-/* 504 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule shallowEqual
-	 */
-	
-	"use strict";
-	
-	/**
-	 * Performs equality by iterating through keys on an object and returning
-	 * false when any key has values which are not strictly equal between
-	 * objA and objB. Returns true when the values of all keys are strictly equal.
-	 *
-	 * @return {boolean}
-	 */
-	function shallowEqual(objA, objB) {
-	  if (objA === objB) {
-	    return true;
-	  }
-	  var key;
-	  // Test for A's keys different from B.
-	  for (key in objA) {
-	    if (objA.hasOwnProperty(key) &&
-	        (!objB.hasOwnProperty(key) || objA[key] !== objB[key])) {
-	      return false;
-	    }
-	  }
-	  // Test for B's keys missing from A.
-	  for (key in objB) {
-	    if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
-	      return false;
-	    }
-	  }
-	  return true;
-	}
-	
-	module.exports = shallowEqual;
-
-
-/***/ },
-/* 505 */
-/***/ function(module, exports) {
-
-	/**
-	 * Safe chained function
-	 *
-	 * Will only create a new function if needed,
-	 * otherwise will pass back existing functions or null.
-	 *
-	 * @returns {function|null}
-	 */
-	function createChainedFunction() {
-	  var args = arguments;
-	
-	  return function chainedFunction() {
-	    for (var i = 0; i < args.length; i++) {
-	      if (args[i] && args[i].apply) {
-	        args[i].apply(this, arguments);
-	      }
-	    }
-	  };
-	}
-	
-	module.exports = createChainedFunction;
-
-
-/***/ },
-/* 506 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var addDOMEventListener = __webpack_require__(402);
-	
-	module.exports = addDOMEventListener['default'] || addDOMEventListener;
-
-
-/***/ },
-/* 507 */
-/***/ function(module, exports) {
-
-	module.exports = function (root, node) {
-	  while (node) {
-	    if (node === root) {
-	      return true;
-	    }
-	    node = node.parentNode;
-	  }
-	
-	  return false;
-	};
-
-
-/***/ },
-/* 508 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(6);
-	
-	module.exports = function (children) {
-	  var ret = [];
-	  React.Children.forEach(children, function (c) {
-	    ret.push(c);
-	  });
-	  return ret;
-	};
-
-
-/***/ },
-/* 509 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(6);
-	
-	function mirror(o) {
-	  return o;
-	}
-	
-	module.exports = function (children) {
-	  // return ReactFragment
-	  return React.Children.map(children, mirror);
-	};
-
-
-/***/ },
-/* 510 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(6);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _colr = __webpack_require__(495);
-	
-	var _colr2 = _interopRequireDefault(_colr);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
-	var colr = new _colr2["default"]();
-	
-	var Preview = function (_React$Component) {
-	  _inherits(Preview, _React$Component);
-	
-	  function Preview() {
-	    _classCallCheck(this, Preview);
-	
-	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
-	  }
-	
-	  Preview.prototype.onChange = function onChange(e) {
-	    var value = e.target.value;
-	    var color = colr.fromHex(value);
-	    this.props.onChange(color.toHsvObject());
-	    e.stopPropagation();
-	  };
-	
-	  Preview.prototype.getPrefixCls = function getPrefixCls() {
-	    return this.props.rootPrefixCls + '-preview';
-	  };
-	
-	  Preview.prototype.render = function render() {
-	    var prefixCls = this.getPrefixCls();
-	    var hex = colr.fromHsvObject(this.props.hsv).toHex();
-	    return _react2["default"].createElement(
-	      'div',
-	      { className: prefixCls },
-	      _react2["default"].createElement('span', { style: {
-	          backgroundColor: hex,
-	          opacity: this.props.alpha / 100 }
-	      }),
-	      _react2["default"].createElement('input', {
-	        type: 'color',
-	        value: hex,
-	        onChange: this.onChange.bind(this),
-	        onClick: this.props.onInputClick
-	      })
-	    );
-	  };
-	
-	  return Preview;
-	}(_react2["default"].Component);
-	
-	exports["default"] = Preview;
-	
-	
-	Preview.propTypes = {
-	  rootPrefixCls: _react2["default"].PropTypes.string,
-	  hsv: _react2["default"].PropTypes.object,
-	  alpha: _react2["default"].PropTypes.number,
-	  onChange: _react2["default"].PropTypes.func,
-	  onInputClick: _react2["default"].PropTypes.func
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 511 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _react = __webpack_require__(6);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(85);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	var _rcUtil = __webpack_require__(498);
-	
-	var _rcUtil2 = _interopRequireDefault(_rcUtil);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
-	var Ribbon = function (_React$Component) {
-	  _inherits(Ribbon, _React$Component);
-	
-	  function Ribbon(props) {
-	    _classCallCheck(this, Ribbon);
-	
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
-	
-	    var events = ['onMouseDown', 'onDrag', 'onDragEnd', 'pointMoveTo', '_setHuePosition'];
-	    events.forEach(function (e) {
-	      if (_this[e]) {
-	        _this[e] = _this[e].bind(_this);
-	      }
-	    });
-	    return _this;
-	  }
-	
-	  Ribbon.prototype.componentWillUnmount = function componentWillUnmount() {
-	    this.removeListeners();
-	  };
-	
-	  Ribbon.prototype.onMouseDown = function onMouseDown(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	
-	    this.pointMoveTo({
-	      x: x, y: y
-	    });
-	
-	    this.dragListener = _rcUtil2["default"].Dom.addEventListener(window, 'mousemove', this.onDrag);
-	    this.dragUpListener = _rcUtil2["default"].Dom.addEventListener(window, 'mouseup', this.onDragEnd);
-	  };
-	
-	  Ribbon.prototype.onDrag = function onDrag(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	    this.pointMoveTo({
-	      x: x, y: y
-	    });
-	  };
-	
-	  Ribbon.prototype.onDragEnd = function onDragEnd(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	    this.pointMoveTo({
-	      x: x, y: y
-	    });
-	    this.removeListeners();
-	  };
-	
-	  Ribbon.prototype.getPrefixCls = function getPrefixCls() {
-	    return this.props.rootPrefixCls + '-ribbon';
-	  };
-	
-	  Ribbon.prototype.pointMoveTo = function pointMoveTo(coords) {
-	    var rect = _reactDom2["default"].findDOMNode(this).getBoundingClientRect();
-	    var width = rect.width;
-	    var left = coords.x - rect.left;
-	    left = Math.max(0, left);
-	    left = Math.min(left, width);
-	    var huePercent = left / width;
-	    var hue = huePercent * 360;
-	    // 新的对象, 避免引用
-	    var hsv = _extends({}, this.props.hsv, {
-	      h: hue
-	    });
-	    this.props.onChange(hsv);
-	  };
-	
-	  Ribbon.prototype.removeListeners = function removeListeners() {
-	    if (this.dragListener) {
-	      this.dragListener.remove();
-	      this.dragListener = null;
-	    }
-	    if (this.dragUpListener) {
-	      this.dragUpListener.remove();
-	      this.dragUpListener = null;
-	    }
-	  };
-	
-	  Ribbon.prototype.render = function render() {
-	    var prefixCls = this.getPrefixCls();
-	    var HSV = this.props.hsv;
-	    var hue = HSV.h;
-	    var per = hue / 360 * 100;
-	    return _react2["default"].createElement(
-	      'div',
-	      { className: prefixCls },
-	      _react2["default"].createElement('span', { ref: 'point', style: { left: per + '%' } }),
-	      _react2["default"].createElement('div', {
-	        className: prefixCls + '-handler',
-	        onMouseDown: this.onMouseDown
-	      })
-	    );
-	  };
-	
-	  return Ribbon;
-	}(_react2["default"].Component);
-	
-	exports["default"] = Ribbon;
-	
-	
-	Ribbon.propTypes = {
-	  rootPrefixCls: _react2["default"].PropTypes.string,
-	  hsv: _react2["default"].PropTypes.object,
-	  onChange: _react2["default"].PropTypes.func
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 512 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(6);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(85);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	var _colr = __webpack_require__(495);
-	
-	var _colr2 = _interopRequireDefault(_colr);
-	
-	var _rcUtil = __webpack_require__(498);
-	
-	var _rcUtil2 = _interopRequireDefault(_rcUtil);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
-	var colr = new _colr2["default"]();
-	
-	function rgbaColor(r, g, b, a) {
-	  return 'rgba(' + [r, g, b, a / 100].join(',') + ')';
-	}
-	
-	var Alpha = function (_React$Component) {
-	  _inherits(Alpha, _React$Component);
-	
-	  function Alpha(props) {
-	    _classCallCheck(this, Alpha);
-	
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
-	
-	    var events = ['onMouseDown', 'onDrag', 'onDragEnd', 'pointMoveTo', 'getBackground'];
-	    events.forEach(function (e) {
-	      _this[e] = _this[e].bind(_this);
-	    });
-	    return _this;
-	  }
-	
-	  Alpha.prototype.componentWillUnmount = function componentWillUnmount() {
-	    this.removeListeners();
-	  };
-	
-	  Alpha.prototype.onMouseDown = function onMouseDown(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	
-	    this.pointMoveTo({
-	      x: x, y: y
-	    });
-	
-	    this.dragListener = _rcUtil2["default"].Dom.addEventListener(window, 'mousemove', this.onDrag);
-	    this.dragUpListener = _rcUtil2["default"].Dom.addEventListener(window, 'mouseup', this.onDragEnd);
-	  };
-	
-	  Alpha.prototype.onDrag = function onDrag(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	    this.pointMoveTo({
-	      x: x, y: y
-	    });
-	  };
-	
-	  Alpha.prototype.onDragEnd = function onDragEnd(e) {
-	    var x = e.clientX;
-	    var y = e.clientY;
-	    this.pointMoveTo({
-	      x: x, y: y
-	    });
-	    this.removeListeners();
-	  };
-	
-	  Alpha.prototype.getBackground = function getBackground() {
-	    var _colr$fromHsvObject$t = colr.fromHsvObject(this.props.hsv).toRgbObject(),
-	        r = _colr$fromHsvObject$t.r,
-	        g = _colr$fromHsvObject$t.g,
-	        b = _colr$fromHsvObject$t.b;
-	
-	    var opacityGradient = 'linear-gradient(to right, ' + rgbaColor(r, g, b, 0) + ' , ' + rgbaColor(r, g, b, 100) + ')'; // eslint-disable-line max-len
-	    return opacityGradient;
-	  };
-	
-	  Alpha.prototype.getPrefixCls = function getPrefixCls() {
-	    return this.props.rootPrefixCls + '-alpha';
-	  };
-	
-	  Alpha.prototype.pointMoveTo = function pointMoveTo(coords) {
-	    var rect = _reactDom2["default"].findDOMNode(this).getBoundingClientRect();
-	    var width = rect.width;
-	    var left = coords.x - rect.left;
-	
-	    left = Math.max(0, left);
-	    left = Math.min(left, width);
-	
-	    var alpha = Math.floor(left / width * 100);
-	
-	    this.props.onChange(alpha);
-	  };
-	
-	  Alpha.prototype.removeListeners = function removeListeners() {
-	    if (this.dragListener) {
-	      this.dragListener.remove();
-	      this.dragListener = null;
-	    }
-	    if (this.dragUpListener) {
-	      this.dragUpListener.remove();
-	      this.dragUpListener = null;
-	    }
-	  };
-	
-	  Alpha.prototype.render = function render() {
-	    var prefixCls = this.getPrefixCls();
-	    return _react2["default"].createElement(
-	      'div',
-	      { className: prefixCls },
-	      _react2["default"].createElement('div', {
-	        ref: 'bg',
-	        className: prefixCls + '-bg',
-	        style: { background: this.getBackground() }
-	      }),
-	      _react2["default"].createElement('span', { style: { left: this.props.alpha + '%' } }),
-	      _react2["default"].createElement('div', {
-	        className: prefixCls + '-handler',
-	        onMouseDown: this.onMouseDown
-	      })
-	    );
-	  };
-	
-	  return Alpha;
-	}(_react2["default"].Component);
-	
-	exports["default"] = Alpha;
-	
-	
-	Alpha.propTypes = {
-	  hsv: _react2["default"].PropTypes.object,
-	  onChange: _react2["default"].PropTypes.func,
-	  rootPrefixCls: _react2["default"].PropTypes.string,
-	  alpha: _react2["default"].PropTypes.number
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 513 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(6);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _colr = __webpack_require__(495);
-	
-	var _colr2 = _interopRequireDefault(_colr);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-	
-	var colr = new _colr2["default"]();
-	var modesMap = ['RGB', 'HSB', 'HSL'];
-	
-	var Params = function (_React$Component) {
-	  _inherits(Params, _React$Component);
-	
-	  function Params(props) {
-	    _classCallCheck(this, Params);
-	
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
-	
-	    var color = colr.fromHsvObject(props.hsv);
-	
-	    // 管理 input 的状态
-	    _this.state = {
-	      mode: props.mode,
-	      color: color,
-	      hex: color.toHex().substr(1)
-	    };
-	
-	    var events = ['onHexHandler', 'onAlphaHandler', 'onColorChannelChange', 'onModeChange', 'getChannelInRange', 'getColorByChannel'];
-	
-	    events.forEach(function (e) {
-	      if (_this[e]) {
-	        _this[e] = _this[e].bind(_this);
-	      }
-	    });
-	    return _this;
-	  }
-	
-	  Params.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	    if (nextProps.hsv !== this.props.hsv) {
-	      var color = colr.fromHsvObject(nextProps.hsv);
-	      this.setState({
-	        hex: color.toHex().substr(1),
-	        color: color
-	      });
-	    }
-	  };
-	
-	  Params.prototype.onHexHandler = function onHexHandler(event) {
-	    var value = event.target.value;
-	    var color = null;
-	    try {
-	      color = _colr2["default"].fromHex(value);
-	    } catch (e) {
-	      /* eslint no-empty:0 */
-	    }
-	
-	    if (color !== null) {
-	      this.setState({
-	        color: color,
-	        hex: value
-	      });
-	      this.props.onChange(color.toHsvObject(), false);
-	    } else {
-	      this.setState({
-	        hex: value
-	      });
-	    }
-	  };
-	
-	  Params.prototype.onModeChange = function onModeChange() {
-	    var mode = this.state.mode;
-	    var modeIndex = (modesMap.indexOf(mode) + 1) % modesMap.length;
-	    var state = this.state;
-	
-	    mode = modesMap[modeIndex];
-	    var colorChannel = this.getColorChannel(state.color, mode);
-	    this.setState({
-	      mode: mode,
-	      colorChannel: colorChannel
-	    });
-	  };
-	
-	  Params.prototype.onAlphaHandler = function onAlphaHandler(event) {
-	    var alpha = parseInt(event.target.value, 10);
-	    if (isNaN(alpha)) {
-	      alpha = 0;
-	    }
-	    alpha = Math.max(0, alpha);
-	    alpha = Math.min(alpha, 100);
-	
-	    this.setState({
-	      alpha: alpha
-	    });
-	
-	    this.props.onAlphaChange(alpha);
-	  };
-	
-	  Params.prototype.onColorChannelChange = function onColorChannelChange(index, event) {
-	    var value = this.getChannelInRange(event.target.value, index);
-	    var colorChannel = this.getColorChannel();
-	
-	    colorChannel[index] = value;
-	
-	    var color = this.getColorByChannel(colorChannel);
-	
-	    this.setState({
-	      hex: color.toHex().substr(1),
-	      color: color
-	    });
-	    this.props.onChange(color.toHsvObject(), false);
-	  };
-	
-	  Params.prototype.getChannelInRange = function getChannelInRange(value, index) {
-	    var channelMap = {
-	      RGB: [[0, 255], [0, 255], [0, 255]],
-	      HSB: [[0, 360], [0, 100], [0, 100]],
-	      HSL: [[0, 360], [0, 100], [0, 100]]
-	    };
-	    var mode = this.state.mode;
-	    var range = channelMap[mode][index];
-	    var result = parseInt(value, 10);
-	    if (isNaN(result)) {
-	      result = 0;
-	    }
-	    result = Math.max(range[0], result);
-	    result = Math.min(result, range[1]);
-	    return result;
-	  };
-	
-	  Params.prototype.getColorByChannel = function getColorByChannel(colorChannel) {
-	    var colorMode = this.state.mode;
-	    var color = void 0;
-	    switch (colorMode) {
-	      case 'RGB':
-	        color = colr.fromRgbArray(colorChannel);
-	        break;
-	      case 'HSB':
-	        color = colr.fromHsvArray(colorChannel);
-	        break;
-	      case 'HSL':
-	        color = colr.fromHslArray(colorChannel);
-	        break;
-	      default:
-	        color = colr.fromRgbArray(colorChannel);
-	    }
-	    return color;
-	  };
-	
-	  Params.prototype.getPrefixCls = function getPrefixCls() {
-	    return this.props.rootPrefixCls + '-params';
-	  };
-	
-	  Params.prototype.getColorChannel = function getColorChannel(colrInstance, mode) {
-	    var color = colrInstance || this.state.color;
-	    var colorMode = mode || this.state.mode;
-	    var result = void 0;
-	    switch (colorMode) {
-	      case 'RGB':
-	        result = color.toRgbArray();
-	        break;
-	      case 'HSB':
-	        result = color.toHsvArray();
-	        break;
-	      case 'HSL':
-	        result = color.toHslArray();
-	        break;
-	      default:
-	        result = color.toRgbArray();
-	    }
-	    return result;
-	  };
-	
-	  Params.prototype.render = function render() {
-	    var prefixCls = this.getPrefixCls();
-	    var colorChannel = this.getColorChannel();
-	    return _react2["default"].createElement(
-	      'div',
-	      { className: prefixCls },
-	      _react2["default"].createElement(
-	        'div',
-	        { className: prefixCls + '-input' },
-	        _react2["default"].createElement('input', {
-	          className: prefixCls + '-hex',
-	          type: 'text',
-	          maxLength: '6',
-	          onChange: this.onHexHandler,
-	          value: this.state.hex.toUpperCase()
-	        }),
-	        _react2["default"].createElement('input', { type: 'number', ref: 'channel_0',
-	          value: colorChannel[0],
-	          onChange: this.onColorChannelChange.bind(null, 0)
-	        }),
-	        _react2["default"].createElement('input', { type: 'number', ref: 'channel_1',
-	          value: colorChannel[1],
-	          onChange: this.onColorChannelChange.bind(null, 1)
-	        }),
-	        _react2["default"].createElement('input', { type: 'number', ref: 'channel_2',
-	          value: colorChannel[2],
-	          onChange: this.onColorChannelChange.bind(null, 2)
-	        }),
-	        _react2["default"].createElement('input', { type: 'number',
-	          value: this.props.alpha,
-	          onChange: this.onAlphaHandler
-	        })
-	      ),
-	      _react2["default"].createElement(
-	        'div',
-	        { className: prefixCls + '-lable' },
-	        _react2["default"].createElement(
-	          'label',
-	          { className: prefixCls + '-lable-hex' },
-	          'Hex'
-	        ),
-	        _react2["default"].createElement(
-	          'label',
-	          { className: prefixCls + '-lable-number',
-	            onClick: this.onModeChange
-	          },
-	          this.state.mode[0]
-	        ),
-	        _react2["default"].createElement(
-	          'label',
-	          { className: prefixCls + '-lable-number',
-	            onClick: this.onModeChange
-	          },
-	          this.state.mode[1]
-	        ),
-	        _react2["default"].createElement(
-	          'label',
-	          { className: prefixCls + '-lable-number',
-	            onClick: this.onModeChange
-	          },
-	          this.state.mode[2]
-	        ),
-	        _react2["default"].createElement(
-	          'label',
-	          { className: prefixCls + '-lable-alpha\'' },
-	          'A'
-	        )
-	      )
-	    );
-	  };
-	
-	  return Params;
-	}(_react2["default"].Component);
-	
-	exports["default"] = Params;
-	
-	
-	Params.propTypes = {
-	  onChange: _react2["default"].PropTypes.func,
-	  hsv: _react2["default"].PropTypes.object,
-	  alpha: _react2["default"].PropTypes.number,
-	  rootPrefixCls: _react2["default"].PropTypes.string,
-	  onAlphaChange: _react2["default"].PropTypes.func,
-	  mode: _react2["default"].PropTypes.oneOf(modesMap)
-	};
-	
-	Params.defaultProps = {
-	  mode: modesMap[0]
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 514 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	module.exports = function validationColor(props, propName, componentName) {
-	  if (props[propName] && !/^#[0-9a-fA-F]{3,6}$/.test(props[propName])) {
-	    return new Error(componentName + ".props." + propName + " Validation failed!");
-	  }
-	};
-
-/***/ },
-/* 515 */
+/* 493 */
 /***/ function(module, exports) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	var autoAdjustOverflow = {
-	  adjustX: 1,
-	  adjustY: 1
+	    adjustX: 1,
+	    adjustY: 1
 	};
-	
 	var targetOffset = [0, 0];
-	
 	var placements = {
-	  topLeft: {
-	    points: ['bl', 'tl'],
-	    overflow: autoAdjustOverflow,
-	    offset: [0, -5],
-	    targetOffset: targetOffset
-	  },
-	  topRight: {
-	    points: ['br', 'tr'],
-	    overflow: autoAdjustOverflow,
-	    offset: [0, -5],
-	    targetOffset: targetOffset
-	  },
-	  bottomLeft: {
-	    points: ['tl', 'bl'],
-	    overflow: autoAdjustOverflow,
-	    offset: [0, 5],
-	    targetOffset: targetOffset
-	  },
-	  bottomRight: {
-	    points: ['tr', 'br'],
-	    overflow: autoAdjustOverflow,
-	    offset: [0, 5],
-	    targetOffset: targetOffset
-	  }
+	    topLeft: {
+	        points: ['bl', 'tl'],
+	        overflow: autoAdjustOverflow,
+	        offset: [0, 25],
+	        targetOffset: targetOffset
+	    },
+	    topRight: {
+	        points: ['br', 'tr'],
+	        overflow: autoAdjustOverflow,
+	        offset: [0, 25],
+	        targetOffset: targetOffset
+	    },
+	    bottomLeft: {
+	        points: ['tl', 'bl'],
+	        overflow: autoAdjustOverflow,
+	        offset: [0, -25],
+	        targetOffset: targetOffset
+	    },
+	    bottomRight: {
+	        points: ['tr', 'br'],
+	        overflow: autoAdjustOverflow,
+	        offset: [0, -25],
+	        targetOffset: targetOffset
+	    }
 	};
-	
 	exports["default"] = placements;
 	module.exports = exports['default'];
 
 /***/ },
-/* 516 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15277,9 +12549,9 @@ webpackJsonp([0],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 517 */
+/* 495 */
 2,
-/* 518 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15288,7 +12560,7 @@ webpackJsonp([0],[
 	  value: true
 	});
 	
-	var _EditorPluginEmoji = __webpack_require__(519);
+	var _EditorPluginEmoji = __webpack_require__(497);
 	
 	var _EditorPluginEmoji2 = _interopRequireDefault(_EditorPluginEmoji);
 	
@@ -15299,7 +12571,7 @@ webpackJsonp([0],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 519 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15320,17 +12592,17 @@ webpackJsonp([0],[
 	
 	var _draftJs = __webpack_require__(37);
 	
-	var _util = __webpack_require__(520);
+	var _util = __webpack_require__(498);
 	
-	var _EmojiButton = __webpack_require__(521);
+	var _EmojiButton = __webpack_require__(499);
 	
 	var _EmojiButton2 = _interopRequireDefault(_EmojiButton);
 	
-	var _EmojiIcon = __webpack_require__(524);
+	var _EmojiIcon = __webpack_require__(502);
 	
 	var _EmojiIcon2 = _interopRequireDefault(_EmojiIcon);
 	
-	var _EmojiRaw = __webpack_require__(525);
+	var _EmojiRaw = __webpack_require__(503);
 	
 	var _EmojiRaw2 = _interopRequireDefault(_EmojiRaw);
 	
@@ -15401,7 +12673,7 @@ webpackJsonp([0],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 520 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15450,7 +12722,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 521 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15467,7 +12739,7 @@ webpackJsonp([0],[
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _EmojiPicker = __webpack_require__(522);
+	var _EmojiPicker = __webpack_require__(500);
 	
 	var _EmojiPicker2 = _interopRequireDefault(_EmojiPicker);
 	
@@ -15549,7 +12821,7 @@ webpackJsonp([0],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 522 */
+/* 500 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15562,7 +12834,7 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _emojisList = __webpack_require__(523);
+	var _emojisList = __webpack_require__(501);
 	
 	var _emojisList2 = _interopRequireDefault(_emojisList);
 	
@@ -15657,7 +12929,7 @@ webpackJsonp([0],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 523 */
+/* 501 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -15670,7 +12942,7 @@ webpackJsonp([0],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 524 */
+/* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15727,7 +12999,7 @@ webpackJsonp([0],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 525 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15742,11 +13014,11 @@ webpackJsonp([0],[
 	
 	var _draftJs = __webpack_require__(37);
 	
-	var _emojisList = __webpack_require__(523);
+	var _emojisList = __webpack_require__(501);
 	
 	var _emojisList2 = _interopRequireDefault(_emojisList);
 	
-	var _util = __webpack_require__(520);
+	var _util = __webpack_require__(498);
 	
 	var _DraftOffsetKey = __webpack_require__(238);
 	
@@ -15834,7 +13106,7 @@ webpackJsonp([0],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 526 */
+/* 504 */
 2
 ]);
 //# sourceMappingURL=controllered.js.map

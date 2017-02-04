@@ -440,7 +440,7 @@
 	    EditorCore.prototype.initPlugins = function initPlugins() {
 	        var _this3 = this;
 	
-	        var enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap', 'nextTicksetEditorState'];
+	        var enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
 	        return this.getPlugins().map(function (plugin) {
 	            enableCallbacks.forEach(function (callbackName) {
 	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
@@ -456,17 +456,15 @@
 	
 	        var editorState = this.state.editorState;
 	
-	        var focusedState = _draftJs.EditorState.moveFocusToEnd(editorState);
 	        if (!editorState.getSelection().getHasFocus()) {
 	            this.setState({
-	                editorState: focusedState
+	                editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
 	            }, function () {
 	                if (_this4.props.onFocus) {
 	                    _this4.props.onFocus(ev);
 	                }
 	            });
 	        }
-	        return focusedState;
 	    };
 	
 	    EditorCore.prototype.getPlugins = function getPlugins() {
@@ -485,11 +483,6 @@
 	    };
 	
 	    EditorCore.prototype.getEditorState = function getEditorState() {
-	        var doFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-	
-	        if (doFocus) {
-	            return this.focus();
-	        }
 	        return this.state.editorState;
 	    };
 	
@@ -498,11 +491,10 @@
 	
 	        var focusEditor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 	
-	        var newEditorState = editorState;
-	        if (this._nextTickEditorState) {
-	            newEditorState = this._nextTickEditorState;
-	            this._nextTickEditorState = null;
+	        if (!editorState.getSelection().get('hasFocus')) {
+	            console.log(editorState.getSelection().toSource());
 	        }
+	        var newEditorState = editorState;
 	        this.getPlugins().forEach(function (plugin) {
 	            if (plugin.onChange) {
 	                var updatedEditorState = plugin.onChange(newEditorState);
@@ -521,12 +513,6 @@
 	                }, 100);
 	            } : noop);
 	        }
-	    };
-	
-	    EditorCore.prototype.nextTicksetEditorState = function nextTicksetEditorState(editorState) {
-	        var focusEditor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-	
-	        this._nextTickEditorState = editorState;
 	    };
 	
 	    EditorCore.prototype.handleKeyBinding = function handleKeyBinding(ev) {
@@ -1241,7 +1227,7 @@
 
 /***/ },
 /* 11 */
-[543, 12],
+[521, 12],
 /* 12 */
 /***/ function(module, exports) {
 
@@ -17177,7 +17163,7 @@
 
 /***/ },
 /* 103 */
-[543, 88],
+[521, 88],
 /* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -44617,7 +44603,9 @@
 	            toolbars = _props.toolbars,
 	            prefixCls = _props.prefixCls;
 	
-	        return React.createElement("div", { className: prefixCls + '-toolbar' }, toolbars.map(function (toolbar, idx) {
+	        return React.createElement("div", { className: prefixCls + '-toolbar', onClick: function onClick(e) {
+	                return e.preventDefault();
+	            } }, toolbars.map(function (toolbar, idx) {
 	            var children = React.Children.map(toolbar, _this2.renderToolbarItem.bind(_this2));
 	            return React.createElement(_ToolbarLine2.default, { key: 'toolbar-' + idx }, children);
 	        }));
@@ -62437,29 +62425,7 @@
 /* 518 */,
 /* 519 */,
 /* 520 */,
-/* 521 */,
-/* 522 */,
-/* 523 */,
-/* 524 */,
-/* 525 */,
-/* 526 */,
-/* 527 */,
-/* 528 */,
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */,
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */
+/* 521 */
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
