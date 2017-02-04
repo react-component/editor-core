@@ -11,6 +11,7 @@ import {
   KeyBindingUtil,
   DefaultDraftBlockRenderMap,
   DraftBlockRenderConfig,
+  DraftInlineStyle,
 } from 'draft-js';
 
 import { List, Map } from 'immutable';
@@ -63,6 +64,7 @@ export interface EditorProps {
 
 export interface EditorCoreState {
   editorState?: EditorState;
+  inlineStyleOverride?: DraftInlineStyle;
   customStyleMap?: Object;
   customBlockStyleMap?: Object;
   blockRenderMap?: Map<String, DraftBlockRenderConfig>;
@@ -106,6 +108,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public state : EditorCoreState;
   private plugins: any;
   private controlledMode: boolean;
+  private _editorWrapper: Element;
 
   constructor(props: EditorProps) {
     super(props);
@@ -281,7 +284,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public initPlugins() : Array<any> {
-    const enableCallbacks = ['getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
+    const enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
     return this.getPlugins().map(plugin => {
       enableCallbacks.forEach( callbackName => {
         if (plugin.callbacks.hasOwnProperty(callbackName)) {
@@ -293,20 +296,29 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     });
   }
 
-
-  public focus(ev?) : void {
-    const { editorState } = this.state;
-    const focusedState = EditorState.moveFocusToEnd(editorState);
-    if (!editorState.getSelection().getHasFocus()) {
-      this.setState({
-        editorState: focusedState,
-      }, () => {
-        if (this.props.onFocus) {
-          this.props.onFocus(ev);
-        }
-      });
+  private focusEditor(ev) {
+    this.refs.editor.focus(ev);
+    if (this.props.onFocus) {
+      this.props.onFocus(ev);
     }
-    return focusedState;
+  }
+
+  public focus(ev) : void {
+    const target = ev.target;
+      if (target === this._editorWrapper) {
+      const { editorState } = this.state;
+      const selection = editorState.getSelection();
+      if (!selection.getHasFocus()) {
+        if (selection.isCollapsed()) {
+          return this.setState({
+            editorState: EditorState.moveFocusToEnd(editorState),
+          }, () => {
+            this.focusEditor(ev);
+          });
+        }
+      }
+    }
+    this.focusEditor(ev);
   }
 
   public getPlugins(): Array<Plugin> {
@@ -322,14 +334,14 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return eventHandler;
   }
 
-  getEditorState(doFocus: boolean = false) : EditorState {
-    if (doFocus) {
-      return this.focus();
-    }
+  getEditorState() : EditorState {
     return this.state.editorState;
   }
 
   setEditorState(editorState: EditorState, focusEditor:boolean = false) : void {
+    if (!editorState.getSelection().get('hasFocus')) {
+      console.log(editorState.getSelection().toSource());
+    }
     let newEditorState = editorState;
 
     this.getPlugins().forEach(plugin => {
@@ -344,6 +356,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     if (this.props.onChange) {
       this.props.onChange(newEditorState);
     }
+
     if (!this.controlledMode) {
       this.setState({ editorState: newEditorState }, focusEditor ? () => setTimeout(() => this.refs.editor.focus(), 100) : noop);
     }
@@ -409,6 +422,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       return this.eventHandle(eventName, ...args);
     };
   }
+
   customStyleFn(styleSet) : Object {
     if (styleSet.size === 0) {
       return {};
@@ -471,7 +485,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         plugins={toolbarPlugins}
         toolbars={toolbars}
       />
-      <div className={`${prefixCls}-editor-wrapper`}  style={style} onClick={(ev) => ev.preventDefault()}>
+      <div className={`${prefixCls}-editor-wrapper`} ref={(ele) => this._editorWrapper = ele} style={style} onClick={(ev) => ev.preventDefault()}>
         <Editor
           {...this.props}
           {...eventHandler}

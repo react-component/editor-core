@@ -48,7 +48,7 @@ export default class Toolbar extends React.Component<ToolbarProps, any> {
   }
   render() {
     const { toolbars, prefixCls } = this.props;
-    return <div className={`${prefixCls}-toolbar`}>
+    return <div className={`${prefixCls}-toolbar`} >
       {toolbars.map((toolbar, idx) => {
         const children = React.Children.map(toolbar, this.renderToolbarItem.bind(this));
         return (<ToolbarLine key={`toolbar-${idx}`}>{children}</ToolbarLine>);
