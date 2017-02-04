@@ -451,19 +451,29 @@
 	        });
 	    };
 	
+	    EditorCore.prototype.focusEditor = function focusEditor(ev) {
+	        this.refs.editor.focus(ev);
+	        if (this.props.onFocus) {
+	            this.props.onFocus(ev);
+	        }
+	    };
+	
 	    EditorCore.prototype.focus = function focus(ev) {
 	        var _this4 = this;
 	
 	        var editorState = this.state.editorState;
 	
-	        if (!editorState.getSelection().getHasFocus()) {
-	            this.setState({
-	                editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
-	            }, function () {
-	                if (_this4.props.onFocus) {
-	                    _this4.props.onFocus(ev);
-	                }
-	            });
+	        var selection = editorState.getSelection();
+	        if (!selection.getHasFocus()) {
+	            if (selection.isCollapsed()) {
+	                this.setState({
+	                    editorState: _draftJs.EditorState.moveFocusToEnd(editorState)
+	                }, function () {
+	                    _this4.focusEditor(ev);
+	                });
+	            }
+	        } else {
+	            this.focusEditor(ev);
 	        }
 	    };
 	
