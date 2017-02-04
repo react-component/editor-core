@@ -2,7 +2,7 @@ import { BlockMapBuilder, BlockMap, ContentState, genKey, Entity, CharacterMetad
 import { toArray } from 'lodash';
 import DraftEntityInstance = Entity.DraftEntityInstance;
 import CharacterMetadataConfig = CharacterMetadata.CharacterMetadataConfig;
-import { List, OrderedSet, Repeat, fromJS } from 'Immutable'
+import { List, OrderedSet, Repeat, fromJS } from 'immutable'
 
 
 function compose (...argument): Function {

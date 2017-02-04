@@ -55,7 +55,6 @@
     "typings": "^1.0.4"
   },
   "dependencies": {
-    "classnames": "^2.2.5",
     "draft-js": "^0.10.0",
     "immutable": "^3.7.4",
     "lodash": "^4.16.5"
