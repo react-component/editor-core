@@ -426,21 +426,30 @@ webpackJsonp([3],[
 	function noop(args) {}
 	function getApplyFontStyleFunc(prefix, callbacks) {
 	    return function applyStyle(styleName) {
+	        var needFocus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 	        var getEditorState = callbacks.getEditorState,
 	            setEditorState = callbacks.setEditorState;
 	
 	        var editorState = getEditorState();
 	        var contentState = editorState.getCurrentContent();
 	        var selection = editorState.getSelection();
-	        console.log('>> selection', selection.toSource());
 	        var currentStyle = (0, _rcEditorUtils.getCurrentInlineStyle)(editorState);
+	        if (selection.isCollapsed()) {
+	            currentStyle.forEach(function (style) {
+	                if (style.indexOf('' + prefix) !== -1 && style !== styleName) {
+	                    editorState = _draftJs.RichUtils.toggleInlineStyle(editorState, style);
+	                }
+	            });
+	            editorState = _draftJs.RichUtils.toggleInlineStyle(editorState, styleName);
+	            return setEditorState(editorState, true);
+	        }
 	        currentStyle.forEach(function (style) {
 	            if (style.indexOf('' + prefix) !== -1) {
 	                contentState = _draftJs.Modifier.removeInlineStyle(contentState, selection, style);
 	            }
 	        });
 	        contentState = _draftJs.Modifier.applyInlineStyle(contentState, selection, styleName);
-	        setEditorState(_draftJs.EditorState.push(editorState, contentState, 'apply-style'));
+	        setEditorState(_draftJs.EditorState.push(editorState, contentState, 'apply-style'), needFocus);
 	    };
 	}
 	function getToggleFontStyleFunc(prefix, callbacks) {
@@ -12168,7 +12177,7 @@ webpackJsonp([3],[
 	            var color = _ref.color;
 	
 	            var colorString = color.substring(1);
-	            applyStyle('' + PREFIX + colorString);
+	            applyStyle('' + PREFIX + colorString, true);
 	        }
 	        function customStyleFn(styleSet) {
 	            return styleSet.map(function (style) {
@@ -12190,12 +12199,12 @@ webpackJsonp([3],[
 	            component: function component(props) {
 	                var editorState = callbacks.getEditorState();
 	                var currentStyle = getCurrentInlineStyle(editorState);
-	                console.log('>> currentStyle', currentStyle.toSource());
+	                console.log('>> currentStyle', editorState.getCurrentInlineStyle().toSource());
 	                var currentFontColor = currentStyle && currentStyle.find(function (item) {
 	                    return item.indexOf('' + PREFIX) !== -1;
 	                });
 	                var fontColor = currentFontColor ? currentFontColor.substring(PREFIX.length) : defaultFontColor;
-	                return React.createElement(_ColorPickerPanel2["default"], { defaultColor: '#' + defaultFontColor, animation: "slide-up", color: '#' + fontColor, onChange: changeSelect }, React.createElement(_ColorPickerBtn2["default"], null));
+	                return React.createElement(_ColorPickerPanel2["default"], { defaultColor: '#' + defaultFontColor, animation: "slide-up", color: '#' + fontColor, onChange: changeSelect }, React.createElement(_ColorPickerBtn2["default"], { style: { backgroundColor: '#' + fontColor } }));
 	            }
 	        };
 	    }
@@ -12272,6 +12281,9 @@ webpackJsonp([3],[
 	                }
 	            }
 	        };
+	        _this.reset = function () {
+	            _this.pickColor(_this.getDefaultColor(), true);
+	        };
 	        _this.onVisibleChange = function (open) {
 	            _this.setState({ open: open }, function () {
 	                if (open) {
@@ -12285,7 +12297,7 @@ webpackJsonp([3],[
 	            var ele = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'li';
 	
 	            var Ele = ele;
-	            return React.createElement(Ele, { className: "color-picker-cell", key: idx }, React.createElement("a", { tabIndex: 0, onClick: function onClick(e) {
+	            return React.createElement(Ele, { className: "color-picker-cell", key: idx }, React.createElement("a", { tabIndex: 0, onMouseDown: function onMouseDown(e) {
 	                    _this.pickColor(color, true);e.preventDefault();
 	                } }, React.createElement("canvas", { className: "color-picker-celldiv", ref: function ref(ele) {
 	                    return _this._canvas[color] = ele;
@@ -12305,10 +12317,6 @@ webpackJsonp([3],[
 	        return props.defaultColor || '#000';
 	    };
 	
-	    ColorPickerPanel.prototype.reset = function reset() {
-	        this.pickColor(this.getDefaultColor());
-	    };
-	
 	    ColorPickerPanel.prototype.pickColor = function pickColor(currentColor) {
 	        var closeModal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 	
@@ -12325,7 +12333,7 @@ webpackJsonp([3],[
 	        if (!this._pickerElement) {
 	            this._pickerElement = React.createElement("div", { className: "color-picker-panel", ref: function ref(ele) {
 	                    return _this2.pickerPanelInstance = ele;
-	                } }, React.createElement("div", { className: "color-picker-color-auto", onClick: this.reset }, React.createElement("ul", null, this.renderColorPickerCell('#000', 0, '自动'))), React.createElement("div", { className: "color-picker-first-row" }, React.createElement("ul", null, newArray(10, function (_, idx) {
+	                } }, React.createElement("div", { className: "color-picker-color-auto", onMouseDown: this.reset }, React.createElement("ul", null, this.renderColorPickerCell('#000', 0, '自动'))), React.createElement("div", { className: "color-picker-first-row" }, React.createElement("ul", null, newArray(10, function (_, idx) {
 	                return _this2.renderColorPickerCell('#' + ColorSet[idx], idx + 1);
 	            }))), React.createElement("table", null, React.createElement("tbody", null, newArray(5, function (_, row) {
 	                return React.createElement("tr", { className: "color-picker-compactrow", key: row }, newArray(10, function (_, idx) {

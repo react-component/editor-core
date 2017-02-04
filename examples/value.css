@@ -23,6 +23,13 @@
 .color-picker-panel .color-picker-last-row {
   margin: 6px 0;
 }
+.color-picker-panel .color-picker-color-auto li,
+.color-picker-panel .color-picker-color-auto a {
+  display: block;
+}
+.color-picker-panel .color-picker-color-auto a:hover {
+  background-color: #D5E1F2;
+}
 .color-picker-panel .color-picker-color-auto a canvas {
   margin-bottom: -3px;
   margin-right: 5px;
