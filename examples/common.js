@@ -630,9 +630,7 @@
 	        var blockRenderMap = configStore.get('blockRenderMap');
 	        var eventHandler = this.getEventHandler();
 	        var Toolbar = toolbar.component;
-	        return React.createElement("div", { style: style, className: prefixCls + '-editor', onClick: this.focus.bind(this) }, React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }), React.createElement("div", { className: prefixCls + '-editor-wrapper', style: style, onClick: function onClick(ev) {
-	                return ev.preventDefault();
-	            } }, React.createElement(_draftJs.Editor, __assign({}, this.props, eventHandler, { ref: "editor", customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, handlePastedText: this.handlePastedText, blockRendererFn: this.blockRendererFn.bind(this) })), this.props.children));
+	        return React.createElement("div", { style: style, className: prefixCls + '-editor' }, React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }), React.createElement("div", { className: prefixCls + '-editor-wrapper', onClick: this.focus.bind(this), style: style }, React.createElement(_draftJs.Editor, __assign({}, this.props, eventHandler, { ref: "editor", customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, handlePastedText: this.handlePastedText, blockRendererFn: this.blockRendererFn.bind(this) })), this.props.children));
 	    };
 	
 	    return EditorCore;
