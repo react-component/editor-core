@@ -44614,7 +44614,7 @@
 	            prefixCls = _props.prefixCls;
 	
 	        return React.createElement("div", { className: prefixCls + '-toolbar', onClick: function onClick(e) {
-	                return e.preventDefault();
+	                e.preventDefault();e.stopPropagation();
 	            } }, toolbars.map(function (toolbar, idx) {
 	            var children = React.Children.map(toolbar, _this2.renderToolbarItem.bind(_this2));
 	            return React.createElement(_ToolbarLine2.default, { key: 'toolbar-' + idx }, children);
