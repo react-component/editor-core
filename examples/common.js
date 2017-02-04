@@ -440,7 +440,7 @@
 	    EditorCore.prototype.initPlugins = function initPlugins() {
 	        var _this3 = this;
 	
-	        var enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
+	        var enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'setInlineStyleOverride', 'getStyleMap', 'setStyleMap'];
 	        return this.getPlugins().map(function (plugin) {
 	            enableCallbacks.forEach(function (callbackName) {
 	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
@@ -495,6 +495,11 @@
 	    };
 	
 	    EditorCore.prototype.getEditorState = function getEditorState() {
+	        var needFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	
+	        if (needFocus) {
+	            this.refs.editor.focus();
+	        }
 	        return this.state.editorState;
 	    };
 	
@@ -511,19 +516,28 @@
 	            if (plugin.onChange) {
 	                var updatedEditorState = plugin.onChange(newEditorState);
 	                if (updatedEditorState) {
+	                    console.log('>> updatedEditorState', updatedEditorState.getSelection().get('hasFocus'));
 	                    newEditorState = updatedEditorState;
 	                }
 	            }
+	        });
+	        this.setInlineStyleOverride(newEditorState.getInlineStyleOverride());
+	        newEditorState = _draftJs.EditorState.set(newEditorState, {
+	            inlineStyleOverride: this.inlineStyleOverride
 	        });
 	        if (this.props.onChange) {
 	            this.props.onChange(newEditorState);
 	        }
 	        if (!this.controlledMode) {
 	            this.setState({ editorState: newEditorState }, focusEditor ? function () {
-	                return setTimeout(function () {
-	                    return _this6.refs.editor.focus();
-	                }, 100);
+	                return _this6.refs.editor.focus();
 	            } : noop);
+	        }
+	    };
+	
+	    EditorCore.prototype.setInlineStyleOverride = function setInlineStyleOverride(inlineStyleOverride) {
+	        if (inlineStyleOverride) {
+	            this.inlineStyleOverride = inlineStyleOverride;
 	        }
 	    };
 	
@@ -45019,7 +45033,7 @@
 	
 	var _lodash = __webpack_require__(322);
 	
-	var _Immutable = __webpack_require__(313);
+	var _immutable = __webpack_require__(313);
 	
 	function compose() {
 	    for (var _len = arguments.length, argument = Array(_len), _key = 0; _key < _len; _key++) {
@@ -45078,10 +45092,10 @@
 	        text: text != null ? text : '',
 	        key: key != null ? key : (0, _draftJs.genKey)(),
 	        data: null,
-	        characterList: (0, _Immutable.List)([])
+	        characterList: (0, _immutable.List)([])
 	    };
 	    if (data) {
-	        blockSpec.data = (0, _Immutable.fromJS)(data);
+	        blockSpec.data = (0, _immutable.fromJS)(data);
 	    }
 	    if (inlineStyles || entityData) {
 	        var entityKey = void 0;
@@ -45095,9 +45109,9 @@
 	        } else {
 	            entityKey = null;
 	        }
-	        var style = (0, _Immutable.OrderedSet)(inlineStyles || []);
+	        var style = (0, _immutable.OrderedSet)(inlineStyles || []);
 	        var charData = _draftJs.CharacterMetadata.create({ style: style, entityKey: entityKey });
-	        blockSpec.characterList = (0, _Immutable.List)((0, _Immutable.Repeat)(charData, text.length));
+	        blockSpec.characterList = (0, _immutable.List)((0, _immutable.Repeat)(charData, text.length));
 	    }
 	    return new _draftJs.ContentBlock(blockSpec);
 	};
@@ -45120,12 +45134,12 @@
 	            key: (0, _draftJs.genKey)(),
 	            type: 'image-block',
 	            text: ' ',
-	            characterList: (0, _Immutable.List)((0, _Immutable.Repeat)(charData, charData.count()))
+	            characterList: (0, _immutable.List)((0, _immutable.Repeat)(charData, charData.count()))
 	        }), new _draftJs.ContentBlock({
 	            key: (0, _draftJs.genKey)(),
 	            type: 'unstyled',
 	            text: '',
-	            characterList: (0, _Immutable.List)()
+	            characterList: (0, _immutable.List)()
 	        })];
 	        return contentBlocks.concat(fragmentArray);
 	    }, []);
