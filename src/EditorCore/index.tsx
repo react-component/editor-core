@@ -334,7 +334,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return eventHandler;
   }
 
-  getEditorState() : EditorState {
+  getEditorState(needFocus = false) : EditorState {
+    if (needFocus) {
+      this.refs.editor.focus();
+    }
     return this.state.editorState;
   }
 
