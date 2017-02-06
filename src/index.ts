@@ -1,7 +1,3 @@
-import { EditorState } from 'draft-js';
-// import createPlugin from './EditorCore/createPlugin';
-// export this package's api
-
 import EditorCore from './EditorCore';
 
 const EditorCorePublic = {
