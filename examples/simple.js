@@ -2,7 +2,7 @@ webpackJsonp([3],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(507);
+	module.exports = __webpack_require__(506);
 
 
 /***/ },
@@ -457,7 +457,8 @@ webpackJsonp([3],[
 	        var getEditorState = callbacks.getEditorState,
 	            setEditorState = callbacks.setEditorState;
 	
-	        var editorState = getEditorState();
+	        var editorState = getEditorState(true);
+	        var selection = editorState.getSelection();
 	        var currentStyle = (0, _rcEditorUtils.getCurrentInlineStyle)(editorState);
 	        currentStyle.forEach(function (style) {
 	            if (style.indexOf('' + prefix) !== -1 && style !== styleName) {
@@ -465,6 +466,9 @@ webpackJsonp([3],[
 	            }
 	        });
 	        editorState = _draftJs.RichUtils.toggleInlineStyle(editorState, styleName);
+	        if (selection.isCollapsed()) {
+	            return setEditorState(editorState, true);
+	        }
 	        setEditorState(editorState);
 	    };
 	}
@@ -1156,6 +1160,10 @@ webpackJsonp([3],[
 	
 	var _rcSelect2 = _interopRequireDefault(_rcSelect);
 	
+	var _setImmediate = __webpack_require__(258);
+	
+	var _setImmediate2 = _interopRequireDefault(_setImmediate);
+	
 	var _utils = __webpack_require__(325);
 	
 	var _rcEditorUtils = __webpack_require__(327);
@@ -1192,13 +1200,21 @@ webpackJsonp([3],[
 	    constructor: function constructor(config) {
 	        var callbacks = {
 	            getEditorState: _utils.noop,
-	            setEditorState: _utils.noop
+	            setEditorState: _utils.noop,
+	            setInlineStyleOverride: _utils.noop
 	        };
 	        var toggleStyle = (0, _utils.getToggleFontStyleFunc)(PREFIX, callbacks);
 	        function changeSelect(_ref) {
 	            var key = _ref.key;
 	
-	            toggleStyle('' + PREFIX + key);
+	            var applyStyle = function applyStyle() {
+	                return toggleStyle('' + PREFIX + key);
+	            };
+	            if (callbacks.getEditorState().getSelection().isCollapsed()) {
+	                (0, _setImmediate2["default"])(applyStyle);
+	            } else {
+	                applyStyle();
+	            }
 	        }
 	        return {
 	            name: 'fontSize',
@@ -1218,7 +1234,9 @@ webpackJsonp([3],[
 	                    key: fontSizeNumber + '',
 	                    label: fontSizeNumber + 'px'
 	                };
-	                return React.createElement(_rcSelect2["default"], { labelInValue: true, prefixCls: config.prefixCls + '-select', onChange: changeSelect, style: { width: 80 }, value: value }, options);
+	                return React.createElement("span", { onClick: function onClick(ev) {
+	                        ev.preventDefault();ev.stopPropagation();
+	                    } }, React.createElement(_rcSelect2["default"], { labelInValue: true, prefixCls: config.prefixCls + '-select', onChange: changeSelect, style: { width: 80 }, value: value }, options));
 	            }
 	        };
 	    }
@@ -12155,8 +12173,6 @@ webpackJsonp([3],[
 	
 	var _ColorPickerBtn2 = _interopRequireDefault(_ColorPickerBtn);
 	
-	__webpack_require__(495);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
@@ -12199,12 +12215,11 @@ webpackJsonp([3],[
 	            component: function component(props) {
 	                var editorState = callbacks.getEditorState();
 	                var currentStyle = getCurrentInlineStyle(editorState);
-	                console.log('>> currentStyle', editorState.getCurrentInlineStyle().toSource());
 	                var currentFontColor = currentStyle && currentStyle.find(function (item) {
 	                    return item.indexOf('' + PREFIX) !== -1;
 	                });
 	                var fontColor = currentFontColor ? currentFontColor.substring(PREFIX.length) : defaultFontColor;
-	                return React.createElement(_ColorPickerPanel2["default"], { defaultColor: '#' + defaultFontColor, animation: "slide-up", color: '#' + fontColor, onChange: changeSelect }, React.createElement(_ColorPickerBtn2["default"], { style: { backgroundColor: '#' + fontColor } }));
+	                return React.createElement(_ColorPickerPanel2["default"], { prefixCls: config.prefixCls + '-editor', defaultColor: '#' + defaultFontColor, animation: "slide-up", color: '#' + fontColor, onChange: changeSelect }, React.createElement(_ColorPickerBtn2["default"], { style: { backgroundColor: '#' + fontColor } }));
 	            }
 	        };
 	    }
@@ -12297,9 +12312,9 @@ webpackJsonp([3],[
 	            var ele = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'li';
 	
 	            var Ele = ele;
-	            return React.createElement(Ele, { className: "color-picker-cell", key: idx }, React.createElement("a", { tabIndex: 0, onMouseDown: function onMouseDown(e) {
+	            return React.createElement(Ele, { className: _this.props.prefixCls + '-color-picker-cell', key: idx }, React.createElement("a", { tabIndex: 0, onMouseDown: function onMouseDown(e) {
 	                    _this.pickColor(color, true);e.preventDefault();
-	                } }, React.createElement("canvas", { className: "color-picker-celldiv", ref: function ref(ele) {
+	                } }, React.createElement("canvas", { className: _this.props.prefixCls + '-color-picker-celldiv', ref: function ref(ele) {
 	                    return _this._canvas[color] = ele;
 	                } }), text));
 	        };
@@ -12331,15 +12346,15 @@ webpackJsonp([3],[
 	        var _this2 = this;
 	
 	        if (!this._pickerElement) {
-	            this._pickerElement = React.createElement("div", { className: "color-picker-panel", ref: function ref(ele) {
+	            this._pickerElement = React.createElement("div", { className: this.props.prefixCls + '-color-picker-panel', ref: function ref(ele) {
 	                    return _this2.pickerPanelInstance = ele;
-	                } }, React.createElement("div", { className: "color-picker-color-auto", onMouseDown: this.reset }, React.createElement("ul", null, this.renderColorPickerCell('#000', 0, '自动'))), React.createElement("div", { className: "color-picker-first-row" }, React.createElement("ul", null, newArray(10, function (_, idx) {
+	                } }, React.createElement("div", { className: this.props.prefixCls + '-color-picker-color-auto', onMouseDown: this.reset }, React.createElement("ul", null, this.renderColorPickerCell('#000', 0, '自动'))), React.createElement("div", { className: this.props.prefixCls + '-color-picker-first-row' }, React.createElement("ul", null, newArray(10, function (_, idx) {
 	                return _this2.renderColorPickerCell('#' + ColorSet[idx], idx + 1);
 	            }))), React.createElement("table", null, React.createElement("tbody", null, newArray(5, function (_, row) {
-	                return React.createElement("tr", { className: "color-picker-compactrow", key: row }, newArray(10, function (_, idx) {
+	                return React.createElement("tr", { className: _this2.props.prefixCls + '-color-picker-compactrow', key: row }, newArray(10, function (_, idx) {
 	                    return _this2.renderColorPickerCell('#' + ColorSet[idx + (row + 1) * 10], row * 10 + idx + 1, null, 'td');
 	                }));
-	            }))), React.createElement("span", null, '\u6807\u51C6\u989C\u8272'), React.createElement("div", { className: "color-picker-last-row" }, React.createElement("ul", null, newArray(10, function (_, idx) {
+	            }))), React.createElement("span", null, '\u6807\u51C6\u989C\u8272'), React.createElement("div", { className: this.props.prefixCls + '-color-picker-last-row' }, React.createElement("ul", null, newArray(10, function (_, idx) {
 	                return _this2.renderColorPickerCell('#' + ColorSet[idx + 60], idx + 1);
 	            }))));
 	        }
@@ -12368,7 +12383,7 @@ webpackJsonp([3],[
 	                unselectable: true
 	            });
 	        }
-	        return React.createElement(_rcTrigger2["default"], { popup: this.getPickerElement(), popupAlign: align, builtinPlacements: _placements2["default"], popupPlacement: placement, action: disabled ? [] : ['click'], destroyPopupOnHide: true, getPopupContainer: getCalendarContainer, popupStyle: style, popupAnimation: animation, popupTransitionName: transitionName, popupVisible: this.state.open, onPopupVisibleChange: this.onVisibleChange, prefixCls: prefixCls }, children);
+	        return React.createElement(_rcTrigger2["default"], { popup: this.getPickerElement(), popupAlign: align, builtinPlacements: _placements2["default"], popupPlacement: placement, action: disabled ? [] : ['click'], destroyPopupOnHide: true, getPopupContainer: getCalendarContainer, popupStyle: style, popupAnimation: animation, popupTransitionName: transitionName, popupVisible: this.state.open, onPopupVisibleChange: this.onVisibleChange, prefixCls: prefixCls + '-color-picker' }, children);
 	    };
 	
 	    return ColorPickerPanel;
@@ -12382,7 +12397,7 @@ webpackJsonp([3],[
 	    onChange: noop,
 	    onOpen: noop,
 	    onClose: noop,
-	    prefixCls: 'rc-color-picker',
+	    prefixCls: 'rc-editor',
 	    children: React.createElement("span", { className: "rc-color-picker-trigger" }),
 	    placement: 'topLeft',
 	    style: {}
@@ -12477,8 +12492,6 @@ webpackJsonp([3],[
 
 /***/ },
 /* 495 */
-2,
-/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12487,7 +12500,7 @@ webpackJsonp([3],[
 	  value: true
 	});
 	
-	var _EditorPluginEmoji = __webpack_require__(497);
+	var _EditorPluginEmoji = __webpack_require__(496);
 	
 	var _EditorPluginEmoji2 = _interopRequireDefault(_EditorPluginEmoji);
 	
@@ -12498,7 +12511,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 497 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12519,17 +12532,17 @@ webpackJsonp([3],[
 	
 	var _draftJs = __webpack_require__(37);
 	
-	var _util = __webpack_require__(498);
+	var _util = __webpack_require__(497);
 	
-	var _EmojiButton = __webpack_require__(499);
+	var _EmojiButton = __webpack_require__(498);
 	
 	var _EmojiButton2 = _interopRequireDefault(_EmojiButton);
 	
-	var _EmojiIcon = __webpack_require__(502);
+	var _EmojiIcon = __webpack_require__(501);
 	
 	var _EmojiIcon2 = _interopRequireDefault(_EmojiIcon);
 	
-	var _EmojiRaw = __webpack_require__(503);
+	var _EmojiRaw = __webpack_require__(502);
 	
 	var _EmojiRaw2 = _interopRequireDefault(_EmojiRaw);
 	
@@ -12600,7 +12613,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 498 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12649,7 +12662,7 @@ webpackJsonp([3],[
 	}
 
 /***/ },
-/* 499 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12666,7 +12679,7 @@ webpackJsonp([3],[
 	
 	var _classnames3 = _interopRequireDefault(_classnames2);
 	
-	var _EmojiPicker = __webpack_require__(500);
+	var _EmojiPicker = __webpack_require__(499);
 	
 	var _EmojiPicker2 = _interopRequireDefault(_EmojiPicker);
 	
@@ -12748,7 +12761,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 500 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12761,7 +12774,7 @@ webpackJsonp([3],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _emojisList = __webpack_require__(501);
+	var _emojisList = __webpack_require__(500);
 	
 	var _emojisList2 = _interopRequireDefault(_emojisList);
 	
@@ -12856,7 +12869,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 501 */
+/* 500 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -12869,7 +12882,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 502 */
+/* 501 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12926,7 +12939,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 503 */
+/* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12941,11 +12954,11 @@ webpackJsonp([3],[
 	
 	var _draftJs = __webpack_require__(37);
 	
-	var _emojisList = __webpack_require__(501);
+	var _emojisList = __webpack_require__(500);
 	
 	var _emojisList2 = _interopRequireDefault(_emojisList);
 	
-	var _util = __webpack_require__(498);
+	var _util = __webpack_require__(497);
 	
 	var _DraftOffsetKey = __webpack_require__(238);
 	
@@ -13033,18 +13046,18 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 504 */
+/* 503 */
 2,
+/* 504 */,
 /* 505 */,
-/* 506 */,
-/* 507 */
+/* 506 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	__webpack_require__(2);
 	
-	__webpack_require__(508);
+	__webpack_require__(507);
 	
 	var _rcEditorCore = __webpack_require__(3);
 	
@@ -13060,17 +13073,17 @@ webpackJsonp([3],[
 	
 	var _rcEditorPluginBasicStyle2 = _interopRequireDefault(_rcEditorPluginBasicStyle);
 	
-	var _rcEditorPluginEmoji = __webpack_require__(496);
+	var _rcEditorPluginEmoji = __webpack_require__(495);
 	
 	var _rcEditorPluginEmoji2 = _interopRequireDefault(_rcEditorPluginEmoji);
 	
-	var _rcEditorPluginImage = __webpack_require__(509);
+	var _rcEditorPluginImage = __webpack_require__(508);
 	
 	var _rcEditorPluginImage2 = _interopRequireDefault(_rcEditorPluginImage);
 	
 	var _draftJs = __webpack_require__(37);
 	
-	__webpack_require__(504);
+	__webpack_require__(503);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -13168,9 +13181,9 @@ webpackJsonp([3],[
 	_reactDom2.default.render(_react2.default.createElement(EditorWithPreview, null), document.getElementById('__react-content'));
 
 /***/ },
-/* 508 */
+/* 507 */
 2,
-/* 509 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13185,23 +13198,23 @@ webpackJsonp([3],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	__webpack_require__(510);
+	__webpack_require__(509);
 	
 	var _draftJs = __webpack_require__(37);
 	
-	var _EditorPluginImage = __webpack_require__(511);
+	var _EditorPluginImage = __webpack_require__(510);
 	
 	var _EditorPluginImage2 = _interopRequireDefault(_EditorPluginImage);
 	
-	var _EditorPluginImageLoader = __webpack_require__(517);
+	var _EditorPluginImageLoader = __webpack_require__(516);
 	
 	var _EditorPluginImageLoader2 = _interopRequireDefault(_EditorPluginImageLoader);
 	
-	var _ImageButton = __webpack_require__(519);
+	var _ImageButton = __webpack_require__(518);
 	
 	var _ImageButton2 = _interopRequireDefault(_ImageButton);
 	
-	var _exportImage = __webpack_require__(518);
+	var _exportImage = __webpack_require__(517);
 	
 	var _exportImage2 = _interopRequireDefault(_exportImage);
 	
@@ -13277,9 +13290,9 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 510 */
+/* 509 */
 2,
-/* 511 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13298,7 +13311,7 @@ webpackJsonp([3],[
 	
 	var _draftJs = __webpack_require__(37);
 	
-	var _reactResizable = __webpack_require__(512);
+	var _reactResizable = __webpack_require__(511);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -13374,7 +13387,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 512 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13382,12 +13395,12 @@ webpackJsonp([3],[
 	  throw new Error("Don't instantiate Resizable directly! Use require('react-resizable').Resizable");
 	};
 	
-	module.exports.Resizable = __webpack_require__(513).default;
-	module.exports.ResizableBox = __webpack_require__(516).default;
+	module.exports.Resizable = __webpack_require__(512).default;
+	module.exports.ResizableBox = __webpack_require__(515).default;
 
 
 /***/ },
-/* 513 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13400,9 +13413,9 @@ webpackJsonp([3],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDraggable = __webpack_require__(514);
+	var _reactDraggable = __webpack_require__(513);
 	
-	var _cloneElement = __webpack_require__(515);
+	var _cloneElement = __webpack_require__(514);
 	
 	var _cloneElement2 = _interopRequireDefault(_cloneElement);
 	
@@ -13687,7 +13700,7 @@ webpackJsonp([3],[
 	exports.default = Resizable;
 
 /***/ },
-/* 514 */
+/* 513 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -15299,7 +15312,7 @@ webpackJsonp([3],[
 	//# sourceMappingURL=react-draggable.js.map
 
 /***/ },
-/* 515 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15324,7 +15337,7 @@ webpackJsonp([3],[
 	};
 
 /***/ },
-/* 516 */
+/* 515 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15337,7 +15350,7 @@ webpackJsonp([3],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Resizable = __webpack_require__(513);
+	var _Resizable = __webpack_require__(512);
 	
 	var _Resizable2 = _interopRequireDefault(_Resizable);
 	
@@ -15451,7 +15464,7 @@ webpackJsonp([3],[
 	exports.default = ResizableBox;
 
 /***/ },
-/* 517 */
+/* 516 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15474,7 +15487,7 @@ webpackJsonp([3],[
 	
 	var _getRangesForDraftEntity2 = _interopRequireDefault(_getRangesForDraftEntity);
 	
-	var _exportImage = __webpack_require__(518);
+	var _exportImage = __webpack_require__(517);
 	
 	var _exportImage2 = _interopRequireDefault(_exportImage);
 	
@@ -15567,7 +15580,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 518 */
+/* 517 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -15586,7 +15599,7 @@ webpackJsonp([3],[
 	module.exports = exports['default'];
 
 /***/ },
-/* 519 */
+/* 518 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
