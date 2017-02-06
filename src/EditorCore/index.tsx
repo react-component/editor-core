@@ -343,9 +343,6 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   setEditorState(editorState: EditorState, focusEditor:boolean = false) : void {
-    if (!editorState.getSelection().get('hasFocus')) {
-      console.log(editorState.getSelection().toSource());
-    }
     let newEditorState = editorState;
 
     this.getPlugins().forEach(plugin => {
