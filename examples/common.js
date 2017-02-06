@@ -440,7 +440,7 @@
 	    EditorCore.prototype.initPlugins = function initPlugins() {
 	        var _this3 = this;
 	
-	        var enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'setInlineStyleOverride', 'getStyleMap', 'setStyleMap'];
+	        var enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
 	        return this.getPlugins().map(function (plugin) {
 	            enableCallbacks.forEach(function (callbackName) {
 	                if (plugin.callbacks.hasOwnProperty(callbackName)) {
@@ -521,10 +521,6 @@
 	                }
 	            }
 	        });
-	        this.setInlineStyleOverride(newEditorState.getInlineStyleOverride());
-	        newEditorState = _draftJs.EditorState.set(newEditorState, {
-	            inlineStyleOverride: this.inlineStyleOverride
-	        });
 	        if (this.props.onChange) {
 	            this.props.onChange(newEditorState);
 	        }
@@ -532,12 +528,6 @@
 	            this.setState({ editorState: newEditorState }, focusEditor ? function () {
 	                return _this6.refs.editor.focus();
 	            } : noop);
-	        }
-	    };
-	
-	    EditorCore.prototype.setInlineStyleOverride = function setInlineStyleOverride(inlineStyleOverride) {
-	        if (inlineStyleOverride) {
-	            this.inlineStyleOverride = inlineStyleOverride;
 	        }
 	    };
 	
