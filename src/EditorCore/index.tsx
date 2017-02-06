@@ -15,6 +15,7 @@ import {
 } from 'draft-js';
 
 import { List, Map } from 'immutable';
+import setImmediate from 'fbjs/lib/setImmediate';
 import { createToolbar } from '../Toolbar';
 import ConfigStore from './ConfigStore';
 import GetHTML from './export/getHTML';
@@ -361,7 +362,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
 
     if (!this.controlledMode) {
-      this.setState({ editorState: newEditorState }, focusEditor ? () => setTimeout(() => this.refs.editor.focus(), 100) : noop);
+      this.setState({ editorState: newEditorState }, focusEditor ? () => setImmediate(() => this.refs.editor.focus()) : noop);
     }
   }
   public handleKeyBinding(ev): any {
