@@ -516,7 +516,6 @@
 	            if (plugin.onChange) {
 	                var updatedEditorState = plugin.onChange(newEditorState);
 	                if (updatedEditorState) {
-	                    console.log('>> updatedEditorState', updatedEditorState.getSelection().get('hasFocus'));
 	                    newEditorState = updatedEditorState;
 	                }
 	            }
@@ -526,7 +525,9 @@
 	        }
 	        if (!this.controlledMode) {
 	            this.setState({ editorState: newEditorState }, focusEditor ? function () {
-	                return _this6.refs.editor.focus();
+	                return setTimeout(function () {
+	                    return _this6.refs.editor.focus();
+	                }, 100);
 	            } : noop);
 	        }
 	    };
