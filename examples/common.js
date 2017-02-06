@@ -512,9 +512,6 @@
 	
 	        var focusEditor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 	
-	        if (!editorState.getSelection().get('hasFocus')) {
-	            console.log(editorState.getSelection().toSource());
-	        }
 	        var newEditorState = editorState;
 	        this.getPlugins().forEach(function (plugin) {
 	            if (plugin.onChange) {
