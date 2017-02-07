@@ -406,7 +406,6 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const plugins = this.getPlugins();
     for (let i = 0; i < plugins.length; i++) {
       const plugin = plugins[i];
-      // console.log('>> plugin', plugin);
       if (plugin.callbacks[eventName]
         && typeof plugin.callbacks[eventName] === 'function') {
         const result = plugin.callbacks[eventName](...args);

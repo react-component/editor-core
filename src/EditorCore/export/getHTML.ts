@@ -56,6 +56,9 @@ function processStyleValue(name: string, value: string): string {
 }
 
 function getStyleText(styleObject) {
+  if (!styleObject) {
+    return '';
+  }
   return Object.keys(styleObject).map(name => {
     const styleName = processStyleName(name);
     const styleValue = processStyleValue(name, styleObject[name]);
@@ -93,8 +96,9 @@ export default function GetHTML(configStore) {
       const blockType = block.getType();
       const blockRender = customBlockRenderMap.get(blockType);
       if (blockRender) {
-        resultText = `<${blockRender.element || 'div'} style="${getStyleText(customBlockRenderMap.get(blockType).style || {})}">`;
-        closeTag = `</${blockRender.element || 'div'}>`;
+        const element = typeof blockRender.element === 'function' ? blockRender.elementTag || 'div' : 'div';
+        resultText = `<${element || 'div'} style="${getStyleText(customBlockRenderMap.get(blockType).style || {})}">`;
+        closeTag = `</${element || 'div'}>`;
       }
 
       const charMetaList = block.getCharacterList();
