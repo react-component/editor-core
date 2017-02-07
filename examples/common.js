@@ -44772,6 +44772,9 @@
 	    }
 	}
 	function getStyleText(styleObject) {
+	    if (!styleObject) {
+	        return '';
+	    }
 	    return Object.keys(styleObject).map(function (name) {
 	        var styleName = processStyleName(name);
 	        var styleValue = processStyleValue(name, styleObject[name]);
@@ -44805,8 +44808,9 @@
 	            var blockType = block.getType();
 	            var blockRender = customBlockRenderMap.get(blockType);
 	            if (blockRender) {
-	                resultText = '<' + (blockRender.element || 'div') + ' style="' + getStyleText(customBlockRenderMap.get(blockType).style || {}) + '">';
-	                closeTag = '</' + (blockRender.element || 'div') + '>';
+	                var element = typeof blockRender.element === 'function' ? blockRender.elementTag || 'div' : 'div';
+	                resultText = '<' + (element || 'div') + ' style="' + getStyleText(customBlockRenderMap.get(blockType).style || {}) + '">';
+	                closeTag = '</' + (element || 'div') + '>';
 	            }
 	            var charMetaList = block.getCharacterList();
 	            var charEntity = null;
