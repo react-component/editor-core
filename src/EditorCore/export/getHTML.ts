@@ -150,16 +150,17 @@ export default function GetHTML(configStore) {
           const entity = contentState.getEntity(entityKey);
           const entityData = entity.getData();
           if (entityData && entityData.export) {
-            return entityData.export(content, entityData);
+            resultText += entityData.export(content, entityData);
+          } else {
+            let HTMLText = '';
+            toHTMLList.forEach(toHTML => {
+              const text = toHTML(rawContent, entity, contentState);
+              if (text) {
+                HTMLText = text;
+              }
+            });
+            if (HTMLText) { resultText += HTMLText }
           }
-          let HTMLText = '';
-          toHTMLList.forEach(toHTML => {
-            const text = toHTML(rawContent, entity, contentState);
-            if (text) {
-              HTMLText = text;
-            }
-          });
-          if (HTMLText) { resultText += HTMLText }
         } else {
           resultText += content;
         }
