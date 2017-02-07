@@ -44862,27 +44862,24 @@
 	                    return '<span>' + encodedContent + '</span>';
 	                }).join('');
 	                if (entityKey) {
-	                    var _ret2 = function () {
+	                    (function () {
 	                        var entity = contentState.getEntity(entityKey);
 	                        var entityData = entity.getData();
 	                        if (entityData && entityData.export) {
-	                            return {
-	                                v: entityData.export(content, entityData)
-	                            };
-	                        }
-	                        var HTMLText = '';
-	                        toHTMLList.forEach(function (toHTML) {
-	                            var text = toHTML(rawContent, entity, contentState);
-	                            if (text) {
-	                                HTMLText = text;
+	                            resultText += entityData.export(content, entityData);
+	                        } else {
+	                            var HTMLText = '';
+	                            toHTMLList.forEach(function (toHTML) {
+	                                var text = toHTML(rawContent, entity, contentState);
+	                                if (text) {
+	                                    HTMLText = text;
+	                                }
+	                            });
+	                            if (HTMLText) {
+	                                resultText += HTMLText;
 	                            }
-	                        });
-	                        if (HTMLText) {
-	                            resultText += HTMLText;
 	                        }
-	                    }();
-	
-	                    if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+	                    })();
 	                } else {
 	                    resultText += content;
 	                }
