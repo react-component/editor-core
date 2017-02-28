@@ -90,11 +90,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   public static GetHTML = GetHTML(configStore);
   public Reset(): void {
     const { defaultValue } = this.props;
-
+    const contentState = defaultValue ? defaultValue.getCurrentContent() : ContentState.createFromText('');
+    const updatedEditorState = EditorState.push(this.state.editorState, contentState, 'remove-range');
+    
     this.setEditorState(
-      EditorState.push(this.state.editorState,
-      defaultValue ? defaultValue.getCurrentContent() : ContentState.createFromText(''),
-      'remove-range')
+      EditorState.forceSelection(updatedEditorState, contentState.getSelectionBefore()),
     );
   }
 
