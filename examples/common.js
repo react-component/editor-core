@@ -319,7 +319,7 @@
 	
 	        var contentState = defaultValue ? defaultValue.getCurrentContent() : _draftJs.ContentState.createFromText('');
 	        var updatedEditorState = _draftJs.EditorState.push(this.state.editorState, contentState, 'remove-range');
-	        this.setEditorState(_draftJs.EditorState.acceptSelection(updatedEditorState, contentState.getSelectionBefore()));
+	        this.setEditorState(_draftJs.EditorState.forceSelection(updatedEditorState, contentState.getSelectionBefore()));
 	    };
 	
 	    EditorCore.prototype.SetText = function SetText(text) {
