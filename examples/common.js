@@ -317,7 +317,9 @@
 	    EditorCore.prototype.Reset = function Reset() {
 	        var defaultValue = this.props.defaultValue;
 	
-	        this.setEditorState(_draftJs.EditorState.push(this.state.editorState, defaultValue ? defaultValue.getCurrentContent() : _draftJs.ContentState.createFromText(''), 'remove-range'));
+	        var contentState = defaultValue ? defaultValue.getCurrentContent() : _draftJs.ContentState.createFromText('');
+	        var updatedEditorState = _draftJs.EditorState.push(this.state.editorState, contentState, 'remove-range');
+	        this.setEditorState(_draftJs.EditorState.acceptSelection(updatedEditorState, contentState.getSelectionBefore()));
 	    };
 	
 	    EditorCore.prototype.SetText = function SetText(text) {
