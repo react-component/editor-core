@@ -17,23 +17,21 @@ function keyDown(ev) {
   }
 }
 
-const Editor = React.createClass({
-  getInitialState() {
-    return {
-      defaultValue: toEditorState('hello world'),
-      value: null,
-    };
-  },
-  editorChange(editorState) {
+class Editor extends React.Component {
+  state = {
+    defaultValue: toEditorState('hello world'),
+    value: null,
+  };
+  editorChange = (editorState) => {
     this.setState({
       value: editorState,
     });
-  },
-  reset() {
+  }
+  reset = () => {
     this.setState({
       value: this.state.defaultValue,
     });
-  },
+  }
   render() {
     return (<div>
       <button onClick={this.reset}> setText </button>
@@ -47,5 +45,6 @@ const Editor = React.createClass({
       />
     </div>);
   }
-})
+}
+
 ReactDOM.render(<Editor />, document.getElementById('__react-content'));

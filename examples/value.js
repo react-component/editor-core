@@ -14,16 +14,15 @@ const toolbars = [['bold', 'italic', 'underline', 'strikethrough', '|', 'supersc
 function editorChange(editorState) {
   console.log('>> editorExport:', GetText(editorState, { encode: true }));
 }
-const Editor = React.createClass({
-  getInitialState() {
-    return {
-      defaultValue: "hello world",
-    };
-  },
-  reset() {
+
+class Editor extends React.Component {
+  state = {
+    defaultValue: "hello world",
+  };
+  reset = () => {
     this.refs.editor.Reset();
-  },
-  keyDown(ev) {
+  }
+  keyDown = (ev) => {
     if (ev.keyCode === 13) {
       if (ev.ctrlKey) {
         return 'split-block';
@@ -32,7 +31,7 @@ const Editor = React.createClass({
       return true;
     }
     return false;
-  },
+  }
   render() {
     return (<div>
       <button onClick={this.reset}> reset </button>
@@ -47,5 +46,6 @@ const Editor = React.createClass({
     />
     </div>);
   }
-})
+}
+
 ReactDOM.render(<Editor />, document.getElementById('__react-content'));

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 import {
   Editor,
@@ -92,7 +93,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const { defaultValue } = this.props;
     const contentState = defaultValue ? defaultValue.getCurrentContent() : ContentState.createFromText('');
     const updatedEditorState = EditorState.push(this.state.editorState, contentState, 'remove-range');
-    
+
     this.setEditorState(
       EditorState.forceSelection(updatedEditorState, contentState.getSelectionBefore()),
     );
@@ -158,8 +159,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   };
 
   public static childContextTypes = {
-    getEditorState: React.PropTypes.func,
-    setEditorState: React.PropTypes.func,
+    getEditorState: PropTypes.func,
+    setEditorState: PropTypes.func,
   };
 
   public getChildContext() {
