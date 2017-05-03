@@ -469,7 +469,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return 'not-handled';
   }
   render() {
-    const { prefixCls, toolbars, style } = this.props;
+    const { prefixCls, toolbars, style, readOnly } = this.props;
     const { editorState, toolbarPlugins } = this.state;
     const customStyleMap = configStore.get('customStyleMap');
     const blockRenderMap = configStore.get('blockRenderMap');
@@ -477,7 +477,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const Toolbar = toolbar.component;
     return (<div
       style={style}
-      className={`${prefixCls}-editor`}
+      className={`${prefixCls}-editor ${readOnly ? 'readonly' : ''}`}
       onClick={this.focus.bind(this)}
     >
       <Toolbar

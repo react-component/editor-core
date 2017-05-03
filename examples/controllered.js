@@ -33,7 +33,7 @@ class Editor extends React.Component {
       value: this.state.defaultValue,
     });
   }
-  toggleReadOnly() {
+  toggleReadOnly = () => {
     this.setState({
       readOnly: !this.state.readOnly,
     })
