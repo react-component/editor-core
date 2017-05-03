@@ -4,7 +4,7 @@ import 'rc-editor-core/assets/index.less';
 import { EditorCore, Toolbar, GetText, createPlugin, GetHTML } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Entity, Modifier, EditorState,RichUtils  } from 'draft-js';
+import { Entity, Modifier, EditorState, RichUtils  } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
 function findWithRegex(regex, contentBlock, callback) {
@@ -30,7 +30,7 @@ const callbacks = {
 function toggleInlineStyle(style) {
   return () => {
     const editorState = callbacks.getEditorState();
-  
+
     callbacks.setEditorState(
       RichUtils.toggleInlineStyle(editorState, `customer-style-${style}`)
     );
@@ -80,18 +80,16 @@ function keyDown(ev) {
   return false;
 }
 
-const EditorWrapper = React.createClass({
-  getInitialState() {
-    return {
-      plugins: [],
-      editorState: null,
-    };
-  },
-  onChange(editorState) {
+class EditorWrapper extends React.Component {
+  state = {
+    plugins: [],
+    editorState: null,
+  };
+  onChange = (editorState) => {
     this.setState({
       editorState,
     });
-  },
+  }
   render() {
     return <div>
       <EditorCore
@@ -104,6 +102,6 @@ const EditorWrapper = React.createClass({
       {this.state.editorState ? GetHTML(this.state.editorState) : null}
     </div>
   }
-});
+}
 
 ReactDOM.render(<EditorWrapper />, document.getElementById('__react-content'));

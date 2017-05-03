@@ -69,18 +69,15 @@ const toolbars = [['fontSize', '|',
   'superscript', 'subscript', '|',
   'align-justify', 'align-left', 'align-right', 'align-middle', '|', 'image']];
 
-
-const EditorWithPreview = React.createClass({
-  getInitialState() {
-    return {
-      html: '',
-    };
-  },
-  editorChange(editorState) {
+class EditorWithPreview extends React.Component {
+  state = {
+    html: '',
+  };
+  editorChange = (editorState) => {
     this.setState({
       html: GetHTML(editorState),
     });
-  },
+  }
   render() {
     return (<div>
       <div className="preview" dangerouslySetInnerHTML={{__html: this.state.html}}></div>
@@ -94,5 +91,6 @@ const EditorWithPreview = React.createClass({
       />
     </div>);
   }
-});
+}
+
 ReactDOM.render(<EditorWithPreview />, document.getElementById('__react-content'));

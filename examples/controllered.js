@@ -17,29 +17,27 @@ function keyDown(ev) {
   }
 }
 
-const Editor = React.createClass({
-  getInitialState() {
-    return {
-      defaultValue: toEditorState('hello world'),
-      value: null,
-      readOnly: false,
-    };
-  },
-  editorChange(editorState) {
+class Editor extends React.Component {
+  state = {
+    defaultValue: toEditorState('hello world'),
+    value: null,
+    readOnly: false,
+  };
+  editorChange = (editorState) => {
     this.setState({
       value: editorState,
     });
-  },
-  reset() {
+  }
+  reset = () => {
     this.setState({
       value: this.state.defaultValue,
     });
-  },
+  }
   toggleReadOnly() {
     this.setState({
       readOnly: !this.state.readOnly,
     })
-  },
+  }
   render() {
     return (<div>
       <button onClick={this.reset}> setText </button>
@@ -55,5 +53,6 @@ const Editor = React.createClass({
       />
     </div>);
   }
-})
+}
+
 ReactDOM.render(<Editor />, document.getElementById('__react-content'));
