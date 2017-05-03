@@ -99,13 +99,5 @@
 .alignJustify {
   text-align: justify;
 }
-.focus-dummy {
-  width: 0;
-  opacity: 0;
-  border: 0;
-  position: absolute;
-  left: -999px;
-  top: -999px;
-}
 
 /*# sourceMappingURL=common.css.map*/
