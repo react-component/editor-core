@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>value.js - example - rc-editor-core@0.6.19</title>
+  <title>value.js - example - rc-editor-core@0.7.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.6.19</h1>
+      <h1>rc-editor-core@0.7.0</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -285,16 +285,15 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">editorChange</span>(<span class="hljs-params">editorState</span>) </span>{
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; editorExport:'</span>, GetText(editorState, { encode: <span class="hljs-literal">true</span> }));
 }
-<span class="hljs-keyword">const</span> Editor = React.createClass({
-  getInitialState() {
-    <span class="hljs-keyword">return</span> {
-      defaultValue: <span class="hljs-string">"hello world"</span>,
-    };
-  },
-  reset() {
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Editor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    defaultValue: <span class="hljs-string">"hello world"</span>,
+  };
+  reset = () =&gt; {
     <span class="hljs-keyword">this</span>.refs.editor.Reset();
-  },
-  keyDown(ev) {
+  }
+  keyDown = (ev) =&gt; {
     <span class="hljs-keyword">if</span> (ev.keyCode === <span class="hljs-number">13</span>) {
       <span class="hljs-keyword">if</span> (ev.ctrlKey) {
         <span class="hljs-keyword">return</span> <span class="hljs-string">'split-block'</span>;
@@ -303,7 +302,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
       <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
     <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-  },
+  }
   render() {
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.reset}</span>&gt;</span> reset <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
@@ -318,7 +317,8 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     /&gt;
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   }
-})
+}
+
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Editor</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>

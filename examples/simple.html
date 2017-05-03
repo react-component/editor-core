@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - rc-editor-core@0.6.19</title>
+  <title>simple.js - example - rc-editor-core@0.7.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.6.19</h1>
+      <h1>rc-editor-core@0.7.0</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -340,18 +340,15 @@ const toolbars = [['fontSize', '|',
   'superscript', 'subscript', '|',
   'align-justify', 'align-left', 'align-right', 'align-middle', '|', 'image']];
 
-
-const EditorWithPreview = React.createClass({
-  getInitialState() {
-    return {
-      html: '',
-    };
-  },
-  editorChange(editorState) {
+class EditorWithPreview extends React.Component {
+  state = {
+    html: '',
+  };
+  editorChange = (editorState) =&gt; {
     this.setState({
       html: GetHTML(editorState),
     });
-  },
+  }
   render() {
     return (<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"preview"</span> <span class="hljs-attribute">dangerouslySetInnerHTML</span>=<span class="hljs-value">{{__html:</span> <span class="hljs-attribute">this.state.html</span>}}&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
@@ -365,7 +362,8 @@ const EditorWithPreview = React.createClass({
       /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   }
-});
+}
+
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">EditorWithPreview</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>
