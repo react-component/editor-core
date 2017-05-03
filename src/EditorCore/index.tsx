@@ -84,8 +84,8 @@ const focusDummyStyle = {
   opacity: 0,
   border: 0,
   position: 'absolute',
-  left: -999,
-  top: -999,
+  left: 0,
+  top: 0,
 };
 
 const toolbar = createToolbar();
