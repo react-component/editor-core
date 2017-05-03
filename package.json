@@ -56,10 +56,10 @@
   },
   "dependencies": {
     "draft-js": "^0.10.0",
-    "fbjs": "^0.8.9",
     "immutable": "^3.7.4",
     "lodash": "^4.16.5",
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.5.8",
+    "setimmediate": "^1.0.5"
   },
   "pre-commit": [
     "lint"

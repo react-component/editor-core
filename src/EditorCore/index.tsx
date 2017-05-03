@@ -16,7 +16,7 @@ import {
 } from 'draft-js';
 
 import { List, Map } from 'immutable';
-import setImmediate from 'fbjs/lib/setImmediate';
+import 'setimmediate';
 import { createToolbar } from '../Toolbar';
 import ConfigStore from './ConfigStore';
 import GetHTML from './export/getHTML';
@@ -112,6 +112,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   private plugins: any;
   private controlledMode: boolean;
   private _editorWrapper: Element;
+  private forceUpdateImmediate: number;
 
   constructor(props: EditorProps) {
     super(props);
@@ -256,6 +257,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   }
   public componentWillReceiveProps(nextProps) {
+    if (this.forceUpdateImmediate) {
+      this.cancelForceUpdateImmediate();
+    }
     if (this.controlledMode) {
       const decorators = nextProps.value.getDecorator();
 
@@ -268,6 +272,14 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         editorState,
       });
     }
+  }
+  public componentWillUnmount() {
+    this.cancelForceUpdateImmediate();
+  }
+
+  private cancelForceUpdateImmediate = () => {
+    clearImmediate(this.forceUpdateImmediate);
+    this.forceUpdateImmediate = null;
   }
   //  处理　value　
   generatorDefaultValue(editorState: EditorState): EditorState {
@@ -358,6 +370,18 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     if (this.props.onChange) {
       this.props.onChange(newEditorState);
+
+      // close this issue https://github.com/ant-design/ant-design/issues/5788
+      // when onChange not take any effect
+      // `<Editor />` won't rerender cause no props is changed.
+      // add an timeout here, 
+      // if props.onChange not trigger componentWillReceiveProps,
+      // we will force render Editor with previous editorState,
+      if (this.controlledMode) {
+        this.forceUpdateImmediate = setImmediate(() => this.setState({
+          editorState: new EditorState(this.state.editorState.getImmutable()),
+        }));
+        }
     }
 
     if (!this.controlledMode) {

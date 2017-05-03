@@ -48,8 +48,8 @@ class Editor extends React.Component {
         plugins={plugins}
         toolbars={toolbars}
         onKeyDown={(ev) => keyDown(ev)}
-        onChange={this.editorChange}
-        value={this.state.value}
+        onChange={() => {}}
+        value={''}
       />
     </div>);
   }
