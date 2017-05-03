@@ -79,6 +79,15 @@ export interface EditorCoreState {
 const defaultPluginConfig = {
 };
 
+const focusDummyStyle = {
+  width: 0,
+  opacity: 0,
+  border: 0,
+  position: 'absolute',
+  left: -999,
+  top: -999,
+};
+
 const toolbar = createToolbar();
 const configStore = new ConfigStore();
 
@@ -531,7 +540,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           handlePastedText={this.handlePastedText}
           blockRendererFn={this.blockRendererFn.bind(this)}
         />
-        {readOnly ? <input className='focus-dummy' ref={ele => this._focusDummy = ele } onBlur={eventHandler.onBlur}/> : null}
+        {readOnly ? <input style={focusDummyStyle} ref={ele => this._focusDummy = ele } onBlur={eventHandler.onBlur}/> : null}
         {this.props.children}
       </div>
     </div>);
