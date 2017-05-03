@@ -13168,6 +13168,9 @@ webpackJsonp([4],[
 	        },
 	        onFocus: function onFocus(ev) {
 	          return console.log('focus', ev);
+	        },
+	        onBlur: function onBlur(ev) {
+	          return console.log('blur', ev);
 	        }
 	      })
 	    );

@@ -472,6 +472,9 @@
 	
 	    EditorCore.prototype.focusEditor = function focusEditor(ev) {
 	        this.refs.editor.focus(ev);
+	        if (this.props.readOnly) {
+	            this._focusDummy.focus();
+	        }
 	        if (this.props.onFocus) {
 	            this.props.onFocus(ev);
 	        }
@@ -667,7 +670,9 @@
 	                return _this8._editorWrapper = ele;
 	            }, style: style, onClick: function onClick(ev) {
 	                return ev.preventDefault();
-	            } }, React.createElement(_draftJs.Editor, __assign({}, this.props, eventHandler, { ref: "editor", customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, handlePastedText: this.handlePastedText, blockRendererFn: this.blockRendererFn.bind(this) })), this.props.children));
+	            } }, React.createElement(_draftJs.Editor, __assign({}, this.props, eventHandler, { ref: "editor", customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, handlePastedText: this.handlePastedText, blockRendererFn: this.blockRendererFn.bind(this) })), readOnly ? React.createElement("input", { className: 'focus-dummy', ref: function ref(ele) {
+	                return _this8._focusDummy = ele;
+	            }, onBlur: eventHandler.onBlur }) : null, this.props.children));
 	    };
 	
 	    return EditorCore;
