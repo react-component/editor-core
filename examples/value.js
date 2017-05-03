@@ -43,6 +43,7 @@ class Editor extends React.Component {
         style={{width: 300, height: 200}}
         onChange={(editorState) => editorChange(editorState)}
         onFocus={(ev) => console.log('focus', ev)}
+        onBlur={(ev) => console.log('blur', ev)}
     />
     </div>);
   }

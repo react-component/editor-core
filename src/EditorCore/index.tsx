@@ -113,6 +113,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   private controlledMode: boolean;
   private _editorWrapper: Element;
   private forceUpdateImmediate: number;
+  private _focusDummy: Element;
 
   constructor(props: EditorProps) {
     super(props);
@@ -313,6 +314,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   private focusEditor(ev) {
     this.refs.editor.focus(ev);
+    if (this.props.readOnly) {
+      this._focusDummy.focus();
+    }
     if (this.props.onFocus) {
       this.props.onFocus(ev);
     }
@@ -527,6 +531,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           handlePastedText={this.handlePastedText}
           blockRendererFn={this.blockRendererFn.bind(this)}
         />
+        {readOnly ? <input className='focus-dummy' ref={ele => this._focusDummy = ele } onBlur={eventHandler.onBlur}/> : null}
         {this.props.children}
       </div>
     </div>);
