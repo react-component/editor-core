@@ -61,6 +61,7 @@ export interface EditorProps {
   onBlur?: () => void;
   style?: Object;
   value?: EditorState | any;
+  readOnly?: boolean;
 }
 
 export interface EditorCoreState {
