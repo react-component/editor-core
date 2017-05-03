@@ -62,6 +62,7 @@ export interface EditorProps {
   onBlur?: () => void;
   style?: Object;
   value?: EditorState | any;
+  readOnly?: boolean;
 }
 
 export interface EditorCoreState {
@@ -328,7 +329,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public getEventHandler(): Object {
-    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'handlePastedText'];
+    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'onTab', 'handlePastedText'];
     const eventHandler = {};
     enabledEvents.forEach(event => {
       eventHandler[event] = this.generatorEventHandler(event);
