@@ -261,8 +261,8 @@
 	    opacity: 0,
 	    border: 0,
 	    position: 'absolute',
-	    left: -999,
-	    top: -999
+	    left: 0,
+	    top: 0
 	};
 	var toolbar = (0, _Toolbar.createToolbar)();
 	var configStore = new _ConfigStore2.default();
