@@ -1,6 +1,6 @@
 {
   "name": "rc-editor-core",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "description": "editor-core ui component for react",
   "keywords": [
     "react",
