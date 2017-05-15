@@ -491,8 +491,7 @@
 	    EditorCore.prototype.focus = function focus(ev) {
 	        var _this4 = this;
 	
-	        var target = ev.target;
-	        if (target === this._editorWrapper) {
+	        if (ev && ev.target === this._editorWrapper) {
 	            var editorState = this.state.editorState;
 	
 	            var selection = editorState.getSelection();
