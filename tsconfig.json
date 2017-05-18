@@ -1,21 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "experimentalDecorators": true,
-    "sourceMap": true,
+    "strictNullChecks": true,
     "moduleResolution": "node",
-    "isolatedModules": false,
-    "jsx": "react",
     "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
-    "declaration": false,
-    "noImplicitAny": false,
-    "removeComments": true,
-    "noLib": false,
-    "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "typeRoots": [
-      "node_modules/@types"
+    "experimentalDecorators": true,
+    "jsx": "preserve",
+    "target": "es6",
+    "lib": [
+      "dom",
+      "es7"
     ]
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
