@@ -12,27 +12,29 @@
 /******/ 			installedChunks[chunkId] = 0;
 /******/ 		}
 /******/ 		for(moduleId in moreModules) {
-/******/ 			var _m = moreModules[moduleId];
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				var _m = moreModules[moduleId];
 /******/
-/******/ 			// Check if module is deduplicated
-/******/ 			switch(typeof _m) {
-/******/ 			case "object":
-/******/ 				// Module can be created from a template
-/******/ 				modules[moduleId] = (function(_m) {
-/******/ 					var args = _m.slice(1), templateId = _m[0];
-/******/ 					return function (a,b,c) {
-/******/ 						modules[templateId].apply(this, [a,b,c].concat(args));
-/******/ 					};
-/******/ 				}(_m));
-/******/ 				break;
-/******/ 			case "function":
-/******/ 				// Normal module
-/******/ 				modules[moduleId] = _m;
-/******/ 				break;
-/******/ 			default:
-/******/ 				// Module is a copy of another module
-/******/ 				modules[moduleId] = modules[_m];
-/******/ 				break;
+/******/ 				// Check if module is deduplicated
+/******/ 				switch(typeof _m) {
+/******/ 				case "object":
+/******/ 					// Module can be created from a template
+/******/ 					modules[moduleId] = (function(_m) {
+/******/ 						var args = _m.slice(1), templateId = _m[0];
+/******/ 						return function (a,b,c) {
+/******/ 							modules[templateId].apply(this, [a,b,c].concat(args));
+/******/ 						};
+/******/ 					}(_m));
+/******/ 					break;
+/******/ 				case "function":
+/******/ 					// Normal module
+/******/ 					modules[moduleId] = _m;
+/******/ 					break;
+/******/ 				default:
+/******/ 					// Module is a copy of another module
+/******/ 					modules[moduleId] = modules[_m];
+/******/ 					break;
+/******/ 				}
 /******/ 			}
 /******/ 		}
 /******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules);
@@ -139,13 +141,13 @@
 /* 0 */,
 /* 1 */,
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -163,9 +165,9 @@
 	
 	module.exports = exports['default'];
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -188,9 +190,9 @@
 	exports.default = EditorCorePublic;
 	module.exports = exports['default'];
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(clearImmediate, setImmediate) {'use strict';
 	
@@ -198,41 +200,41 @@
 	    value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _react = __webpack_require__(9);
 	
-	var React = _interopRequireWildcard(_react);
+	var _react2 = _interopRequireDefault(_react);
 	
-	var _propTypes = __webpack_require__(39);
+	var _propTypes = __webpack_require__(43);
 	
-	var PropTypes = _interopRequireWildcard(_propTypes);
+	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _draftJs = __webpack_require__(47);
+	var _draftJs = __webpack_require__(45);
 	
-	var _immutable = __webpack_require__(322);
+	var _immutable = __webpack_require__(323);
 	
 	__webpack_require__(7);
 	
-	var _Toolbar = __webpack_require__(323);
+	var _Toolbar = __webpack_require__(324);
 	
-	var _ConfigStore = __webpack_require__(326);
+	var _ConfigStore = __webpack_require__(327);
 	
 	var _ConfigStore2 = _interopRequireDefault(_ConfigStore);
 	
-	var _getHTML = __webpack_require__(327);
+	var _getHTML = __webpack_require__(328);
 	
 	var _getHTML2 = _interopRequireDefault(_getHTML);
 	
-	var _exportText = __webpack_require__(329);
+	var _exportText = __webpack_require__(330);
 	
 	var _exportText2 = _interopRequireDefault(_exportText);
 	
-	var _customHTML2Content = __webpack_require__(330);
+	var _customHTML2Content = __webpack_require__(331);
 	
 	var _customHTML2Content2 = _interopRequireDefault(_customHTML2Content);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 	
@@ -242,15 +244,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
-	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
-	    for (var s, i = 1, n = arguments.length; i < n; i++) {
-	        s = arguments[i];
-	        for (var p in s) {
-	            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-	        }
-	    }
-	    return t;
-	};
 	var hasCommandModifier = _draftJs.KeyBindingUtil.hasCommandModifier;
 	
 	function noop() {}
@@ -353,13 +346,16 @@
 	        var _this2 = this;
 	
 	        return this.plugins && this.plugins.size ? this.plugins.map(function (plugin) {
+	            //　如果插件有 callbacks 方法,则认为插件已经加载。
 	            if (plugin.callbacks) {
 	                return plugin;
 	            }
+	            // 如果插件有 constructor 方法,则构造插件
 	            if (plugin.hasOwnProperty('constructor')) {
-	                var pluginConfig = Object.assign(_this2.props.pluginConfig, plugin.config || {}, defaultPluginConfig);
+	                var pluginConfig = _extends(_this2.props.pluginConfig, plugin.config || {}, defaultPluginConfig);
 	                return plugin.constructor(pluginConfig);
 	            }
+	            // else 无效插件
 	            console.warn('>> 插件: [', plugin.name, '] 无效。插件或许已经过期。');
 	            return false;
 	        }).filter(function (plugin) {
@@ -373,6 +369,7 @@
 	        var customBlockStyleMap = {};
 	        var customBlockRenderMap = (0, _immutable.Map)(_draftJs.DefaultDraftBlockRenderMap);
 	        var toHTMLList = (0, _immutable.List)([]);
+	        // initialize compositeDecorator
 	        var compositeDecorator = new _draftJs.CompositeDecorator(plugins.filter(function (plugin) {
 	            return plugin.decorators !== undefined;
 	        }).map(function (plugin) {
@@ -380,9 +377,11 @@
 	        }).reduce(function (prev, curr) {
 	            return prev.concat(curr);
 	        }, []));
+	        // initialize Toolbar
 	        var toolbarPlugins = (0, _immutable.List)(plugins.filter(function (plugin) {
 	            return !!plugin.component && plugin.name !== 'toolbar';
 	        }));
+	        // load inline styles...
 	        plugins.forEach(function (plugin) {
 	            var styleMap = plugin.styleMap,
 	                blockStyleMap = plugin.blockStyleMap,
@@ -445,6 +444,8 @@
 	    EditorCore.prototype.componentWillUnmount = function componentWillUnmount() {
 	        this.cancelForceUpdateImmediate();
 	    };
+	    //  处理　value　
+	
 	
 	    EditorCore.prototype.generatorDefaultValue = function generatorDefaultValue(editorState) {
 	        var defaultValue = this.props.defaultValue;
@@ -548,6 +549,12 @@
 	        });
 	        if (this.props.onChange) {
 	            this.props.onChange(newEditorState);
+	            // close this issue https://github.com/ant-design/ant-design/issues/5788
+	            // when onChange not take any effect
+	            // `<Editor />` won't rerender cause no props is changed.
+	            // add an timeout here, 
+	            // if props.onChange not trigger componentWillReceiveProps,
+	            // we will force render Editor with previous editorState,
 	            if (this.controlledMode) {
 	                this.forceUpdateImmediate = setImmediate(function () {
 	                    return _this6.setState({
@@ -650,7 +657,7 @@
 	            if (plugins[i].customStyleFn) {
 	                var styled = plugins[i].customStyleFn(styleSet);
 	                if (styled) {
-	                    Object.assign(resultStyle, styled);
+	                    _extends(resultStyle, styled);
 	                }
 	            }
 	        }
@@ -673,17 +680,28 @@
 	        var blockRenderMap = configStore.get('blockRenderMap');
 	        var eventHandler = this.getEventHandler();
 	        var Toolbar = toolbar.component;
-	        return React.createElement("div", { style: style, className: prefixCls + '-editor ' + (readOnly ? 'readonly' : ''), onClick: this.focus.bind(this) }, React.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }), React.createElement("div", { className: prefixCls + '-editor-wrapper', ref: function ref(ele) {
-	                return _this8._editorWrapper = ele;
-	            }, style: style, onClick: function onClick(ev) {
-	                return ev.preventDefault();
-	            } }, React.createElement(_draftJs.Editor, __assign({}, this.props, eventHandler, { ref: "editor", customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, handlePastedText: this.handlePastedText, blockRendererFn: this.blockRendererFn.bind(this) })), readOnly ? React.createElement("input", { style: focusDummyStyle, ref: function ref(ele) {
-	                return _this8._focusDummy = ele;
-	            }, onBlur: eventHandler.onBlur }) : null, this.props.children));
+	        return _react2.default.createElement(
+	            'div',
+	            { style: style, className: prefixCls + '-editor ' + (readOnly ? 'readonly' : ''), onClick: this.focus.bind(this) },
+	            _react2.default.createElement(Toolbar, { editorState: editorState, prefixCls: prefixCls, className: prefixCls + '-toolbar', plugins: toolbarPlugins, toolbars: toolbars }),
+	            _react2.default.createElement(
+	                'div',
+	                { className: prefixCls + '-editor-wrapper', ref: function ref(ele) {
+	                        return _this8._editorWrapper = ele;
+	                    }, style: style, onClick: function onClick(ev) {
+	                        return ev.preventDefault();
+	                    } },
+	                _react2.default.createElement(_draftJs.Editor, _extends({}, this.props, eventHandler, { ref: 'editor', customStyleMap: customStyleMap, customStyleFn: this.customStyleFn.bind(this), editorState: editorState, handleKeyCommand: this.handleKeyCommand.bind(this), keyBindingFn: this.handleKeyBinding.bind(this), onChange: this.setEditorState.bind(this), blockStyleFn: this.getBlockStyle.bind(this), blockRenderMap: blockRenderMap, handlePastedText: this.handlePastedText, blockRendererFn: this.blockRendererFn.bind(this) })),
+	                readOnly ? _react2.default.createElement('input', { style: focusDummyStyle, ref: function ref(ele) {
+	                        return _this8._focusDummy = ele;
+	                    }, onBlur: eventHandler.onBlur }) : null,
+	                this.props.children
+	            )
+	        );
 	    };
 	
 	    return EditorCore;
-	}(React.Component);
+	}(_react2.default.Component);
 	
 	EditorCore.GetText = _exportText2.default;
 	EditorCore.GetHTML = (0, _getHTML2.default)(configStore);
@@ -696,16 +714,16 @@
 	    spilitLine: 'enter'
 	};
 	EditorCore.childContextTypes = {
-	    getEditorState: PropTypes.func,
-	    setEditorState: PropTypes.func
+	    getEditorState: _propTypes2.default.func,
+	    setEditorState: _propTypes2.default.func
 	};
 	exports.default = EditorCore;
 	module.exports = exports['default'];
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).clearImmediate, __webpack_require__(6).setImmediate))
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var apply = Function.prototype.apply;
 	
@@ -762,9 +780,9 @@
 	exports.clearImmediate = clearImmediate;
 
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
 	    "use strict";
@@ -955,9 +973,9 @@
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// shim for using process in browser
 	var process = module.exports = {};
@@ -1129,6 +1147,10 @@
 	process.removeListener = noop;
 	process.removeAllListeners = noop;
 	process.emit = noop;
+	process.prependListener = noop;
+	process.prependOnceListener = noop;
+	
+	process.listeners = function (name) { return [] }
 	
 	process.binding = function (name) {
 	    throw new Error('process.binding is not supported');
@@ -1141,18 +1163,18 @@
 	process.umask = function() { return 0; };
 
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	module.exports = __webpack_require__(10);
 
 
-/***/ },
+/***/ }),
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -1175,9 +1197,9 @@
 	var ReactDOMFactories = __webpack_require__(31);
 	var ReactElement = __webpack_require__(16);
 	var ReactPropTypes = __webpack_require__(36);
-	var ReactVersion = __webpack_require__(37);
+	var ReactVersion = __webpack_require__(41);
 	
-	var onlyChild = __webpack_require__(38);
+	var onlyChild = __webpack_require__(42);
 	var warning = __webpack_require__(18);
 	
 	var createElement = ReactElement.createElement;
@@ -1185,7 +1207,9 @@
 	var cloneElement = ReactElement.cloneElement;
 	
 	if (process.env.NODE_ENV !== 'production') {
+	  var canDefineProperty = __webpack_require__(20);
 	  var ReactElementValidator = __webpack_require__(32);
+	  var didWarnPropTypesDeprecated = false;
 	  createElement = ReactElementValidator.createElement;
 	  createFactory = ReactElementValidator.createFactory;
 	  cloneElement = ReactElementValidator.cloneElement;
@@ -1241,12 +1265,25 @@
 	  __spread: __spread
 	};
 	
+	// TODO: Fix tests so that this deprecation warning doesn't cause failures.
+	if (process.env.NODE_ENV !== 'production') {
+	  if (canDefineProperty) {
+	    Object.defineProperty(React, 'PropTypes', {
+	      get: function () {
+	        process.env.NODE_ENV !== 'production' ? warning(didWarnPropTypesDeprecated, 'Accessing PropTypes via the main React package is deprecated. Use ' + 'the prop-types package from npm instead.') : void 0;
+	        didWarnPropTypesDeprecated = true;
+	        return ReactPropTypes;
+	      }
+	    });
+	  }
+	}
+	
 	module.exports = React;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 11 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/*
 	object-assign
@@ -1340,9 +1377,9 @@
 	};
 
 
-/***/ },
+/***/ }),
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -1535,11 +1572,11 @@
 	
 	module.exports = ReactChildren;
 
-/***/ },
+/***/ }),
 /* 13 */
-[529, 14],
+[530, 14],
 /* 14 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -1580,9 +1617,9 @@
 	
 	module.exports = reactProdInvariant;
 
-/***/ },
+/***/ }),
 /* 15 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -1641,9 +1678,9 @@
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -1987,9 +2024,9 @@
 	module.exports = ReactElement;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 17 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -2022,11 +2059,81 @@
 	
 	module.exports = ReactCurrentOwner;
 
-/***/ },
+/***/ }),
 /* 18 */
-[530, 19],
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	var emptyFunction = __webpack_require__(19);
+	
+	/**
+	 * Similar to invariant but only logs a warning if the condition is not met.
+	 * This can be used to log issues in development environments in critical
+	 * paths. Removing the logging code for production environments will keep the
+	 * same logic and follow the same code paths.
+	 */
+	
+	var warning = emptyFunction;
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  (function () {
+	    var printWarning = function printWarning(format) {
+	      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	        args[_key - 1] = arguments[_key];
+	      }
+	
+	      var argIndex = 0;
+	      var message = 'Warning: ' + format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      });
+	      if (typeof console !== 'undefined') {
+	        console.error(message);
+	      }
+	      try {
+	        // --- Welcome to debugging React ---
+	        // This error was thrown as a convenience so that you can use this stack
+	        // to find the callsite that caused this warning to fire.
+	        throw new Error(message);
+	      } catch (x) {}
+	    };
+	
+	    warning = function warning(condition, format) {
+	      if (format === undefined) {
+	        throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+	      }
+	
+	      if (format.indexOf('Failed Composite propType: ') === 0) {
+	        return; // Ignore CompositeComponent proptype check.
+	      }
+	
+	      if (!condition) {
+	        for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+	          args[_key2 - 2] = arguments[_key2];
+	        }
+	
+	        printWarning.apply(undefined, [format].concat(args));
+	      }
+	    };
+	  })();
+	}
+	
+	module.exports = warning;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
 /* 19 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -2067,9 +2174,9 @@
 	
 	module.exports = emptyFunction;
 
-/***/ },
+/***/ }),
 /* 20 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -2098,9 +2205,9 @@
 	module.exports = canDefineProperty;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 21 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -2122,9 +2229,9 @@
 	
 	module.exports = REACT_ELEMENT_TYPE;
 
-/***/ },
+/***/ }),
 /* 22 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -2303,9 +2410,9 @@
 	module.exports = traverseAllChildren;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 23 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -2348,9 +2455,9 @@
 	
 	module.exports = getIteratorFn;
 
-/***/ },
+/***/ }),
 /* 24 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -2411,9 +2518,9 @@
 	
 	module.exports = KeyEscapeUtils;
 
-/***/ },
+/***/ }),
 /* 25 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -2534,9 +2641,9 @@
 	module.exports = ReactComponent;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 26 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2015-present, Facebook, Inc.
@@ -2635,9 +2742,9 @@
 	module.exports = ReactNoopUpdateQueue;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 27 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -2660,9 +2767,9 @@
 	module.exports = emptyObject;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 28 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -2706,9 +2813,9 @@
 	
 	module.exports = ReactPureComponent;
 
-/***/ },
+/***/ }),
 /* 29 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -2863,7 +2970,6 @@
 	   *   }
 	   *
 	   * @return {ReactComponent}
-	   * @nosideeffects
 	   * @required
 	   */
 	  render: 'DEFINE_ONCE',
@@ -3319,6 +3425,8 @@
 	var ReactClassComponent = function () {};
 	_assign(ReactClassComponent.prototype, ReactComponent.prototype, ReactClassMixin);
 	
+	var didWarnDeprecated = false;
+	
 	/**
 	 * Module for creating composite components.
 	 *
@@ -3335,6 +3443,11 @@
 	   * @public
 	   */
 	  createClass: function (spec) {
+	    if (process.env.NODE_ENV !== 'production') {
+	      process.env.NODE_ENV !== 'production' ? warning(didWarnDeprecated, '%s: React.createClass is deprecated and will be removed in version 16. ' + 'Use plain JavaScript classes instead. If you\'re not yet ready to ' + 'migrate, create-react-class is available on npm as a ' + 'drop-in replacement.', spec && spec.displayName || 'A Component') : void 0;
+	      didWarnDeprecated = true;
+	    }
+	
 	    // To keep our warnings more understandable, we'll use a little hack here to
 	    // ensure that Constructor.name !== 'Constructor'. This makes sure we don't
 	    // unnecessarily identify a class without displayName as 'Constructor'.
@@ -3428,9 +3541,9 @@
 	module.exports = ReactClass;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 30 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -3458,9 +3571,9 @@
 	module.exports = ReactPropTypeLocationNames;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 31 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -3633,9 +3746,9 @@
 	module.exports = ReactDOMFactories;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 32 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -3672,6 +3785,16 @@
 	    if (name) {
 	      return ' Check the render method of `' + name + '`.';
 	    }
+	  }
+	  return '';
+	}
+	
+	function getSourceInfoErrorAddendum(elementProps) {
+	  if (elementProps !== null && elementProps !== undefined && elementProps.__source !== undefined) {
+	    var source = elementProps.__source;
+	    var fileName = source.fileName.replace(/^.*[\\\/]/, '');
+	    var lineNumber = source.lineNumber;
+	    return ' Check your code at ' + fileName + ':' + lineNumber + '.';
 	  }
 	  return '';
 	}
@@ -3806,7 +3929,16 @@
 	        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
 	          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
 	        }
-	        info += getDeclarationErrorAddendum();
+	
+	        var sourceInfo = getSourceInfoErrorAddendum(props);
+	        if (sourceInfo) {
+	          info += sourceInfo;
+	        } else {
+	          info += getDeclarationErrorAddendum();
+	        }
+	
+	        info += ReactComponentTreeHook.getCurrentStackAddendum();
+	
 	        process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type is invalid -- expected a string (for ' + 'built-in components) or a class/function (for composite ' + 'components) but got: %s.%s', type == null ? type : typeof type, info) : void 0;
 	      }
 	    }
@@ -3872,9 +4004,9 @@
 	module.exports = ReactElementValidator;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 33 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2016-present, Facebook, Inc.
@@ -4211,9 +4343,9 @@
 	module.exports = ReactComponentTreeHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 34 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -4303,9 +4435,9 @@
 	module.exports = checkReactTypeSpec;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 35 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -4324,11 +4456,11 @@
 	
 	module.exports = ReactPropTypesSecret;
 
-/***/ },
+/***/ }),
 /* 36 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {/**
+	/**
 	 * Copyright 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -4340,548 +4472,61 @@
 	
 	'use strict';
 	
-	var ReactElement = __webpack_require__(16);
-	var ReactPropTypeLocationNames = __webpack_require__(30);
-	var ReactPropTypesSecret = __webpack_require__(35);
+	var _require = __webpack_require__(16),
+	    isValidElement = _require.isValidElement;
+	
+	var factory = __webpack_require__(37);
+	
+	module.exports = factory(isValidElement);
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	'use strict';
+	
+	// React 15.5 references this module, and assumes PropTypes are still callable in production.
+	// Therefore we re-export development-only version with all the PropTypes checks here.
+	// However if one is migrating to the `prop-types` npm library, they will go through the
+	// `index.js` entry point, and it will branch depending on the environment.
+	var factory = __webpack_require__(38);
+	module.exports = function(isValidElement) {
+	  // It is still allowed in 15.5.
+	  var throwOnDirectAccess = false;
+	  return factory(isValidElement, throwOnDirectAccess);
+	};
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	'use strict';
 	
 	var emptyFunction = __webpack_require__(19);
-	var getIteratorFn = __webpack_require__(23);
+	var invariant = __webpack_require__(15);
 	var warning = __webpack_require__(18);
 	
-	/**
-	 * Collection of methods that allow declaration and validation of props that are
-	 * supplied to React components. Example usage:
-	 *
-	 *   var Props = require('ReactPropTypes');
-	 *   var MyArticle = React.createClass({
-	 *     propTypes: {
-	 *       // An optional string prop named "description".
-	 *       description: Props.string,
-	 *
-	 *       // A required enum prop named "category".
-	 *       category: Props.oneOf(['News','Photos']).isRequired,
-	 *
-	 *       // A prop named "dialog" that requires an instance of Dialog.
-	 *       dialog: Props.instanceOf(Dialog).isRequired
-	 *     },
-	 *     render: function() { ... }
-	 *   });
-	 *
-	 * A more formal specification of how these methods are used:
-	 *
-	 *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
-	 *   decl := ReactPropTypes.{type}(.isRequired)?
-	 *
-	 * Each and every declaration produces a function with the same signature. This
-	 * allows the creation of custom validation functions. For example:
-	 *
-	 *  var MyLink = React.createClass({
-	 *    propTypes: {
-	 *      // An optional string or URI prop named "href".
-	 *      href: function(props, propName, componentName) {
-	 *        var propValue = props[propName];
-	 *        if (propValue != null && typeof propValue !== 'string' &&
-	 *            !(propValue instanceof URI)) {
-	 *          return new Error(
-	 *            'Expected a string or an URI for ' + propName + ' in ' +
-	 *            componentName
-	 *          );
-	 *        }
-	 *      }
-	 *    },
-	 *    render: function() {...}
-	 *  });
-	 *
-	 * @internal
-	 */
-	
-	var ANONYMOUS = '<<anonymous>>';
-	
-	var ReactPropTypes = {
-	  array: createPrimitiveTypeChecker('array'),
-	  bool: createPrimitiveTypeChecker('boolean'),
-	  func: createPrimitiveTypeChecker('function'),
-	  number: createPrimitiveTypeChecker('number'),
-	  object: createPrimitiveTypeChecker('object'),
-	  string: createPrimitiveTypeChecker('string'),
-	  symbol: createPrimitiveTypeChecker('symbol'),
-	
-	  any: createAnyTypeChecker(),
-	  arrayOf: createArrayOfTypeChecker,
-	  element: createElementTypeChecker(),
-	  instanceOf: createInstanceTypeChecker,
-	  node: createNodeChecker(),
-	  objectOf: createObjectOfTypeChecker,
-	  oneOf: createEnumTypeChecker,
-	  oneOfType: createUnionTypeChecker,
-	  shape: createShapeTypeChecker
-	};
-	
-	/**
-	 * inlined Object.is polyfill to avoid requiring consumers ship their own
-	 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-	 */
-	/*eslint-disable no-self-compare*/
-	function is(x, y) {
-	  // SameValue algorithm
-	  if (x === y) {
-	    // Steps 1-5, 7-10
-	    // Steps 6.b-6.e: +0 != -0
-	    return x !== 0 || 1 / x === 1 / y;
-	  } else {
-	    // Step 6.a: NaN == NaN
-	    return x !== x && y !== y;
-	  }
-	}
-	/*eslint-enable no-self-compare*/
-	
-	/**
-	 * We use an Error-like object for backward compatibility as people may call
-	 * PropTypes directly and inspect their output. However we don't use real
-	 * Errors anymore. We don't inspect their stack anyway, and creating them
-	 * is prohibitively expensive if they are created too often, such as what
-	 * happens in oneOfType() for any type before the one that matched.
-	 */
-	function PropTypeError(message) {
-	  this.message = message;
-	  this.stack = '';
-	}
-	// Make `instanceof Error` still work for returned errors.
-	PropTypeError.prototype = Error.prototype;
-	
-	function createChainableTypeChecker(validate) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    var manualPropTypeCallCache = {};
-	  }
-	  function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
-	    componentName = componentName || ANONYMOUS;
-	    propFullName = propFullName || propName;
-	    if (process.env.NODE_ENV !== 'production') {
-	      if (secret !== ReactPropTypesSecret && typeof console !== 'undefined') {
-	        var cacheKey = componentName + ':' + propName;
-	        if (!manualPropTypeCallCache[cacheKey]) {
-	          process.env.NODE_ENV !== 'production' ? warning(false, 'You are manually calling a React.PropTypes validation ' + 'function for the `%s` prop on `%s`. This is deprecated ' + 'and will not work in production with the next major version. ' + 'You may be seeing this warning due to a third-party PropTypes ' + 'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.', propFullName, componentName) : void 0;
-	          manualPropTypeCallCache[cacheKey] = true;
-	        }
-	      }
-	    }
-	    if (props[propName] == null) {
-	      var locationName = ReactPropTypeLocationNames[location];
-	      if (isRequired) {
-	        if (props[propName] === null) {
-	          return new PropTypeError('The ' + locationName + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
-	        }
-	        return new PropTypeError('The ' + locationName + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
-	      }
-	      return null;
-	    } else {
-	      return validate(props, propName, componentName, location, propFullName);
-	    }
-	  }
-	
-	  var chainedCheckType = checkType.bind(null, false);
-	  chainedCheckType.isRequired = checkType.bind(null, true);
-	
-	  return chainedCheckType;
-	}
-	
-	function createPrimitiveTypeChecker(expectedType) {
-	  function validate(props, propName, componentName, location, propFullName, secret) {
-	    var propValue = props[propName];
-	    var propType = getPropType(propValue);
-	    if (propType !== expectedType) {
-	      var locationName = ReactPropTypeLocationNames[location];
-	      // `propValue` being instance of, say, date/regexp, pass the 'object'
-	      // check, but we can offer a more precise error message here rather than
-	      // 'of type `object`'.
-	      var preciseType = getPreciseType(propValue);
-	
-	      return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
-	    }
-	    return null;
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function createAnyTypeChecker() {
-	  return createChainableTypeChecker(emptyFunction.thatReturns(null));
-	}
-	
-	function createArrayOfTypeChecker(typeChecker) {
-	  function validate(props, propName, componentName, location, propFullName) {
-	    if (typeof typeChecker !== 'function') {
-	      return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
-	    }
-	    var propValue = props[propName];
-	    if (!Array.isArray(propValue)) {
-	      var locationName = ReactPropTypeLocationNames[location];
-	      var propType = getPropType(propValue);
-	      return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
-	    }
-	    for (var i = 0; i < propValue.length; i++) {
-	      var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
-	      if (error instanceof Error) {
-	        return error;
-	      }
-	    }
-	    return null;
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function createElementTypeChecker() {
-	  function validate(props, propName, componentName, location, propFullName) {
-	    var propValue = props[propName];
-	    if (!ReactElement.isValidElement(propValue)) {
-	      var locationName = ReactPropTypeLocationNames[location];
-	      var propType = getPropType(propValue);
-	      return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
-	    }
-	    return null;
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function createInstanceTypeChecker(expectedClass) {
-	  function validate(props, propName, componentName, location, propFullName) {
-	    if (!(props[propName] instanceof expectedClass)) {
-	      var locationName = ReactPropTypeLocationNames[location];
-	      var expectedClassName = expectedClass.name || ANONYMOUS;
-	      var actualClassName = getClassName(props[propName]);
-	      return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
-	    }
-	    return null;
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function createEnumTypeChecker(expectedValues) {
-	  if (!Array.isArray(expectedValues)) {
-	    process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
-	    return emptyFunction.thatReturnsNull;
-	  }
-	
-	  function validate(props, propName, componentName, location, propFullName) {
-	    var propValue = props[propName];
-	    for (var i = 0; i < expectedValues.length; i++) {
-	      if (is(propValue, expectedValues[i])) {
-	        return null;
-	      }
-	    }
-	
-	    var locationName = ReactPropTypeLocationNames[location];
-	    var valuesString = JSON.stringify(expectedValues);
-	    return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function createObjectOfTypeChecker(typeChecker) {
-	  function validate(props, propName, componentName, location, propFullName) {
-	    if (typeof typeChecker !== 'function') {
-	      return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
-	    }
-	    var propValue = props[propName];
-	    var propType = getPropType(propValue);
-	    if (propType !== 'object') {
-	      var locationName = ReactPropTypeLocationNames[location];
-	      return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
-	    }
-	    for (var key in propValue) {
-	      if (propValue.hasOwnProperty(key)) {
-	        var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-	        if (error instanceof Error) {
-	          return error;
-	        }
-	      }
-	    }
-	    return null;
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function createUnionTypeChecker(arrayOfTypeCheckers) {
-	  if (!Array.isArray(arrayOfTypeCheckers)) {
-	    process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
-	    return emptyFunction.thatReturnsNull;
-	  }
-	
-	  function validate(props, propName, componentName, location, propFullName) {
-	    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-	      var checker = arrayOfTypeCheckers[i];
-	      if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
-	        return null;
-	      }
-	    }
-	
-	    var locationName = ReactPropTypeLocationNames[location];
-	    return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function createNodeChecker() {
-	  function validate(props, propName, componentName, location, propFullName) {
-	    if (!isNode(props[propName])) {
-	      var locationName = ReactPropTypeLocationNames[location];
-	      return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
-	    }
-	    return null;
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function createShapeTypeChecker(shapeTypes) {
-	  function validate(props, propName, componentName, location, propFullName) {
-	    var propValue = props[propName];
-	    var propType = getPropType(propValue);
-	    if (propType !== 'object') {
-	      var locationName = ReactPropTypeLocationNames[location];
-	      return new PropTypeError('Invalid ' + locationName + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
-	    }
-	    for (var key in shapeTypes) {
-	      var checker = shapeTypes[key];
-	      if (!checker) {
-	        continue;
-	      }
-	      var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-	      if (error) {
-	        return error;
-	      }
-	    }
-	    return null;
-	  }
-	  return createChainableTypeChecker(validate);
-	}
-	
-	function isNode(propValue) {
-	  switch (typeof propValue) {
-	    case 'number':
-	    case 'string':
-	    case 'undefined':
-	      return true;
-	    case 'boolean':
-	      return !propValue;
-	    case 'object':
-	      if (Array.isArray(propValue)) {
-	        return propValue.every(isNode);
-	      }
-	      if (propValue === null || ReactElement.isValidElement(propValue)) {
-	        return true;
-	      }
-	
-	      var iteratorFn = getIteratorFn(propValue);
-	      if (iteratorFn) {
-	        var iterator = iteratorFn.call(propValue);
-	        var step;
-	        if (iteratorFn !== propValue.entries) {
-	          while (!(step = iterator.next()).done) {
-	            if (!isNode(step.value)) {
-	              return false;
-	            }
-	          }
-	        } else {
-	          // Iterator will provide entry [k,v] tuples rather than values.
-	          while (!(step = iterator.next()).done) {
-	            var entry = step.value;
-	            if (entry) {
-	              if (!isNode(entry[1])) {
-	                return false;
-	              }
-	            }
-	          }
-	        }
-	      } else {
-	        return false;
-	      }
-	
-	      return true;
-	    default:
-	      return false;
-	  }
-	}
-	
-	function isSymbol(propType, propValue) {
-	  // Native Symbol.
-	  if (propType === 'symbol') {
-	    return true;
-	  }
-	
-	  // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
-	  if (propValue['@@toStringTag'] === 'Symbol') {
-	    return true;
-	  }
-	
-	  // Fallback for non-spec compliant Symbols which are polyfilled.
-	  if (typeof Symbol === 'function' && propValue instanceof Symbol) {
-	    return true;
-	  }
-	
-	  return false;
-	}
-	
-	// Equivalent of `typeof` but with special handling for array and regexp.
-	function getPropType(propValue) {
-	  var propType = typeof propValue;
-	  if (Array.isArray(propValue)) {
-	    return 'array';
-	  }
-	  if (propValue instanceof RegExp) {
-	    // Old webkits (at least until Android 4.0) return 'function' rather than
-	    // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
-	    // passes PropTypes.object.
-	    return 'object';
-	  }
-	  if (isSymbol(propType, propValue)) {
-	    return 'symbol';
-	  }
-	  return propType;
-	}
-	
-	// This handles more types than `getPropType`. Only used for error messages.
-	// See `createPrimitiveTypeChecker`.
-	function getPreciseType(propValue) {
-	  var propType = getPropType(propValue);
-	  if (propType === 'object') {
-	    if (propValue instanceof Date) {
-	      return 'date';
-	    } else if (propValue instanceof RegExp) {
-	      return 'regexp';
-	    }
-	  }
-	  return propType;
-	}
-	
-	// Returns class name of the object, if any.
-	function getClassName(propValue) {
-	  if (!propValue.constructor || !propValue.constructor.name) {
-	    return ANONYMOUS;
-	  }
-	  return propValue.constructor.name;
-	}
-	
-	module.exports = ReactPropTypes;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
-
-/***/ },
-/* 37 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 */
-	
-	'use strict';
-	
-	module.exports = '15.4.2';
-
-/***/ },
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 */
-	'use strict';
-	
-	var _prodInvariant = __webpack_require__(14);
-	
-	var ReactElement = __webpack_require__(16);
-	
-	var invariant = __webpack_require__(15);
-	
-	/**
-	 * Returns the first child in a collection of children and verifies that there
-	 * is only one child in the collection.
-	 *
-	 * See https://facebook.github.io/react/docs/top-level-api.html#react.children.only
-	 *
-	 * The current implementation of this function assumes that a single child gets
-	 * passed without a wrapper, but the purpose of this helper function is to
-	 * abstract away the particular structure of children.
-	 *
-	 * @param {?object} children Child collection structure.
-	 * @return {ReactElement} The first and only `ReactElement` contained in the
-	 * structure.
-	 */
-	function onlyChild(children) {
-	  !ReactElement.isValidElement(children) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'React.Children.only expected to receive a single React element child.') : _prodInvariant('143') : void 0;
-	  return children;
-	}
-	
-	module.exports = onlyChild;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
-
-/***/ },
-/* 39 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
-	if (process.env.NODE_ENV !== 'production') {
-	  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-	    Symbol.for &&
-	    Symbol.for('react.element')) ||
-	    0xeac7;
-	
-	  var isValidElement = function(object) {
-	    return typeof object === 'object' &&
-	      object !== null &&
-	      object.$$typeof === REACT_ELEMENT_TYPE;
-	  };
-	
-	  // By explicitly using `prop-types` you are opting into new development behavior.
-	  // http://fb.me/prop-types-in-prod
-	  var throwOnDirectAccess = true;
-	  module.exports = __webpack_require__(40)(isValidElement, throwOnDirectAccess);
-	} else {
-	  // By explicitly using `prop-types` you are opting into new production behavior.
-	  // http://fb.me/prop-types-in-prod
-	  module.exports = __webpack_require__(46)();
-	}
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
-
-/***/ },
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
-	'use strict';
-	
-	var emptyFunction = __webpack_require__(41);
-	var invariant = __webpack_require__(42);
-	var warning = __webpack_require__(43);
-	
-	var ReactPropTypesSecret = __webpack_require__(44);
-	var checkPropTypes = __webpack_require__(45);
+	var ReactPropTypesSecret = __webpack_require__(39);
+	var checkPropTypes = __webpack_require__(40);
 	
 	module.exports = function(isValidElement, throwOnDirectAccess) {
 	  /* global Symbol */
@@ -5187,6 +4832,20 @@
 	      return emptyFunction.thatReturnsNull;
 	    }
 	
+	    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+	      var checker = arrayOfTypeCheckers[i];
+	      if (typeof checker !== 'function') {
+	        warning(
+	          false,
+	          'Invalid argument supplid to oneOfType. Expected an array of check functions, but ' +
+	          'received %s at index %s.',
+	          getPostfixForTypeWarning(checker),
+	          i
+	        );
+	        return emptyFunction.thatReturnsNull;
+	      }
+	    }
+	
 	    function validate(props, propName, componentName, location, propFullName) {
 	      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
 	        var checker = arrayOfTypeCheckers[i];
@@ -5319,6 +4978,9 @@
 	  // This handles more types than `getPropType`. Only used for error messages.
 	  // See `createPrimitiveTypeChecker`.
 	  function getPreciseType(propValue) {
+	    if (typeof propValue === 'undefined' || propValue === null) {
+	      return '' + propValue;
+	    }
 	    var propType = getPropType(propValue);
 	    if (propType === 'object') {
 	      if (propValue instanceof Date) {
@@ -5328,6 +4990,23 @@
 	      }
 	    }
 	    return propType;
+	  }
+	
+	  // Returns a string that is postfixed to a warning about an invalid type.
+	  // For example, "undefined" or "of type array"
+	  function getPostfixForTypeWarning(value) {
+	    var type = getPreciseType(value);
+	    switch (type) {
+	      case 'array':
+	      case 'object':
+	        return 'an ' + type;
+	      case 'boolean':
+	      case 'date':
+	      case 'regexp':
+	        return 'a ' + type;
+	      default:
+	        return type;
+	    }
 	  }
 	
 	  // Returns class name of the object, if any.
@@ -5346,15 +5025,9 @@
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 41 */
-19,
-/* 42 */
-15,
-/* 43 */
-[530, 41],
-/* 44 */
-/***/ function(module, exports) {
+/***/ }),
+/* 39 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -5372,9 +5045,9 @@
 	module.exports = ReactPropTypesSecret;
 
 
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -5388,9 +5061,9 @@
 	'use strict';
 	
 	if (process.env.NODE_ENV !== 'production') {
-	  var invariant = __webpack_require__(42);
-	  var warning = __webpack_require__(43);
-	  var ReactPropTypesSecret = __webpack_require__(44);
+	  var invariant = __webpack_require__(15);
+	  var warning = __webpack_require__(18);
+	  var ReactPropTypesSecret = __webpack_require__(39);
 	  var loggedTypeFailures = {};
 	}
 	
@@ -5440,9 +5113,107 @@
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 41 */
+/***/ (function(module, exports) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	
+	'use strict';
+	
+	module.exports = '15.5.4';
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+	'use strict';
+	
+	var _prodInvariant = __webpack_require__(14);
+	
+	var ReactElement = __webpack_require__(16);
+	
+	var invariant = __webpack_require__(15);
+	
+	/**
+	 * Returns the first child in a collection of children and verifies that there
+	 * is only one child in the collection.
+	 *
+	 * See https://facebook.github.io/react/docs/top-level-api.html#react.children.only
+	 *
+	 * The current implementation of this function assumes that a single child gets
+	 * passed without a wrapper, but the purpose of this helper function is to
+	 * abstract away the particular structure of children.
+	 *
+	 * @param {?object} children Child collection structure.
+	 * @return {ReactElement} The first and only `ReactElement` contained in the
+	 * structure.
+	 */
+	function onlyChild(children) {
+	  !ReactElement.isValidElement(children) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'React.Children.only expected to receive a single React element child.') : _prodInvariant('143') : void 0;
+	  return children;
+	}
+	
+	module.exports = onlyChild;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+	    Symbol.for &&
+	    Symbol.for('react.element')) ||
+	    0xeac7;
+	
+	  var isValidElement = function(object) {
+	    return typeof object === 'object' &&
+	      object !== null &&
+	      object.$$typeof === REACT_ELEMENT_TYPE;
+	  };
+	
+	  // By explicitly using `prop-types` you are opting into new development behavior.
+	  // http://fb.me/prop-types-in-prod
+	  var throwOnDirectAccess = true;
+	  module.exports = __webpack_require__(38)(isValidElement, throwOnDirectAccess);
+	} else {
+	  // By explicitly using `prop-types` you are opting into new production behavior.
+	  // http://fb.me/prop-types-in-prod
+	  module.exports = __webpack_require__(44)();
+	}
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -5455,13 +5226,16 @@
 	
 	'use strict';
 	
-	var emptyFunction = __webpack_require__(41);
-	var invariant = __webpack_require__(42);
+	var emptyFunction = __webpack_require__(19);
+	var invariant = __webpack_require__(15);
+	var ReactPropTypesSecret = __webpack_require__(39);
 	
 	module.exports = function() {
-	  // Important!
-	  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
-	  function shim() {
+	  function shim(props, propName, componentName, location, propFullName, secret) {
+	    if (secret === ReactPropTypesSecret) {
+	      // It is still safe when called from React.
+	      return;
+	    }
 	    invariant(
 	      false,
 	      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
@@ -5473,6 +5247,8 @@
 	  function getShim() {
 	    return shim;
 	  };
+	  // Important!
+	  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
 	  var ReactPropTypes = {
 	    array: shim,
 	    bool: shim,
@@ -5500,9 +5276,9 @@
 	};
 
 
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -5517,30 +5293,30 @@
 	
 	'use strict';
 	
-	var AtomicBlockUtils = __webpack_require__(48);
-	var BlockMapBuilder = __webpack_require__(49);
-	var CharacterMetadata = __webpack_require__(51);
+	var AtomicBlockUtils = __webpack_require__(46);
+	var BlockMapBuilder = __webpack_require__(47);
+	var CharacterMetadata = __webpack_require__(49);
 	var CompositeDraftDecorator = __webpack_require__(82);
-	var ContentBlock = __webpack_require__(52);
-	var ContentState = __webpack_require__(72);
+	var ContentBlock = __webpack_require__(50);
+	var ContentState = __webpack_require__(71);
 	var DefaultDraftBlockRenderMap = __webpack_require__(83);
 	var DefaultDraftInlineStyle = __webpack_require__(85);
 	var DraftEditor = __webpack_require__(86);
 	var DraftEditorBlock = __webpack_require__(92);
-	var DraftEntity = __webpack_require__(73);
-	var DraftModifier = __webpack_require__(54);
-	var DraftEntityInstance = __webpack_require__(74);
-	var EditorState = __webpack_require__(70);
-	var KeyBindingUtil = __webpack_require__(279);
-	var RichTextEditorUtil = __webpack_require__(310);
-	var SelectionState = __webpack_require__(75);
+	var DraftEntity = __webpack_require__(72);
+	var DraftModifier = __webpack_require__(52);
+	var DraftEntityInstance = __webpack_require__(73);
+	var EditorState = __webpack_require__(69);
+	var KeyBindingUtil = __webpack_require__(280);
+	var RichTextEditorUtil = __webpack_require__(311);
+	var SelectionState = __webpack_require__(74);
 	
-	var convertFromDraftStateToRaw = __webpack_require__(312);
-	var convertFromHTMLToContentBlocks = __webpack_require__(302);
-	var convertFromRawToDraftState = __webpack_require__(316);
-	var generateRandomKey = __webpack_require__(62);
-	var getDefaultKeyBinding = __webpack_require__(309);
-	var getVisibleSelectionRect = __webpack_require__(320);
+	var convertFromDraftStateToRaw = __webpack_require__(313);
+	var convertFromHTMLToContentBlocks = __webpack_require__(303);
+	var convertFromRawToDraftState = __webpack_require__(317);
+	var generateRandomKey = __webpack_require__(61);
+	var getDefaultKeyBinding = __webpack_require__(310);
+	var getVisibleSelectionRect = __webpack_require__(321);
 	
 	var DraftPublic = {
 	  Editor: DraftEditor,
@@ -5575,9 +5351,9 @@
 	
 	module.exports = DraftPublic;
 
-/***/ },
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -5594,14 +5370,16 @@
 	
 	'use strict';
 	
-	var BlockMapBuilder = __webpack_require__(49);
-	var CharacterMetadata = __webpack_require__(51);
-	var ContentBlock = __webpack_require__(52);
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
-	var Immutable = __webpack_require__(50);
+	var BlockMapBuilder = __webpack_require__(47);
+	var CharacterMetadata = __webpack_require__(49);
+	var ContentBlock = __webpack_require__(50);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
+	var SelectionState = __webpack_require__(74);
+	var Immutable = __webpack_require__(48);
 	
-	var generateRandomKey = __webpack_require__(62);
+	var generateRandomKey = __webpack_require__(61);
+	var moveBlockInContentState = __webpack_require__(81);
 	
 	var List = Immutable.List;
 	var Repeat = Immutable.Repeat;
@@ -5644,14 +5422,52 @@
 	    });
 	
 	    return EditorState.push(editorState, newContent, 'insert-fragment');
+	  },
+	
+	  moveAtomicBlock: function moveAtomicBlock(editorState, atomicBlock, targetRange, insertionMode) {
+	    var contentState = editorState.getCurrentContent();
+	    var selectionState = editorState.getSelection();
+	
+	    var withMovedAtomicBlock = void 0;
+	
+	    if (insertionMode === 'before' || insertionMode === 'after') {
+	      var targetBlock = contentState.getBlockForKey(insertionMode === 'before' ? targetRange.getStartKey() : targetRange.getEndKey());
+	
+	      withMovedAtomicBlock = moveBlockInContentState(contentState, atomicBlock, targetBlock, insertionMode);
+	    } else {
+	      var afterRemoval = DraftModifier.removeRange(contentState, targetRange, 'backward');
+	
+	      var selectionAfterRemoval = afterRemoval.getSelectionAfter();
+	      var _targetBlock = afterRemoval.getBlockForKey(selectionAfterRemoval.getFocusKey());
+	
+	      if (selectionAfterRemoval.getStartOffset() === 0) {
+	        withMovedAtomicBlock = moveBlockInContentState(afterRemoval, atomicBlock, _targetBlock, 'before');
+	      } else if (selectionAfterRemoval.getEndOffset() === _targetBlock.getLength()) {
+	        withMovedAtomicBlock = moveBlockInContentState(afterRemoval, atomicBlock, _targetBlock, 'after');
+	      } else {
+	        var afterSplit = DraftModifier.splitBlock(afterRemoval, selectionAfterRemoval);
+	
+	        var selectionAfterSplit = afterSplit.getSelectionAfter();
+	        var _targetBlock2 = afterSplit.getBlockForKey(selectionAfterSplit.getFocusKey());
+	
+	        withMovedAtomicBlock = moveBlockInContentState(afterSplit, atomicBlock, _targetBlock2, 'before');
+	      }
+	    }
+	
+	    var newContent = withMovedAtomicBlock.merge({
+	      selectionBefore: selectionState,
+	      selectionAfter: withMovedAtomicBlock.getSelectionAfter().set('hasFocus', true)
+	    });
+	
+	    return EditorState.push(editorState, newContent, 'move-block');
 	  }
 	};
 	
 	module.exports = AtomicBlockUtils;
 
-/***/ },
-/* 49 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -5667,7 +5483,7 @@
 	
 	'use strict';
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
 	var OrderedMap = Immutable.OrderedMap;
 	
@@ -5682,9 +5498,9 @@
 	
 	module.exports = BlockMapBuilder;
 
-/***/ },
-/* 50 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 *  Copyright (c) 2014-2015, Facebook, Inc.
@@ -10669,9 +10485,9 @@
 	
 	}));
 
-/***/ },
-/* 51 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -10694,7 +10510,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _require = __webpack_require__(50);
+	var _require = __webpack_require__(48);
 	
 	var Map = _require.Map;
 	var OrderedSet = _require.OrderedSet;
@@ -10730,7 +10546,7 @@
 	  };
 	
 	  CharacterMetadata.prototype.hasStyle = function hasStyle(style) {
-	    return this.getStyle().has(style);
+	    return this.getStyle().includes(style);
 	  };
 	
 	  CharacterMetadata.applyStyle = function applyStyle(record, style) {
@@ -10786,9 +10602,9 @@
 	
 	module.exports = CharacterMetadata;
 
-/***/ },
-/* 52 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -10810,9 +10626,9 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
-	var findRangesImmutable = __webpack_require__(53);
+	var findRangesImmutable = __webpack_require__(51);
 	
 	var List = Immutable.List;
 	var Map = Immutable.Map;
@@ -10911,9 +10727,9 @@
 	
 	module.exports = ContentBlock;
 
-/***/ },
-/* 53 */
-/***/ function(module, exports) {
+/***/ }),
+/* 51 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -10944,9 +10760,7 @@
 	  var cursor = 0;
 	
 	  haystack.reduce(function (value, nextValue, nextIndex) {
-	    /* $FlowFixMe(>=0.28.0): `value` could be undefined! */
 	    if (!areEqualFn(value, nextValue)) {
-	      /* $FlowFixMe(>=0.28.0): `value` could be undefined! */
 	      if (filterFn(value)) {
 	        foundFn(cursor, nextIndex);
 	      }
@@ -10960,9 +10774,9 @@
 	
 	module.exports = findRangesImmutable;
 
-/***/ },
-/* 54 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -10979,20 +10793,21 @@
 	
 	'use strict';
 	
-	var CharacterMetadata = __webpack_require__(51);
-	var ContentStateInlineStyle = __webpack_require__(55);
-	var Immutable = __webpack_require__(50);
+	var CharacterMetadata = __webpack_require__(49);
+	var ContentStateInlineStyle = __webpack_require__(53);
+	var DraftFeatureFlags = __webpack_require__(54);
+	var Immutable = __webpack_require__(48);
 	
-	var applyEntityToContentState = __webpack_require__(56);
-	var getCharacterRemovalRange = __webpack_require__(58);
-	var getContentStateFragment = __webpack_require__(61);
-	var insertFragmentIntoContentState = __webpack_require__(64);
-	var insertTextIntoContentState = __webpack_require__(66);
+	var applyEntityToContentState = __webpack_require__(55);
+	var getCharacterRemovalRange = __webpack_require__(57);
+	var getContentStateFragment = __webpack_require__(60);
+	var insertFragmentIntoContentState = __webpack_require__(63);
+	var insertTextIntoContentState = __webpack_require__(65);
 	var invariant = __webpack_require__(15);
-	var modifyBlockForContentState = __webpack_require__(67);
-	var removeEntitiesAtEdges = __webpack_require__(63);
-	var removeRangeFromContentState = __webpack_require__(68);
-	var splitBlockInContentState = __webpack_require__(69);
+	var modifyBlockForContentState = __webpack_require__(66);
+	var removeEntitiesAtEdges = __webpack_require__(62);
+	var removeRangeFromContentState = __webpack_require__(67);
+	var splitBlockInContentState = __webpack_require__(68);
 	
 	var OrderedSet = Immutable.OrderedSet;
 	
@@ -11041,24 +10856,46 @@
 	  },
 	
 	  removeRange: function removeRange(contentState, rangeToRemove, removalDirection) {
+	    var startKey = void 0,
+	        endKey = void 0,
+	        startBlock = void 0,
+	        endBlock = void 0;
+	    if (rangeToRemove.getIsBackward()) {
+	      rangeToRemove = rangeToRemove.merge({
+	        anchorKey: rangeToRemove.getFocusKey(),
+	        anchorOffset: rangeToRemove.getFocusOffset(),
+	        focusKey: rangeToRemove.getAnchorKey(),
+	        focusOffset: rangeToRemove.getAnchorOffset(),
+	        isBackward: false
+	      });
+	    }
+	    startKey = rangeToRemove.getAnchorKey();
+	    endKey = rangeToRemove.getFocusKey();
+	    startBlock = contentState.getBlockForKey(startKey);
+	    endBlock = contentState.getBlockForKey(endKey);
+	    var startOffset = rangeToRemove.getStartOffset();
+	    var endOffset = rangeToRemove.getEndOffset();
+	
+	    var startEntityKey = startBlock.getEntityAt(startOffset);
+	    var endEntityKey = endBlock.getEntityAt(endOffset - 1);
+	
 	    // Check whether the selection state overlaps with a single entity.
 	    // If so, try to remove the appropriate substring of the entity text.
-	    if (rangeToRemove.getAnchorKey() === rangeToRemove.getFocusKey()) {
-	      var key = rangeToRemove.getAnchorKey();
-	      var startOffset = rangeToRemove.getStartOffset();
-	      var endOffset = rangeToRemove.getEndOffset();
-	      var block = contentState.getBlockForKey(key);
-	
-	      var startEntity = block.getEntityAt(startOffset);
-	      var endEntity = block.getEntityAt(endOffset - 1);
-	      if (startEntity && startEntity === endEntity) {
-	        var adjustedRemovalRange = getCharacterRemovalRange(contentState.getEntityMap(), block, rangeToRemove, removalDirection);
-	        return removeRangeFromContentState(contentState, adjustedRemovalRange);
+	    if (startKey === endKey) {
+	      if (startEntityKey && startEntityKey === endEntityKey) {
+	        var _adjustedRemovalRange = getCharacterRemovalRange(contentState.getEntityMap(), startBlock, endBlock, rangeToRemove, removalDirection);
+	        return removeRangeFromContentState(contentState, _adjustedRemovalRange);
 	      }
 	    }
+	    var adjustedRemovalRange = rangeToRemove;
+	    if (DraftFeatureFlags.draft_segmented_entities_behavior) {
+	      // Adjust the selection to properly delete segemented and immutable
+	      // entities
+	      adjustedRemovalRange = getCharacterRemovalRange(contentState.getEntityMap(), startBlock, endBlock, rangeToRemove, removalDirection);
+	    }
 	
-	    var withoutEntities = removeEntitiesAtEdges(contentState, rangeToRemove);
-	    return removeRangeFromContentState(withoutEntities, rangeToRemove);
+	    var withoutEntities = removeEntitiesAtEdges(contentState, adjustedRemovalRange);
+	    return removeRangeFromContentState(withoutEntities, adjustedRemovalRange);
 	  },
 	
 	  splitBlock: function splitBlock(contentState, selectionState) {
@@ -11103,9 +10940,9 @@
 	module.exports = DraftModifier;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 55 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11122,9 +10959,9 @@
 	
 	'use strict';
 	
-	var CharacterMetadata = __webpack_require__(51);
+	var CharacterMetadata = __webpack_require__(49);
 	
-	var _require = __webpack_require__(50);
+	var _require = __webpack_require__(48);
 	
 	var Map = _require.Map;
 	
@@ -11182,9 +11019,34 @@
 	
 	module.exports = ContentStateInlineStyle;
 
-/***/ },
-/* 56 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 54 */
+/***/ (function(module, exports) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule DraftFeatureFlags
+	 * 
+	 */
+	
+	'use strict';
+	
+	var DraftFeatureFlags = {
+	  draft_killswitch_allow_nontextnodes: false,
+	  draft_segmented_entities_behavior: false
+	};
+	
+	module.exports = DraftFeatureFlags;
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11201,9 +11063,9 @@
 	
 	'use strict';
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
-	var applyEntityToContentBlock = __webpack_require__(57);
+	var applyEntityToContentBlock = __webpack_require__(56);
 	
 	function applyEntityToContentState(contentState, selectionState, entityKey) {
 	  var blockMap = contentState.getBlockMap();
@@ -11231,9 +11093,9 @@
 	
 	module.exports = applyEntityToContentState;
 
-/***/ },
-/* 57 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11250,7 +11112,7 @@
 	
 	'use strict';
 	
-	var CharacterMetadata = __webpack_require__(51);
+	var CharacterMetadata = __webpack_require__(49);
 	
 	function applyEntityToContentBlock(contentBlock, start, end, entityKey) {
 	  var characterList = contentBlock.getCharacterList();
@@ -11263,9 +11125,9 @@
 	
 	module.exports = applyEntityToContentBlock;
 
-/***/ },
-/* 58 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11282,9 +11144,9 @@
 	
 	'use strict';
 	
-	var DraftEntitySegments = __webpack_require__(59);
+	var DraftEntitySegments = __webpack_require__(58);
 	
-	var getRangesForDraftEntity = __webpack_require__(60);
+	var getRangesForDraftEntity = __webpack_require__(59);
 	var invariant = __webpack_require__(15);
 	
 	/**
@@ -11296,16 +11158,47 @@
 	 * range, the entire entity must be removed. The returned `SelectionState`
 	 * will be adjusted accordingly.
 	 */
-	function getCharacterRemovalRange(entityMap, block, selectionState, direction) {
+	function getCharacterRemovalRange(entityMap, startBlock, endBlock, selectionState, direction) {
 	  var start = selectionState.getStartOffset();
 	  var end = selectionState.getEndOffset();
-	  var entityKey = block.getEntityAt(start);
-	  if (!entityKey) {
+	  var startEntityKey = startBlock.getEntityAt(start);
+	  var endEntityKey = endBlock.getEntityAt(end - 1);
+	  if (!startEntityKey && !endEntityKey) {
 	    return selectionState;
 	  }
+	  var newSelectionState = selectionState;
+	  if (startEntityKey && startEntityKey === endEntityKey) {
+	    newSelectionState = getEntityRemovalRange(entityMap, startBlock, newSelectionState, direction, startEntityKey, true, true);
+	  } else if (startEntityKey && endEntityKey) {
+	    var startSelectionState = getEntityRemovalRange(entityMap, startBlock, newSelectionState, direction, startEntityKey, false, true);
+	    var endSelectionState = getEntityRemovalRange(entityMap, endBlock, newSelectionState, direction, endEntityKey, false, false);
+	    newSelectionState = newSelectionState.merge({
+	      anchorOffset: startSelectionState.getAnchorOffset(),
+	      focusOffset: endSelectionState.getFocusOffset(),
+	      isBackward: false
+	    });
+	  } else if (startEntityKey) {
+	    var _startSelectionState = getEntityRemovalRange(entityMap, startBlock, newSelectionState, direction, startEntityKey, false, true);
+	    newSelectionState = newSelectionState.merge({
+	      anchorOffset: _startSelectionState.getStartOffset(),
+	      isBackward: false
+	    });
+	  } else if (endEntityKey) {
+	    var _endSelectionState = getEntityRemovalRange(entityMap, endBlock, newSelectionState, direction, endEntityKey, false, false);
+	    newSelectionState = newSelectionState.merge({
+	      focusOffset: _endSelectionState.getEndOffset(),
+	      isBackward: false
+	    });
+	  }
+	  return newSelectionState;
+	}
 	
+	function getEntityRemovalRange(entityMap, block, selectionState, direction, entityKey, isEntireSelectionWithinEntity, isEntityAtStart) {
+	  var start = selectionState.getStartOffset();
+	  var end = selectionState.getEndOffset();
 	  var entity = entityMap.__get(entityKey);
 	  var mutability = entity.getMutability();
+	  var sideToConsider = isEntityAtStart ? start : end;
 	
 	  // `MUTABLE` entities can just have the specified range of text removed
 	  // directly. No adjustments are needed.
@@ -11315,7 +11208,7 @@
 	
 	  // Find the entity range that overlaps with our removal range.
 	  var entityRanges = getRangesForDraftEntity(block, entityKey).filter(function (range) {
-	    return start < range.end && end > range.start;
+	    return sideToConsider <= range.end && sideToConsider >= range.start;
 	  });
 	
 	  !(entityRanges.length == 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'There should only be one entity range within this removal range.') : invariant(false) : void 0;
@@ -11333,6 +11226,14 @@
 	
 	  // For `SEGMENTED` entity types, determine the appropriate segment to
 	  // remove.
+	  if (!isEntireSelectionWithinEntity) {
+	    if (isEntityAtStart) {
+	      end = entityRange.end;
+	    } else {
+	      start = entityRange.start;
+	    }
+	  }
+	
 	  var removalRange = DraftEntitySegments.getRemovalRange(start, end, block.getText().slice(entityRange.start, entityRange.end), entityRange.start, direction);
 	
 	  return selectionState.merge({
@@ -11345,9 +11246,9 @@
 	module.exports = getCharacterRemovalRange;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 59 */
-/***/ function(module, exports) {
+/***/ }),
+/* 58 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11449,9 +11350,9 @@
 	
 	module.exports = DraftEntitySegments;
 
-/***/ },
-/* 60 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11494,9 +11395,9 @@
 	module.exports = getRangesForDraftEntity;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 61 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11513,8 +11414,8 @@
 	
 	'use strict';
 	
-	var generateRandomKey = __webpack_require__(62);
-	var removeEntitiesAtEdges = __webpack_require__(63);
+	var generateRandomKey = __webpack_require__(61);
+	var removeEntitiesAtEdges = __webpack_require__(62);
 	
 	function getContentStateFragment(contentState, selectionState) {
 	  var startKey = selectionState.getStartKey();
@@ -11570,9 +11471,9 @@
 	
 	module.exports = getContentStateFragment;
 
-/***/ },
-/* 62 */
-/***/ function(module, exports) {
+/***/ }),
+/* 61 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11603,9 +11504,9 @@
 	
 	module.exports = generateRandomKey;
 
-/***/ },
-/* 63 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11621,9 +11522,9 @@
 	
 	'use strict';
 	
-	var CharacterMetadata = __webpack_require__(51);
+	var CharacterMetadata = __webpack_require__(49);
 	
-	var findRangesImmutable = __webpack_require__(53);
+	var findRangesImmutable = __webpack_require__(51);
 	var invariant = __webpack_require__(15);
 	
 	function removeEntitiesAtEdges(contentState, selectionState) {
@@ -11710,9 +11611,9 @@
 	module.exports = removeEntitiesAtEdges;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 64 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11729,10 +11630,10 @@
 	
 	'use strict';
 	
-	var BlockMapBuilder = __webpack_require__(49);
+	var BlockMapBuilder = __webpack_require__(47);
 	
-	var generateRandomKey = __webpack_require__(62);
-	var insertIntoList = __webpack_require__(65);
+	var generateRandomKey = __webpack_require__(61);
+	var insertIntoList = __webpack_require__(64);
 	var invariant = __webpack_require__(15);
 	
 	function insertFragmentIntoContentState(contentState, selectionState, fragment) {
@@ -11842,9 +11743,9 @@
 	module.exports = insertFragmentIntoContentState;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 65 */
-/***/ function(module, exports) {
+/***/ }),
+/* 64 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11882,9 +11783,9 @@
 	
 	module.exports = insertIntoList;
 
-/***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11901,9 +11802,9 @@
 	
 	'use strict';
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
-	var insertIntoList = __webpack_require__(65);
+	var insertIntoList = __webpack_require__(64);
 	var invariant = __webpack_require__(15);
 	
 	var Repeat = Immutable.Repeat;
@@ -11942,9 +11843,9 @@
 	module.exports = insertTextIntoContentState;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 67 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -11961,7 +11862,7 @@
 	
 	'use strict';
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
 	var Map = Immutable.Map;
 	
@@ -11985,9 +11886,9 @@
 	
 	module.exports = modifyBlockForContentState;
 
-/***/ },
-/* 68 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -12003,7 +11904,7 @@
 	
 	'use strict';
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
 	function removeRangeFromContentState(contentState, selectionState) {
 	  if (selectionState.isCollapsed()) {
@@ -12081,9 +11982,9 @@
 	
 	module.exports = removeRangeFromContentState;
 
-/***/ },
-/* 69 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -12100,9 +12001,9 @@
 	
 	'use strict';
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
-	var generateRandomKey = __webpack_require__(62);
+	var generateRandomKey = __webpack_require__(61);
 	var invariant = __webpack_require__(15);
 	
 	var Map = Immutable.Map;
@@ -12156,9 +12057,9 @@
 	module.exports = splitBlockInContentState;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 70 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -12180,11 +12081,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var BlockTree = __webpack_require__(71);
-	var ContentState = __webpack_require__(72);
-	var EditorBidiService = __webpack_require__(77);
-	var Immutable = __webpack_require__(50);
-	var SelectionState = __webpack_require__(75);
+	var BlockTree = __webpack_require__(70);
+	var ContentState = __webpack_require__(71);
+	var EditorBidiService = __webpack_require__(76);
+	var Immutable = __webpack_require__(48);
+	var SelectionState = __webpack_require__(74);
 	
 	var OrderedSet = Immutable.OrderedSet;
 	var Record = Immutable.Record;
@@ -12490,8 +12391,10 @@
 	
 	    var inlineStyleOverride = editorState.getInlineStyleOverride();
 	
-	    // Don't discard inline style overrides on block type or depth changes.
-	    if (changeType !== 'adjust-depth' && changeType !== 'change-block-type') {
+	    // Don't discard inline style overrides for the following change types:
+	    var overrideChangeTypes = ['adjust-depth', 'change-block-type', 'split-block'];
+	
+	    if (overrideChangeTypes.indexOf(changeType) === -1) {
 	      inlineStyleOverride = null;
 	    }
 	
@@ -12723,9 +12626,9 @@
 	
 	module.exports = EditorState;
 
-/***/ },
-/* 71 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -12741,10 +12644,10 @@
 	
 	'use strict';
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
 	var emptyFunction = __webpack_require__(19);
-	var findRangesImmutable = __webpack_require__(53);
+	var findRangesImmutable = __webpack_require__(51);
 	
 	var List = Immutable.List;
 	var Repeat = Immutable.Repeat;
@@ -12840,9 +12743,9 @@
 	
 	module.exports = BlockTree;
 
-/***/ },
-/* 72 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -12865,15 +12768,15 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var BlockMapBuilder = __webpack_require__(49);
-	var CharacterMetadata = __webpack_require__(51);
-	var ContentBlock = __webpack_require__(52);
-	var DraftEntity = __webpack_require__(73);
-	var Immutable = __webpack_require__(50);
-	var SelectionState = __webpack_require__(75);
+	var BlockMapBuilder = __webpack_require__(47);
+	var CharacterMetadata = __webpack_require__(49);
+	var ContentBlock = __webpack_require__(50);
+	var DraftEntity = __webpack_require__(72);
+	var Immutable = __webpack_require__(48);
+	var SelectionState = __webpack_require__(74);
 	
-	var generateRandomKey = __webpack_require__(62);
-	var sanitizeDraftText = __webpack_require__(76);
+	var generateRandomKey = __webpack_require__(61);
+	var sanitizeDraftText = __webpack_require__(75);
 	
 	var List = Immutable.List;
 	var Record = Immutable.Record;
@@ -13037,9 +12940,9 @@
 	
 	module.exports = ContentState;
 
-/***/ },
-/* 73 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
@@ -13060,8 +12963,8 @@
 	 * 
 	 */
 	
-	var DraftEntityInstance = __webpack_require__(74);
-	var Immutable = __webpack_require__(50);
+	var DraftEntityInstance = __webpack_require__(73);
+	var Immutable = __webpack_require__(48);
 	
 	var invariant = __webpack_require__(15);
 	
@@ -13237,9 +13140,9 @@
 	module.exports = DraftEntity;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 74 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -13261,7 +13164,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
 	var Record = Immutable.Record;
 	
@@ -13310,9 +13213,9 @@
 	
 	module.exports = DraftEntityInstance;
 
-/***/ },
-/* 75 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -13335,7 +13238,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
 	var Record = Immutable.Record;
 	
@@ -13449,9 +13352,9 @@
 	
 	module.exports = SelectionState;
 
-/***/ },
-/* 76 */
-/***/ function(module, exports) {
+/***/ }),
+/* 75 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -13475,9 +13378,9 @@
 	
 	module.exports = sanitizeDraftText;
 
-/***/ },
-/* 77 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -13494,10 +13397,10 @@
 	
 	'use strict';
 	
-	var Immutable = __webpack_require__(50);
-	var UnicodeBidiService = __webpack_require__(78);
+	var Immutable = __webpack_require__(48);
+	var UnicodeBidiService = __webpack_require__(77);
 	
-	var nullthrows = __webpack_require__(81);
+	var nullthrows = __webpack_require__(80);
 	
 	var OrderedMap = Immutable.OrderedMap;
 	
@@ -13528,9 +13431,9 @@
 	
 	module.exports = EditorBidiService;
 
-/***/ },
-/* 78 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -13578,8 +13481,8 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var UnicodeBidi = __webpack_require__(79);
-	var UnicodeBidiDirection = __webpack_require__(80);
+	var UnicodeBidi = __webpack_require__(78);
+	var UnicodeBidiDirection = __webpack_require__(79);
 	
 	var invariant = __webpack_require__(15);
 	
@@ -13634,9 +13537,9 @@
 	module.exports = UnicodeBidiService;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 79 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -13660,7 +13563,7 @@
 	
 	'use strict';
 	
-	var UnicodeBidiDirection = __webpack_require__(80);
+	var UnicodeBidiDirection = __webpack_require__(79);
 	
 	var invariant = __webpack_require__(15);
 	
@@ -13796,9 +13699,9 @@
 	module.exports = UnicodeBidi;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 80 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -13910,9 +13813,9 @@
 	module.exports = UnicodeBidiDirection;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 81 */
-/***/ function(module, exports) {
+/***/ }),
+/* 80 */
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -13936,9 +13839,73 @@
 	
 	module.exports = nullthrows;
 
-/***/ },
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule moveBlockInContentState
+	 * @typechecks
+	 * 
+	 */
+	
+	'use strict';
+	
+	var invariant = __webpack_require__(15);
+	
+	function moveBlockInContentState(contentState, blockToBeMoved, targetBlock, insertionMode) {
+	  !(blockToBeMoved.getKey() !== targetBlock.getKey()) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Block cannot be moved next to itself.') : invariant(false) : void 0;
+	
+	  !(insertionMode !== 'replace') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Replacing blocks is not supported.') : invariant(false) : void 0;
+	
+	  var targetKey = targetBlock.getKey();
+	  var blockBefore = contentState.getBlockBefore(targetKey);
+	  var blockAfter = contentState.getBlockAfter(targetKey);
+	
+	  var blockMap = contentState.getBlockMap();
+	  var blockMapWithoutBlockToBeMoved = blockMap['delete'](blockToBeMoved.getKey());
+	  var blocksBefore = blockMapWithoutBlockToBeMoved.toSeq().takeUntil(function (v) {
+	    return v === targetBlock;
+	  });
+	  var blocksAfter = blockMapWithoutBlockToBeMoved.toSeq().skipUntil(function (v) {
+	    return v === targetBlock;
+	  }).skip(1);
+	
+	  var newBlocks = void 0;
+	
+	  if (insertionMode === 'before') {
+	    !(!blockBefore || blockBefore.getKey() !== blockToBeMoved.getKey()) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Block cannot be moved next to itself.') : invariant(false) : void 0;
+	
+	    newBlocks = blocksBefore.concat([[blockToBeMoved.getKey(), blockToBeMoved], [targetBlock.getKey(), targetBlock]], blocksAfter).toOrderedMap();
+	  } else if (insertionMode === 'after') {
+	    !(!blockAfter || blockAfter.getKey() !== blockToBeMoved.getKey()) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Block cannot be moved next to itself.') : invariant(false) : void 0;
+	
+	    newBlocks = blocksBefore.concat([[targetBlock.getKey(), targetBlock], [blockToBeMoved.getKey(), blockToBeMoved]], blocksAfter).toOrderedMap();
+	  }
+	
+	  return contentState.merge({
+	    blockMap: newBlocks,
+	    selectionBefore: contentState.getSelectionAfter(),
+	    selectionAfter: contentState.getSelectionAfter().merge({
+	      anchorKey: blockToBeMoved.getKey(),
+	      focusKey: blockToBeMoved.getKey()
+	    })
+	  });
+	}
+	
+	module.exports = moveBlockInContentState;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
 /* 82 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -13957,7 +13924,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var Immutable = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
 	var List = Immutable.List;
 	
@@ -14055,9 +14022,9 @@
 	
 	module.exports = CompositeDraftDecorator;
 
-/***/ },
+/***/ }),
 /* 83 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -14073,7 +14040,7 @@
 	
 	'use strict';
 	
-	var _require = __webpack_require__(50);
+	var _require = __webpack_require__(48);
 	
 	var Map = _require.Map;
 	
@@ -14130,9 +14097,9 @@
 	
 	module.exports = DefaultDraftBlockRenderMap;
 
-/***/ },
+/***/ }),
 /* 84 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -14176,9 +14143,9 @@
 	
 	module.exports = cx;
 
-/***/ },
+/***/ }),
 /* 85 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -14217,11 +14184,11 @@
 	  }
 	};
 
-/***/ },
+/***/ }),
 /* 86 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
+	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -14251,22 +14218,25 @@
 	var DefaultDraftInlineStyle = __webpack_require__(85);
 	var DraftEditorCompositionHandler = __webpack_require__(87);
 	var DraftEditorContents = __webpack_require__(91);
-	var DraftEditorDragHandler = __webpack_require__(258);
-	var DraftEditorEditHandler = __webpack_require__(266);
-	var DraftEditorPlaceholder = __webpack_require__(308);
-	var EditorState = __webpack_require__(70);
+	var DraftEditorDragHandler = __webpack_require__(259);
+	var DraftEditorEditHandler = __webpack_require__(267);
+	var DraftEditorPlaceholder = __webpack_require__(309);
+	
+	var EditorState = __webpack_require__(69);
 	var React = __webpack_require__(9);
 	var ReactDOM = __webpack_require__(95);
-	var Scroll = __webpack_require__(249);
-	var Style = __webpack_require__(250);
+	var Scroll = __webpack_require__(250);
+	var Style = __webpack_require__(251);
 	var UserAgent = __webpack_require__(241);
 	
 	var cx = __webpack_require__(84);
 	var emptyFunction = __webpack_require__(19);
-	var generateRandomKey = __webpack_require__(62);
-	var getDefaultKeyBinding = __webpack_require__(309);
-	var nullthrows = __webpack_require__(81);
-	var getScrollPosition = __webpack_require__(254);
+	var generateRandomKey = __webpack_require__(61);
+	var getDefaultKeyBinding = __webpack_require__(310);
+	
+	var getScrollPosition = __webpack_require__(255);
+	var invariant = __webpack_require__(15);
+	var nullthrows = __webpack_require__(80);
 	
 	var isIE = UserAgent.isBrowser('IE');
 	
@@ -14301,7 +14271,7 @@
 	    _this._clipboard = null;
 	    _this._handler = null;
 	    _this._dragCount = 0;
-	    _this._editorKey = generateRandomKey();
+	    _this._editorKey = props.editorKey || generateRandomKey();
 	    _this._placeholderAccessibilityID = 'placeholder-' + _this._editorKey;
 	    _this._latestEditorState = props.editorState;
 	
@@ -14342,7 +14312,7 @@
 	    _this.onDragLeave = _this._onDragLeave.bind(_this);
 	
 	    // See `_restoreEditorDOM()`.
-	    _this.state = { containerKey: 0 };
+	    _this.state = { contentsKey: 0 };
 	    return _this;
 	  }
 	
@@ -14411,7 +14381,6 @@
 	        'div',
 	        {
 	          className: cx('DraftEditor/editorContainer'),
-	          key: 'editor' + this.state.containerKey,
 	          ref: 'editorContainer' },
 	        React.createElement(
 	          'div',
@@ -14423,7 +14392,17 @@
 	            'aria-haspopup': readOnly ? null : this.props.ariaHasPopup,
 	            'aria-label': this.props.ariaLabel,
 	            'aria-owns': readOnly ? null : this.props.ariaOwneeID,
-	            className: cx('public/DraftEditor/content'),
+	            autoCapitalize: this.props.autoCapitalize,
+	            autoComplete: this.props.autoComplete,
+	            autoCorrect: this.props.autoCorrect,
+	            className: cx({
+	              // Chrome's built-in translation feature mutates the DOM in ways
+	              // that Draft doesn't expect (ex: adding <font> tags inside
+	              // DraftEditorLeaf spans) and causes problems. We add notranslate
+	              // here which makes its autotranslation skip over this subtree.
+	              'notranslate': !readOnly,
+	              'public/DraftEditor/content': true
+	            }),
 	            contentEditable: !readOnly,
 	            'data-testid': this.props.webDriverTestID,
 	            onBeforeInput: this._onBeforeInput,
@@ -14459,7 +14438,9 @@
 	            customStyleMap: _extends({}, DefaultDraftInlineStyle, this.props.customStyleMap),
 	            customStyleFn: this.props.customStyleFn,
 	            editorKey: this._editorKey,
-	            editorState: this.props.editorState
+	            editorState: this.props.editorState,
+	            key: 'contents' + this.state.contentsKey,
+	            textDirectionality: this.props.textDirectionality
 	          })
 	        )
 	      )
@@ -14526,6 +14507,7 @@
 	    var y = _ref.y;
 	
 	
+	    !(editorNode instanceof HTMLElement) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'editorNode is not an HTMLElement') : invariant(false) : void 0;
 	    editorNode.focus();
 	    if (scrollParent === window) {
 	      window.scrollTo(x, y);
@@ -14543,7 +14525,9 @@
 	  };
 	
 	  DraftEditor.prototype._blur = function _blur() {
-	    ReactDOM.findDOMNode(this.refs.editor).blur();
+	    var editorNode = ReactDOM.findDOMNode(this.refs.editor);
+	    !(editorNode instanceof HTMLElement) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'editorNode is not an HTMLElement') : invariant(false) : void 0;
+	    editorNode.blur();
 	  };
 	
 	  /**
@@ -14566,17 +14550,18 @@
 	  /**
 	   * Used via `this.restoreEditorDOM()`.
 	   *
-	   * Force a complete re-render of the editor based on the current EditorState.
-	   * This is useful when we know we are going to lose control of the DOM
-	   * state (cut command, IME) and we want to make sure that reconciliation
-	   * occurs on a version of the DOM that is synchronized with our EditorState.
+	   * Force a complete re-render of the DraftEditorContents based on the current
+	   * EditorState. This is useful when we know we are going to lose control of
+	   * the DOM state (cut command, IME) and we want to make sure that
+	   * reconciliation occurs on a version of the DOM that is synchronized with
+	   * our EditorState.
 	   */
 	
 	
 	  DraftEditor.prototype._restoreEditorDOM = function _restoreEditorDOM(scrollPosition) {
 	    var _this3 = this;
 	
-	    this.setState({ containerKey: this.state.containerKey + 1 }, function () {
+	    this.setState({ contentsKey: this.state.contentsKey + 1 }, function () {
 	      _this3._focus(scrollPosition);
 	    });
 	  };
@@ -14657,10 +14642,11 @@
 	
 	
 	module.exports = DraftEditor;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 87 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -14676,8 +14662,8 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
 	var Keys = __webpack_require__(88);
 	
 	var getEntityKeyForSelection = __webpack_require__(89);
@@ -14832,9 +14818,9 @@
 	
 	module.exports = DraftEditorCompositionHandler;
 
-/***/ },
+/***/ }),
 /* 88 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -14873,9 +14859,9 @@
 	  NUMPAD_9: 105
 	};
 
-/***/ },
+/***/ }),
 /* 89 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -14933,9 +14919,9 @@
 	
 	module.exports = getEntityKeyForSelection;
 
-/***/ },
+/***/ }),
 /* 90 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -14986,9 +14972,9 @@
 	
 	module.exports = isSelectionAtLeafStart;
 
-/***/ },
+/***/ }),
 /* 91 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -15016,13 +15002,13 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var DraftEditorBlock = __webpack_require__(92);
-	var DraftOffsetKey = __webpack_require__(248);
-	var EditorState = __webpack_require__(70);
+	var DraftOffsetKey = __webpack_require__(249);
+	var EditorState = __webpack_require__(69);
 	var React = __webpack_require__(9);
 	
 	var cx = __webpack_require__(84);
-	var joinClasses = __webpack_require__(257);
-	var nullthrows = __webpack_require__(81);
+	var joinClasses = __webpack_require__(258);
+	var nullthrows = __webpack_require__(80);
 	
 	/**
 	 * `DraftEditorContents` is the container component for all block components
@@ -15114,7 +15100,9 @@
 	        customEditable = customRenderer.editable;
 	      }
 	
-	      var direction = directionMap.get(key);
+	      var _textDirectionality = this.props.textDirectionality;
+	
+	      var direction = _textDirectionality ? _textDirectionality : directionMap.get(key);
 	      var offsetKey = DraftOffsetKey.encode(key, 0, 0);
 	      var componentProps = {
 	        contentState: content,
@@ -15234,11 +15222,11 @@
 	
 	module.exports = DraftEditorContents;
 
-/***/ },
+/***/ }),
 /* 92 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
+	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -15263,23 +15251,22 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var ContentBlock = __webpack_require__(52);
-	var ContentState = __webpack_require__(72);
 	var DraftEditorLeaf = __webpack_require__(93);
-	var DraftOffsetKey = __webpack_require__(248);
+	var DraftOffsetKey = __webpack_require__(249);
 	var React = __webpack_require__(9);
 	var ReactDOM = __webpack_require__(95);
-	var Scroll = __webpack_require__(249);
-	var SelectionState = __webpack_require__(75);
-	var Style = __webpack_require__(250);
-	var UnicodeBidi = __webpack_require__(79);
-	var UnicodeBidiDirection = __webpack_require__(80);
+	var Scroll = __webpack_require__(250);
+	
+	var Style = __webpack_require__(251);
+	var UnicodeBidi = __webpack_require__(78);
+	var UnicodeBidiDirection = __webpack_require__(79);
 	
 	var cx = __webpack_require__(84);
-	var getElementPosition = __webpack_require__(252);
-	var getScrollPosition = __webpack_require__(254);
-	var getViewportDimensions = __webpack_require__(256);
-	var nullthrows = __webpack_require__(81);
+	var getElementPosition = __webpack_require__(253);
+	var getScrollPosition = __webpack_require__(255);
+	var getViewportDimensions = __webpack_require__(257);
+	var invariant = __webpack_require__(15);
+	var nullthrows = __webpack_require__(80);
 	
 	var SCROLL_BUFFER = 10;
 	
@@ -15337,6 +15324,7 @@
 	        window.scrollTo(scrollPosition.x, scrollPosition.y + scrollDelta + SCROLL_BUFFER);
 	      }
 	    } else {
+	      !(blockNode instanceof HTMLElement) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'blockNode is not an HTMLElement') : invariant(false) : void 0;
 	      var blockBottom = blockNode.offsetHeight + blockNode.offsetTop;
 	      var scrollBottom = scrollParent.offsetHeight + scrollPosition.y;
 	      scrollDelta = blockBottom - scrollBottom;
@@ -15365,7 +15353,7 @@
 	        return React.createElement(DraftEditorLeaf, {
 	          key: offsetKey,
 	          offsetKey: offsetKey,
-	          blockKey: blockKey,
+	          block: block,
 	          start: start,
 	          selection: hasSelection ? _this2.props.selection : undefined,
 	          forceSelection: _this2.props.forceSelection,
@@ -15446,12 +15434,13 @@
 	}
 	
 	module.exports = DraftEditorBlock;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 93 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
+	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -15474,11 +15463,12 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var ContentBlock = __webpack_require__(50);
 	var DraftEditorTextNode = __webpack_require__(94);
 	var React = __webpack_require__(9);
 	var ReactDOM = __webpack_require__(95);
-	var SelectionState = __webpack_require__(75);
 	
+	var invariant = __webpack_require__(15);
 	var setDraftEditorSelection = __webpack_require__(247);
 	
 	/**
@@ -15505,7 +15495,7 @@
 	   * easily than we could in the non-React world.
 	   *
 	   * Note that this depends on our maintaining tight control over the
-	   * DOM structure of the TextEditor component. If leaves had multiple
+	   * DOM structure of the DraftEditor component. If leaves had multiple
 	   * text nodes, this would be harder.
 	   */
 	  DraftEditorLeaf.prototype._setSelection = function _setSelection() {
@@ -15518,10 +15508,11 @@
 	    }
 	
 	    var _props = this.props;
-	    var blockKey = _props.blockKey;
+	    var block = _props.block;
 	    var start = _props.start;
 	    var text = _props.text;
 	
+	    var blockKey = block.getKey();
 	    var end = start + text.length;
 	    if (!selection.hasEdgeWithin(blockKey, start, end)) {
 	      return;
@@ -15531,7 +15522,9 @@
 	    // is not a text node, it is a <br /> spacer. In this case, use the
 	    // <span> itself as the selection target.
 	    var node = ReactDOM.findDOMNode(this);
+	    !node ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Missing node') : invariant(false) : void 0;
 	    var child = node.firstChild;
+	    !child ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Missing child') : invariant(false) : void 0;
 	    var targetNode = void 0;
 	
 	    if (child.nodeType === Node.TEXT_NODE) {
@@ -15540,13 +15533,16 @@
 	      targetNode = node;
 	    } else {
 	      targetNode = child.firstChild;
+	      !targetNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Missing targetNode') : invariant(false) : void 0;
 	    }
 	
 	    setDraftEditorSelection(selection, targetNode, blockKey, start, end);
 	  };
 	
 	  DraftEditorLeaf.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
-	    return ReactDOM.findDOMNode(this.refs.leaf).textContent !== nextProps.text || nextProps.styleSet !== this.props.styleSet || nextProps.forceSelection;
+	    var leafNode = ReactDOM.findDOMNode(this.refs.leaf);
+	    !leafNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Missing leafNode') : invariant(false) : void 0;
+	    return leafNode.textContent !== nextProps.text || nextProps.styleSet !== this.props.styleSet || nextProps.forceSelection;
 	  };
 	
 	  DraftEditorLeaf.prototype.componentDidUpdate = function componentDidUpdate() {
@@ -15558,6 +15554,7 @@
 	  };
 	
 	  DraftEditorLeaf.prototype.render = function render() {
+	    var block = this.props.block;
 	    var text = this.props.text;
 	
 	    // If the leaf is at the end of its block and ends in a soft newline, append
@@ -15588,7 +15585,7 @@
 	    }, {});
 	
 	    if (customStyleFn) {
-	      var newStyles = customStyleFn(styleSet);
+	      var newStyles = customStyleFn(styleSet, block);
 	      styleObj = _assign(styleObj, newStyles);
 	    }
 	
@@ -15610,12 +15607,13 @@
 	}(React.Component);
 	
 	module.exports = DraftEditorLeaf;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 94 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
+	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -15639,6 +15637,8 @@
 	var React = __webpack_require__(9);
 	var ReactDOM = __webpack_require__(95);
 	var UserAgent = __webpack_require__(241);
+	
+	var invariant = __webpack_require__(15);
 	
 	// In IE, spans with <br> tags render as two newlines. By rendering a span
 	// with only a newline character, we can be sure to render a single line.
@@ -15696,6 +15696,7 @@
 	  DraftEditorTextNode.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
 	    var node = ReactDOM.findDOMNode(this);
 	    var shouldBeNewline = nextProps.children === '';
+	    !(node instanceof Element) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'node is not an Element') : invariant(false) : void 0;
 	    if (shouldBeNewline) {
 	      return !isNewline(node);
 	    }
@@ -15723,19 +15724,20 @@
 	}(React.Component);
 	
 	module.exports = DraftEditorTextNode;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 95 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	module.exports = __webpack_require__(96);
 
 
-/***/ },
+/***/ }),
 /* 96 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -15849,9 +15851,9 @@
 	module.exports = ReactDOM;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 97 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -16049,11 +16051,11 @@
 	module.exports = ReactDOMComponentTree;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 98 */
 14,
 /* 99 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -16266,9 +16268,9 @@
 	module.exports = DOMProperty;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 100 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2015-present, Facebook, Inc.
@@ -16288,9 +16290,9 @@
 	
 	module.exports = ReactDOMComponentFlags;
 
-/***/ },
+/***/ }),
 /* 101 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -16378,9 +16380,9 @@
 	  inject: inject
 	};
 
-/***/ },
+/***/ }),
 /* 102 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -16456,9 +16458,9 @@
 	
 	module.exports = ARIADOMPropertyConfig;
 
-/***/ },
+/***/ }),
 /* 103 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present Facebook, Inc.
@@ -16845,9 +16847,9 @@
 	
 	module.exports = BeforeInputEventPlugin;
 
-/***/ },
+/***/ }),
 /* 104 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -16984,9 +16986,9 @@
 	module.exports = EventPropagators;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 105 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -17267,9 +17269,9 @@
 	module.exports = EventPluginHub;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 106 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -17527,9 +17529,9 @@
 	module.exports = EventPluginRegistry;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 107 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -17758,9 +17760,9 @@
 	module.exports = EventPluginUtils;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 108 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -17829,7 +17831,6 @@
 	      var evtType = 'react-' + name;
 	      fakeNode.addEventListener(evtType, boundFunc, false);
 	      var evt = document.createEvent('Event');
-	      // $FlowFixMe https://github.com/facebook/flow/issues/2336
 	      evt.initEvent(evtType, false, false);
 	      fakeNode.dispatchEvent(evt);
 	      fakeNode.removeEventListener(evtType, boundFunc, false);
@@ -17840,9 +17841,9 @@
 	module.exports = ReactErrorUtils;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 109 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -17903,9 +17904,9 @@
 	module.exports = accumulateInto;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 110 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -17938,9 +17939,9 @@
 	
 	module.exports = forEachAccumulated;
 
-/***/ },
+/***/ }),
 /* 111 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -17978,9 +17979,9 @@
 	
 	module.exports = ExecutionEnvironment;
 
-/***/ },
+/***/ }),
 /* 112 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -18077,11 +18078,11 @@
 	
 	module.exports = FallbackCompositionState;
 
-/***/ },
+/***/ }),
 /* 113 */
-[529, 98],
+[530, 98],
 /* 114 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -18116,9 +18117,9 @@
 	
 	module.exports = getTextContentAccessor;
 
-/***/ },
+/***/ }),
 /* 115 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -18156,9 +18157,9 @@
 	
 	module.exports = SyntheticCompositionEvent;
 
-/***/ },
+/***/ }),
 /* 116 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -18429,9 +18430,9 @@
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 117 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -18470,9 +18471,9 @@
 	
 	module.exports = SyntheticInputEvent;
 
-/***/ },
+/***/ }),
 /* 118 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -18741,6 +18742,26 @@
 	  }
 	}
 	
+	function handleControlledInputBlur(inst, node) {
+	  // TODO: In IE, inst is occasionally null. Why?
+	  if (inst == null) {
+	    return;
+	  }
+	
+	  // Fiber and ReactDOM keep wrapper state in separate places
+	  var state = inst._wrapperState || node._wrapperState;
+	
+	  if (!state || !state.controlled || node.type !== 'number') {
+	    return;
+	  }
+	
+	  // If controlled, assign the value attribute to the current value on blur
+	  var value = '' + node.value;
+	  if (node.getAttribute('value') !== value) {
+	    node.setAttribute('value', value);
+	  }
+	}
+	
 	/**
 	 * This plugin creates an `onChange` event that normalizes change events
 	 * across form elements. This event fires at a time when it's possible to
@@ -18789,15 +18810,20 @@
 	    if (handleEventFunc) {
 	      handleEventFunc(topLevelType, targetNode, targetInst);
 	    }
+	
+	    // When blurring, set the value attribute for number inputs
+	    if (topLevelType === 'topBlur') {
+	      handleControlledInputBlur(targetInst, targetNode);
+	    }
 	  }
 	
 	};
 	
 	module.exports = ChangeEventPlugin;
 
-/***/ },
+/***/ }),
 /* 119 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -19051,9 +19077,9 @@
 	module.exports = ReactUpdates;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 120 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -19175,9 +19201,9 @@
 	module.exports = PooledClass.addPoolingTo(CallbackQueue);
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 121 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -19201,9 +19227,9 @@
 	
 	module.exports = ReactFeatureFlags;
 
-/***/ },
+/***/ }),
 /* 122 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -19374,9 +19400,9 @@
 	module.exports = ReactReconciler;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 123 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -19467,9 +19493,9 @@
 	
 	module.exports = ReactRef;
 
-/***/ },
+/***/ }),
 /* 124 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -19566,9 +19592,9 @@
 	module.exports = ReactOwner;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 125 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2016-present, Facebook, Inc.
@@ -19595,9 +19621,9 @@
 	module.exports = { debugTool: debugTool };
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 126 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2016-present, Facebook, Inc.
@@ -19779,9 +19805,7 @@
 	}
 	
 	var lastMarkTimeStamp = 0;
-	var canUsePerformanceMeasure =
-	// $FlowFixMe https://github.com/facebook/flow/issues/2345
-	typeof performance !== 'undefined' && typeof performance.mark === 'function' && typeof performance.clearMarks === 'function' && typeof performance.measure === 'function' && typeof performance.clearMeasures === 'function';
+	var canUsePerformanceMeasure = typeof performance !== 'undefined' && typeof performance.mark === 'function' && typeof performance.clearMarks === 'function' && typeof performance.measure === 'function' && typeof performance.clearMeasures === 'function';
 	
 	function shouldMark(debugID) {
 	  if (!isProfiling || !canUsePerformanceMeasure) {
@@ -19961,9 +19985,9 @@
 	module.exports = ReactDebugTool;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 127 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2016-present, Facebook, Inc.
@@ -20003,9 +20027,9 @@
 	module.exports = ReactInvalidSetStateWarningHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 128 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2016-present, Facebook, Inc.
@@ -20041,9 +20065,9 @@
 	
 	module.exports = ReactHostOperationHistoryHook;
 
-/***/ },
+/***/ }),
 /* 129 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -20079,9 +20103,9 @@
 	
 	module.exports = performanceNow;
 
-/***/ },
+/***/ }),
 /* 130 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -20106,9 +20130,9 @@
 	
 	module.exports = performance || {};
 
-/***/ },
+/***/ }),
 /* 131 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20336,9 +20360,9 @@
 	module.exports = TransactionImpl;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 132 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20375,9 +20399,9 @@
 	
 	module.exports = getEventTarget;
 
-/***/ },
+/***/ }),
 /* 133 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20439,9 +20463,9 @@
 	
 	module.exports = isEventSupported;
 
-/***/ },
+/***/ }),
 /* 134 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20494,9 +20518,9 @@
 	
 	module.exports = isTextInputElement;
 
-/***/ },
+/***/ }),
 /* 135 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20524,9 +20548,9 @@
 	
 	module.exports = DefaultEventPluginOrder;
 
-/***/ },
+/***/ }),
 /* 136 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20628,9 +20652,9 @@
 	
 	module.exports = EnterLeaveEventPlugin;
 
-/***/ },
+/***/ }),
 /* 137 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20704,9 +20728,9 @@
 	
 	module.exports = SyntheticMouseEvent;
 
-/***/ },
+/***/ }),
 /* 138 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20767,9 +20791,9 @@
 	
 	module.exports = SyntheticUIEvent;
 
-/***/ },
+/***/ }),
 /* 139 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20798,9 +20822,9 @@
 	
 	module.exports = ViewportMetrics;
 
-/***/ },
+/***/ }),
 /* 140 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -20845,9 +20869,9 @@
 	
 	module.exports = getEventModifierState;
 
-/***/ },
+/***/ }),
 /* 141 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -21056,14 +21080,38 @@
 	    htmlFor: 'for',
 	    httpEquiv: 'http-equiv'
 	  },
-	  DOMPropertyNames: {}
+	  DOMPropertyNames: {},
+	  DOMMutationMethods: {
+	    value: function (node, value) {
+	      if (value == null) {
+	        return node.removeAttribute('value');
+	      }
+	
+	      // Number inputs get special treatment due to some edge cases in
+	      // Chrome. Let everything else assign the value attribute as normal.
+	      // https://github.com/facebook/react/issues/7253#issuecomment-236074326
+	      if (node.type !== 'number' || node.hasAttribute('value') === false) {
+	        node.setAttribute('value', '' + value);
+	      } else if (node.validity && !node.validity.badInput && node.ownerDocument.activeElement !== node) {
+	        // Don't assign an attribute if validation reports bad
+	        // input. Chrome will clear the value. Additionally, don't
+	        // operate on inputs that have focus, otherwise Chrome might
+	        // strip off trailing decimal places and cause the user's
+	        // cursor position to jump to the beginning of the input.
+	        //
+	        // In ReactDOMInput, we have an onBlur event that will trigger
+	        // this function again when focus is lost.
+	        node.setAttribute('value', '' + value);
+	      }
+	    }
+	  }
 	};
 	
 	module.exports = HTMLDOMPropertyConfig;
 
-/***/ },
+/***/ }),
 /* 142 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -21095,9 +21143,9 @@
 	
 	module.exports = ReactComponentBrowserEnvironment;
 
-/***/ },
+/***/ }),
 /* 143 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -21325,9 +21373,9 @@
 	module.exports = DOMChildrenOperations;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 144 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2015-present, Facebook, Inc.
@@ -21447,9 +21495,9 @@
 	
 	module.exports = DOMLazyTree;
 
-/***/ },
+/***/ }),
 /* 145 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -21471,9 +21519,9 @@
 	
 	module.exports = DOMNamespaces;
 
-/***/ },
+/***/ }),
 /* 146 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -21573,9 +21621,9 @@
 	
 	module.exports = setInnerHTML;
 
-/***/ },
+/***/ }),
 /* 147 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -21609,9 +21657,9 @@
 	
 	module.exports = createMicrosoftUnsafeLocalFunction;
 
-/***/ },
+/***/ }),
 /* 148 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -21665,9 +21713,9 @@
 	
 	module.exports = setTextContent;
 
-/***/ },
+/***/ }),
 /* 149 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2016-present, Facebook, Inc.
@@ -21792,9 +21840,9 @@
 	
 	module.exports = escapeTextContentForBrowser;
 
-/***/ },
+/***/ }),
 /* 150 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -21845,9 +21893,9 @@
 	module.exports = Danger;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 151 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
@@ -21934,9 +21982,9 @@
 	module.exports = createNodesFromMarkup;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 152 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
@@ -22066,9 +22114,9 @@
 	module.exports = createArrayFromMixed;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 153 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
@@ -22166,9 +22214,9 @@
 	module.exports = getMarkupWrap;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 154 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -22204,9 +22252,9 @@
 	
 	module.exports = ReactDOMIDOperations;
 
-/***/ },
+/***/ }),
 /* 155 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -23210,9 +23258,9 @@
 	module.exports = ReactDOMComponent;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 156 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -23238,9 +23286,9 @@
 	
 	module.exports = AutoFocusUtils;
 
-/***/ },
+/***/ }),
 /* 157 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -23269,9 +23317,9 @@
 	
 	module.exports = focusNode;
 
-/***/ },
+/***/ }),
 /* 158 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -23483,9 +23531,9 @@
 	module.exports = CSSPropertyOperations;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 159 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -23635,9 +23683,9 @@
 	
 	module.exports = CSSProperty;
 
-/***/ },
+/***/ }),
 /* 160 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -23679,9 +23727,9 @@
 	
 	module.exports = camelizeStyleName;
 
-/***/ },
+/***/ }),
 /* 161 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -23715,9 +23763,9 @@
 	
 	module.exports = camelize;
 
-/***/ },
+/***/ }),
 /* 162 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -23799,9 +23847,9 @@
 	module.exports = dangerousStyleValue;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 163 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -23842,9 +23890,9 @@
 	
 	module.exports = hyphenateStyleName;
 
-/***/ },
+/***/ }),
 /* 164 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -23879,9 +23927,9 @@
 	
 	module.exports = hyphenate;
 
-/***/ },
+/***/ }),
 /* 165 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -23913,9 +23961,9 @@
 	
 	module.exports = memoizeStringOnly;
 
-/***/ },
+/***/ }),
 /* 166 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -24155,9 +24203,9 @@
 	module.exports = DOMPropertyOperations;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 167 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -24185,9 +24233,9 @@
 	
 	module.exports = quoteAttributeValueForBrowser;
 
-/***/ },
+/***/ }),
 /* 168 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -24517,9 +24565,9 @@
 	
 	module.exports = ReactBrowserEventEmitter;
 
-/***/ },
+/***/ }),
 /* 169 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -24554,9 +24602,9 @@
 	
 	module.exports = ReactEventEmitterMixin;
 
-/***/ },
+/***/ }),
 /* 170 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -24659,9 +24707,9 @@
 	
 	module.exports = getVendorPrefixedEventName;
 
-/***/ },
+/***/ }),
 /* 171 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -24777,12 +24825,9 @@
 	      initialChecked: props.checked != null ? props.checked : props.defaultChecked,
 	      initialValue: props.value != null ? props.value : defaultValue,
 	      listeners: null,
-	      onChange: _handleChange.bind(inst)
+	      onChange: _handleChange.bind(inst),
+	      controlled: isControlled(props)
 	    };
-	
-	    if (process.env.NODE_ENV !== 'production') {
-	      inst._wrapperState.controlled = isControlled(props);
-	    }
 	  },
 	
 	  updateWrapper: function (inst) {
@@ -24811,14 +24856,24 @@
 	    var node = ReactDOMComponentTree.getNodeFromInstance(inst);
 	    var value = LinkedValueUtils.getValue(props);
 	    if (value != null) {
+	      if (value === 0 && node.value === '') {
+	        node.value = '0';
+	        // Note: IE9 reports a number inputs as 'text', so check props instead.
+	      } else if (props.type === 'number') {
+	        // Simulate `input.valueAsNumber`. IE9 does not support it
+	        var valueAsNumber = parseFloat(node.value, 10) || 0;
 	
-	      // Cast `value` to a string to ensure the value is set correctly. While
-	      // browsers typically do this as necessary, jsdom doesn't.
-	      var newValue = '' + value;
-	
-	      // To avoid side effects (such as losing text selection), only set value if changed
-	      if (newValue !== node.value) {
-	        node.value = newValue;
+	        // eslint-disable-next-line
+	        if (value != valueAsNumber) {
+	          // Cast `value` to a string to ensure the value is set correctly. While
+	          // browsers typically do this as necessary, jsdom doesn't.
+	          node.value = '' + value;
+	        }
+	        // eslint-disable-next-line
+	      } else if (value != node.value) {
+	        // Cast `value` to a string to ensure the value is set correctly. While
+	        // browsers typically do this as necessary, jsdom doesn't.
+	        node.value = '' + value;
 	      }
 	    } else {
 	      if (props.value == null && props.defaultValue != null) {
@@ -24942,9 +24997,9 @@
 	module.exports = ReactDOMInput;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 172 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -24960,8 +25015,11 @@
 	
 	var _prodInvariant = __webpack_require__(98);
 	
-	var React = __webpack_require__(10);
 	var ReactPropTypesSecret = __webpack_require__(173);
+	var propTypesFactory = __webpack_require__(37);
+	
+	var React = __webpack_require__(10);
+	var PropTypes = propTypesFactory(React.isValidElement);
 	
 	var invariant = __webpack_require__(15);
 	var warning = __webpack_require__(18);
@@ -25002,7 +25060,7 @@
 	    }
 	    return new Error('You provided a `checked` prop to a form field without an ' + '`onChange` handler. This will render a read-only field. If ' + 'the field should be mutable use `defaultChecked`. Otherwise, ' + 'set either `onChange` or `readOnly`.');
 	  },
-	  onChange: React.PropTypes.func
+	  onChange: PropTypes.func
 	};
 	
 	var loggedTypeFailures = {};
@@ -25082,11 +25140,11 @@
 	module.exports = LinkedValueUtils;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 173 */
 35,
 /* 174 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -25212,9 +25270,9 @@
 	module.exports = ReactDOMOption;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 175 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -25417,9 +25475,9 @@
 	module.exports = ReactDOMSelect;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 176 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -25582,9 +25640,9 @@
 	module.exports = ReactDOMTextarea;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 177 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -26037,9 +26095,9 @@
 	module.exports = ReactMultiChild;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 178 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -26088,9 +26146,9 @@
 	module.exports = ReactComponentEnvironment;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 179 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -26140,9 +26198,9 @@
 	
 	module.exports = ReactInstanceMap;
 
-/***/ },
+/***/ }),
 /* 180 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -26299,9 +26357,9 @@
 	module.exports = ReactChildReconciler;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 181 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -26330,9 +26388,6 @@
 	var ReactCompositeComponentWrapper = function (element) {
 	  this.construct(element);
 	};
-	_assign(ReactCompositeComponentWrapper.prototype, ReactCompositeComponent, {
-	  _instantiateReactComponent: instantiateReactComponent
-	});
 	
 	function getDeclarationErrorAddendum(owner) {
 	  if (owner) {
@@ -26429,12 +26484,16 @@
 	  return instance;
 	}
 	
+	_assign(ReactCompositeComponentWrapper.prototype, ReactCompositeComponent, {
+	  _instantiateReactComponent: instantiateReactComponent
+	});
+	
 	module.exports = instantiateReactComponent;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 182 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -26952,7 +27011,7 @@
 	    if (childContext) {
 	      !(typeof Component.childContextTypes === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, '%s.getChildContext(): childContextTypes must be defined in order to use getChildContext().', this.getName() || 'ReactCompositeComponent') : _prodInvariant('107', this.getName() || 'ReactCompositeComponent') : void 0;
 	      if (process.env.NODE_ENV !== 'production') {
-	        this._checkContextTypes(Component.childContextTypes, childContext, 'childContext');
+	        this._checkContextTypes(Component.childContextTypes, childContext, 'child context');
 	      }
 	      for (var name in childContext) {
 	        !(name in Component.childContextTypes) ? process.env.NODE_ENV !== 'production' ? invariant(false, '%s.getChildContext(): key "%s" is not defined in childContextTypes.', this.getName() || 'ReactCompositeComponent', name) : _prodInvariant('108', this.getName() || 'ReactCompositeComponent', name) : void 0;
@@ -27339,9 +27398,9 @@
 	module.exports = ReactCompositeComponent;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 183 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -27384,9 +27443,9 @@
 	module.exports = ReactNodeTypes;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 184 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -27476,11 +27535,11 @@
 	module.exports = checkReactTypeSpec;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 185 */
 30,
 /* 186 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -27550,9 +27609,9 @@
 	
 	module.exports = shallowEqual;
 
-/***/ },
+/***/ }),
 /* 187 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -27596,9 +27655,9 @@
 	
 	module.exports = shouldUpdateReactComponent;
 
-/***/ },
+/***/ }),
 /* 188 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -27630,9 +27689,9 @@
 	
 	module.exports = ReactEmptyComponent;
 
-/***/ },
+/***/ }),
 /* 189 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -27703,9 +27762,9 @@
 	module.exports = ReactHostComponent;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 190 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -27728,11 +27787,11 @@
 	
 	module.exports = getNextDebugID;
 
-/***/ },
+/***/ }),
 /* 191 */
 24,
 /* 192 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -27911,13 +27970,13 @@
 	module.exports = traverseAllChildren;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 193 */
 21,
 /* 194 */
 23,
 /* 195 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -27996,9 +28055,9 @@
 	module.exports = flattenChildren;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 196 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -28091,9 +28150,9 @@
 	module.exports = ReactServerRenderingTransaction;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 197 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2015-present, Facebook, Inc.
@@ -28235,9 +28294,9 @@
 	module.exports = ReactServerUpdateQueue;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 198 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2015-present, Facebook, Inc.
@@ -28409,7 +28468,7 @@
 	   * @param {object} completeState Next state.
 	   * @internal
 	   */
-	  enqueueReplaceState: function (publicInstance, completeState) {
+	  enqueueReplaceState: function (publicInstance, completeState, callback) {
 	    var internalInstance = getInternalInstanceReadyForUpdate(publicInstance, 'replaceState');
 	
 	    if (!internalInstance) {
@@ -28418,6 +28477,16 @@
 	
 	    internalInstance._pendingStateQueue = [completeState];
 	    internalInstance._pendingReplaceState = true;
+	
+	    // Future-proof 15.5
+	    if (callback !== undefined && callback !== null) {
+	      ReactUpdateQueue.validateCallback(callback, 'replaceState');
+	      if (internalInstance._pendingCallbacks) {
+	        internalInstance._pendingCallbacks.push(callback);
+	      } else {
+	        internalInstance._pendingCallbacks = [callback];
+	      }
+	    }
 	
 	    enqueueUpdate(internalInstance);
 	  },
@@ -28466,9 +28535,9 @@
 	module.exports = ReactUpdateQueue;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 199 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2015-present, Facebook, Inc.
@@ -28696,16 +28765,11 @@
 	      case 'section':
 	      case 'summary':
 	      case 'ul':
-	
 	      case 'pre':
 	      case 'listing':
-	
 	      case 'table':
-	
 	      case 'hr':
-	
 	      case 'xmp':
-	
 	      case 'h1':
 	      case 'h2':
 	      case 'h3':
@@ -28853,9 +28917,9 @@
 	module.exports = validateDOMNesting;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 200 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2014-present, Facebook, Inc.
@@ -28917,9 +28981,9 @@
 	
 	module.exports = ReactDOMEmptyComponent;
 
-/***/ },
+/***/ }),
 /* 201 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2015-present, Facebook, Inc.
@@ -29058,9 +29122,9 @@
 	};
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 202 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -29227,9 +29291,9 @@
 	module.exports = ReactDOMTextComponent;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 203 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -29299,9 +29363,9 @@
 	
 	module.exports = ReactDefaultBatchingStrategy;
 
-/***/ },
+/***/ }),
 /* 204 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -29458,9 +29522,9 @@
 	
 	module.exports = ReactEventListener;
 
-/***/ },
+/***/ }),
 /* 205 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
@@ -29547,9 +29611,9 @@
 	module.exports = EventListener;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 206 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -29576,10 +29640,10 @@
 	 */
 	
 	function getUnboundedScrollPosition(scrollable) {
-	  if (scrollable === window) {
+	  if (scrollable.Window && scrollable instanceof scrollable.Window) {
 	    return {
-	      x: window.pageXOffset || document.documentElement.scrollLeft,
-	      y: window.pageYOffset || document.documentElement.scrollTop
+	      x: scrollable.pageXOffset || scrollable.document.documentElement.scrollLeft,
+	      y: scrollable.pageYOffset || scrollable.document.documentElement.scrollTop
 	    };
 	  }
 	  return {
@@ -29590,9 +29654,9 @@
 	
 	module.exports = getUnboundedScrollPosition;
 
-/***/ },
+/***/ }),
 /* 207 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -29628,9 +29692,9 @@
 	
 	module.exports = ReactInjection;
 
-/***/ },
+/***/ }),
 /* 208 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -29811,9 +29875,9 @@
 	module.exports = ReactReconcileTransaction;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 209 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -29939,9 +30003,9 @@
 	
 	module.exports = ReactInputSelection;
 
-/***/ },
+/***/ }),
 /* 210 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -30155,9 +30219,9 @@
 	
 	module.exports = ReactDOMSelection;
 
-/***/ },
+/***/ }),
 /* 211 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -30233,9 +30297,9 @@
 	
 	module.exports = getNodeForCharacterOffset;
 
-/***/ },
+/***/ }),
 /* 212 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -30277,9 +30341,9 @@
 	
 	module.exports = containsNode;
 
-/***/ },
+/***/ }),
 /* 213 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -30306,9 +30370,9 @@
 	
 	module.exports = isTextNode;
 
-/***/ },
+/***/ }),
 /* 214 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -30328,14 +30392,16 @@
 	 * @return {boolean} Whether or not the object is a DOM node.
 	 */
 	function isNode(object) {
-	  return !!(object && (typeof Node === 'function' ? object instanceof Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
+	  var doc = object ? object.ownerDocument || object : document;
+	  var defaultView = doc.defaultView || window;
+	  return !!(object && (typeof defaultView.Node === 'function' ? object instanceof defaultView.Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
 	}
 	
 	module.exports = isNode;
 
-/***/ },
+/***/ }),
 /* 215 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -30358,23 +30424,27 @@
 	 *
 	 * The activeElement will be null only if the document or document body is not
 	 * yet defined.
+	 *
+	 * @param {?DOMDocument} doc Defaults to current document.
+	 * @return {?DOMElement}
 	 */
-	function getActiveElement() /*?DOMElement*/{
-	  if (typeof document === 'undefined') {
+	function getActiveElement(doc) /*?DOMElement*/{
+	  doc = doc || (typeof document !== 'undefined' ? document : undefined);
+	  if (typeof doc === 'undefined') {
 	    return null;
 	  }
 	  try {
-	    return document.activeElement || document.body;
+	    return doc.activeElement || doc.body;
 	  } catch (e) {
-	    return document.body;
+	    return doc.body;
 	  }
 	}
 	
 	module.exports = getActiveElement;
 
-/***/ },
+/***/ }),
 /* 216 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -30678,9 +30748,9 @@
 	
 	module.exports = SVGDOMPropertyConfig;
 
-/***/ },
+/***/ }),
 /* 217 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -30873,9 +30943,9 @@
 	
 	module.exports = SelectEventPlugin;
 
-/***/ },
+/***/ }),
 /* 218 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31106,9 +31176,9 @@
 	module.exports = SimpleEventPlugin;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 219 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31149,9 +31219,9 @@
 	
 	module.exports = SyntheticAnimationEvent;
 
-/***/ },
+/***/ }),
 /* 220 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31191,9 +31261,9 @@
 	
 	module.exports = SyntheticClipboardEvent;
 
-/***/ },
+/***/ }),
 /* 221 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31231,9 +31301,9 @@
 	
 	module.exports = SyntheticFocusEvent;
 
-/***/ },
+/***/ }),
 /* 222 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31319,9 +31389,9 @@
 	
 	module.exports = SyntheticKeyboardEvent;
 
-/***/ },
+/***/ }),
 /* 223 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31373,9 +31443,9 @@
 	
 	module.exports = getEventCharCode;
 
-/***/ },
+/***/ }),
 /* 224 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31479,9 +31549,9 @@
 	
 	module.exports = getEventKey;
 
-/***/ },
+/***/ }),
 /* 225 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31519,9 +31589,9 @@
 	
 	module.exports = SyntheticDragEvent;
 
-/***/ },
+/***/ }),
 /* 226 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31568,9 +31638,9 @@
 	
 	module.exports = SyntheticTouchEvent;
 
-/***/ },
+/***/ }),
 /* 227 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31611,9 +31681,9 @@
 	
 	module.exports = SyntheticTransitionEvent;
 
-/***/ },
+/***/ }),
 /* 228 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -31669,9 +31739,9 @@
 	
 	module.exports = SyntheticWheelEvent;
 
-/***/ },
+/***/ }),
 /* 229 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32212,9 +32282,9 @@
 	module.exports = ReactMount;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 230 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32250,9 +32320,9 @@
 	module.exports = ReactDOMContainerInfo;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 231 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32273,9 +32343,9 @@
 	
 	module.exports = ReactDOMFeatureFlags;
 
-/***/ },
+/***/ }),
 /* 232 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32327,9 +32397,9 @@
 	
 	module.exports = ReactMarkupChecksum;
 
-/***/ },
+/***/ }),
 /* 233 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32375,11 +32445,11 @@
 	
 	module.exports = adler32;
 
-/***/ },
+/***/ }),
 /* 234 */
-37,
+41,
 /* 235 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32442,9 +32512,9 @@
 	module.exports = findDOMNode;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 236 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32476,9 +32546,9 @@
 	
 	module.exports = getHostComponentFromComposite;
 
-/***/ },
+/***/ }),
 /* 237 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32496,9 +32566,9 @@
 	
 	module.exports = ReactMount.renderSubtreeIntoContainer;
 
-/***/ },
+/***/ }),
 /* 238 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32613,9 +32683,9 @@
 	module.exports = ReactDOMUnknownPropertyHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 239 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32661,9 +32731,9 @@
 	module.exports = ReactDOMNullInputValuePropHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 240 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -32759,9 +32829,9 @@
 	module.exports = ReactDOMInvalidARIAHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 241 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -33005,9 +33075,9 @@
 	
 	module.exports = mapObject(UserAgent, memoizeStringOnly);
 
-/***/ },
+/***/ }),
 /* 242 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -33092,9 +33162,9 @@
 	
 	module.exports = uaData;
 
-/***/ },
+/***/ }),
 /* 243 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/**
 	 * UAParser.js v0.7.12
@@ -34013,17 +34083,17 @@
 	})(typeof window === 'object' ? window : this);
 
 
-/***/ },
+/***/ }),
 /* 244 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
-/***/ },
+/***/ }),
 /* 245 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -34409,9 +34479,9 @@
 	module.exports = VersionRange;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
+/***/ }),
 /* 246 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -34464,11 +34534,11 @@
 	
 	module.exports = mapObject;
 
-/***/ },
+/***/ }),
 /* 247 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {/**
+	/* WEBPACK VAR INJECTION */(function(process, global) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -34483,8 +34553,57 @@
 	
 	'use strict';
 	
+	var DraftJsDebugLogging = __webpack_require__(248);
 	var containsNode = __webpack_require__(212);
 	var getActiveElement = __webpack_require__(215);
+	var invariant = __webpack_require__(15);
+	
+	function getAnonymizedDOM(node) {
+	  if (!node) {
+	    return '[empty]';
+	  }
+	
+	  var anonymized = anonymizeText(node);
+	  if (anonymized.nodeType === Node.TEXT_NODE) {
+	    return anonymized.textContent;
+	  }
+	
+	  !(anonymized instanceof Element) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Node must be an Element if it is not a text node.') : invariant(false) : void 0;
+	  return anonymized.innerHTML;
+	}
+	
+	function anonymizeText(node) {
+	  if (node.nodeType === Node.TEXT_NODE) {
+	    var length = node.textContent.length;
+	    return document.createTextNode('[text ' + length + ']');
+	  }
+	
+	  var clone = node.cloneNode();
+	  var childNodes = node.childNodes;
+	  for (var ii = 0; ii < childNodes.length; ii++) {
+	    clone.appendChild(anonymizeText(childNodes[ii]));
+	  }
+	
+	  return clone;
+	}
+	
+	function getAnonymizedEditorDOM(node) {
+	  // grabbing the DOM content of the Draft editor
+	  var currentNode = node;
+	  while (currentNode) {
+	    if (currentNode instanceof Element && currentNode.hasAttribute('contenteditable')) {
+	      // found the Draft editor container
+	      return getAnonymizedDOM(currentNode);
+	    } else {
+	      currentNode = currentNode.parentNode;
+	    }
+	  }
+	  return 'Could not find contentEditable parent of node';
+	}
+	
+	function getNodeLength(node) {
+	  return node.nodeValue === null ? node.childNodes.length : node.nodeValue.length;
+	}
 	
 	/**
 	 * In modern non-IE browsers, we can support both forward and backward
@@ -34529,8 +34648,8 @@
 	  // and be done.
 	  if (hasAnchor && hasFocus) {
 	    selection.removeAllRanges();
-	    addPointToSelection(selection, node, anchorOffset - nodeStart);
-	    addFocusToSelection(selection, node, focusOffset - nodeStart);
+	    addPointToSelection(selection, node, anchorOffset - nodeStart, selectionState);
+	    addFocusToSelection(selection, node, focusOffset - nodeStart, selectionState);
 	    return;
 	  }
 	
@@ -34538,14 +34657,14 @@
 	    // If the anchor is within this node, set the range start.
 	    if (hasAnchor) {
 	      selection.removeAllRanges();
-	      addPointToSelection(selection, node, anchorOffset - nodeStart);
+	      addPointToSelection(selection, node, anchorOffset - nodeStart, selectionState);
 	    }
 	
 	    // If the focus is within this node, we can assume that we have
 	    // already set the appropriate start range on the selection, and
 	    // can simply extend the selection.
 	    if (hasFocus) {
-	      addFocusToSelection(selection, node, focusOffset - nodeStart);
+	      addFocusToSelection(selection, node, focusOffset - nodeStart, selectionState);
 	    }
 	  } else {
 	    // If this node has the focus, set the selection range to be a
@@ -34553,7 +34672,7 @@
 	    // we'll use this information to extend the selection.
 	    if (hasFocus) {
 	      selection.removeAllRanges();
-	      addPointToSelection(selection, node, focusOffset - nodeStart);
+	      addPointToSelection(selection, node, focusOffset - nodeStart, selectionState);
 	    }
 	
 	    // If this node has the anchor, we may assume that the correct
@@ -34565,8 +34684,8 @@
 	      var storedFocusOffset = selection.focusOffset;
 	
 	      selection.removeAllRanges();
-	      addPointToSelection(selection, node, anchorOffset - nodeStart);
-	      addFocusToSelection(selection, storedFocusNode, storedFocusOffset);
+	      addPointToSelection(selection, node, anchorOffset - nodeStart, selectionState);
+	      addFocusToSelection(selection, storedFocusNode, storedFocusOffset, selectionState);
 	    }
 	  }
 	}
@@ -34574,13 +34693,23 @@
 	/**
 	 * Extend selection towards focus point.
 	 */
-	function addFocusToSelection(selection, node, offset) {
+	function addFocusToSelection(selection, node, offset, selectionState) {
 	  if (selection.extend && containsNode(getActiveElement(), node)) {
 	    // If `extend` is called while another element has focus, an error is
 	    // thrown. We therefore disable `extend` if the active element is somewhere
 	    // other than the node we are selecting. This should only occur in Firefox,
 	    // since it is the only browser to support multiple selections.
 	    // See https://bugzilla.mozilla.org/show_bug.cgi?id=921444.
+	
+	    // logging to catch bug that is being reported in t16250795
+	    if (offset > getNodeLength(node)) {
+	      // the call to 'selection.extend' is about to throw
+	      DraftJsDebugLogging.logSelectionStateFailure({
+	        anonymizedDom: getAnonymizedEditorDOM(node),
+	        extraParams: JSON.stringify({ offset: offset }),
+	        selectionState: JSON.stringify(selectionState.toJS())
+	      });
+	    }
 	    selection.extend(node, offset);
 	  } else {
 	    // IE doesn't support extend. This will mean no backward selection.
@@ -34594,18 +34723,50 @@
 	  }
 	}
 	
-	function addPointToSelection(selection, node, offset) {
+	function addPointToSelection(selection, node, offset, selectionState) {
 	  var range = document.createRange();
+	  // logging to catch bug that is being reported in t16250795
+	  if (offset > getNodeLength(node)) {
+	    // in this case we know that the call to 'range.setStart' is about to throw
+	    DraftJsDebugLogging.logSelectionStateFailure({
+	      anonymizedDom: getAnonymizedEditorDOM(node),
+	      extraParams: JSON.stringify({ offset: offset }),
+	      selectionState: JSON.stringify(selectionState.toJS())
+	    });
+	  }
 	  range.setStart(node, offset);
 	  selection.addRange(range);
 	}
 	
 	module.exports = setDraftEditorSelection;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 248 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule DraftJsDebugLogging
+	 */
+	
+	'use strict';
+	
+	module.exports = {
+	  logSelectionStateFailure: function logSelectionStateFailure() {
+	    return null;
+	  }
+	};
+
+/***/ }),
+/* 249 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -34645,9 +34806,9 @@
 	
 	module.exports = DraftOffsetKey;
 
-/***/ },
-/* 249 */
-/***/ function(module, exports) {
+/***/ }),
+/* 250 */
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -34735,9 +34896,9 @@
 	
 	module.exports = Scroll;
 
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -34752,7 +34913,7 @@
 	 * @typechecks
 	 */
 	
-	var getStyleProperty = __webpack_require__(251);
+	var getStyleProperty = __webpack_require__(252);
 	
 	/**
 	 * @param {DOMNode} element [description]
@@ -34790,22 +34951,23 @@
 	    if (!node) {
 	      return null;
 	    }
-	    while (node && node !== document.body) {
+	    var ownerDocument = node.ownerDocument;
+	    while (node && node !== ownerDocument.body) {
 	      if (_isNodeScrollable(node, 'overflow') || _isNodeScrollable(node, 'overflowY') || _isNodeScrollable(node, 'overflowX')) {
 	        return node;
 	      }
 	      node = node.parentNode;
 	    }
-	    return window;
+	    return ownerDocument.defaultView || ownerDocument.parentWindow;
 	  }
 	
 	};
 	
 	module.exports = Style;
 
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -34861,9 +35023,9 @@
 	
 	module.exports = getStyleProperty;
 
-/***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -34878,7 +35040,7 @@
 	 * @typechecks
 	 */
 	
-	var getElementRect = __webpack_require__(253);
+	var getElementRect = __webpack_require__(254);
 	
 	/**
 	 * Gets an element's position in pixels relative to the viewport. The returned
@@ -34899,9 +35061,9 @@
 	
 	module.exports = getElementPosition;
 
-/***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 254 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -34925,7 +35087,7 @@
 	 * @return {object}
 	 */
 	function getElementRect(elem) {
-	  var docElem = document.documentElement;
+	  var docElem = elem.ownerDocument.documentElement;
 	
 	  // FF 2, Safari 3 and Opera 9.5- do not support getBoundingClientRect().
 	  // IE9- will throw if the element is not in the document.
@@ -34954,9 +35116,9 @@
 	
 	module.exports = getElementRect;
 
-/***/ },
-/* 254 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -34971,7 +35133,7 @@
 	
 	'use strict';
 	
-	var getDocumentScrollElement = __webpack_require__(255);
+	var getDocumentScrollElement = __webpack_require__(256);
 	var getUnboundedScrollPosition = __webpack_require__(206);
 	
 	/**
@@ -34987,13 +35149,13 @@
 	 * @return {object} Map with `x` and `y` keys.
 	 */
 	function getScrollPosition(scrollable) {
-	  var documentScrollElement = getDocumentScrollElement();
-	  if (scrollable === window) {
+	  var documentScrollElement = getDocumentScrollElement(scrollable.ownerDocument || scrollable.document);
+	  if (scrollable.Window && scrollable instanceof scrollable.Window) {
 	    scrollable = documentScrollElement;
 	  }
 	  var scrollPosition = getUnboundedScrollPosition(scrollable);
 	
-	  var viewport = scrollable === documentScrollElement ? document.documentElement : scrollable;
+	  var viewport = scrollable === documentScrollElement ? scrollable.ownerDocument.documentElement : scrollable;
 	
 	  var xMax = scrollable.scrollWidth - viewport.clientWidth;
 	  var yMax = scrollable.scrollHeight - viewport.clientHeight;
@@ -35006,9 +35168,9 @@
 	
 	module.exports = getScrollPosition;
 
-/***/ },
-/* 255 */
-/***/ function(module, exports) {
+/***/ }),
+/* 256 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35041,9 +35203,9 @@
 	
 	module.exports = getDocumentScrollElement;
 
-/***/ },
-/* 256 */
-/***/ function(module, exports) {
+/***/ }),
+/* 257 */
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -35105,9 +35267,9 @@
 	
 	module.exports = getViewportDimensions;
 
-/***/ },
-/* 257 */
-/***/ function(module, exports) {
+/***/ }),
+/* 258 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35149,9 +35311,9 @@
 	
 	module.exports = joinClasses;
 
-/***/ },
-/* 258 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 259 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35168,16 +35330,16 @@
 	
 	'use strict';
 	
-	var DataTransfer = __webpack_require__(259);
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
+	var DataTransfer = __webpack_require__(260);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
 	
-	var findAncestorOffsetKey = __webpack_require__(261);
-	var getTextContentFromFiles = __webpack_require__(263);
-	var getUpdatedSelectionState = __webpack_require__(264);
-	var nullthrows = __webpack_require__(81);
+	var findAncestorOffsetKey = __webpack_require__(262);
+	var getTextContentFromFiles = __webpack_require__(264);
+	var getUpdatedSelectionState = __webpack_require__(265);
+	var nullthrows = __webpack_require__(80);
 	
-	var isEventHandled = __webpack_require__(265);
+	var isEventHandled = __webpack_require__(266);
 	
 	/**
 	 * Get a SelectionState for the supplied mouse event.
@@ -35235,8 +35397,7 @@
 	      }
 	
 	      getTextContentFromFiles(files, function (fileText) {
-	        fileText && editor.update(insertTextAtSelection(editorState, nullthrows(dropSelection), // flow wtf
-	        fileText));
+	        fileText && editor.update(insertTextAtSelection(editorState, dropSelection, fileText));
 	      });
 	      return;
 	    }
@@ -35271,9 +35432,9 @@
 	
 	module.exports = DraftEditorDragHandler;
 
-/***/ },
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -35290,7 +35451,7 @@
 	 * @typechecks
 	 */
 	
-	var PhotosMimeType = __webpack_require__(260);
+	var PhotosMimeType = __webpack_require__(261);
 	
 	var createArrayFromMixed = __webpack_require__(152);
 	var emptyFunction = __webpack_require__(19);
@@ -35497,9 +35658,9 @@
 	
 	module.exports = DataTransfer;
 
-/***/ },
-/* 260 */
-/***/ function(module, exports) {
+/***/ }),
+/* 261 */
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -35530,9 +35691,9 @@
 	
 	module.exports = PhotosMimeType;
 
-/***/ },
-/* 261 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35549,7 +35710,7 @@
 	
 	'use strict';
 	
-	var getSelectionOffsetKeyForNode = __webpack_require__(262);
+	var getSelectionOffsetKeyForNode = __webpack_require__(263);
 	
 	/**
 	 * Get the key from the node's nearest offset-aware ancestor.
@@ -35568,9 +35729,9 @@
 	
 	module.exports = findAncestorOffsetKey;
 
-/***/ },
-/* 262 */
-/***/ function(module, exports) {
+/***/ }),
+/* 263 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35610,9 +35771,9 @@
 	
 	module.exports = getSelectionOffsetKeyForNode;
 
-/***/ },
-/* 263 */
-/***/ function(module, exports) {
+/***/ }),
+/* 264 */
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35691,9 +35852,9 @@
 	module.exports = getTextContentFromFiles;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
-/* 264 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35709,9 +35870,9 @@
 	
 	'use strict';
 	
-	var DraftOffsetKey = __webpack_require__(248);
+	var DraftOffsetKey = __webpack_require__(249);
 	
-	var nullthrows = __webpack_require__(81);
+	var nullthrows = __webpack_require__(80);
 	
 	function getUpdatedSelectionState(editorState, anchorKey, anchorOffset, focusKey, focusOffset) {
 	  var selection = nullthrows(editorState.getSelection());
@@ -35772,9 +35933,9 @@
 	module.exports = getUpdatedSelectionState;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 265 */
-/***/ function(module, exports) {
+/***/ }),
+/* 266 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35801,9 +35962,9 @@
 	
 	module.exports = isEventHandled;
 
-/***/ },
-/* 266 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 267 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35819,18 +35980,18 @@
 	
 	'use strict';
 	
-	var onBeforeInput = __webpack_require__(267);
-	var onBlur = __webpack_require__(269);
-	var onCompositionStart = __webpack_require__(270);
-	var onCopy = __webpack_require__(271);
-	var onCut = __webpack_require__(273);
-	var onDragOver = __webpack_require__(274);
-	var onDragStart = __webpack_require__(275);
-	var onFocus = __webpack_require__(276);
-	var onInput = __webpack_require__(277);
-	var onKeyDown = __webpack_require__(278);
-	var onPaste = __webpack_require__(300);
-	var onSelect = __webpack_require__(306);
+	var onBeforeInput = __webpack_require__(268);
+	var onBlur = __webpack_require__(270);
+	var onCompositionStart = __webpack_require__(271);
+	var onCopy = __webpack_require__(272);
+	var onCut = __webpack_require__(274);
+	var onDragOver = __webpack_require__(275);
+	var onDragStart = __webpack_require__(276);
+	var onFocus = __webpack_require__(277);
+	var onInput = __webpack_require__(278);
+	var onKeyDown = __webpack_require__(279);
+	var onPaste = __webpack_require__(301);
+	var onSelect = __webpack_require__(307);
 	
 	var DraftEditorEditHandler = {
 	  onBeforeInput: onBeforeInput,
@@ -35849,9 +36010,9 @@
 	
 	module.exports = DraftEditorEditHandler;
 
-/***/ },
-/* 267 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 268 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -35867,17 +36028,17 @@
 	
 	'use strict';
 	
-	var BlockTree = __webpack_require__(71);
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
+	var BlockTree = __webpack_require__(70);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
 	var UserAgent = __webpack_require__(241);
 	
 	var getEntityKeyForSelection = __webpack_require__(89);
 	var isSelectionAtLeafStart = __webpack_require__(90);
-	var nullthrows = __webpack_require__(81);
-	var setImmediate = __webpack_require__(268);
+	var nullthrows = __webpack_require__(80);
+	var setImmediate = __webpack_require__(269);
 	
-	var isEventHandled = __webpack_require__(265);
+	var isEventHandled = __webpack_require__(266);
 	
 	// When nothing is focused, Firefox regards two characters, `'` and `/`, as
 	// commands that should open and focus the "quickfind" search bar. This should
@@ -35918,6 +36079,8 @@
 	    editor._pendingStateFromBeforeInput = undefined;
 	  }
 	
+	  var editorState = editor._latestEditorState;
+	
 	  var chars = e.data;
 	
 	  // In some cases (ex: IE ideographic space insertion) no character data
@@ -35931,7 +36094,7 @@
 	  // Simple examples: replacing a raw text ':)' with a smile emoji or image
 	  // decorator, or setting a block to be a list item after typing '- ' at the
 	  // start of the block.
-	  if (editor.props.handleBeforeInput && isEventHandled(editor.props.handleBeforeInput(chars))) {
+	  if (editor.props.handleBeforeInput && isEventHandled(editor.props.handleBeforeInput(chars, editorState))) {
 	    e.preventDefault();
 	    return;
 	  }
@@ -35939,7 +36102,6 @@
 	  // If selection is collapsed, conditionally allow native behavior. This
 	  // reduces re-renders and preserves spellcheck highlighting. If the selection
 	  // is not collapsed, we will re-render.
-	  var editorState = editor._latestEditorState;
 	  var selection = editorState.getSelection();
 	
 	  if (!selection.isCollapsed()) {
@@ -35989,9 +36151,9 @@
 	
 	module.exports = editOnBeforeInput;
 
-/***/ },
-/* 268 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36012,9 +36174,9 @@
 	module.exports = global.setImmediate;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 270 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36030,7 +36192,7 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
+	var EditorState = __webpack_require__(69);
 	var UserAgent = __webpack_require__(241);
 	
 	var getActiveElement = __webpack_require__(215);
@@ -36062,9 +36224,9 @@
 	module.exports = editOnBlur;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
-/* 270 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 271 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36080,7 +36242,7 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
+	var EditorState = __webpack_require__(69);
 	
 	/**
 	 * The user has begun using an IME input system. Switching to `composite` mode
@@ -36095,9 +36257,9 @@
 	
 	module.exports = editOnCompositionStart;
 
-/***/ },
-/* 271 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 272 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36113,7 +36275,7 @@
 	
 	'use strict';
 	
-	var getFragmentFromSelection = __webpack_require__(272);
+	var getFragmentFromSelection = __webpack_require__(273);
 	
 	/**
 	 * If we have a selection, create a ContentState fragment and store
@@ -36135,9 +36297,9 @@
 	
 	module.exports = editOnCopy;
 
-/***/ },
-/* 272 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 273 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36153,7 +36315,7 @@
 	
 	'use strict';
 	
-	var getContentStateFragment = __webpack_require__(61);
+	var getContentStateFragment = __webpack_require__(60);
 	
 	function getFragmentFromSelection(editorState) {
 	  var selectionState = editorState.getSelection();
@@ -36167,9 +36329,9 @@
 	
 	module.exports = getFragmentFromSelection;
 
-/***/ },
-/* 273 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 274 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36185,12 +36347,12 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
-	var Style = __webpack_require__(250);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
+	var Style = __webpack_require__(251);
 	
-	var getFragmentFromSelection = __webpack_require__(272);
-	var getScrollPosition = __webpack_require__(254);
+	var getFragmentFromSelection = __webpack_require__(273);
+	var getScrollPosition = __webpack_require__(255);
 	
 	/**
 	 * On `cut` events, native behavior is allowed to occur so that the system
@@ -36242,9 +36404,9 @@
 	
 	module.exports = editOnCut;
 
-/***/ },
-/* 274 */
-/***/ function(module, exports) {
+/***/ }),
+/* 275 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36271,9 +36433,9 @@
 	
 	module.exports = editOnDragOver;
 
-/***/ },
-/* 275 */
-/***/ function(module, exports) {
+/***/ }),
+/* 276 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36299,9 +36461,9 @@
 	
 	module.exports = editOnDragStart;
 
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36317,7 +36479,7 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
+	var EditorState = __webpack_require__(69);
 	
 	function editOnFocus(editor, e) {
 	  var editorState = editor._latestEditorState;
@@ -36340,9 +36502,9 @@
 	
 	module.exports = editOnFocus;
 
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 278 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36358,13 +36520,14 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
-	var DraftOffsetKey = __webpack_require__(248);
-	var EditorState = __webpack_require__(70);
+	var DraftFeatureFlags = __webpack_require__(54);
+	var DraftModifier = __webpack_require__(52);
+	var DraftOffsetKey = __webpack_require__(249);
+	var EditorState = __webpack_require__(69);
 	var UserAgent = __webpack_require__(241);
 	
-	var findAncestorOffsetKey = __webpack_require__(261);
-	var nullthrows = __webpack_require__(81);
+	var findAncestorOffsetKey = __webpack_require__(262);
+	var nullthrows = __webpack_require__(80);
 	
 	var isGecko = UserAgent.isEngine('Gecko');
 	
@@ -36393,8 +36556,32 @@
 	  var anchorNode = domSelection.anchorNode;
 	  var isCollapsed = domSelection.isCollapsed;
 	
-	  if (anchorNode.nodeType !== Node.TEXT_NODE) {
-	    return;
+	  var isNotTextNode = anchorNode.nodeType !== Node.TEXT_NODE;
+	  var isNotTextOrElementNode = anchorNode.nodeType !== Node.TEXT_NODE && anchorNode.nodeType !== Node.ELEMENT_NODE;
+	
+	  if (DraftFeatureFlags.draft_killswitch_allow_nontextnodes) {
+	    if (isNotTextNode) {
+	      return;
+	    }
+	  } else {
+	    if (isNotTextOrElementNode) {
+	      // TODO: (t16149272) figure out context for this change
+	      return;
+	    }
+	  }
+	
+	  if (anchorNode.nodeType === Node.TEXT_NODE && (anchorNode.previousSibling !== null || anchorNode.nextSibling !== null)) {
+	    // When typing at the beginning of a visual line, Chrome splits the text
+	    // nodes into two. Why? No one knows. This commit is suspicious:
+	    // https://chromium.googlesource.com/chromium/src/+/a3b600981286b135632371477f902214c55a1724
+	    // To work around, we'll merge the sibling text nodes back into this one.
+	    var span = anchorNode.parentNode;
+	    anchorNode.nodeValue = span.textContent;
+	    for (var child = span.firstChild; child !== null; child = child.nextSibling) {
+	      if (child !== anchorNode) {
+	        span.removeChild(child);
+	      }
+	    }
 	  }
 	
 	  var domText = anchorNode.textContent;
@@ -36491,9 +36678,9 @@
 	module.exports = editOnInput;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 279 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36509,25 +36696,25 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
-	var KeyBindingUtil = __webpack_require__(279);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
+	var KeyBindingUtil = __webpack_require__(280);
 	var Keys = __webpack_require__(88);
-	var SecondaryClipboard = __webpack_require__(280);
+	var SecondaryClipboard = __webpack_require__(281);
 	var UserAgent = __webpack_require__(241);
 	
-	var keyCommandBackspaceToStartOfLine = __webpack_require__(281);
-	var keyCommandBackspaceWord = __webpack_require__(288);
-	var keyCommandDeleteWord = __webpack_require__(291);
-	var keyCommandInsertNewline = __webpack_require__(293);
-	var keyCommandPlainBackspace = __webpack_require__(294);
-	var keyCommandPlainDelete = __webpack_require__(295);
-	var keyCommandMoveSelectionToEndOfBlock = __webpack_require__(296);
-	var keyCommandMoveSelectionToStartOfBlock = __webpack_require__(297);
-	var keyCommandTransposeCharacters = __webpack_require__(298);
-	var keyCommandUndo = __webpack_require__(299);
+	var keyCommandBackspaceToStartOfLine = __webpack_require__(282);
+	var keyCommandBackspaceWord = __webpack_require__(289);
+	var keyCommandDeleteWord = __webpack_require__(292);
+	var keyCommandInsertNewline = __webpack_require__(294);
+	var keyCommandPlainBackspace = __webpack_require__(295);
+	var keyCommandPlainDelete = __webpack_require__(296);
+	var keyCommandMoveSelectionToEndOfBlock = __webpack_require__(297);
+	var keyCommandMoveSelectionToStartOfBlock = __webpack_require__(298);
+	var keyCommandTransposeCharacters = __webpack_require__(299);
+	var keyCommandUndo = __webpack_require__(300);
 	
-	var isEventHandled = __webpack_require__(265);
+	var isEventHandled = __webpack_require__(266);
 	
 	var isOptionKeyCommand = KeyBindingUtil.isOptionKeyCommand;
 	
@@ -36585,7 +36772,7 @@
 	      e.preventDefault();
 	      // The top-level component may manually handle newline insertion. If
 	      // no special handling is performed, fall through to command handling.
-	      if (editor.props.handleReturn && isEventHandled(editor.props.handleReturn(e))) {
+	      if (editor.props.handleReturn && isEventHandled(editor.props.handleReturn(e, editorState))) {
 	        return;
 	      }
 	      break;
@@ -36632,7 +36819,7 @@
 	  e.preventDefault();
 	
 	  // Allow components higher up the tree to handle the command first.
-	  if (editor.props.handleKeyCommand && isEventHandled(editor.props.handleKeyCommand(command))) {
+	  if (editor.props.handleKeyCommand && isEventHandled(editor.props.handleKeyCommand(command, editorState))) {
 	    return;
 	  }
 	
@@ -36644,9 +36831,9 @@
 	
 	module.exports = editOnKeyDown;
 
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 280 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36688,9 +36875,9 @@
 	
 	module.exports = KeyBindingUtil;
 
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 281 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36706,11 +36893,11 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
 	
-	var getContentStateFragment = __webpack_require__(61);
-	var nullthrows = __webpack_require__(81);
+	var getContentStateFragment = __webpack_require__(60);
+	var nullthrows = __webpack_require__(80);
 	
 	var clipboard = null;
 	
@@ -36762,9 +36949,9 @@
 	
 	module.exports = SecondaryClipboard;
 
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 282 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -36780,12 +36967,12 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
+	var EditorState = __webpack_require__(69);
 	
-	var expandRangeToStartOfLine = __webpack_require__(282);
-	var getDraftEditorSelectionWithNodes = __webpack_require__(285);
-	var moveSelectionBackward = __webpack_require__(286);
-	var removeTextWithStrategy = __webpack_require__(287);
+	var expandRangeToStartOfLine = __webpack_require__(283);
+	var getDraftEditorSelectionWithNodes = __webpack_require__(286);
+	var moveSelectionBackward = __webpack_require__(287);
+	var removeTextWithStrategy = __webpack_require__(288);
 	
 	function keyCommandBackspaceToStartOfLine(editorState) {
 	  var afterRemoval = removeTextWithStrategy(editorState, function (strategyState) {
@@ -36811,9 +36998,9 @@
 	module.exports = keyCommandBackspaceToStartOfLine;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
-/* 282 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 283 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
@@ -36830,9 +37017,9 @@
 	 * 
 	 */
 	
-	var UnicodeUtils = __webpack_require__(283);
+	var UnicodeUtils = __webpack_require__(284);
 	
-	var getRangeClientRects = __webpack_require__(284);
+	var getRangeClientRects = __webpack_require__(285);
 	var invariant = __webpack_require__(15);
 	
 	/**
@@ -36849,10 +37036,13 @@
 	  div.style.position = 'absolute';
 	  div.textContent = 'M';
 	
+	  var documentBody = document.body;
+	  !documentBody ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Missing document.body') : invariant(false) : void 0;
+	
 	  // forced layout here
-	  document.body.appendChild(div);
+	  documentBody.appendChild(div);
 	  var rect = div.getBoundingClientRect();
-	  document.body.removeChild(div);
+	  documentBody.removeChild(div);
 	
 	  return rect.height;
 	}
@@ -37006,9 +37196,9 @@
 	module.exports = expandRangeToStartOfLine;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 283 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 284 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37226,9 +37416,9 @@
 	module.exports = UnicodeUtils;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 285 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37295,9 +37485,9 @@
 	module.exports = getRangeClientRects;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 285 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37314,11 +37504,11 @@
 	
 	'use strict';
 	
-	var findAncestorOffsetKey = __webpack_require__(261);
-	var getSelectionOffsetKeyForNode = __webpack_require__(262);
-	var getUpdatedSelectionState = __webpack_require__(264);
+	var findAncestorOffsetKey = __webpack_require__(262);
+	var getSelectionOffsetKeyForNode = __webpack_require__(263);
+	var getUpdatedSelectionState = __webpack_require__(265);
 	var invariant = __webpack_require__(15);
-	var nullthrows = __webpack_require__(81);
+	var nullthrows = __webpack_require__(80);
 	
 	/**
 	 * Convert the current selection range to an anchor/focus pair of offset keys
@@ -37480,9 +37670,9 @@
 	module.exports = getDraftEditorSelectionWithNodes;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 286 */
-/***/ function(module, exports) {
+/***/ }),
+/* 287 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37537,9 +37727,9 @@
 	
 	module.exports = moveSelectionBackward;
 
-/***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 288 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37555,7 +37745,7 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
+	var DraftModifier = __webpack_require__(52);
 	
 	/**
 	 * For a collapsed selection state, remove text based on the specified strategy.
@@ -37584,9 +37774,9 @@
 	
 	module.exports = removeTextWithStrategy;
 
-/***/ },
-/* 288 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 289 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37602,11 +37792,11 @@
 	
 	'use strict';
 	
-	var DraftRemovableWord = __webpack_require__(289);
-	var EditorState = __webpack_require__(70);
+	var DraftRemovableWord = __webpack_require__(290);
+	var EditorState = __webpack_require__(69);
 	
-	var moveSelectionBackward = __webpack_require__(286);
-	var removeTextWithStrategy = __webpack_require__(287);
+	var moveSelectionBackward = __webpack_require__(287);
+	var removeTextWithStrategy = __webpack_require__(288);
 	
 	/**
 	 * Delete the word that is left of the cursor, as well as any spaces or
@@ -37636,9 +37826,9 @@
 	
 	module.exports = keyCommandBackspaceWord;
 
-/***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37655,7 +37845,7 @@
 	
 	'use strict';
 	
-	var TokenizeUtil = __webpack_require__(290);
+	var TokenizeUtil = __webpack_require__(291);
 	
 	var punctuation = TokenizeUtil.getPunctuation();
 	
@@ -37692,9 +37882,9 @@
 	
 	module.exports = DraftRemovableWord;
 
-/***/ },
-/* 290 */
-/***/ function(module, exports) {
+/***/ }),
+/* 291 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37734,9 +37924,9 @@
 	  }
 	};
 
-/***/ },
-/* 291 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 292 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37752,11 +37942,11 @@
 	
 	'use strict';
 	
-	var DraftRemovableWord = __webpack_require__(289);
-	var EditorState = __webpack_require__(70);
+	var DraftRemovableWord = __webpack_require__(290);
+	var EditorState = __webpack_require__(69);
 	
-	var moveSelectionForward = __webpack_require__(292);
-	var removeTextWithStrategy = __webpack_require__(287);
+	var moveSelectionForward = __webpack_require__(293);
+	var removeTextWithStrategy = __webpack_require__(288);
 	
 	/**
 	 * Delete the word that is right of the cursor, as well as any spaces or
@@ -37784,9 +37974,9 @@
 	
 	module.exports = keyCommandDeleteWord;
 
-/***/ },
-/* 292 */
-/***/ function(module, exports) {
+/***/ }),
+/* 293 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37833,9 +38023,9 @@
 	
 	module.exports = moveSelectionForward;
 
-/***/ },
-/* 293 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 294 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37851,8 +38041,8 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
 	
 	function keyCommandInsertNewline(editorState) {
 	  var contentState = DraftModifier.splitBlock(editorState.getCurrentContent(), editorState.getSelection());
@@ -37861,9 +38051,9 @@
 	
 	module.exports = keyCommandInsertNewline;
 
-/***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37879,11 +38069,11 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
-	var UnicodeUtils = __webpack_require__(283);
+	var EditorState = __webpack_require__(69);
+	var UnicodeUtils = __webpack_require__(284);
 	
-	var moveSelectionBackward = __webpack_require__(286);
-	var removeTextWithStrategy = __webpack_require__(287);
+	var moveSelectionBackward = __webpack_require__(287);
+	var removeTextWithStrategy = __webpack_require__(288);
 	
 	/**
 	 * Remove the selected range. If the cursor is collapsed, remove the preceding
@@ -37910,9 +38100,9 @@
 	
 	module.exports = keyCommandPlainBackspace;
 
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37928,11 +38118,11 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
-	var UnicodeUtils = __webpack_require__(283);
+	var EditorState = __webpack_require__(69);
+	var UnicodeUtils = __webpack_require__(284);
 	
-	var moveSelectionForward = __webpack_require__(292);
-	var removeTextWithStrategy = __webpack_require__(287);
+	var moveSelectionForward = __webpack_require__(293);
+	var removeTextWithStrategy = __webpack_require__(288);
 	
 	/**
 	 * Remove the selected range. If the cursor is collapsed, remove the following
@@ -37960,9 +38150,9 @@
 	
 	module.exports = keyCommandPlainDelete;
 
-/***/ },
-/* 296 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37978,7 +38168,7 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
+	var EditorState = __webpack_require__(69);
 	
 	/**
 	 * See comment for `moveSelectionToStartOfBlock`.
@@ -38002,9 +38192,9 @@
 	
 	module.exports = keyCommandMoveSelectionToEndOfBlock;
 
-/***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -38020,7 +38210,7 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
+	var EditorState = __webpack_require__(69);
 	
 	/**
 	 * Collapse selection at the start of the first selected block. This is used
@@ -38044,9 +38234,9 @@
 	
 	module.exports = keyCommandMoveSelectionToStartOfBlock;
 
-/***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 299 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -38062,10 +38252,10 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
 	
-	var getContentStateFragment = __webpack_require__(61);
+	var getContentStateFragment = __webpack_require__(60);
 	
 	/**
 	 * Transpose the characters on either side of a collapsed cursor, or
@@ -38127,9 +38317,9 @@
 	
 	module.exports = keyCommandTransposeCharacters;
 
-/***/ },
-/* 299 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 300 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -38145,7 +38335,7 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
+	var EditorState = __webpack_require__(69);
 	
 	function keyCommandUndo(e, editorState, updateFn) {
 	  var undoneState = EditorState.undo(editorState);
@@ -38180,9 +38370,9 @@
 	
 	module.exports = keyCommandUndo;
 
-/***/ },
-/* 300 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 301 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -38198,17 +38388,17 @@
 	
 	'use strict';
 	
-	var BlockMapBuilder = __webpack_require__(49);
-	var CharacterMetadata = __webpack_require__(51);
-	var DataTransfer = __webpack_require__(259);
-	var DraftModifier = __webpack_require__(54);
-	var DraftPasteProcessor = __webpack_require__(301);
-	var EditorState = __webpack_require__(70);
+	var BlockMapBuilder = __webpack_require__(47);
+	var CharacterMetadata = __webpack_require__(49);
+	var DataTransfer = __webpack_require__(260);
+	var DraftModifier = __webpack_require__(52);
+	var DraftPasteProcessor = __webpack_require__(302);
+	var EditorState = __webpack_require__(69);
 	
 	var getEntityKeyForSelection = __webpack_require__(89);
-	var getTextContentFromFiles = __webpack_require__(263);
-	var isEventHandled = __webpack_require__(265);
-	var splitTextIntoTextBlocks = __webpack_require__(305);
+	var getTextContentFromFiles = __webpack_require__(264);
+	var isEventHandled = __webpack_require__(266);
+	var splitTextIntoTextBlocks = __webpack_require__(306);
 	
 	/**
 	 * Paste content.
@@ -38256,8 +38446,9 @@
 	  var textBlocks = [];
 	  var text = data.getText();
 	  var html = data.getHTML();
+	  var editorState = editor._latestEditorState;
 	
-	  if (editor.props.handlePastedText && isEventHandled(editor.props.handlePastedText(text, html))) {
+	  if (editor.props.handlePastedText && isEventHandled(editor.props.handlePastedText(text, html, editorState))) {
 	    return;
 	  }
 	
@@ -38315,7 +38506,6 @@
 	  }
 	
 	  if (textBlocks.length) {
-	    var editorState = editor._latestEditorState;
 	    var character = CharacterMetadata.create({
 	      style: editorState.getCurrentInlineStyle(),
 	      entity: getEntityKeyForSelection(editorState.getCurrentContent(), editorState.getSelection())
@@ -38345,9 +38535,9 @@
 	
 	module.exports = editOnPaste;
 
-/***/ },
-/* 301 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 302 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -38364,14 +38554,14 @@
 	
 	'use strict';
 	
-	var CharacterMetadata = __webpack_require__(51);
-	var ContentBlock = __webpack_require__(52);
-	var Immutable = __webpack_require__(50);
+	var CharacterMetadata = __webpack_require__(49);
+	var ContentBlock = __webpack_require__(50);
+	var Immutable = __webpack_require__(48);
 	
-	var convertFromHTMLtoContentBlocks = __webpack_require__(302);
-	var generateRandomKey = __webpack_require__(62);
-	var getSafeBodyFromHTML = __webpack_require__(304);
-	var sanitizeDraftText = __webpack_require__(76);
+	var convertFromHTMLtoContentBlocks = __webpack_require__(303);
+	var generateRandomKey = __webpack_require__(61);
+	var getSafeBodyFromHTML = __webpack_require__(305);
+	var sanitizeDraftText = __webpack_require__(75);
 	
 	var List = Immutable.List;
 	var Repeat = Immutable.Repeat;
@@ -38396,9 +38586,9 @@
 	
 	module.exports = DraftPasteProcessor;
 
-/***/ },
-/* 302 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 303 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -38415,20 +38605,20 @@
 	
 	'use strict';
 	
-	var CharacterMetadata = __webpack_require__(51);
-	var ContentBlock = __webpack_require__(52);
+	var CharacterMetadata = __webpack_require__(49);
+	var ContentBlock = __webpack_require__(50);
 	var DefaultDraftBlockRenderMap = __webpack_require__(83);
-	var DraftEntity = __webpack_require__(73);
-	var Immutable = __webpack_require__(50);
-	var URI = __webpack_require__(303);
+	var DraftEntity = __webpack_require__(72);
+	var Immutable = __webpack_require__(48);
+	var URI = __webpack_require__(304);
 	
-	var generateRandomKey = __webpack_require__(62);
-	var getSafeBodyFromHTML = __webpack_require__(304);
+	var generateRandomKey = __webpack_require__(61);
+	var getSafeBodyFromHTML = __webpack_require__(305);
 	var invariant = __webpack_require__(15);
-	var nullthrows = __webpack_require__(81);
-	var sanitizeDraftText = __webpack_require__(76);
+	var nullthrows = __webpack_require__(80);
+	var sanitizeDraftText = __webpack_require__(75);
 	
-	var _require = __webpack_require__(50);
+	var _require = __webpack_require__(48);
 	
 	var Set = _require.Set;
 	var List = Immutable.List;
@@ -38917,9 +39107,9 @@
 	module.exports = convertFromHTMLtoContentBlocks;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 303 */
-/***/ function(module, exports) {
+/***/ }),
+/* 304 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -38952,11 +39142,11 @@
 	
 	module.exports = URI;
 
-/***/ },
-/* 304 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 305 */
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
+	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -38972,6 +39162,8 @@
 	
 	var UserAgent = __webpack_require__(241);
 	
+	var invariant = __webpack_require__(15);
+	
 	var isOldIE = UserAgent.isBrowser('IE <= 9');
 	
 	// Provides a dom node that will not execute scripts
@@ -38984,6 +39176,7 @@
 	  // Provides a safe context
 	  if (!isOldIE && document.implementation && document.implementation.createHTMLDocument) {
 	    doc = document.implementation.createHTMLDocument('foo');
+	    !doc.documentElement ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Missing doc.documentElement') : invariant(false) : void 0;
 	    doc.documentElement.innerHTML = html;
 	    root = doc.getElementsByTagName('body')[0];
 	  }
@@ -38991,10 +39184,11 @@
 	}
 	
 	module.exports = getSafeBodyFromHTML;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 305 */
-/***/ function(module, exports) {
+/***/ }),
+/* 306 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39018,11 +39212,11 @@
 	
 	module.exports = splitTextIntoTextBlocks;
 
-/***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 307 */
+/***/ (function(module, exports, __webpack_require__) {
 
-	/**
+	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -39036,10 +39230,11 @@
 	
 	'use strict';
 	
-	var EditorState = __webpack_require__(70);
+	var EditorState = __webpack_require__(69);
 	var ReactDOM = __webpack_require__(95);
 	
-	var getDraftEditorSelection = __webpack_require__(307);
+	var getDraftEditorSelection = __webpack_require__(308);
+	var invariant = __webpack_require__(15);
 	
 	function editOnSelect(editor) {
 	  if (editor._blockSelectEvents || editor._latestEditorState !== editor.props.editorState) {
@@ -39047,7 +39242,10 @@
 	  }
 	
 	  var editorState = editor.props.editorState;
-	  var documentSelection = getDraftEditorSelection(editorState, ReactDOM.findDOMNode(editor.refs.editorContainer).firstChild);
+	  var editorNode = ReactDOM.findDOMNode(editor.refs.editorContainer);
+	  !editorNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Missing editorNode') : invariant(false) : void 0;
+	  !(editorNode.firstChild instanceof HTMLElement) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'editorNode.firstChild is not an HTMLElement') : invariant(false) : void 0;
+	  var documentSelection = getDraftEditorSelection(editorState, editorNode.firstChild);
 	  var updatedSelectionState = documentSelection.selectionState;
 	
 	  if (updatedSelectionState !== editorState.getSelection()) {
@@ -39061,10 +39259,11 @@
 	}
 	
 	module.exports = editOnSelect;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 308 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39081,7 +39280,7 @@
 	
 	'use strict';
 	
-	var getDraftEditorSelectionWithNodes = __webpack_require__(285);
+	var getDraftEditorSelectionWithNodes = __webpack_require__(286);
 	
 	/**
 	 * Convert the current selection range to an anchor/focus pair of offset keys
@@ -39104,9 +39303,9 @@
 	module.exports = getDraftEditorSelection;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
-/* 308 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 309 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39178,9 +39377,9 @@
 	
 	module.exports = DraftEditorPlaceholder;
 
-/***/ },
-/* 309 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 310 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39197,7 +39396,7 @@
 	
 	'use strict';
 	
-	var KeyBindingUtil = __webpack_require__(279);
+	var KeyBindingUtil = __webpack_require__(280);
 	var Keys = __webpack_require__(88);
 	var UserAgent = __webpack_require__(241);
 	
@@ -39307,9 +39506,9 @@
 	
 	module.exports = getDefaultKeyBinding;
 
-/***/ },
-/* 310 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 311 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39326,12 +39525,12 @@
 	
 	'use strict';
 	
-	var DraftModifier = __webpack_require__(54);
-	var EditorState = __webpack_require__(70);
-	var SelectionState = __webpack_require__(75);
+	var DraftModifier = __webpack_require__(52);
+	var EditorState = __webpack_require__(69);
+	var SelectionState = __webpack_require__(74);
 	
-	var adjustBlockDepthForContentState = __webpack_require__(311);
-	var nullthrows = __webpack_require__(81);
+	var adjustBlockDepthForContentState = __webpack_require__(312);
+	var nullthrows = __webpack_require__(80);
 	
 	var RichTextEditorUtil = {
 	  currentBlockContainsLink: function currentBlockContainsLink(editorState) {
@@ -39617,9 +39816,9 @@
 	
 	module.exports = RichTextEditorUtil;
 
-/***/ },
-/* 311 */
-/***/ function(module, exports) {
+/***/ }),
+/* 312 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39661,9 +39860,9 @@
 	
 	module.exports = adjustBlockDepthForContentState;
 
-/***/ },
-/* 312 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 313 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39679,10 +39878,10 @@
 	
 	'use strict';
 	
-	var DraftStringKey = __webpack_require__(313);
+	var DraftStringKey = __webpack_require__(314);
 	
-	var encodeEntityRanges = __webpack_require__(314);
-	var encodeInlineStyleRanges = __webpack_require__(315);
+	var encodeEntityRanges = __webpack_require__(315);
+	var encodeInlineStyleRanges = __webpack_require__(316);
 	
 	function convertFromDraftStateToRaw(contentState) {
 	  var entityStorageKey = 0;
@@ -39732,9 +39931,9 @@
 	
 	module.exports = convertFromDraftStateToRaw;
 
-/***/ },
-/* 313 */
-/***/ function(module, exports) {
+/***/ }),
+/* 314 */
+/***/ (function(module, exports) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39763,9 +39962,9 @@
 	
 	module.exports = DraftStringKey;
 
-/***/ },
-/* 314 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 315 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39782,8 +39981,8 @@
 	
 	'use strict';
 	
-	var DraftStringKey = __webpack_require__(313);
-	var UnicodeUtils = __webpack_require__(283);
+	var DraftStringKey = __webpack_require__(314);
+	var UnicodeUtils = __webpack_require__(284);
 	
 	var strlen = UnicodeUtils.strlen;
 	
@@ -39810,9 +40009,9 @@
 	
 	module.exports = encodeEntityRanges;
 
-/***/ },
-/* 315 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 316 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39828,9 +40027,9 @@
 	
 	'use strict';
 	
-	var UnicodeUtils = __webpack_require__(283);
+	var UnicodeUtils = __webpack_require__(284);
 	
-	var findRangesImmutable = __webpack_require__(53);
+	var findRangesImmutable = __webpack_require__(51);
 	
 	var areEqual = function areEqual(a, b) {
 	  return a === b;
@@ -39883,9 +40082,9 @@
 	
 	module.exports = encodeInlineStyleRanges;
 
-/***/ },
-/* 316 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 317 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39905,15 +40104,15 @@
 	
 	var _extends = _assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var ContentBlock = __webpack_require__(52);
-	var ContentState = __webpack_require__(72);
-	var DraftEntity = __webpack_require__(73);
+	var ContentBlock = __webpack_require__(50);
+	var ContentState = __webpack_require__(71);
+	var DraftEntity = __webpack_require__(72);
 	
-	var createCharacterList = __webpack_require__(317);
-	var decodeEntityRanges = __webpack_require__(318);
-	var decodeInlineStyleRanges = __webpack_require__(319);
-	var generateRandomKey = __webpack_require__(62);
-	var Immutable = __webpack_require__(50);
+	var createCharacterList = __webpack_require__(318);
+	var decodeEntityRanges = __webpack_require__(319);
+	var decodeInlineStyleRanges = __webpack_require__(320);
+	var generateRandomKey = __webpack_require__(61);
+	var Immutable = __webpack_require__(48);
 	
 	var Map = Immutable.Map;
 	
@@ -39946,6 +40145,7 @@
 	    var data = block.data;
 	
 	    key = key || generateRandomKey();
+	    type = type || 'unstyled';
 	    depth = depth || 0;
 	    inlineStyleRanges = inlineStyleRanges || [];
 	    entityRanges = entityRanges || [];
@@ -39971,9 +40171,9 @@
 	
 	module.exports = convertFromRawToDraftState;
 
-/***/ },
-/* 317 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 318 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -39990,8 +40190,8 @@
 	
 	'use strict';
 	
-	var CharacterMetadata = __webpack_require__(51);
-	var Immutable = __webpack_require__(50);
+	var CharacterMetadata = __webpack_require__(49);
+	var Immutable = __webpack_require__(48);
 	
 	var List = Immutable.List;
 	
@@ -40006,9 +40206,9 @@
 	
 	module.exports = createCharacterList;
 
-/***/ },
-/* 318 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 319 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -40025,7 +40225,7 @@
 	
 	'use strict';
 	
-	var UnicodeUtils = __webpack_require__(283);
+	var UnicodeUtils = __webpack_require__(284);
 	
 	var substr = UnicodeUtils.substr;
 	
@@ -40051,9 +40251,9 @@
 	
 	module.exports = decodeEntityRanges;
 
-/***/ },
-/* 319 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 320 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -40070,9 +40270,9 @@
 	
 	'use strict';
 	
-	var UnicodeUtils = __webpack_require__(283);
+	var UnicodeUtils = __webpack_require__(284);
 	
-	var _require = __webpack_require__(50);
+	var _require = __webpack_require__(48);
 	
 	var OrderedSet = _require.OrderedSet;
 	var substr = UnicodeUtils.substr;
@@ -40100,9 +40300,9 @@
 	
 	module.exports = decodeInlineStyleRanges;
 
-/***/ },
-/* 320 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 321 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -40119,7 +40319,7 @@
 	
 	'use strict';
 	
-	var getRangeBoundingClientRect = __webpack_require__(321);
+	var getRangeBoundingClientRect = __webpack_require__(322);
 	
 	/**
 	 * Return the bounding ClientRect for the visible DOM selection, if any.
@@ -40152,9 +40352,9 @@
 	
 	module.exports = getVisibleSelectionRect;
 
-/***/ },
-/* 321 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -40171,7 +40371,7 @@
 	
 	'use strict';
 	
-	var getRangeClientRects = __webpack_require__(284);
+	var getRangeClientRects = __webpack_require__(285);
 	
 	/**
 	 * Like range.getBoundingClientRect() but normalizes for browser bugs.
@@ -40188,15 +40388,26 @@
 	  var left = 0;
 	
 	  if (rects.length) {
-	    var _rects$ = rects[0];
-	    top = _rects$.top;
-	    right = _rects$.right;
-	    bottom = _rects$.bottom;
-	    left = _rects$.left;
+	    // If the first rectangle has 0 width, we use the second, this is needed
+	    // because Chrome renders a 0 width rectangle when the selection contains
+	    // a line break.
+	    if (rects.length > 1 && rects[0].width === 0) {
+	      var _rects$ = rects[1];
+	      top = _rects$.top;
+	      right = _rects$.right;
+	      bottom = _rects$.bottom;
+	      left = _rects$.left;
+	    } else {
+	      var _rects$2 = rects[0];
+	      top = _rects$2.top;
+	      right = _rects$2.right;
+	      bottom = _rects$2.bottom;
+	      left = _rects$2.left;
+	    }
 	
 	    for (var ii = 1; ii < rects.length; ii++) {
 	      var rect = rects[ii];
-	      if (rect.height !== 0 || rect.width !== 0) {
+	      if (rect.height !== 0 && rect.width !== 0) {
 	        top = Math.min(top, rect.top);
 	        right = Math.max(right, rect.right);
 	        bottom = Math.max(bottom, rect.bottom);
@@ -40217,9 +40428,9 @@
 	
 	module.exports = getRangeBoundingClientRect;
 
-/***/ },
-/* 322 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 323 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 *  Copyright (c) 2014-2015, Facebook, Inc.
@@ -45201,9 +45412,9 @@
 	
 	}));
 
-/***/ },
-/* 323 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -45212,7 +45423,7 @@
 	});
 	exports.createToolbar = createToolbar;
 	
-	var _Toolbar = __webpack_require__(324);
+	var _Toolbar = __webpack_require__(325);
 	
 	var _Toolbar2 = _interopRequireDefault(_Toolbar);
 	
@@ -45223,7 +45434,9 @@
 	function createToolbar() {
 	    var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	
-	    function editorStateChange(editorState) {}
+	    function editorStateChange(editorState) {
+	        // console.log('>> editorStateChange', editorState);
+	    }
 	    var callbacks = {
 	        onChange: editorStateChange,
 	        onUpArrow: noop,
@@ -45244,9 +45457,9 @@
 	    };
 	}
 
-/***/ },
-/* 324 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 325 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -45256,17 +45469,15 @@
 	
 	var _react = __webpack_require__(9);
 	
-	var React = _interopRequireWildcard(_react);
+	var _react2 = _interopRequireDefault(_react);
 	
-	var _immutable = __webpack_require__(322);
+	var _immutable = __webpack_require__(323);
 	
-	var _ToolbarLine = __webpack_require__(325);
+	var _ToolbarLine = __webpack_require__(326);
 	
 	var _ToolbarLine2 = _interopRequireDefault(_ToolbarLine);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 	
@@ -45307,10 +45518,10 @@
 	                key: 'toolbar-item-' + idx,
 	                onClick: component.props ? component.props.onClick : noop
 	            };
-	            if (React.isValidElement(component)) {
-	                return React.cloneElement(component, props);
+	            if (_react2.default.isValidElement(component)) {
+	                return _react2.default.cloneElement(component, props);
 	            }
-	            return React.createElement(component, props);
+	            return _react2.default.createElement(component, props);
 	        }
 	        return null;
 	    };
@@ -45326,23 +45537,31 @@
 	            toolbars = _props.toolbars,
 	            prefixCls = _props.prefixCls;
 	
-	        return React.createElement("div", { className: prefixCls + '-toolbar' }, toolbars.map(function (toolbar, idx) {
-	            var children = React.Children.map(toolbar, _this2.renderToolbarItem.bind(_this2));
-	            return React.createElement(_ToolbarLine2.default, { key: 'toolbar-' + idx }, children);
-	        }));
+	        return _react2.default.createElement(
+	            'div',
+	            { className: prefixCls + '-toolbar' },
+	            toolbars.map(function (toolbar, idx) {
+	                var children = _react2.default.Children.map(toolbar, _this2.renderToolbarItem.bind(_this2));
+	                return _react2.default.createElement(
+	                    _ToolbarLine2.default,
+	                    { key: 'toolbar-' + idx },
+	                    children
+	                );
+	            })
+	        );
 	    };
 	
 	    return Toolbar;
-	}(React.Component);
+	}(_react2.default.Component);
 	
 	exports.default = Toolbar;
 	module.exports = exports['default'];
 
-/***/ },
-/* 325 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 326 */
+/***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -45350,9 +45569,9 @@
 	
 	var _react = __webpack_require__(9);
 	
-	var React = _interopRequireWildcard(_react);
+	var _react2 = _interopRequireDefault(_react);
 	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 	
@@ -45372,18 +45591,22 @@
 	    }
 	
 	    ToolbarLine.prototype.render = function render() {
-	        return React.createElement("div", null, this.props.children);
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            this.props.children
+	        );
 	    };
 	
 	    return ToolbarLine;
-	}(React.Component);
+	}(_react2.default.Component);
 	
 	exports.default = ToolbarLine;
 	module.exports = exports['default'];
 
-/***/ },
-/* 326 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -45391,7 +45614,7 @@
 	    value: true
 	});
 	
-	var _immutable = __webpack_require__(322);
+	var _immutable = __webpack_require__(323);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -45416,9 +45639,9 @@
 	exports.default = ConfigStore;
 	module.exports = exports['default'];
 
-/***/ },
-/* 327 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 328 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -45427,17 +45650,17 @@
 	});
 	exports.DEFAULT_INLINE_STYLE = exports.DEFAULT_ELEMENT = exports.EMPTY_SET = undefined;
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	exports.default = GetHTML;
 	
-	var _draftJs = __webpack_require__(47);
+	var _draftJs = __webpack_require__(45);
 	
-	var _immutable = __webpack_require__(322);
+	var _immutable = __webpack_require__(323);
 	
-	var _isUnitlessNumber = __webpack_require__(328);
+	var _isUnitlessNumber = __webpack_require__(329);
 	
 	var _isUnitlessNumber2 = _interopRequireDefault(_isUnitlessNumber);
 	
@@ -45455,9 +45678,11 @@
 	var VENDOR_PREFIX = /^(moz|ms|o|webkit)-/;
 	var NUMERIC_STRING = /^\d+$/;
 	var UPPERCASE_PATTERN = /([A-Z])/g;
+	// Lifted from: https://github.com/facebook/react/blob/master/src/renderers/dom/shared/CSSPropertyOperations.js
 	function processStyleName(name) {
 	    return name.replace(UPPERCASE_PATTERN, '-$1').toLowerCase().replace(VENDOR_PREFIX, '-$1-');
 	}
+	// Lifted from: https://github.com/facebook/react/blob/master/src/renderers/dom/shared/dangerousStyleValue.js
 	function processStyleValue(name, value) {
 	    var isNumeric = void 0;
 	    if (typeof value === 'string') {
@@ -45500,7 +45725,7 @@
 	        var customBlockRenderMap = configStore.get('blockRenderMap') || {};
 	        var customStyleFn = configStore.get('customStyleFn');
 	        var toHTMLList = configStore.get('toHTMLList');
-	        Object.assign(customStyleMap, DEFAULT_INLINE_STYLE);
+	        _extends(customStyleMap, DEFAULT_INLINE_STYLE);
 	        return blockMap.map(function (block) {
 	            var resultText = '<div>';
 	            var closeTag = '</div>';
@@ -45547,44 +45772,36 @@
 	
 	                    var encodedContent = encodeContent(text);
 	                    if (styleSet.size) {
-	                        var _ret = function () {
-	                            var inlineStyle = {};
-	                            styleSet.forEach(function (item) {
-	                                if (customStyleMap.hasOwnProperty(item)) {
-	                                    var currentStyle = customStyleMap[item];
-	                                    inlineStyle = Object.assign(inlineStyle, currentStyle);
-	                                }
-	                            });
-	                            var customedStyle = customStyleFn(styleSet);
-	                            inlineStyle = Object.assign(inlineStyle, customedStyle);
-	                            return {
-	                                v: '<span style="' + getStyleText(inlineStyle) + '">' + encodedContent + '</span>'
-	                            };
-	                        }();
-	
-	                        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	                        var inlineStyle = {};
+	                        styleSet.forEach(function (item) {
+	                            if (customStyleMap.hasOwnProperty(item)) {
+	                                var currentStyle = customStyleMap[item];
+	                                inlineStyle = _extends(inlineStyle, currentStyle);
+	                            }
+	                        });
+	                        var customedStyle = customStyleFn(styleSet);
+	                        inlineStyle = _extends(inlineStyle, customedStyle);
+	                        return '<span style="' + getStyleText(inlineStyle) + '">' + encodedContent + '</span>';
 	                    }
 	                    return '<span>' + encodedContent + '</span>';
 	                }).join('');
 	                if (entityKey) {
-	                    (function () {
-	                        var entity = contentState.getEntity(entityKey);
-	                        var entityData = entity.getData();
-	                        if (entityData && entityData.export) {
-	                            resultText += entityData.export(content, entityData);
-	                        } else {
-	                            var HTMLText = '';
-	                            toHTMLList.forEach(function (toHTML) {
-	                                var text = toHTML(rawContent, entity, contentState);
-	                                if (text) {
-	                                    HTMLText = text;
-	                                }
-	                            });
-	                            if (HTMLText) {
-	                                resultText += HTMLText;
+	                    var entity = contentState.getEntity(entityKey);
+	                    var entityData = entity.getData();
+	                    if (entityData && entityData.export) {
+	                        resultText += entityData.export(content, entityData);
+	                    } else {
+	                        var HTMLText = '';
+	                        toHTMLList.forEach(function (toHTML) {
+	                            var text = toHTML(rawContent, entity, contentState);
+	                            if (text) {
+	                                HTMLText = text;
 	                            }
+	                        });
+	                        if (HTMLText) {
+	                            resultText += HTMLText;
 	                        }
-	                    })();
+	                    }
 	                } else {
 	                    resultText += content;
 	                }
@@ -45612,9 +45829,9 @@
 	    return ranges;
 	}
 
-/***/ },
-/* 328 */
-/***/ function(module, exports) {
+/***/ }),
+/* 329 */
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -45648,6 +45865,7 @@
 	    widows: true,
 	    zIndex: true,
 	    zoom: true,
+	    // SVG-related properties
 	    fillOpacity: true,
 	    floodOpacity: true,
 	    stopOpacity: true,
@@ -45669,9 +45887,9 @@
 	exports.default = isUnitlessNumber;
 	module.exports = exports['default'];
 
-/***/ },
-/* 329 */
-/***/ function(module, exports) {
+/***/ }),
+/* 330 */
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -45712,9 +45930,9 @@
 	    }).join(encode ? '<br />\n' : '\n');
 	}
 
-/***/ },
-/* 330 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 331 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -45723,11 +45941,11 @@
 	});
 	exports.default = customHTML2Content;
 	
-	var _draftJs = __webpack_require__(47);
+	var _draftJs = __webpack_require__(45);
 	
-	var _lodash = __webpack_require__(331);
+	var _lodash = __webpack_require__(332);
 	
-	var _immutable = __webpack_require__(322);
+	var _immutable = __webpack_require__(323);
 	
 	function compose() {
 	    for (var _len = arguments.length, argument = Array(_len), _key = 0; _key < _len; _key++) {
@@ -45745,6 +45963,10 @@
 	    };
 	}
 	;
+	/*
+	 * Helpers
+	 */
+	// Prepares img meta data object based on img attributes
 	var getBlockSpecForElement = function getBlockSpecForElement(imgElement) {
 	    return {
 	        contentType: 'image',
@@ -45754,14 +45976,18 @@
 	        align: imgElement.style.cssFloat
 	    };
 	};
+	// Wraps meta data in HTML element which is 'understandable' by Draft, I used <blockquote />.
 	var wrapBlockSpec = function wrapBlockSpec(blockSpec) {
 	    if (blockSpec == null) {
 	        return null;
 	    }
 	    var tempEl = document.createElement('blockquote');
+	    // stringify meta data and insert it as text content of temp HTML element. We will later extract
+	    // and parse it.
 	    tempEl.innerText = JSON.stringify(blockSpec);
 	    return tempEl;
 	};
+	// Replaces <img> element with our temp element
 	var replaceElement = function replaceElement(oldEl, newEl) {
 	    if (!(newEl instanceof HTMLElement)) {
 	        return;
@@ -45773,6 +45999,7 @@
 	var imgReplacer = function imgReplacer(imgElement) {
 	    return replaceElement(imgElement, elementToBlockSpecElement(imgElement));
 	};
+	// creates ContentBlock based on provided spec
 	var createContentBlock = function createContentBlock(blockData, contentState) {
 	    var key = blockData.key,
 	        type = blockData.type,
@@ -45809,12 +46036,18 @@
 	    }
 	    return new _draftJs.ContentBlock(blockSpec);
 	};
+	// takes HTML string and returns DraftJS ContentState
 	function customHTML2Content(HTML, contentState) {
 	    var tempDoc = new DOMParser().parseFromString(HTML, 'text/html');
+	    // replace all <img /> with <blockquote /> elements
 	    (0, _lodash.toArray)(tempDoc.querySelectorAll('img')).forEach(imgReplacer);
+	    // use DraftJS converter to do initial conversion. I don't provide DOMBuilder and
+	    // blockRenderMap arguments here since it should fall back to its default ones, which are fine
 	
 	    var _convertFromHTML = (0, _draftJs.convertFromHTML)(tempDoc.body.innerHTML),
 	        contentBlocks = _convertFromHTML.contentBlocks;
+	    // now replace <blockquote /> ContentBlocks with 'atomic' ones
+	
 	
 	    contentBlocks = contentBlocks.reduce(function (contentBlocks, block) {
 	        if (block.getType() !== 'blockquote') {
@@ -45824,6 +46057,9 @@
 	        contentState.createEntity('IMAGE-ENTITY', 'IMMUTABLE', image);
 	        var entityKey = contentState.getLastCreatedEntityKey();
 	        var charData = _draftJs.CharacterMetadata.create({ entity: entityKey });
+	        // const blockSpec = Object.assign({ type: 'atomic', text: ' ' }, { entityData })
+	        // const atomicBlock = createContentBlock(blockSpec)
+	        // const spacerBlock = createContentBlock({});
 	        var fragmentArray = [new _draftJs.ContentBlock({
 	            key: (0, _draftJs.genKey)(),
 	            type: 'image-block',
@@ -45837,14 +46073,15 @@
 	        })];
 	        return contentBlocks.concat(fragmentArray);
 	    }, []);
+	    // console.log('>> customHTML2Content contentBlocks', contentBlocks);
 	    tempDoc = null;
 	    return _draftJs.BlockMapBuilder.createFromArray(contentBlocks);
 	}
 	module.exports = exports['default'];
 
-/***/ },
-/* 331 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ }),
+/* 332 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
 	 * @license
@@ -62931,11 +63168,11 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(332)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(333)(module)))
 
-/***/ },
-/* 332 */
-/***/ function(module, exports) {
+/***/ }),
+/* 333 */
+/***/ (function(module, exports) {
 
 	module.exports = function(module) {
 		if(!module.webpackPolyfill) {
@@ -62949,8 +63186,7 @@
 	}
 
 
-/***/ },
-/* 333 */,
+/***/ }),
 /* 334 */,
 /* 335 */,
 /* 336 */,
@@ -63146,8 +63382,9 @@
 /* 526 */,
 /* 527 */,
 /* 528 */,
-/* 529 */
-/***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
+/* 529 */,
+/* 530 */
+/***/ (function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-present, Facebook, Inc.
@@ -63262,78 +63499,6 @@
 	module.exports = PooledClass;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
-/***/ },
-/* 530 */
-/***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 */
-	
-	'use strict';
-	
-	var emptyFunction = __webpack_require__(__webpack_module_template_argument_0__);
-	
-	/**
-	 * Similar to invariant but only logs a warning if the condition is not met.
-	 * This can be used to log issues in development environments in critical
-	 * paths. Removing the logging code for production environments will keep the
-	 * same logic and follow the same code paths.
-	 */
-	
-	var warning = emptyFunction;
-	
-	if (process.env.NODE_ENV !== 'production') {
-	  (function () {
-	    var printWarning = function printWarning(format) {
-	      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	        args[_key - 1] = arguments[_key];
-	      }
-	
-	      var argIndex = 0;
-	      var message = 'Warning: ' + format.replace(/%s/g, function () {
-	        return args[argIndex++];
-	      });
-	      if (typeof console !== 'undefined') {
-	        console.error(message);
-	      }
-	      try {
-	        // --- Welcome to debugging React ---
-	        // This error was thrown as a convenience so that you can use this stack
-	        // to find the callsite that caused this warning to fire.
-	        throw new Error(message);
-	      } catch (x) {}
-	    };
-	
-	    warning = function warning(condition, format) {
-	      if (format === undefined) {
-	        throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-	      }
-	
-	      if (format.indexOf('Failed Composite propType: ') === 0) {
-	        return; // Ignore CompositeComponent proptype check.
-	      }
-	
-	      if (!condition) {
-	        for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-	          args[_key2 - 2] = arguments[_key2];
-	        }
-	
-	        printWarning.apply(undefined, [format].concat(args));
-	      }
-	    };
-	  })();
-	}
-	
-	module.exports = warning;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
-
-/***/ }
+/***/ })
 /******/ ])));
 //# sourceMappingURL=common.js.map
