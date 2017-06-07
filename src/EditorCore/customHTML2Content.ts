@@ -1,5 +1,5 @@
 import { BlockMapBuilder, BlockMap, ContentState, genKey, Entity, CharacterMetadata, ContentBlock, convertFromHTML } from 'draft-js'
-import { toArray } from 'lodash';
+import toArray from 'lodash/toArray';
 import DraftEntityInstance = Entity.DraftEntityInstance;
 import CharacterMetadataConfig = CharacterMetadata.CharacterMetadataConfig;
 import { List, OrderedSet, Repeat, fromJS } from 'immutable'
