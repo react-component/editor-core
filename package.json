@@ -48,9 +48,8 @@
     "rc-editor-plugin-emoji": "^0.2.8",
     "rc-editor-plugin-image": "^0.0.4",
     "rc-tools": "5.x",
-    "react": "^15.4.0",
-    "react-addons-test-utils": "^15.4.0",
-    "react-dom": "^15.4.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "typescript": "~2.0",
     "typings": "^1.0.4"
   },
