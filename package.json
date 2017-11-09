@@ -19,17 +19,20 @@
   },
   "files": [
     "lib",
+    "es",
     "assets/*.css",
     "type-definitions"
   ],
   "licenses": "MIT",
   "main": "./lib/index",
+  "module": "./es/index",
   "typings": "type-definitions/rc-editor-core.d.ts",
   "config": {
     "port": 8003
   },
   "scripts": {
     "build": "rc-tools run build",
+    "compile": "rc-tools run compile --babel-runtime",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
     "watch": "rc-tools run watch --out-dir=../editor/node_modules/rc-editor-core/lib",
@@ -47,13 +50,14 @@
     "rc-editor-plugin-basic-style": "^0.3.6",
     "rc-editor-plugin-emoji": "^0.2.8",
     "rc-editor-plugin-image": "^0.0.4",
-    "rc-tools": "5.x",
+    "rc-tools": "^7.0.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "typescript": "~2.0",
     "typings": "^1.0.4"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "draft-js": "^0.10.0",
     "immutable": "^3.7.4",
     "lodash": "^4.16.5",
