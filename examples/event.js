@@ -1,70 +1,68 @@
-webpackJsonp([1],{
+webpackJsonp([4],{
 
-/***/ 0:
+/***/ 419:
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(416);
+module.exports = __webpack_require__(420);
 
 
 /***/ }),
 
-/***/ 416:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 420:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-	'use strict';
-	
-	__webpack_require__(2);
-	
-	var _rcEditorCore = __webpack_require__(3);
-	
-	var _react = __webpack_require__(9);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(73);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	// use jsx to render html, do not modify simple.html
-	
-	var EventPlugin = {
-	  callbacks: {
-	    setEditorState: null,
-	    getEditorState: null,
-	    onUpArrow: function onUpArrow() {
-	      console.log('>> onUpArrow');
-	    },
-	    onDownArrow: function onDownArrow() {
-	      console.log('>> onDownArrow ');
-	    },
-	    onBlur: function onBlur() {
-	      console.log('>> onBlur');
-	    },
-	    onFocus: function onFocus() {
-	      console.log('>> onBlur prevent');return true;
-	    },
-	    handlePastedText: function handlePastedText(text, html) {
-	      console.log('>> handlePastedText', text, html);
-	    }
-	  }
-	};
-	var plugins = [EventPlugin];
-	var toolbars = [];
-	
-	_reactDom2.default.render(_react2.default.createElement(_rcEditorCore.EditorCore, {
-	  plugins: plugins,
-	  onFocus: function onFocus() {
-	    return console.log('on focus');
-	  },
-	  onBlur: function onBlur() {
-	    return console.log('on blur');
-	  },
-	  toolbars: toolbars
-	}), document.getElementById('__react-content'));
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rc_editor_core_assets_index_less__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rc_editor_core_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rc_editor_core_assets_index_less__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rc_editor_core__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_dom__);
+// use jsx to render html, do not modify simple.html
+
+
+
+
+
+
+var EventPlugin = {
+  callbacks: {
+    setEditorState: null,
+    getEditorState: null,
+    onUpArrow: function onUpArrow() {
+      console.log('>> onUpArrow');
+    },
+    onDownArrow: function onDownArrow() {
+      console.log('>> onDownArrow ');
+    },
+    onBlur: function onBlur() {
+      console.log('>> onBlur');
+    },
+    onFocus: function onFocus() {
+      console.log('>> onBlur prevent');return true;
+    },
+    handlePastedText: function handlePastedText(text, html) {
+      console.log('>> handlePastedText', text, html);
+    }
+  }
+};
+var plugins = [EventPlugin];
+var toolbars = [];
+
+__WEBPACK_IMPORTED_MODULE_3_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_rc_editor_core__["EditorCore"], {
+  plugins: plugins,
+  onFocus: function onFocus() {
+    return console.log('on focus');
+  },
+  onBlur: function onBlur() {
+    return console.log('on blur');
+  },
+  toolbars: toolbars
+}), document.getElementById('__react-content'));
 
 /***/ })
 
-});
+},[419]);
 //# sourceMappingURL=event.js.map
