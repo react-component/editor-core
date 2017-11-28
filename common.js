@@ -17914,14 +17914,23 @@ module.exports = function(module) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export GetText */
+/* unused harmony export GetHTML */
+/* unused harmony export toEditorState */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EditorCore__ = __webpack_require__(279);
+/* unused harmony reexport EditorCore */
 
+var GetText = __WEBPACK_IMPORTED_MODULE_0__EditorCore__["a" /* default */].GetText,
+    GetHTML = __WEBPACK_IMPORTED_MODULE_0__EditorCore__["a" /* default */].GetHTML;
+
+var toEditorState = __WEBPACK_IMPORTED_MODULE_0__EditorCore__["a" /* default */].ToEditorState;
 var EditorCorePublic = {
     EditorCore: __WEBPACK_IMPORTED_MODULE_0__EditorCore__["a" /* default */],
-    GetText: __WEBPACK_IMPORTED_MODULE_0__EditorCore__["a" /* default */].GetText,
-    GetHTML: __WEBPACK_IMPORTED_MODULE_0__EditorCore__["a" /* default */].GetHTML,
-    toEditorState: __WEBPACK_IMPORTED_MODULE_0__EditorCore__["a" /* default */].ToEditorState
+    GetText: GetText,
+    GetHTML: GetHTML,
+    toEditorState: toEditorState
 };
+
 /* harmony default export */ __webpack_exports__["a"] = (EditorCorePublic);
 
 /***/ }),
