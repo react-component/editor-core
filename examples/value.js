@@ -22,16 +22,6 @@ class Editor extends React.Component {
   reset = () => {
     this.refs.editor.Reset();
   }
-  keyDown = (ev) => {
-    if (ev.keyCode === 13) {
-      if (ev.ctrlKey) {
-        return 'split-block';
-      }
-      this.refs.editor.Reset();
-      return true;
-    }
-    return false;
-  }
   render() {
     return (<div>
       <button onClick={this.reset}> reset </button>
@@ -39,8 +29,7 @@ class Editor extends React.Component {
         ref="editor"
         plugins={plugins}
         toolbars={toolbars}
-        onKeyDown={(ev) => this.keyDown(ev)}
-        style={{width: 300, height: 200}}
+        style={{width: 300, height: 200, overflowY: 'auto'}}
         onChange={(editorState) => editorChange(editorState)}
         onFocus={(ev) => console.log('focus', ev)}
         onBlur={(ev) => console.log('blur', ev)}
