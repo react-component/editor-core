@@ -1,11 +1,20 @@
 import EditorCore from './EditorCore';
 
+const { GetText, GetHTML } = EditorCore;
+const toEditorState = EditorCore.ToEditorState;
+
 const EditorCorePublic = {
   EditorCore,
-  GetText: EditorCore.GetText,
-  GetHTML: EditorCore.GetHTML,
-  toEditorState: EditorCore.ToEditorState,
-  // createPlugin: createPlugin,
+  GetText,
+  GetHTML,
+  toEditorState,
+};
+
+export {
+  EditorCore,
+  GetText,
+  GetHTML,
+  toEditorState,
 };
 
 export default EditorCorePublic;
