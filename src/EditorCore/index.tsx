@@ -6,7 +6,6 @@ import {
   EditorState,
   ContentState,
   CompositeDecorator,
-  Entity,
   Modifier,
   getDefaultKeyBinding,
   KeyBindingUtil,
@@ -332,7 +331,18 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   public focus(ev) : void {
-    if (ev && ev.target === this._editorWrapper) {
+    if (!ev || !ev.nativeEvent || !ev.nativeEvent.target) {
+      return;
+    }
+
+    const event = ev.nativeEvent;
+    if (document.activeElement
+      && document.activeElement.getAttribute('contenteditable') === 'true'
+    ) {
+      return;
+    }
+
+    if (event.target === this._editorWrapper) {
       const { editorState } = this.state;
       const selection = editorState.getSelection();
       if (!selection.getHasFocus()) {
@@ -386,7 +396,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       // close this issue https://github.com/ant-design/ant-design/issues/5788
       // when onChange not take any effect
       // `<Editor />` won't rerender cause no props is changed.
-      // add an timeout here, 
+      // add an timeout here,
       // if props.onChange not trigger componentWillReceiveProps,
       // we will force render Editor with previous editorState,
       if (this.controlledMode) {
