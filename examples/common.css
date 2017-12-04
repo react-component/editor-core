@@ -36,52 +36,52 @@
   border-right: 1px solid #ccc;
 }
 .editor-icon-bold:before {
-  content: '\E60B';
+  content: '\e60b';
 }
 .editor-icon-underline:before {
-  content: '\E60C';
+  content: '\e60c';
 }
 .editor-icon-strikethrough:before {
-  content: '\E60D';
+  content: '\e60d';
 }
 .editor-icon-italic:before {
-  content: '\E600';
+  content: '\e600';
 }
 .editor-icon-superscript:before {
-  content: '\E60F';
+  content: '\e60f';
 }
 .editor-icon-emoji:before {
-  content: '\E610';
+  content: '\e610';
 }
 .editor-icon-subscript:before {
-  content: '\E60E';
+  content: '\e60e';
 }
 .editor-icon-align-justify:before {
-  content: '\E605';
+  content: '\e605';
 }
 .editor-icon-align-left:before {
-  content: '\E602';
+  content: '\e602';
 }
 .editor-icon-align-middle:before {
-  content: '\E603';
+  content: '\e603';
 }
 .editor-icon-align-right:before {
-  content: '\E601';
+  content: '\e601';
 }
 .editor-icon-font-color:before {
-  content: '\E606';
+  content: '\e606';
 }
 .editor-icon-view:before {
-  content: '\E607';
+  content: '\e607';
 }
 .editor-icon-picture:before {
-  content: '\E608';
+  content: '\e608';
 }
 .editor-icon-attach:before {
-  content: '\E609';
+  content: '\e609';
 }
 .editor-icon-video:before {
-  content: '\E60A';
+  content: '\e60a';
 }
 .rc-editor-core-toolbar {
   background: #f4f4f4;
