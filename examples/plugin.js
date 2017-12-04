@@ -1,28 +1,28 @@
 webpackJsonp([3],{
 
-/***/ 421:
+/***/ 422:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(422);
+module.exports = __webpack_require__(423);
 
 
 /***/ }),
 
-/***/ 422:
+/***/ 423:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rc_editor_core_assets_index_less__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rc_editor_core_assets_index_less__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rc_editor_core_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rc_editor_core_assets_index_less__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rc_editor_core__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rc_editor_core__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_draft_js__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_draft_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_draft_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_editor_plugin_emoji_assets_index_css__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_editor_plugin_emoji_assets_index_css__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_editor_plugin_emoji_assets_index_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rc_editor_plugin_emoji_assets_index_css__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -147,7 +147,7 @@ var EditorWrapper = function (_React$Component) {
     return __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
       'div',
       null,
-      __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_rc_editor_core__["EditorCore"], {
+      __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_rc_editor_core__["a" /* EditorCore */], {
         plugins: plugins,
         toolbars: toolbars,
         onKeyDown: function onKeyDown(ev) {
@@ -156,7 +156,7 @@ var EditorWrapper = function (_React$Component) {
         onChange: this.onChange,
         value: this.state.editorState
       }),
-      this.state.editorState ? Object(__WEBPACK_IMPORTED_MODULE_1_rc_editor_core__["GetHTML"])(this.state.editorState) : null
+      this.state.editorState ? Object(__WEBPACK_IMPORTED_MODULE_1_rc_editor_core__["b" /* GetHTML */])(this.state.editorState) : null
     );
   };
 
@@ -167,12 +167,12 @@ __WEBPACK_IMPORTED_MODULE_3_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ }),
 
-/***/ 97:
+/***/ 98:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ })
 
-},[421]);
+},[422]);
 //# sourceMappingURL=plugin.js.map

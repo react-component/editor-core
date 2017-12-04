@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>value.js - example - rc-editor-core@0.8.2</title>
+  <title>value.js - example - rc-editor-core@0.8.3</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.8.2</h1>
+      <h1>rc-editor-core@0.8.3</h1>
 
       <p>editor-core ui component for react</p>
     </div>
@@ -293,16 +293,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   reset = () =&gt; {
     <span class="hljs-keyword">this</span>.refs.editor.Reset();
   }
-  keyDown = (ev) =&gt; {
-    <span class="hljs-keyword">if</span> (ev.keyCode === <span class="hljs-number">13</span>) {
-      <span class="hljs-keyword">if</span> (ev.ctrlKey) {
-        <span class="hljs-keyword">return</span> <span class="hljs-string">'split-block'</span>;
-      }
-      <span class="hljs-keyword">this</span>.refs.editor.Reset();
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-    }
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-  }
   render() {
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.reset}</span>&gt;</span> reset <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
@@ -310,9 +300,8 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
         <span class="hljs-attribute">ref</span>=<span class="hljs-value">"editor"</span>
         <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
         <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
-        <span class="hljs-attribute">onKeyDown</span>=<span class="hljs-value">{(ev)</span> =&gt;</span> this.keyDown(ev)}
-        style={{width: 300, height: 200}}
-        onChange={(editorState) =&gt; editorChange(editorState)}
+        <span class="hljs-attribute">style</span>=<span class="hljs-value">{{width:</span> <span class="hljs-attribute">300</span>, <span class="hljs-attribute">height:</span> <span class="hljs-attribute">200</span>, <span class="hljs-attribute">overflowY:</span> '<span class="hljs-attribute">auto</span>'}}
+        <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{(editorState)</span> =&gt;</span> editorChange(editorState)}
         onFocus={(ev) =&gt; console.log('focus', ev)}
         onBlur={(ev) =&gt; console.log('blur', ev)}
     /&gt;
