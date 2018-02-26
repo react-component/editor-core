@@ -16,6 +16,7 @@ import {
 
 import { List, Map } from 'immutable';
 import 'setimmediate';
+import classnames from 'classnames';
 import { createToolbar } from '../Toolbar';
 import ConfigStore from './ConfigStore';
 import GetHTML from './export/getHTML';
@@ -330,18 +331,22 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
   }
 
-  public focus(ev) : void {
+  private _focus(ev): void {
     if (!ev || !ev.nativeEvent || !ev.nativeEvent.target) {
       return;
     }
 
-    const event = ev.nativeEvent;
     if (document.activeElement
       && document.activeElement.getAttribute('contenteditable') === 'true'
     ) {
       return;
     }
 
+    return this.focus(ev);
+  }
+
+  public focus(ev) : void {
+    const event = ev && ev.nativeEvent;
     if (event.target === this._editorWrapper) {
       const { editorState } = this.state;
       const selection = editorState.getSelection();
@@ -435,6 +440,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     if (customBlockStyleMap.hasOwnProperty(type)) {
       return customBlockStyleMap[type];
     }
+    return '';
   }
 
   public blockRendererFn(contentBlock) {
@@ -515,16 +521,23 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return 'not-handled';
   }
   render() {
-    const { prefixCls, toolbars, style, readOnly } = this.props;
+    const { prefixCls, toolbars, style, readOnly, multiLines } = this.props;
     const { editorState, toolbarPlugins } = this.state;
     const customStyleMap = configStore.get('customStyleMap');
     const blockRenderMap = configStore.get('blockRenderMap');
     const eventHandler = this.getEventHandler();
     const Toolbar = toolbar.component;
+
+    const cls = classnames({
+      [`${prefixCls}-editor`]: true,
+      readonly: readOnly,
+      oneline: !multiLines,
+    });
+
     return (<div
       style={style}
-      className={`${prefixCls}-editor ${readOnly ? 'readonly' : ''}`}
-      onClick={this.focus.bind(this)}
+      className={cls}
+      onClick={this._focus.bind(this)}
     >
       <Toolbar
         editorState={editorState}
