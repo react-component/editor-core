@@ -347,7 +347,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
   public focus(ev) : void {
     const event = ev && ev.nativeEvent;
-    if (event.target === this._editorWrapper) {
+    if (event && event.target === this._editorWrapper) {
       const { editorState } = this.state;
       const selection = editorState.getSelection();
       if (!selection.getHasFocus()) {
