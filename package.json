@@ -1,6 +1,6 @@
 {
   "name": "rc-editor-core",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "editor-core ui component for react",
   "keywords": [
     "react",
@@ -45,7 +45,6 @@
     "coverage": "rc-tools run coverage"
   },
   "devDependencies": {
-    "classnames": "^2.2.5",
     "expect.js": "0.3.x",
     "pre-commit": "1.x",
     "rc-editor-plugin-basic-style": "^0.3.6",
@@ -59,6 +58,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "classnames": "^2.2.5",
     "draft-js": "^0.10.0",
     "immutable": "^3.7.4",
     "lodash": "^4.16.5",
