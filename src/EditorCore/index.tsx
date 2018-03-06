@@ -353,7 +353,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       if (!selection.getHasFocus()) {
         if (selection.isCollapsed()) {
           return this.setState({
-            editorState: EditorState.moveFocusToEnd(editorState),
+            editorState: EditorState.moveSelectionToEnd(editorState),
           }, () => {
             this.focusEditor(ev);
           });
