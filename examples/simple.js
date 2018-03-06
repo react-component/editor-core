@@ -78,9 +78,13 @@ class EditorWithPreview extends React.Component {
       html: GetHTML(editorState),
     });
   }
+  focus = () => {
+    this.editor && this.editor.focus();
+  }
   render() {
     return (<div>
       <div className="preview" dangerouslySetInnerHTML={{__html: this.state.html}}></div>
+      <button onClick={this.focus}> focus </button>
       <EditorCore
         prefixCls="rc-editor-core"
         plugins={plugins}
@@ -88,6 +92,7 @@ class EditorWithPreview extends React.Component {
         pluginConfig={{prefixCls: 'rc'}}
         placeholder="input text here"
         onChange={this.editorChange}
+        ref={ele => this.editor = ele}
       />
     </div>);
   }
