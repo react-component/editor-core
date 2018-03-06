@@ -1,14 +1,14 @@
-webpackJsonp([5],{
+webpackJsonp([4],{
 
-/***/ 425:
+/***/ 441:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(426);
+module.exports = __webpack_require__(442);
 
 
 /***/ }),
 
-/***/ 426:
+/***/ 442:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27,32 +27,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var EventPlugin = {
-  callbacks: {
-    setEditorState: null,
-    getEditorState: null,
-    onUpArrow: function onUpArrow() {
-      console.log('>> onUpArrow');
-    },
-    onDownArrow: function onDownArrow() {
-      console.log('>> onDownArrow ');
-    },
-    onBlur: function onBlur() {
-      console.log('>> onBlur');
-    },
-    onFocus: function onFocus() {
-      console.log('>> onBlur prevent');return true;
-    },
-    handlePastedText: function handlePastedText(text, html) {
-      console.log('>> handlePastedText', text, html);
-    }
-  }
-};
-var plugins = [EventPlugin];
+var plugins = [];
 var toolbars = [];
 
 __WEBPACK_IMPORTED_MODULE_3_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_rc_editor_core__["a" /* EditorCore */], {
-  plugins: plugins,
+  style: { width: 200 },
+  multiLines: false,
   onFocus: function onFocus() {
     return console.log('on focus');
   },
@@ -64,5 +44,5 @@ __WEBPACK_IMPORTED_MODULE_3_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ })
 
-},[425]);
-//# sourceMappingURL=event.js.map
+},[441]);
+//# sourceMappingURL=single.js.map
