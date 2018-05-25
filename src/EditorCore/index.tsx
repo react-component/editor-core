@@ -408,7 +408,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         this.forceUpdateImmediate = setImmediate(() => this.setState({
           editorState: new EditorState(this.state.editorState.getImmutable()),
         }));
-        }
+      }
     }
 
     if (!this.controlledMode) {
