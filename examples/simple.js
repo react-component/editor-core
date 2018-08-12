@@ -74,6 +74,7 @@ class EditorWithPreview extends React.Component {
     html: '',
   };
   editorChange = (editorState) => {
+    console.log('change!!!');
     this.setState({
       html: GetHTML(editorState),
     });

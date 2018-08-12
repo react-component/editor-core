@@ -263,7 +263,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     this.setEditorState(EditorState.set(this.state.editorState,
       { decorator: compositeDecorator }
-    ));
+    ), false, false);
 
   }
   public componentWillReceiveProps(nextProps) {
@@ -383,7 +383,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return this.state.editorState;
   }
 
-  setEditorState(editorState: EditorState, focusEditor:boolean = false) : void {
+  setEditorState(editorState: EditorState, focusEditor:boolean = false, triggerChange:boolean = true) : void {
     let newEditorState = editorState;
 
     this.getPlugins().forEach(plugin => {
@@ -395,7 +395,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       }
     });
 
-    if (this.props.onChange) {
+    if (this.props.onChange && triggerChange) {
       this.props.onChange(newEditorState);
 
       // close this issue https://github.com/ant-design/ant-design/issues/5788
