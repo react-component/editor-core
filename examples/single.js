@@ -1,11 +1,11 @@
 // use jsx to render html, do not modify simple.html
+/* eslint-disable new-cap, no-console */
 
 import 'rc-editor-core/assets/index.less';
 import { EditorCore } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const plugins = [];
 const toolbars = [];
 
 
