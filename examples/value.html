@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>value.js - example - rc-editor-core@0.8.6</title>
+  <title>value.js - example - rc-editor-core@0.8.7</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,16 +263,17 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.8.6</h1>
+      <h1>rc-editor-core@0.8.7</h1>
 
       <p>editor-core ui component for react</p>
     </div>
     <div class="example" id="__react-content"></div>
 
     <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
+<span class="hljs-comment">/* eslint-disable new-cap, no-console */</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-core/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText, getHTML, toEditorState } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
+<span class="hljs-keyword">import</span> { EditorCore, GetText } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> BasicStyle <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-basic-style'</span>;
@@ -280,7 +281,9 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-plugin-emoji/assets/index.css'</span>;
 
 <span class="hljs-keyword">const</span> plugins = [BasicStyle, Emoji];
-<span class="hljs-keyword">const</span> toolbars = [[<span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'strikethrough'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'superscript'</span>, <span class="hljs-string">'subscript'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'emoji'</span>]];
+<span class="hljs-keyword">const</span> toolbars = [
+  [<span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'strikethrough'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'superscript'</span>, <span class="hljs-string">'subscript'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'emoji'</span>],
+];
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">editorChange</span>(<span class="hljs-params">editorState</span>) </span>{
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; editorExport:'</span>, GetText(editorState, { encode: <span class="hljs-literal">true</span> }));
@@ -288,24 +291,27 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Editor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   state = {
-    defaultValue: <span class="hljs-string">"hello world"</span>,
+    defaultValue: <span class="hljs-string">'hello world'</span>,
   };
+
   reset = () =&gt; {
     <span class="hljs-keyword">this</span>.refs.editor.Reset();
   }
   render() {
-    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.reset}</span>&gt;</span> reset <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
-        <span class="hljs-attribute">ref</span>=<span class="hljs-value">"editor"</span>
-        <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
-        <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
-        <span class="hljs-attribute">style</span>=<span class="hljs-value">{{width:</span> <span class="hljs-attribute">300</span>, <span class="hljs-attribute">height:</span> <span class="hljs-attribute">200</span>, <span class="hljs-attribute">overflowY:</span> '<span class="hljs-attribute">auto</span>'}}
-        <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{(editorState)</span> =&gt;</span> editorChange(editorState)}
-        onFocus={(ev) =&gt; console.log('focus', ev)}
-        onBlur={(ev) =&gt; console.log('blur', ev)}
-    /&gt;
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.reset}</span>&gt;</span> reset <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
+          <span class="hljs-attribute">ref</span>=<span class="hljs-value">"editor"</span>
+          <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
+          <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
+          <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">width:</span> <span class="hljs-attribute">300</span>, <span class="hljs-attribute">height:</span> <span class="hljs-attribute">200</span>, <span class="hljs-attribute">overflowY:</span> '<span class="hljs-attribute">auto</span>' }}
+          <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{(editorState)</span> =&gt;</span> editorChange(editorState)}
+          onFocus={(ev) =&gt; { console.log('focus', ev); }}
+          onBlur={(ev) =&gt; { console.log('blur', ev); }}
+        /&gt;
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    )</span>;
   }
 }
 

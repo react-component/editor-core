@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>controllered.js - example - rc-editor-core@0.8.6</title>
+  <title>controllered.js - example - rc-editor-core@0.8.7</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,16 +263,17 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.8.6</h1>
+      <h1>rc-editor-core@0.8.7</h1>
 
       <p>editor-core ui component for react</p>
     </div>
     <div class="example" id="__react-content"></div>
 
     <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
+<span class="hljs-comment">/* eslint-disable new-cap, no-console */</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-core/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText, toEditorState } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
+<span class="hljs-keyword">import</span> { EditorCore, toEditorState } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> BasicStyle <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-basic-style'</span>;
@@ -280,7 +281,9 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-plugin-emoji/assets/index.css'</span>;
 
 <span class="hljs-keyword">const</span> plugins = [BasicStyle, Emoji];
-<span class="hljs-keyword">const</span> toolbars = [[<span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'strikethrough'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'superscript'</span>, <span class="hljs-string">'subscript'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'emoji'</span>]];
+<span class="hljs-keyword">const</span> toolbars = [
+  [<span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'strikethrough'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'superscript'</span>, <span class="hljs-string">'subscript'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'emoji'</span>],
+];
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">keyDown</span>(<span class="hljs-params">ev</span>) </span>{
   <span class="hljs-keyword">if</span> (ev.keyCode === <span class="hljs-number">13</span> &amp;&amp; ev.ctrlKey) {
@@ -307,12 +310,12 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   toggleReadOnly = () =&gt; {
     <span class="hljs-keyword">this</span>.setState({
       readOnly: !<span class="hljs-keyword">this</span>.state.readOnly,
-    })
+    });
   }
   render() {
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.reset}</span>&gt;</span> setText <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.toggleReadOnly}</span>&gt;</span> toggleReadOnly <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>      
+      <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.toggleReadOnly}</span>&gt;</span> toggleReadOnly <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
         <span class="hljs-attribute">ref</span>=<span class="hljs-value">"editor"</span>
         <span class="hljs-attribute">readOnly</span>=<span class="hljs-value">{this.state.readOnly}</span>

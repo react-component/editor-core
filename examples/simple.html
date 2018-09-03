@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - rc-editor-core@0.8.6</title>
+  <title>simple.js - example - rc-editor-core@0.8.7</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,26 +263,25 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.8.6</h1>
+      <h1>rc-editor-core@0.8.7</h1>
 
       <p>editor-core ui component for react</p>
     </div>
     <div class="example" id="__react-content"></div>
 
     <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
+<span class="hljs-comment">/* eslint-disable new-cap, no-console */</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-core/assets/index.css'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-select/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetHTML } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
+<span class="hljs-keyword">import</span> { EditorCore, GetHTML } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> BasicStyle <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-basic-style'</span>;
 <span class="hljs-keyword">import</span> Emoji <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-emoji'</span>;
-<span class="hljs-keyword">import</span> Image <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-plugin-image'</span>;
 <span class="hljs-keyword">import</span> { Entity } <span class="hljs-keyword">from</span> <span class="hljs-string">'draft-js'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-plugin-emoji/assets/index.css'</span>;
 
-<span class="hljs-keyword">const</span> Wrapper = (props) =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> {<span class="hljs-attribute">...props</span>} /&gt;</span>;</span>
 <span class="hljs-keyword">const</span> blockPlugin = {
   name: <span class="hljs-string">'image'</span>,
   callbacks: {
@@ -290,17 +289,16 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     getEditorState: <span class="hljs-literal">null</span>,
   },
   blockRenderMap: {
-    <span class="hljs-string">'img'</span>: {
+    img: {
       element: <span class="hljs-string">'img'</span>,
     },
-    <span class="hljs-string">'paragraph'</span>: {
-      element: <span class="hljs-string">'p'</span>
-    }
-  }
+    paragraph: {
+      element: <span class="hljs-string">'p'</span>,
+    },
+  },
 };
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MediaBlock</span>(<span class="hljs-params">props</span>) </span>{
-  <span class="hljs-keyword">const</span> { block } = props;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MediaBlock</span>(<span class="hljs-params">{ block }</span>) </span>{
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; block'</span>, block);
   <span class="hljs-keyword">const</span> entity = block.getEntityAt(<span class="hljs-number">0</span>);
   <span class="hljs-keyword">if</span> (entity) {
@@ -308,59 +306,60 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-keyword">const</span> entityData = entityInstance.getData();
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'MediaBlock'</span>, entityInstance.getType(), entityData);
   }
-  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>MediaBlock<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>MediaBlock<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;</span>
 }
 
-const ImagePlugin = {
-  name: 'image',
+<span class="hljs-keyword">const</span> ImagePlugin = {
+  name: <span class="hljs-string">'image'</span>,
   callbacks: {
-    setEditorState: null,
-    getEditorState: null,
+    setEditorState: <span class="hljs-literal">null</span>,
+    getEditorState: <span class="hljs-literal">null</span>,
   },
   blockRendererFn: (contentBlock) =&gt; {
-    if (contentBlock.getType() === 'image-block') {
-      return {
+    <span class="hljs-keyword">if</span> (contentBlock.getType() === <span class="hljs-string">'image-block'</span>) {
+      <span class="hljs-keyword">return</span> {
         component: MediaBlock,
-        editable: false,
+        editable: <span class="hljs-literal">false</span>,
       };
     }
   },
   blockRenderMap: {
-    'image-block': {
-      component: 'div',
-      editable: false,
-    }
+    <span class="hljs-string">'image-block'</span>: {
+      component: <span class="hljs-string">'div'</span>,
+      editable: <span class="hljs-literal">false</span>,
+    },
   },
-}
+};
 
-const plugins = [blockPlugin, ImagePlugin, BasicStyle, Emoji];
-const toolbars = [['fontSize', '|',
-  'fontColor',
-  'bold', 'italic', 'underline', 'strikethrough', '|',
-  'superscript', 'subscript', '|',
-  'align-justify', 'align-left', 'align-right', 'align-middle', '|', 'image']];
+<span class="hljs-keyword">const</span> plugins = [blockPlugin, ImagePlugin, BasicStyle, Emoji];
+<span class="hljs-keyword">const</span> toolbars = [[<span class="hljs-string">'fontSize'</span>, <span class="hljs-string">'|'</span>,
+  <span class="hljs-string">'fontColor'</span>,
+  <span class="hljs-string">'bold'</span>, <span class="hljs-string">'italic'</span>, <span class="hljs-string">'underline'</span>, <span class="hljs-string">'strikethrough'</span>, <span class="hljs-string">'|'</span>,
+  <span class="hljs-string">'superscript'</span>, <span class="hljs-string">'subscript'</span>, <span class="hljs-string">'|'</span>,
+  <span class="hljs-string">'align-justify'</span>, <span class="hljs-string">'align-left'</span>, <span class="hljs-string">'align-right'</span>, <span class="hljs-string">'align-middle'</span>, <span class="hljs-string">'|'</span>, <span class="hljs-string">'image'</span>]];
 
-class EditorWithPreview extends React.Component {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EditorWithPreview</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   state = {
-    html: '',
+    html: <span class="hljs-string">''</span>,
   };
   editorChange = (editorState) =&gt; {
-    this.setState({
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Editor Change:'</span>, editorState);
+    <span class="hljs-keyword">this</span>.setState({
       html: GetHTML(editorState),
     });
   }
   focus = () =&gt; {
-    this.editor &amp;&amp; this.editor.focus();
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.editor) <span class="hljs-keyword">this</span>.editor.focus();
   }
   render() {
-    return (<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"preview"</span> <span class="hljs-attribute">dangerouslySetInnerHTML</span>=<span class="hljs-value">{{__html:</span> <span class="hljs-attribute">this.state.html</span>}}&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"preview"</span> <span class="hljs-attribute">dangerouslySetInnerHTML</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">__html:</span> <span class="hljs-attribute">this.state.html</span> }}&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.focus}</span>&gt;</span> focus <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
         <span class="hljs-attribute">prefixCls</span>=<span class="hljs-value">"rc-editor-core"</span>
         <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
         <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
-        <span class="hljs-attribute">pluginConfig</span>=<span class="hljs-value">{{prefixCls:</span> '<span class="hljs-attribute">rc</span>'}}
+        <span class="hljs-attribute">pluginConfig</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">prefixCls:</span> '<span class="hljs-attribute">rc</span>' }}
         <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">"input text here"</span>
         <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.editorChange}</span>
         <span class="hljs-attribute">ref</span>=<span class="hljs-value">{ele</span> =&gt;</span> this.editor = ele}

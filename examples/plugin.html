@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>plugin.js - example - rc-editor-core@0.8.6</title>
+  <title>plugin.js - example - rc-editor-core@0.8.7</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,34 +263,21 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.8.6</h1>
+      <h1>rc-editor-core@0.8.7</h1>
 
       <p>editor-core ui component for react</p>
     </div>
     <div class="example" id="__react-content"></div>
 
     <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
+<span class="hljs-comment">/* eslint-disable new-cap, no-console */</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-core/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> { EditorCore, Toolbar, GetText, createPlugin, GetHTML } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
+<span class="hljs-keyword">import</span> { EditorCore, GetHTML } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> { Entity, Modifier, EditorState, RichUtils  } <span class="hljs-keyword">from</span> <span class="hljs-string">'draft-js'</span>;
+<span class="hljs-keyword">import</span> { RichUtils } <span class="hljs-keyword">from</span> <span class="hljs-string">'draft-js'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-plugin-emoji/assets/index.css'</span>;
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findWithRegex</span>(<span class="hljs-params">regex, contentBlock, callback</span>) </span>{
-  <span class="hljs-comment">// Get the text from the contentBlock</span>
-  <span class="hljs-keyword">const</span> text = contentBlock.getText();
-  <span class="hljs-keyword">let</span> matchArr;
-  <span class="hljs-keyword">let</span> start; <span class="hljs-comment">// eslint-disable-line</span>
-  <span class="hljs-comment">// Go through all matches in the text and return the indizes to the callback</span>
-  <span class="hljs-keyword">while</span> ((matchArr = regex.exec(text)) !== <span class="hljs-literal">null</span>) { <span class="hljs-comment">// eslint-disable-line</span>
-    start = matchArr.index;
-    callback(start, start + matchArr[<span class="hljs-number">0</span>].length);
-  }
-}
-
-<span class="hljs-keyword">const</span> suggestionRegex = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">`(\\s|^)@[\\w]*`</span>, <span class="hljs-string">'g'</span>);
 
 <span class="hljs-keyword">const</span> callbacks = {
   getEditorState: () =&gt; {},
@@ -305,7 +292,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     callbacks.setEditorState(
       RichUtils.toggleInlineStyle(editorState, <span class="hljs-string">`customer-style-<span class="hljs-subst">${style}</span>`</span>)
     );
-  }
+  };
 }
 
 <span class="hljs-keyword">const</span> Test = {
@@ -318,22 +305,22 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   toHtml(text, entity) {
     console.log('&gt;&gt; toHtml', entity);
     if (entity.getType() === 'LINK') {
-      return `<span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span>&gt;</span>text<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>`
+      return `<span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span>&gt;</span>text<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>`;
     }
   },
   customStyleFn(styleSet) {
-   return styleSet.map(style =&gt; {
+    return styleSet.map(style =&gt; {
       if (style === 'customer-style-red') {
         return {
-          color: 'red'
+          color: 'red',
         };
       }
       if (style === 'customer-style-bold') {
         return {
-          fontWeight: 'bold'
+          fontWeight: 'bold',
         };
       }
-      return {}
+      return {};
     }).reduce(Object.assign);
   },
 };
@@ -346,7 +333,7 @@ function keyDown(ev) {
     if (ev.ctrlKey) {
       return 'split-block';
     }
-    return true
+    return true;
   }
   return false;
 }
@@ -362,7 +349,7 @@ class EditorWrapper extends React.Component {
     });
   }
   render() {
-    return <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+    return (<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">EditorCore</span>
         <span class="hljs-attribute">plugins</span>=<span class="hljs-value">{plugins}</span>
         <span class="hljs-attribute">toolbars</span>=<span class="hljs-value">{toolbars}</span>
@@ -371,11 +358,11 @@ class EditorWrapper extends React.Component {
         value={this.state.editorState}
       /&gt;
       {this.state.editorState ? GetHTML(this.state.editorState) : null}
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   }
 }
 
-ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">EditorWrapper</span> /&gt;</span>, document.getElementById('__react-content'));
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">EditorWrapper</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>
   <a href="https://github.com/react-component/editor-core">

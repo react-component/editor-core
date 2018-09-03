@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>event.js - example - rc-editor-core@0.8.6</title>
+  <title>event.js - example - rc-editor-core@0.8.7</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,13 +263,14 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-editor-core@0.8.6</h1>
+      <h1>rc-editor-core@0.8.7</h1>
 
       <p>editor-core ui component for react</p>
     </div>
     <div class="example" id="__react-content"></div>
 
-    <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
+    <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify event.html</span>
+<span class="hljs-comment">/* eslint-disable new-cap, no-console */</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-editor-core/assets/index.css'</span>;
 <span class="hljs-keyword">import</span> { EditorCore } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-editor-core'</span>;
@@ -280,11 +281,11 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   callbacks: {
     setEditorState: <span class="hljs-literal">null</span>,
     getEditorState: <span class="hljs-literal">null</span>,
-    onUpArrow:() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onUpArrow'</span>) },
-    onDownArrow:() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onDownArrow '</span>)},
-    onBlur:() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onBlur'</span>)},
-    onFocus:() =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onBlur prevent'</span>); <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;},
-    handlePastedText: (text, html) =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; handlePastedText'</span>, text, html )}
+    onUpArrow: () =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onUpArrow'</span>); },
+    onDownArrow: () =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onDownArrow '</span>); },
+    onBlur: () =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onBlur'</span>); },
+    onFocus: () =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; onBlur prevent'</span>); <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; },
+    handlePastedText: (text, html) =&gt; { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'&gt;&gt; handlePastedText'</span>, text, html); },
   },
 };
 <span class="hljs-keyword">const</span> plugins = [EventPlugin];
