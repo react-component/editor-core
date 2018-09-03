@@ -2,7 +2,7 @@ import React from 'react';
 import { EditorState} from 'draft-js';
 import Toolbar from './Toolbar';
 
-function noop(args : any) : any {};
+function noop(_: any): any {};
 
 export function createToolbar(config = {})  {
   function editorStateChange(editorState) {
@@ -15,14 +15,15 @@ export function createToolbar(config = {})  {
     getEditorState: noop,
     setEditorState: noop,
     handleReturn: noop,
-  }
+  };
+
   return {
     name: 'toolbar',
     decorators: [],
     callbacks,
-    onChange (editorState: EditorState) : any {
+    onChange(editorState: EditorState): any {
       return callbacks.onChange ? callbacks.onChange(editorState) : editorState;
     },
     component: Toolbar,
-  }
+  };
 }

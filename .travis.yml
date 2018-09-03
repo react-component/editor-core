@@ -7,7 +7,7 @@ notifications:
   - surgesoft@gmail.com
 
 node_js:
-- 4.0.0
+- 6
 
 before_install:
 - |
@@ -35,4 +35,6 @@ env:
 
 matrix:
   allow_failures:
+  - env: "TEST_TYPE=test"
+  - env: "TEST_TYPE=coverage"
   - env: "TEST_TYPE=saucelabs"

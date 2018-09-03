@@ -1,3 +1,5 @@
+/* tslint:disable:member-ordering interface-name */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -26,14 +28,14 @@ import customHTML2Content from './customHTML2Content';
 
 const { hasCommandModifier } = KeyBindingUtil;
 
-function noop():void {};
+function noop(): void {};
 
 export type DraftHandleValue = 'handled' | 'not-handled';
 export interface Plugin {
   name: string;
-  decorators?: Array<any>;
+  decorators?: any[];
   component?: Function;
-  onChange: (editorState: EditorState)=> EditorState;
+  onChange: (editorState: EditorState) => EditorState;
   customStyleFn?: Function;
   blockRendererFn?: Function;
   callbacks: {
@@ -49,13 +51,13 @@ export interface Plugin {
 
 export interface EditorProps {
   multiLines: boolean;
-  plugins: Array<Plugin>;
+  plugins: Plugin[];
   pluginConfig?: Object;
   prefixCls: string;
   onChange?: (editorState: EditorState) => EditorState;
-  toolbars: Array<any>;
+  toolbars: any[];
   splitLine: String;
-  onKeyDown?: (ev:any) => boolean;
+  onKeyDown?: (ev: any) => boolean;
   defaultValue?: EditorState;
   placeholder?: string;
   onFocus?: () => void;
@@ -72,7 +74,7 @@ export interface EditorCoreState {
   customBlockStyleMap?: Object;
   blockRenderMap?: Map<String, DraftBlockRenderConfig>;
   toolbarPlugins?: List<Plugin>;
-  plugins?: Array<Plugin>;
+  plugins?: Plugin[];
   compositeDecorator?: CompositeDecorator;
 }
 
@@ -95,7 +97,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   static ToEditorState(text: string): EditorState {
     const createEmptyContentState = ContentState.createFromText(decodeContent(text) || '');
     const editorState = EditorState.createWithContent(createEmptyContentState);
-    return EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter())
+    return EditorState.forceSelection(editorState, createEmptyContentState.getSelectionAfter());
   }
   public static GetText = exportText;
   public static GetHTML = GetHTML(configStore);
@@ -109,7 +111,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     );
   }
 
-  public SetText(text: string) : void {
+  public SetText(text: string): void {
     const createTextContentState = ContentState.createFromText(text || '');
     const editorState = EditorState.push(this.state.editorState, createTextContentState, 'change-block-data');
     this.setEditorState(
@@ -117,7 +119,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     , true);
   }
 
-  public state : EditorCoreState;
+  public state: EditorCoreState;
   private plugins: any;
   private controlledMode: boolean;
   private _editorWrapper: Element;
@@ -144,7 +146,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     this.state = {
       plugins: this.reloadPlugins(),
-      editorState: editorState,
+      editorState,
       customStyleMap: {},
       customBlockStyleMap: {},
       compositeDecorator: null,
@@ -157,7 +159,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
 
   refs: {
-    [string: string]: any;
+    [str: string]: any;
     editor?: any;
   };
 
@@ -182,9 +184,9 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     };
   }
 
-  public reloadPlugins(): Array<Plugin> {
-    return this.plugins && this.plugins.size ? this.plugins.map((plugin : Plugin) => {
-      //　如果插件有 callbacks 方法,则认为插件已经加载。
+  public reloadPlugins(): Plugin[] {
+    return this.plugins && this.plugins.size ? this.plugins.map((plugin: Plugin) => {
+      // 如果插件有 callbacks 方法,则认为插件已经加载。
       if (plugin.callbacks) {
         return plugin;
       }
@@ -195,11 +197,11 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       }
       // else 无效插件
       console.warn('>> 插件: [', plugin.name , '] 无效。插件或许已经过期。');
-      return false
+      return false;
     }).filter(plugin => plugin).toArray() : [];
   }
 
-  public componentWillMount() : void {
+  public componentWillMount(): void {
     const plugins = this.initPlugins().concat([toolbar]);
     const customStyleMap = {};
     const customBlockStyleMap = {};
@@ -211,7 +213,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     const compositeDecorator = new CompositeDecorator(
       plugins.filter(plugin => plugin.decorators !== undefined)
         .map(plugin => plugin.decorators)
-        .reduce((prev, curr) => prev.concat(curr), [])
+        .reduce((prev, curr) => prev.concat(curr), []),
     );
 
     // initialize Toolbar
@@ -262,8 +264,8 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     });
 
     this.setEditorState(EditorState.set(this.state.editorState,
-      { decorator: compositeDecorator }
-    ));
+      { decorator: compositeDecorator },
+    ), false, false);
 
   }
   public componentWillReceiveProps(nextProps) {
@@ -276,7 +278,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       const editorState = decorators ?
         nextProps.value :
         EditorState.set(nextProps.value,
-          { decorator: this.state.compositeDecorator }
+          { decorator: this.state.compositeDecorator },
         );
       this.setState({
         editorState,
@@ -291,7 +293,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     clearImmediate(this.forceUpdateImmediate);
     this.forceUpdateImmediate = null;
   }
-  //  处理　value　
+  // 处理 value
   generatorDefaultValue(editorState: EditorState): EditorState {
     const { defaultValue } = this.props;
     if (defaultValue) {
@@ -308,7 +310,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     this.render();
   }
 
-  public initPlugins() : Array<any> {
+  public initPlugins(): any[] {
     const enableCallbacks = ['focus', 'getEditorState', 'setEditorState', 'getStyleMap', 'setStyleMap'];
     return this.getPlugins().map(plugin => {
       enableCallbacks.forEach( callbackName => {
@@ -345,7 +347,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return this.focus(ev);
   }
 
-  public focus(ev) : void {
+  public focus(ev): void {
     const event = ev && ev.nativeEvent;
     if (event && event.target === this._editorWrapper) {
       const { editorState } = this.state;
@@ -363,12 +365,20 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     this.focusEditor(ev);
   }
 
-  public getPlugins(): Array<Plugin> {
+  public getPlugins(): Plugin[] {
     return this.state.plugins.slice();
   }
 
   public getEventHandler(): Object {
-    const enabledEvents = ['onUpArrow', 'onDownArrow', 'handleReturn', 'onFocus', 'onBlur', 'onTab', 'handlePastedText'];
+    const enabledEvents = [
+      'onUpArrow',
+      'onDownArrow',
+      'handleReturn',
+      'onFocus',
+      'onBlur',
+      'onTab',
+      'handlePastedText',
+    ];
     const eventHandler = {};
     enabledEvents.forEach(event => {
       eventHandler[event] = this.generatorEventHandler(event);
@@ -376,14 +386,14 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return eventHandler;
   }
 
-  getEditorState(needFocus = false) : EditorState {
+  getEditorState(needFocus = false): EditorState {
     if (needFocus) {
       this.refs.editor.focus();
     }
     return this.state.editorState;
   }
 
-  setEditorState(editorState: EditorState, focusEditor:boolean = false) : void {
+  setEditorState(editorState: EditorState, focusEditor: boolean = false, triggerChange: boolean = true): void {
     let newEditorState = editorState;
 
     this.getPlugins().forEach(plugin => {
@@ -395,7 +405,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       }
     });
 
-    if (this.props.onChange) {
+    if (this.props.onChange && triggerChange) {
       this.props.onChange(newEditorState);
 
       // close this issue https://github.com/ant-design/ant-design/issues/5788
@@ -412,7 +422,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
 
     if (!this.controlledMode) {
-      this.setState({ editorState: newEditorState }, focusEditor ? () => setImmediate(() => this.refs.editor.focus()) : noop);
+      this.setState(
+        { editorState: newEditorState },
+        focusEditor ? () => setImmediate(() => this.refs.editor.focus()) : noop,
+      );
     }
   }
   public handleKeyBinding(ev): any {
@@ -456,7 +469,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return blockRenderResult;
   }
 
-  eventHandle(eventName, ...args) : DraftHandleValue {
+  eventHandle(eventName, ...args): DraftHandleValue {
     const plugins = this.getPlugins();
     for (let i = 0; i < plugins.length; i++) {
       const plugin = plugins[i];
@@ -471,13 +484,13 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     return this.props.hasOwnProperty(eventName) && this.props[eventName](...args) === true ? 'handled' : 'not-handled';
   }
 
-  generatorEventHandler(eventName) : Function {
+  generatorEventHandler(eventName): Function {
     return (...args) => {
       return this.eventHandle(eventName, ...args);
     };
   }
 
-  customStyleFn(styleSet) : Object {
+  customStyleFn(styleSet): Object {
     if (styleSet.size === 0) {
       return {};
     }
@@ -494,7 +507,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
     }
     return resultStyle;
   }
-  handlePastedText = (text: string, html: string):DraftHandleValue => {
+  handlePastedText = (text: string, html: string): DraftHandleValue => {
     const { editorState } = this.state;
     if (html) {
       const contentState = editorState.getCurrentContent();
@@ -504,7 +517,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
       const pastedContent = Modifier.replaceWithFragment(
         contentState,
         selection,
-        fragment
+        fragment,
       );
 
       const newContent = pastedContent.merge({
@@ -514,7 +527,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
       this.setEditorState(
         EditorState.push(editorState, newContent as ContentState, 'insert-fragment'),
-        true
+        true,
       );
       return 'handled';
     }
@@ -546,7 +559,12 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
         plugins={toolbarPlugins}
         toolbars={toolbars}
       />
-      <div className={`${prefixCls}-editor-wrapper`} ref={(ele) => this._editorWrapper = ele} style={style} onClick={(ev) => ev.preventDefault()}>
+      <div
+        className={`${prefixCls}-editor-wrapper`}
+        ref={(ele) => this._editorWrapper = ele}
+        style={style}
+        onClick={(ev) => ev.preventDefault()}
+      >
         <Editor
           {...this.props}
           {...eventHandler}
@@ -562,7 +580,10 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
           handlePastedText={this.handlePastedText}
           blockRendererFn={this.blockRendererFn.bind(this)}
         />
-        {readOnly ? <input style={focusDummyStyle} ref={ele => this._focusDummy = ele } onBlur={eventHandler.onBlur}/> : null}
+        {readOnly ?
+          <input style={focusDummyStyle} ref={ele => this._focusDummy = ele } onBlur={eventHandler.onBlur}/> :
+          null
+        }
         {this.props.children}
       </div>
     </div>);

@@ -1,17 +1,16 @@
 // use jsx to render html, do not modify simple.html
+/* eslint-disable new-cap, no-console */
 
 import 'rc-editor-core/assets/index.less';
 import 'rc-select/assets/index.css';
-import { EditorCore, Toolbar, GetHTML } from 'rc-editor-core';
+import { EditorCore, GetHTML } from 'rc-editor-core';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import BasicStyle from 'rc-editor-plugin-basic-style';
 import Emoji from 'rc-editor-plugin-emoji';
-import Image from 'rc-editor-plugin-image';
 import { Entity } from 'draft-js';
 import 'rc-editor-plugin-emoji/assets/index.css';
 
-const Wrapper = (props) => <div {...props} />;
 const blockPlugin = {
   name: 'image',
   callbacks: {
@@ -19,17 +18,16 @@ const blockPlugin = {
     getEditorState: null,
   },
   blockRenderMap: {
-    'img': {
+    img: {
       element: 'img',
     },
-    'paragraph': {
-      element: 'p'
-    }
-  }
+    paragraph: {
+      element: 'p',
+    },
+  },
 };
 
-function MediaBlock(props) {
-  const { block } = props;
+function MediaBlock({ block }) {
   console.log('>> block', block);
   const entity = block.getEntityAt(0);
   if (entity) {
@@ -37,7 +35,7 @@ function MediaBlock(props) {
     const entityData = entityInstance.getData();
     console.log('MediaBlock', entityInstance.getType(), entityData);
   }
-  return <span>MediaBlock</span>
+  return <span>MediaBlock</span>;
 }
 
 const ImagePlugin = {
@@ -58,9 +56,9 @@ const ImagePlugin = {
     'image-block': {
       component: 'div',
       editable: false,
-    }
+    },
   },
-}
+};
 
 const plugins = [blockPlugin, ImagePlugin, BasicStyle, Emoji];
 const toolbars = [['fontSize', '|',
@@ -74,22 +72,23 @@ class EditorWithPreview extends React.Component {
     html: '',
   };
   editorChange = (editorState) => {
+    console.log('Editor Change:', editorState);
     this.setState({
       html: GetHTML(editorState),
     });
   }
   focus = () => {
-    this.editor && this.editor.focus();
+    if (this.editor) this.editor.focus();
   }
   render() {
     return (<div>
-      <div className="preview" dangerouslySetInnerHTML={{__html: this.state.html}}></div>
+      <div className="preview" dangerouslySetInnerHTML={{ __html: this.state.html }}></div>
       <button onClick={this.focus}> focus </button>
       <EditorCore
         prefixCls="rc-editor-core"
         plugins={plugins}
         toolbars={toolbars}
-        pluginConfig={{prefixCls: 'rc'}}
+        pluginConfig={{ prefixCls: 'rc' }}
         placeholder="input text here"
         onChange={this.editorChange}
         ref={ele => this.editor = ele}
