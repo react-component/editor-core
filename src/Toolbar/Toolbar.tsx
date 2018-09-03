@@ -1,3 +1,5 @@
+/* tslint:disable:interface-name */
+
 import React from 'react';
 import { Map, List } from 'immutable';
 import { Plugin } from '../EditorCore';
@@ -6,16 +8,16 @@ import ToolbarLine from './ToolbarLine';
 
 export interface ToolbarProps {
   plugins: List<Plugin>;
-  toolbars: Array<any>;
+  toolbars: any[];
   prefixCls: string;
   className: string;
-  editorState: EditorState,
+  editorState: EditorState;
 }
 
 function noop() {}
 
 export default class Toolbar extends React.Component<ToolbarProps, any> {
-  public pluginsMap : Map<any, any>;
+  public pluginsMap: Map<any, any>;
   constructor(props) {
     super(props);
     const map = {};
@@ -48,11 +50,13 @@ export default class Toolbar extends React.Component<ToolbarProps, any> {
   }
   render() {
     const { toolbars, prefixCls } = this.props;
-    return <div className={`${prefixCls}-toolbar`} >
-      {toolbars.map((toolbar, idx) => {
-        const children = React.Children.map(toolbar, this.renderToolbarItem.bind(this));
-        return (<ToolbarLine key={`toolbar-${idx}`}>{children}</ToolbarLine>);
-      })}
-    </div>
+    return (
+      <div className={`${prefixCls}-toolbar`} >
+        {toolbars.map((toolbar, idx) => {
+          const children = React.Children.map(toolbar, this.renderToolbarItem.bind(this));
+          return (<ToolbarLine key={`toolbar-${idx}`}>{children}</ToolbarLine>);
+        })}
+      </div>
+    );
   }
 }
