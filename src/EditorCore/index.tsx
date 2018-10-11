@@ -154,7 +154,6 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
 
     if (props.value !== undefined) {
       this.controlledMode = true;
-      console.warn('this component is in controllred mode');
     }
   }
 
