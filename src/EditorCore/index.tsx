@@ -101,8 +101,14 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
   public static GetText = exportText;
   public static GetHTML = GetHTML(configStore);
+
+  public getDefaultValue(): EditorState {
+    const { defaultValue, value } = this.props;
+    return value || defaultValue;
+  }
+
   public Reset(): void {
-    const { defaultValue } = this.props;
+    const defaultValue = this.getDefaultValue();
     const contentState = defaultValue ? defaultValue.getCurrentContent() : ContentState.createFromText('');
     const updatedEditorState = EditorState.push(this.state.editorState, contentState, 'remove-range');
 
@@ -295,7 +301,7 @@ class EditorCore extends React.Component<EditorProps, EditorCoreState> {
   }
   // 处理 value
   generatorDefaultValue(editorState: EditorState): EditorState {
-    const { defaultValue } = this.props;
+    const defaultValue = this.getDefaultValue();
     if (defaultValue) {
       return defaultValue;
     }
