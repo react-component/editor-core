@@ -18470,9 +18470,16 @@ var EditorCore = function (_React$Component) {
         return __WEBPACK_IMPORTED_MODULE_2_draft_js__["EditorState"].forceSelection(editorState, createEmptyContentState.getSelectionAfter());
     };
 
-    EditorCore.prototype.Reset = function Reset() {
-        var defaultValue = this.props.defaultValue;
+    EditorCore.prototype.getDefaultValue = function getDefaultValue() {
+        var _props = this.props,
+            defaultValue = _props.defaultValue,
+            value = _props.value;
 
+        return value || defaultValue;
+    };
+
+    EditorCore.prototype.Reset = function Reset() {
+        var defaultValue = this.getDefaultValue();
         var contentState = defaultValue ? defaultValue.getCurrentContent() : __WEBPACK_IMPORTED_MODULE_2_draft_js__["ContentState"].createFromText('');
         var updatedEditorState = __WEBPACK_IMPORTED_MODULE_2_draft_js__["EditorState"].push(this.state.editorState, contentState, 'remove-range');
         this.setEditorState(__WEBPACK_IMPORTED_MODULE_2_draft_js__["EditorState"].forceSelection(updatedEditorState, contentState.getSelectionBefore()));
@@ -18597,8 +18604,7 @@ var EditorCore = function (_React$Component) {
 
 
     EditorCore.prototype.generatorDefaultValue = function generatorDefaultValue(editorState) {
-        var defaultValue = this.props.defaultValue;
-
+        var defaultValue = this.getDefaultValue();
         if (defaultValue) {
             return defaultValue;
         }
@@ -18775,7 +18781,7 @@ var EditorCore = function (_React$Component) {
     };
 
     EditorCore.prototype.eventHandle = function eventHandle(eventName) {
-        var _props;
+        var _props2;
 
         var plugins = this.getPlugins();
 
@@ -18794,7 +18800,7 @@ var EditorCore = function (_React$Component) {
                 }
             }
         }
-        return this.props.hasOwnProperty(eventName) && (_props = this.props)[eventName].apply(_props, args) === true ? 'handled' : 'not-handled';
+        return this.props.hasOwnProperty(eventName) && (_props2 = this.props)[eventName].apply(_props2, args) === true ? 'handled' : 'not-handled';
     };
 
     EditorCore.prototype.generatorEventHandler = function generatorEventHandler(eventName) {
@@ -18830,12 +18836,12 @@ var EditorCore = function (_React$Component) {
         var _classnames,
             _this8 = this;
 
-        var _props2 = this.props,
-            prefixCls = _props2.prefixCls,
-            toolbars = _props2.toolbars,
-            style = _props2.style,
-            readOnly = _props2.readOnly,
-            multiLines = _props2.multiLines;
+        var _props3 = this.props,
+            prefixCls = _props3.prefixCls,
+            toolbars = _props3.toolbars,
+            style = _props3.style,
+            readOnly = _props3.readOnly,
+            multiLines = _props3.multiLines;
         var _state = this.state,
             editorState = _state.editorState,
             toolbarPlugins = _state.toolbarPlugins;
