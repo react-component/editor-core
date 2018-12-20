@@ -48,7 +48,7 @@
     "expect.js": "0.3.x",
     "pre-commit": "1.x",
     "rc-editor-plugin-basic-style": "^0.3.6",
-    "rc-editor-plugin-emoji": "^0.2.8",
+    "rc-editor-plugin-emoji": "^0.3.2",
     "rc-editor-plugin-image": "^0.0.4",
     "rc-tools": "^7.0.2",
     "react": "^16.0.0",
