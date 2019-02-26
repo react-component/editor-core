@@ -67,7 +67,7 @@
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-rc || ^16.0.0-rc || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0-rc || ^16.0.0-rc || ^16.0.0"
+    "react-dom": ">=15"
   },
   "pre-commit": [
     "lint"
