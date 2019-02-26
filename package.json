@@ -65,6 +65,10 @@
     "prop-types": "^15.5.8",
     "setimmediate": "^1.0.5"
   },
+  "peerDependencies": {
+    "react": ">=15.0.0",
+    "react-dom": ">=15.0.0"
+  },
   "pre-commit": [
     "lint"
   ]
