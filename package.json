@@ -66,8 +66,8 @@
     "setimmediate": "^1.0.5"
   },
   "peerDependencies": {
-    "react": ">=15",
-    "react-dom": ">=15"
+    "react": ">=15.0.0",
+    "react-dom": ">=15.0.0"
   },
   "pre-commit": [
     "lint"
