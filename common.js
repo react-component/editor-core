@@ -18219,7 +18219,6 @@ var EditorCore = function (_React$Component) {
         };
         if (props.value !== undefined) {
             _this.controlledMode = true;
-            console.warn('this component is in controllred mode');
         }
         return _this;
     }
