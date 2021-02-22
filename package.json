@@ -59,7 +59,7 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "classnames": "^2.2.5",
-    "draft-js": "^0.10.0",
+    "draft-js": "^0.11.7",
     "immutable": "^3.7.4",
     "lodash": "^4.16.5",
     "prop-types": "^15.5.8",
